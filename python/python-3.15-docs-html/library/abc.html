@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="abc — Classes base abstratas" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/abc.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/abc.py Este módulo fornece a infraestrutura para definir classes base abstratas(ABCs, do inglês abstract base class) em Python, como delineado em PEP 3119; veja o PEP para entende..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_abc_a160c40a.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/abc.py Este módulo fornece a infraestrutura para definir classes base abstratas(ABCs, do inglês abstract base class) em Python, como delineado em PEP 3119; veja o PEP para entende..." />
+<meta name="description" content="Código-fonte: Lib/abc.py Este módulo fornece a infraestrutura para definir classes base abstratas(ABCs, do inglês abstract base class) em Python, como delineado em PEP 3119; veja o PEP para entende..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>abc — Classes base abstratas &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="atexit — Manipuladores de saída" href="atexit.html" />
+    <link rel="prev" title="contextlib — Utilitários para contextos da instrução with" href="contextlib.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/abc.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="contextlib.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">contextlib</span></code> — Utilitários para contextos da instrução <code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="atexit.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">atexit</span></code> — Manipuladores de saída</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/abc.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/abc.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/abc.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="atexit.html" title="atexit — Manipuladores de saída"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="contextlib.html" title="contextlib — Utilitários para contextos da instrução with"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="python.html" accesskey="U">Serviços de Tempo de Execução Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">abc</span></code> — Classes base abstratas</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-abc">
+<span id="abc-abstract-base-classes"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">abc</span></code> — Classes base abstratas<a class="headerlink" href="#module-abc" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/abc.py">Lib/abc.py</a></p>
+<hr class="docutils" />
+<p class="translated">Este módulo fornece a infraestrutura para definir <a class="reference internal" href="../glossary.html#term-abstract-base-class"><span class="xref std std-term">classes base abstratas</span></a> (ABCs, do inglês <em>abstract base class</em>) em Python, como delineado em <span class="target" id="index-4"></span><a class="pep reference external" href="https://peps.python.org/pep-3119/"><strong>PEP 3119</strong></a>; veja o PEP para entender o porquê isto foi adicionado ao Python. (Veja também <span class="target" id="index-5"></span><a class="pep reference external" href="https://peps.python.org/pep-3141/"><strong>PEP 3141</strong></a> e o módulo <a class="reference internal" href="numbers.html#module-numbers" title="numbers: Numeric abstract base classes (Complex, Real, Integral, etc.)."><code class="xref py py-mod docutils literal notranslate"><span class="pre">numbers</span></code></a> sobre uma hierarquia de tipo para números baseado nas ABCs.)</p>
+<p class="translated">O módulo <a class="reference internal" href="collections.html#module-collections" title="collections: Container datatypes"><code class="xref py py-mod docutils literal notranslate"><span class="pre">collections</span></code></a> tem algumas classes concretas que derivam de ABCs; essas podem, evidentemente, ser ainda mais derivadas. Além disso, o submódulo <a class="reference internal" href="collections.abc.html#module-collections.abc" title="collections.abc: Abstract base classes for containers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">collections.abc</span></code></a> tem algumas ABCs que podem ser usadas para testar se uma classe ou instância oferece uma interface particular, por exemplo, se é <a class="reference internal" href="../glossary.html#term-hashable"><span class="xref std std-term">hasheável</span></a> ou se é um <a class="reference internal" href="../glossary.html#term-mapping"><span class="xref std std-term">mapeamento</span></a>.</p>
+<p class="translated">Este módulo fornece a metaclasse <a class="reference internal" href="#abc.ABCMeta" title="abc.ABCMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code></a> para definir ABCs e uma classe auxiliar <a class="reference internal" href="#abc.ABC" title="abc.ABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a> para alternativamente definir ABCs através de herança:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="abc.ABC">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">abc.</span></span><span class="sig-name descname"><span class="pre">ABC</span></span><a class="headerlink" href="#abc.ABC" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma classe auxiliar que tem <a class="reference internal" href="#abc.ABCMeta" title="abc.ABCMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code></a> como sua metaclasse. Com essa classe, uma classe base abstrata pode ser criada simplesmente derivando da <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code> evitando às vezes confundir o uso da metaclasse, por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyABC</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p class="translated">Note que o tipo da classe <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code> ainda é <a class="reference internal" href="#abc.ABCMeta" title="abc.ABCMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code></a>, portanto herdar da <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code> requer as precauções usuais a respeito do uso da metaclasse, pois herança múltipla pode levar a conflitos de metaclasse. Pode-se também definir uma classe base abstrata ao passar a palavra reservada metaclasse e usar <code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code> diretamente, por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABCMeta</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyABC</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="abc.ABCMeta">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">abc.</span></span><span class="sig-name descname"><span class="pre">ABCMeta</span></span><a class="headerlink" href="#abc.ABCMeta" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Metaclasse para definir Classe Base Abstrata (ABCs).</p>
+<p class="translated">Use esta metaclasse para criar uma ABC. Uma ABC pode ser diretamente estendida, e então agir como uma classe misturada. Você também pode registrar classes concretas não relacionadas (até mesmo classes embutidas) e ABCs não relacionadas como “subclasses virtuais” – estas e suas descendentes serão consideradas subclasses da ABC de registro pela função embutida <a class="reference internal" href="../builtins/functions.html#issubclass" title="issubclass"><code class="xref py py-func docutils literal notranslate"><span class="pre">issubclass()</span></code></a>, mas a ABC de registro não irá aparecer na MRO (Ordem de Resolução do Método) e nem as implementações do método definidas pela ABC de registro será chamável (nem mesmo via <a class="reference internal" href="../builtins/functions.html#super" title="super"><code class="xref py py-func docutils literal notranslate"><span class="pre">super()</span></code></a>). <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
+<p class="translated">Classes criadas com a metaclasse de <code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code> tem o seguinte método:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="abc.ABCMeta.register">
+<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subclass</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#abc.ABCMeta.register" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Registra <em>subclass</em> como uma “subclasse virtual” desta ABC. Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyABC</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="n">MyABC</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">tuple</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">MyABC</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">isinstance</span><span class="p">((),</span> <span class="n">MyABC</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>Retorna a subclasse registrada, para permitir o uso como um decorador de classe.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.4: </span>Para detectar chamadas para <code class="xref py py-meth docutils literal notranslate"><span class="pre">register()</span></code>, você pode usar a função <a class="reference internal" href="#abc.get_cache_token" title="abc.get_cache_token"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_cache_token()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<p class="translated">Você também pode sobrepor este método em uma classe base abstrata:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="abc.ABCMeta.__subclasshook__">
+<span class="sig-name descname"><span class="pre">__subclasshook__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subclass</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#abc.ABCMeta.__subclasshook__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">(Deve obrigatoriamente ser definido como um método de classe.)</p>
+<p class="translated">Verifica se <em>subclass</em> é considerada uma subclasse desta ABC. Isto significa que você pode personalizar ainda mais o comportamento de <a class="reference internal" href="../builtins/functions.html#issubclass" title="issubclass"><code class="xref py py-func docutils literal notranslate"><span class="pre">issubclass()</span></code></a> sem a necessidade de chamar <a class="reference internal" href="#abc.ABCMeta.register" title="abc.ABCMeta.register"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register()</span></code></a> em toda classe que você queira considerar uma subclasse da ABC. (Este método de classe é chamado do método <a class="reference internal" href="../reference/datamodel.html#type.__subclasscheck__" title="type.__subclasscheck__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__subclasscheck__()</span></code></a> da ABC.)</p>
+<p class="translated">Este método deve retornar <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">False</span></code> ou <a class="reference internal" href="../builtins/constants.html#NotImplemented" title="NotImplemented"><code class="xref py py-data docutils literal notranslate"><span class="pre">NotImplemented</span></code></a>. Se retornar <code class="docutils literal notranslate"><span class="pre">True</span></code>, <em>subclass</em> é considerada uma subclasse desta ABC. Se retornar <code class="docutils literal notranslate"><span class="pre">False</span></code>, <em>subclass</em> não é considerada uma subclasse desta ABC, mesmo que normalmente seria uma. Se retornar <code class="xref py py-data docutils literal notranslate"><span class="pre">NotImplemented</span></code>, a verificação da subclasse é continuada com o mecanismo usual.</p>
+</dd></dl>
+
+<p class="translated">Para uma demonstração destes conceitos, veja este exemplo de definição ABC:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Foo</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="o">...</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_iterator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyIterable</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">while</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_iterator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__iter__</span><span class="p">()</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__subclasshook__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">C</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">cls</span> <span class="ow">is</span> <span class="n">MyIterable</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="s2">"__iter__"</span> <span class="ow">in</span> <span class="n">B</span><span class="o">.</span><span class="vm">__dict__</span> <span class="k">for</span> <span class="n">B</span> <span class="ow">in</span> <span class="n">C</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+<span class="n">MyIterable</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Foo</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">A <code class="docutils literal notranslate"><span class="pre">MyIterable</span></code> da ABC define o método iterável padrão, <a class="reference internal" href="../reference/datamodel.html#object.__iter__" title="object.__iter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></a>, como um método abstrato. A implementação dada aqui pode ainda ser chamada da subclasse. O método <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_iterator()</span></code> é também parte da classe base abstrata <code class="docutils literal notranslate"><span class="pre">MyIterable</span></code>, mas não precisa ser substituído nas classes derivadas não abstratas.</p>
+<p class="translated">O método de classe <a class="reference internal" href="#abc.ABCMeta.__subclasshook__" title="abc.ABCMeta.__subclasshook__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__subclasshook__()</span></code></a> definido aqui diz que qualquer classe que tenha um método <a class="reference internal" href="../reference/datamodel.html#object.__iter__" title="object.__iter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></a> em seu <a class="reference internal" href="../reference/datamodel.html#object.__dict__" title="object.__dict__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__dict__</span></code></a> (ou no de uma de suas classes base, acessados via lista <a class="reference internal" href="../reference/datamodel.html#type.__mro__" title="type.__mro__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__mro__</span></code></a>) é considerada uma <code class="docutils literal notranslate"><span class="pre">MyIterable</span></code> também.</p>
+<p class="translated">Finalmente, a última linha faz de <code class="docutils literal notranslate"><span class="pre">Foo</span></code> uma subclasse virtual da <code class="docutils literal notranslate"><span class="pre">MyIterable</span></code>, apesar de não definir um método <a class="reference internal" href="../reference/datamodel.html#object.__iter__" title="object.__iter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></a> (ela usa o protocolo iterável antigo, definido em termos de <a class="reference internal" href="../reference/datamodel.html#object.__len__" title="object.__len__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__len__()</span></code></a> e <a class="reference internal" href="../reference/datamodel.html#object.__getitem__" title="object.__getitem__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code></a>). Note que isto não fará o <code class="docutils literal notranslate"><span class="pre">get_iterator</span></code> disponível como um método de <code class="docutils literal notranslate"><span class="pre">Foo</span></code>, então ele é fornecido separadamente.</p>
+</dd></dl>
+
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">abc</span></code> também fornece o seguinte decorador:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="abc.abstractmethod">
+<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-prename descclassname"><span class="pre">abc.</span></span><span class="sig-name descname"><span class="pre">abstractmethod</span></span><a class="headerlink" href="#abc.abstractmethod" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um decorador indicando métodos abstratos.</p>
+<p class="untranslated">Using this decorator requires that the class’s metaclass is <a class="reference internal" href="#abc.ABCMeta" title="abc.ABCMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code></a>
+or is derived from it.  A class that has a metaclass derived from
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code> cannot be instantiated unless all of its abstract methods
+and properties are overridden.  The abstract methods can be called using any
+of the normal ‘super’ call mechanisms.  <code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;abstractmethod</span></code> may be used
+to declare abstract methods for properties and descriptors.</p>
+<p class="untranslated">Dynamically adding abstract methods to a class, or attempting to modify the
+abstraction status of a method or class once it is created, are only
+supported using the <a class="reference internal" href="#abc.update_abstractmethods" title="abc.update_abstractmethods"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_abstractmethods()</span></code></a> function.  The
+<code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;abstractmethod</span></code> only affects subclasses derived using regular
+inheritance; “virtual subclasses” registered with the ABC’s
+<a class="reference internal" href="#abc.ABCMeta.register" title="abc.ABCMeta.register"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register()</span></code></a> method are not affected.</p>
+<p class="untranslated">When <code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;abstractmethod</span></code> is applied in combination with other method
+descriptors, it should be applied as the innermost decorator, as shown in
+the following usage examples:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">C</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">my_abstract_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg1</span><span class="p">):</span>
+        <span class="o">...</span>
+    <span class="nd">@classmethod</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">my_abstract_classmethod</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
+        <span class="o">...</span>
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">my_abstract_staticmethod</span><span class="p">(</span><span class="n">arg3</span><span class="p">):</span>
+        <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">my_abstract_property</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
+    <span class="nd">@my_abstract_property</span><span class="o">.</span><span class="n">setter</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">my_abstract_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="o">...</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="o">...</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_x</span><span class="p">,</span> <span class="n">_set_x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="untranslated">In order to correctly interoperate with the abstract base class machinery,
+the descriptor must identify itself as abstract using
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">__isabstractmethod__</span></code>. In general, this attribute should be <code class="docutils literal notranslate"><span class="pre">True</span></code>
+if any of the methods used to compose the descriptor are abstract. For
+example, Python’s built-in <a class="reference internal" href="../builtins/functions.html#property" title="property"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;property</span></code></a> does the equivalent of:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Descriptor</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__isabstractmethod__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">'__isabstractmethod__'</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="k">for</span>
+                   <span class="n">f</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fget</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fdel</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Diferente de métodos abstratos Java, esses métodos abstratos podem ter uma implementação. Esta implementação pode ser chamada via mecanismo da <a class="reference internal" href="../builtins/functions.html#super" title="super"><code class="xref py py-func docutils literal notranslate"><span class="pre">super()</span></code></a> da classe que a substitui. Isto pode ser útil como um ponto final para uma super chamada em um framework que usa herança múltipla cooperativa.</p>
+</div>
+</dd></dl>
+
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">abc</span></code> também suporta os seguintes decoradores herdados:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="abc.abstractclassmethod">
+<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-prename descclassname"><span class="pre">abc.</span></span><span class="sig-name descname"><span class="pre">abstractclassmethod</span></span><a class="headerlink" href="#abc.abstractclassmethod" title="Link para esta definição">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.2.</span></p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Descontinuado desde a versão 3.3: </span>It is now possible to use <a class="reference internal" href="../builtins/functions.html#classmethod" title="classmethod"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;classmethod</span></code></a> with
+<a class="reference internal" href="#abc.abstractmethod" title="abc.abstractmethod"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;abstractmethod</span></code></a>, making this decorator redundant.</p>
+</div>
+<p class="untranslated">A subclass of the built-in <a class="reference internal" href="../builtins/functions.html#classmethod" title="classmethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">classmethod</span></code></a>, indicating an abstract
+classmethod. Otherwise it is similar to <a class="reference internal" href="#abc.abstractmethod" title="abc.abstractmethod"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;abstractmethod</span></code></a>.</p>
+<p class="untranslated">This special case is deprecated, as the <a class="reference internal" href="../builtins/functions.html#classmethod" title="classmethod"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;classmethod</span></code></a> decorator
+is now correctly identified as abstract when applied to an abstract
+method:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">C</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">my_abstract_classmethod</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="abc.abstractstaticmethod">
+<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-prename descclassname"><span class="pre">abc.</span></span><span class="sig-name descname"><span class="pre">abstractstaticmethod</span></span><a class="headerlink" href="#abc.abstractstaticmethod" title="Link para esta definição">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.2.</span></p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Descontinuado desde a versão 3.3: </span>It is now possible to use <a class="reference internal" href="../builtins/functions.html#staticmethod" title="staticmethod"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;staticmethod</span></code></a> with
+<a class="reference internal" href="#abc.abstractmethod" title="abc.abstractmethod"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;abstractmethod</span></code></a>, making this decorator redundant.</p>
+</div>
+<p class="untranslated">A subclass of the built-in <a class="reference internal" href="../builtins/functions.html#staticmethod" title="staticmethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">staticmethod</span></code></a>, indicating an abstract
+staticmethod. Otherwise it is similar to <a class="reference internal" href="#abc.abstractmethod" title="abc.abstractmethod"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;abstractmethod</span></code></a>.</p>
+<p class="untranslated">This special case is deprecated, as the <a class="reference internal" href="../builtins/functions.html#staticmethod" title="staticmethod"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;staticmethod</span></code></a> decorator
+is now correctly identified as abstract when applied to an abstract
+method:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">C</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">my_abstract_staticmethod</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="abc.abstractproperty">
+<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-prename descclassname"><span class="pre">abc.</span></span><span class="sig-name descname"><span class="pre">abstractproperty</span></span><a class="headerlink" href="#abc.abstractproperty" title="Link para esta definição">¶</a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Descontinuado desde a versão 3.3: </span>It is now possible to use <a class="reference internal" href="../builtins/functions.html#property" title="property"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;property</span></code></a>, <a class="reference internal" href="../builtins/functions.html#property.getter" title="property.getter"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;property.getter</span></code></a>,
+<a class="reference internal" href="../builtins/functions.html#property.setter" title="property.setter"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;property.setter</span></code></a> and <a class="reference internal" href="../builtins/functions.html#property.deleter" title="property.deleter"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;property.deleter</span></code></a> with
+<a class="reference internal" href="#abc.abstractmethod" title="abc.abstractmethod"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;abstractmethod</span></code></a>, making this decorator redundant.</p>
+</div>
+<p class="untranslated">A subclass of the built-in <a class="reference internal" href="../builtins/functions.html#property" title="property"><code class="xref py py-class docutils literal notranslate"><span class="pre">property</span></code></a>, indicating an abstract
+property.</p>
+<p class="untranslated">This special case is deprecated, as the <a class="reference internal" href="../builtins/functions.html#property" title="property"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;property</span></code></a> decorator
+is now correctly identified as abstract when applied to an abstract
+method:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">C</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">my_abstract_property</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p class="translated">O exemplo acima define uma propriedade somente leitura; você também pode definir uma propriedade abstrata de leitura e escrita marcando apropriadamente um ou mais dos métodos subjacentes como abstratos:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">C</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
+
+    <span class="nd">@x</span><span class="o">.</span><span class="n">setter</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p class="translated">Se apenas alguns componentes são abstratos, apenas estes componentes precisam ser atualizados para criar uma propriedade concreta em uma subclasse:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">D</span><span class="p">(</span><span class="n">C</span><span class="p">):</span>
+    <span class="nd">@C</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">abc</span></code> também fornece as seguintes funções:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="abc.get_cache_token">
+<span class="sig-prename descclassname"><span class="pre">abc.</span></span><span class="sig-name descname"><span class="pre">get_cache_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#abc.get_cache_token" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o token de cache da classe base abstrata atual.</p>
+<p class="translated">O token é um objeto opaco (que suporta teste de igualdade) identificando a versão atual do cache da classe base abstrata para subclasses virtuais. O token muda a cada chamada ao <a class="reference internal" href="#abc.ABCMeta.register" title="abc.ABCMeta.register"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ABCMeta.register()</span></code></a> em qualquer CBA.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="abc.update_abstractmethods">
+<span class="sig-prename descclassname"><span class="pre">abc.</span></span><span class="sig-name descname"><span class="pre">update_abstractmethods</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#abc.update_abstractmethods" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma função para recalcular o status de abstração de uma classe abstrata. Esta função deve ser chamada se os métodos abstratos de uma classe foram implementados ou alterados após sua criação. Normalmente, essa função deve ser chamada de dentro de um decorador de classe.</p>
+<p class="translated">Retorna <em>cls</em>, para permitir o uso como decorador de classe.</p>
+<p class="translated">Se <em>cls</em> não for uma instância de <a class="reference internal" href="#abc.ABCMeta" title="abc.ABCMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code></a>, não faz nada.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Esta função presume que as superclasses de <em>cls</em> já estão atualizadas. Ele não atualiza nenhuma subclasse.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.10.</span></p>
+</div>
+</dd></dl>
+
+<p class="translated rubric">Notas de rodapé</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p class="translated">Programadores C++ devem notar que o conceito da classe base virtual do Python não é o mesmo que o de C++.</p>
+</aside>
+</aside>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="contextlib.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">contextlib</span></code> — Utilitários para contextos da instrução <code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="atexit.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">atexit</span></code> — Manipuladores de saída</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/abc.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/abc.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/abc.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="atexit.html" title="atexit — Manipuladores de saída"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="contextlib.html" title="contextlib — Utilitários para contextos da instrução with"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="python.html" >Serviços de Tempo de Execução Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">abc</span></code> — Classes base abstratas</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

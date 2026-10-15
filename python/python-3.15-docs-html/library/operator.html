@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="operator — Operadores padrões como funções" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/operator.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/operator.py The operator module exports a set of efficient functions corresponding to the intrinsic operators of Python. For example, operator.add(x, y) is equivalent to the expre..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_operator_fee6e9ad.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/operator.py The operator module exports a set of efficient functions corresponding to the intrinsic operators of Python. For example, operator.add(x, y) is equivalent to the expre..." />
+<meta name="description" content="Código-fonte: Lib/operator.py The operator module exports a set of efficient functions corresponding to the intrinsic operators of Python. For example, operator.add(x, y) is equivalent to the expre..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>operator — Operadores padrões como funções &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Acesso a arquivos e diretórios" href="filesys.html" />
+    <link rel="prev" title="functools — Funções e operações de ordem superior em objetos chamáveis" href="functools.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/operator.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">operator</span></code> — Operadores padrões como funções</a><ul>
+<li><a class="reference internal" href="#mapping-operators-to-functions">Mapeando os operadores para suas respectivas funções</a></li>
+<li><a class="reference internal" href="#in-place-operators">Operadores in-place</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="functools.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">functools</span></code> — Funções e operações de ordem superior em objetos chamáveis</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="filesys.html"
+                          title="próximo capítulo">Acesso a arquivos e diretórios</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/operator.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/operator.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/operator.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="filesys.html" title="Acesso a arquivos e diretórios"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="functools.html" title="functools — Funções e operações de ordem superior em objetos chamáveis"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="functional.html" accesskey="U">Módulos de Programação Funcional</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">operator</span></code> — Operadores padrões como funções</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-operator">
+<span id="operator-standard-operators-as-functions"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">operator</span></code> — Operadores padrões como funções<a class="headerlink" href="#module-operator" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/operator.py">Lib/operator.py</a></p>
+<hr class="docutils" />
+<p class="untranslated">The <code class="xref py py-mod docutils literal notranslate"><span class="pre">operator</span></code> module exports a set of efficient functions corresponding to
+the intrinsic operators of Python.  For example, <code class="docutils literal notranslate"><span class="pre">operator.add(x,</span> <span class="pre">y)</span></code> is
+equivalent to the expression <code class="docutils literal notranslate"><span class="pre">x+y</span></code>. Many function names are those used for
+special methods, without the double underscores.  For backward compatibility,
+many of these have a variant with the double underscores kept. The variants
+without the double underscores are preferred for clarity.</p>
+<p class="translated">As funções se enquadram em categorias que realizam comparações de objetos, operações lógicas, operações matemáticas e operações de sequência.</p>
+<p class="translated">As funções de comparação de objetos são úteis para todos os objetos e são nomeadas conforme os operadores de comparação que os mesmos suportam:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.lt">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">lt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.lt" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.le">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">le</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.le" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.eq">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">eq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.eq" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.ne">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">ne</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.ne" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.ge">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">ge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.ge" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.gt">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">gt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.gt" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__lt__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__lt__" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__le__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__le__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__le__" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__eq__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__eq__" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__ne__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__ne__" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__ge__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__ge__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__ge__" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__gt__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__gt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__gt__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Executam “comparações ricas” entre <em>a</em> e <em>b</em>. Especialmente, <code class="docutils literal notranslate"><span class="pre">lt(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&lt;</span> <span class="pre">b</span></code>, <code class="docutils literal notranslate"><span class="pre">le(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&lt;=</span> <span class="pre">b</span></code>, <code class="docutils literal notranslate"><span class="pre">eq(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">==</span> <span class="pre">b</span></code>, <code class="docutils literal notranslate"><span class="pre">ne(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">!=</span> <span class="pre">b</span></code>, <code class="docutils literal notranslate"><span class="pre">gt(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&gt;</span> <span class="pre">b</span></code> e <code class="docutils literal notranslate"><span class="pre">ge(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&gt;=</span> <span class="pre">b</span></code>. Observe que essas funções podem retornar qualquer valor, que pode ou não ser interpretável como um valor booleano. Consulte <a class="reference internal" href="../reference/expressions.html#comparisons"><span class="std std-ref">Comparações</span></a> para obter mais informações sobre comparações ricas.</p>
+</dd></dl>
+
+<p class="translated">As operações lógicas também são geralmente aplicáveis a todos os objetos e tem suporte para testes de verdade, testes de identidade e operações booleanas:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.not_">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">not_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.not_" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__not__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__not__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__not__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o resultado de <a class="reference internal" href="../reference/expressions.html#not"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">not</span></code></a> <em>obj</em>. (Veja que não existe nenhum método <code class="xref py py-meth docutils literal notranslate"><span class="pre">__not__()</span></code> para instâncias de objetos; apenas o núcleo do interpretador definirá esta operação. O resultado será afetado pelos métodos <a class="reference internal" href="../reference/datamodel.html#object.__bool__" title="object.__bool__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__bool__()</span></code></a> e <a class="reference internal" href="../reference/datamodel.html#object.__len__" title="object.__len__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__len__()</span></code></a>.)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.truth">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">truth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.truth" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <a class="reference internal" href="../builtins/constants.html#True" title="True"><code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code></a> se o <em>obj</em> for verdadeiro, e <a class="reference internal" href="../builtins/constants.html#False" title="False"><code class="xref py py-const docutils literal notranslate"><span class="pre">False</span></code></a> caso contrário. Isso é equivalente a utilizar a construção <a class="reference internal" href="../builtins/functions.html#bool" title="bool"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.is_">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">is_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.is_" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">is</span> <span class="pre">b</span></code>. Testa a identidade do objeto.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.is_not">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">is_not</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.is_not" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">b</span></code>. Testa a identidade do objeto.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.is_none">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">is_none</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.is_none" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">is</span> <span class="pre">None</span></code>. Testa a identidade do objeto.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.is_not_none">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">is_not_none</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.is_not_none" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">None</span></code>. Testa a identidade do objeto.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+<p class="translated">As operações matemáticas bit a bit são as mais numerosas:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.abs">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">abs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.abs" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__abs__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__abs__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__abs__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o valor absoluto de <em>obj</em>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.add">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.add" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__add__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__add__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">+</span> <span class="pre">b</span></code>, onde <em>a</em> e <em>b</em> são números.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.and_">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">and_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.and_" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__and__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__and__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__and__" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Return <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&amp;</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.floordiv">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">floordiv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.floordiv" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__floordiv__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__floordiv__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__floordiv__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">//</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.index">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.index" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__index__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__index__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__index__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <em>a</em> convertendo para um inteiro. Equivalente a <code class="docutils literal notranslate"><span class="pre">a.__index__()</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.10: </span>O resultado sempre tem o tipo exato <a class="reference internal" href="../builtins/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>. Anteriormente, o resultado poderia ter sido uma instância de uma subclasse de <code class="docutils literal notranslate"><span class="pre">int</span></code>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.inv">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">inv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.inv" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.invert">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">invert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.invert" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__inv__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__inv__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__inv__" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__invert__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__invert__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__invert__" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Return <code class="docutils literal notranslate"><span class="pre">~obj</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.lshift">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">lshift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.lshift" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__lshift__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__lshift__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__lshift__" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Return <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&lt;&lt;</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.mod">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">mod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.mod" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__mod__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__mod__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__mod__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">%</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.mul">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">mul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.mul" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__mul__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__mul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__mul__" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Return <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">*</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.matmul">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">matmul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.matmul" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__matmul__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__matmul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__matmul__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&#64;</span> <span class="pre">b</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.neg">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">neg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.neg" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__neg__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__neg__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__neg__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <em>obj</em> negado (<code class="docutils literal notranslate"><span class="pre">-obj</span></code>).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.or_">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">or_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.or_" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__or__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__or__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__or__" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Return <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">|</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.pos">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">pos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.pos" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__pos__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__pos__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__pos__" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Return <code class="docutils literal notranslate"><span class="pre">+obj</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.pow">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">pow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.pow" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__pow__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__pow__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__pow__" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Return <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">**</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.rshift">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">rshift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.rshift" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__rshift__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__rshift__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__rshift__" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Return <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&gt;&gt;</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.sub">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.sub" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__sub__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__sub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__sub__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">-</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.truediv">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">truediv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.truediv" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__truediv__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__truediv__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__truediv__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">/</span> <span class="pre">b</span></code> onde 2/3 é .66 em vez de 0. Isso também é conhecido como divisão “verdadeira”.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.xor">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">xor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.xor" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__xor__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__xor__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__xor__" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Return <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">^</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<p class="translated">Operações que funcionam com sequências (algumas delas com mapas também) incluem:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.concat">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">concat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.concat" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__concat__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__concat__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__concat__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">+</span> <span class="pre">b</span></code> para as sequências <em>a</em> e <em>b</em>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.contains">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">contains</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.contains" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__contains__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__contains__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__contains__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o resultado do teste <code class="docutils literal notranslate"><span class="pre">b</span> <span class="pre">in</span> <span class="pre">a</span></code>. Observe os operandos invertidos.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.countOf">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">countOf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.countOf" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o número de ocorrências de <em>b</em> em <em>a</em>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.delitem">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">delitem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.delitem" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__delitem__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__delitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__delitem__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Remove de <em>a</em> o valor no índice <em>b</em>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.getitem">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">getitem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.getitem" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__getitem__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__getitem__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna de <em>a</em> o valor no índice <em>b</em>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.indexOf">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">indexOf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.indexOf" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o índice da primeira ocorrência de <em>b</em> em <em>a</em>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.setitem">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">setitem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.setitem" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__setitem__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__setitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__setitem__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Define em <em>a</em> o valor no índice <em>b</em> para <em>c</em>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.length_hint">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">length_hint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.length_hint" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um comprimento estimado para o objeto <em>obj</em>. Primeiro tenta retornar o seu comprimento real, em seguida, uma estimativa utilizando <a class="reference internal" href="../reference/datamodel.html#object.__length_hint__" title="object.__length_hint__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">object.__length_hint__()</span></code></a>, e finalmente retorna o valor padrão.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.4.</span></p>
+</div>
+</dd></dl>
+
+<p class="translated">Os operadores seguintes funcionam com chamáveis:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.call">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.call" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__call__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__call__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">obj(*args,</span> <span class="pre">**kwargs)</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.11.</span></p>
+</div>
+</dd></dl>
+
+<p class="untranslated">The <code class="xref py py-mod docutils literal notranslate"><span class="pre">operator</span></code> module also defines tools for generalized attribute and item
+lookups.  These are useful for making fast field extractors as arguments for
+<a class="reference internal" href="../builtins/functions.html#map" title="map"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a>, <a class="reference internal" href="../builtins/functions.html#sorted" title="sorted"><code class="xref py py-func docutils literal notranslate"><span class="pre">sorted()</span></code></a>, <a class="reference internal" href="itertools.html#itertools.groupby" title="itertools.groupby"><code class="xref py py-meth docutils literal notranslate"><span class="pre">itertools.groupby()</span></code></a>, or other functions that
+expect a function argument.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.attrgetter">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">attrgetter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.attrgetter" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">attrgetter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p class="translated">Retorna um objeto chamável que pode buscar o <em>attr</em> do seu operando. Caso seja solicitado mais de um atributo, retorna uma tupla de atributos. Os nomes dos atributos também podem conter pontos. Por exemplo:</p>
+<ul class="simple">
+<li><p class="translated">Depois de <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">attrgetter('name')</span></code>, a chamada a <code class="docutils literal notranslate"><span class="pre">f(b)</span></code> retorna <code class="docutils literal notranslate"><span class="pre">b.name</span></code>.</p></li>
+<li><p class="translated">Depois de <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">attrgetter('name',</span> <span class="pre">'date')</span></code>, a chamada a <code class="docutils literal notranslate"><span class="pre">f(b)</span></code> retorna <code class="docutils literal notranslate"><span class="pre">(b.name,</span> <span class="pre">b.date)</span></code>.</p></li>
+<li><p class="translated">Depois de <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">attrgetter('name.first',</span> <span class="pre">'name.last')</span></code>, a chamada a <code class="docutils literal notranslate"><span class="pre">f(b)</span></code> retorna <code class="docutils literal notranslate"><span class="pre">(b.name.first,</span> <span class="pre">b.name.last)</span></code>.</p></li>
+</ul>
+<p class="translated">Equivalente a:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">attrgetter</span><span class="p">(</span><span class="o">*</span><span class="n">items</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">'attribute name must be a string'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">g</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">resolve_attr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">g</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">resolve_attr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">items</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_attr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">attr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">):</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">obj</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.itemgetter">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">itemgetter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.itemgetter" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">itemgetter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p class="translated">Retorna um objeto chamável que busca <em>item</em> de seu operando usando o método <a class="reference internal" href="../reference/datamodel.html#object.__getitem__" title="object.__getitem__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code></a> do operando.  Se vários itens forem especificados, retorna um tupla de valores de pesquisa. Por exemplo:</p>
+<ul class="simple">
+<li><p class="translated">Depois de <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">itemgetter(2)</span></code>, a chamada a <code class="docutils literal notranslate"><span class="pre">f(r)</span></code> retorna <code class="docutils literal notranslate"><span class="pre">r[2]</span></code>.</p></li>
+<li><p class="translated">Depois de <code class="docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">itemgetter(2,</span> <span class="pre">5,</span> <span class="pre">3)</span></code>, a chamada a <code class="docutils literal notranslate"><span class="pre">g(r)</span></code> retorna <code class="docutils literal notranslate"><span class="pre">(r[2],</span> <span class="pre">r[5],</span> <span class="pre">r[3])</span></code>.</p></li>
+</ul>
+<p class="translated">Equivalente a:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">itemgetter</span><span class="p">(</span><span class="o">*</span><span class="n">items</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">g</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">g</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g</span>
+</pre></div>
+</div>
+<p class="translated">Os itens podem ser de qualquer tipo aceito pelo método <a class="reference internal" href="../reference/datamodel.html#object.__getitem__" title="object.__getitem__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code></a> do operando.  Dicionários aceitam qualquer valor <a class="reference internal" href="../glossary.html#term-hashable"><span class="xref std std-term">hasheável</span></a> . Listas, tuplas e strings aceitam um índice ou um fatiamento:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="s1">'ABCDEFG'</span><span class="p">)</span>
+<span class="go">'B'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)(</span><span class="s1">'ABCDEFG'</span><span class="p">)</span>
+<span class="go">('B', 'D', 'F')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">itemgetter</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">None</span><span class="p">))(</span><span class="s1">'ABCDEFG'</span><span class="p">)</span>
+<span class="go">'CDEFG'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">soldier</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">rank</span><span class="o">=</span><span class="s1">'captain'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'dotterbart'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">itemgetter</span><span class="p">(</span><span class="s1">'rank'</span><span class="p">)(</span><span class="n">soldier</span><span class="p">)</span>
+<span class="go">'captain'</span>
+</pre></div>
+</div>
+<p class="translated">Exemplo de uso <a class="reference internal" href="#operator.itemgetter" title="operator.itemgetter"><code class="xref py py-func docutils literal notranslate"><span class="pre">itemgetter()</span></code></a> para recuperar campos específicos de um registro de tupla:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">inventory</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">'apple'</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s1">'banana'</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">'pear'</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="s1">'orange'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">getcount</span> <span class="o">=</span> <span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">getcount</span><span class="p">,</span> <span class="n">inventory</span><span class="p">))</span>
+<span class="go">[3, 2, 5, 1]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">inventory</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">getcount</span><span class="p">)</span>
+<span class="go">[('orange', 1), ('banana', 2), ('apple', 3), ('pear', 5)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.methodcaller">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">methodcaller</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.methodcaller" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um objeto chamável que invoca o método <em>name</em> em seu operando. Se argumentos adicionais e/ou argumentos nomeados forem fornecidos, os mesmos serão passados para o método. Por exemplo:</p>
+<ul class="simple">
+<li><p class="translated">Depois de <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">methodcaller('name')</span></code>, a chamada a <code class="docutils literal notranslate"><span class="pre">f(b)</span></code> retorna <code class="docutils literal notranslate"><span class="pre">b.name()</span></code>.</p></li>
+<li><p class="translated">Depois de <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">methodcaller('name',</span> <span class="pre">'foo',</span> <span class="pre">bar=1)</span></code>, a chamada <code class="docutils literal notranslate"><span class="pre">f(b)</span></code> retorna <code class="docutils literal notranslate"><span class="pre">b.name('foo',</span> <span class="pre">bar=1)</span></code>.</p></li>
+</ul>
+<p class="translated">Equivalente a:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">methodcaller</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">caller</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">caller</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<section id="mapping-operators-to-functions">
+<span id="operator-map"></span><h2 class="translated">Mapeando os operadores para suas respectivas funções<a class="headerlink" href="#mapping-operators-to-functions" title="Link para este cabeçalho">¶</a></h2>
+<p class="untranslated">This table shows how abstract operations correspond to operator symbols in the
+Python syntax and the functions in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">operator</span></code> module.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Operação</p></th>
+<th class="head"><p class="translated">Sintaxe</p></th>
+<th class="head"><p class="translated">Função</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated">Adição</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">+</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">add(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Concatenação</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">seq1</span> <span class="pre">+</span> <span class="pre">seq2</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">concat(seq1,</span> <span class="pre">seq2)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Teste de pertinência</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">obj</span> <span class="pre">in</span> <span class="pre">seq</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">contains(seq,</span> <span class="pre">obj)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Divisão</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">/</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">truediv(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Divisão</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">//</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">floordiv(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="untranslated">Bitwise And, or
+Intersection</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&amp;</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">and_(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="untranslated">Bitwise Exclusive Or,
+or Symmetric
+Difference</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">^</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">xor(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="untranslated">Bitwise Inversion, or
+Complement</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">~</span> <span class="pre">a</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">invert(a)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="untranslated">Bitwise Or, or
+Union</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">|</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">or_(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Exponenciação</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">**</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">pow(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Identidade</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">is</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">is_(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Identidade</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">is_not(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Identidade</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">is</span> <span class="pre">None</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">is_none(a)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Identidade</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">None</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">is_not_none(a)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Atribuição Indexada</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">obj[k]</span> <span class="pre">=</span> <span class="pre">v</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">setitem(obj,</span> <span class="pre">k,</span> <span class="pre">v)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Eliminação indexada</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">del</span> <span class="pre">obj[k]</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">delitem(obj,</span> <span class="pre">k)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Indexação</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">obj[k]</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">getitem(obj,</span> <span class="pre">k)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Deslocamento à esquerda</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&lt;&lt;</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">lshift(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Módulo</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">%</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">mod(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Multiplicação</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">*</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">mul(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Multiplicação de matrizes</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&#64;</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">matmul(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Negação (aritmética)</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">a</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">neg(a)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Negação (lógica)</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">a</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">not_(a)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Positivo</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">+</span> <span class="pre">a</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">pos(a)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Deslocamento à direita</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&gt;&gt;</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">rshift(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Atribuição de fatia</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">seq[i:j]</span> <span class="pre">=</span> <span class="pre">values</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">setitem(seq,</span> <span class="pre">slice(i,</span> <span class="pre">j),</span> <span class="pre">values)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Remoção de fatia</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">del</span> <span class="pre">seq[i:j]</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">delitem(seq,</span> <span class="pre">slice(i,</span> <span class="pre">j))</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Fatiamento</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">seq[i:j]</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">getitem(seq,</span> <span class="pre">slice(i,</span> <span class="pre">j))</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Formatação de strings</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">s</span> <span class="pre">%</span> <span class="pre">obj</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">mod(s,</span> <span class="pre">obj)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Subtração</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">-</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">sub(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Teste verdadeiro</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">obj</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">truth(obj)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Ordenação</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&lt;</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">lt(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Ordenação</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&lt;=</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">le(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Igualdade</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">==</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">eq(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Diferença</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">!=</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">ne(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Ordenação</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&gt;=</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">ge(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Ordenação</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&gt;</span> <span class="pre">b</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">gt(a,</span> <span class="pre">b)</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="in-place-operators">
+<h2 class="translated">Operadores in-place<a class="headerlink" href="#in-place-operators" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Muitas operações possuem uma versão “in-place”. Listadas abaixo, as funções fornecem um acesso mais primitivo aos operadores locais do que a sintaxe usual; por exemplo, a <a class="reference internal" href="../glossary.html#term-statement"><span class="xref std std-term">instrução</span></a> <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">+=</span> <span class="pre">y</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">operator.iadd(x,</span> <span class="pre">y)</span></code>. Outra maneira de colocá-lo é dizendo que <code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">operator.iadd(x,</span> <span class="pre">y)</span></code> é equivalente à instrução composta <code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">x;</span> <span class="pre">z</span> <span class="pre">+=</span> <span class="pre">y</span></code>.</p>
+<p class="translated">Nesses exemplos, note que, quando um método in-place é invocado, a computação e a atribuição são realizadas em duas etapas separadas. As funções in-place listadas abaixo apenas fazem o primeiro passo, invocando o método in-place. O segundo passo, a atribuição, não é tratado.</p>
+<p class="translated">Para os casos imutáveis, como as strings, números e tuplas, o valor atualizado será calculado, mas não será atribuído de volta à variável de entrada:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="s1">'hello'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">iadd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s1">' world'</span><span class="p">)</span>
+<span class="go">'hello world'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">'hello'</span>
+</pre></div>
+</div>
+<p class="translated">Para alvos mutáveis tal como listas e dicionários, o método in-place vai realizar a atualização, então nenhuma atribuição subsequente é necessária:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'h'</span><span class="p">,</span> <span class="s1">'e'</span><span class="p">,</span> <span class="s1">'l'</span><span class="p">,</span> <span class="s1">'l'</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">iadd</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">[</span><span class="s1">' '</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="s1">'l'</span><span class="p">,</span> <span class="s1">'d'</span><span class="p">])</span>
+<span class="go">['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span>
+<span class="go">['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd']</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.iadd">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">iadd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.iadd" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__iadd__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__iadd__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__iadd__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">iadd(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">+=</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.iand">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">iand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.iand" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__iand__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__iand__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__iand__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">iand(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&amp;=</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.iconcat">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">iconcat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.iconcat" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__iconcat__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__iconcat__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__iconcat__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">iconcat(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">+=</span> <span class="pre">b</span></code> onde <em>a</em> e <em>b</em> são sequências.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.ifloordiv">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">ifloordiv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.ifloordiv" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__ifloordiv__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__ifloordiv__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__ifloordiv__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">ifloordiv(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">//=</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.ilshift">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">ilshift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.ilshift" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__ilshift__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__ilshift__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__ilshift__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">ilshift(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&lt;&lt;=</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.imod">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">imod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.imod" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__imod__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__imod__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__imod__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">imod(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">%=</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.imul">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">imul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.imul" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__imul__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__imul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__imul__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">imul(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">*=</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.imatmul">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">imatmul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.imatmul" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__imatmul__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__imatmul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__imatmul__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">imatmul(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&#64;=</span> <span class="pre">b</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.ior">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">ior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.ior" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__ior__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__ior__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__ior__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">ior(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">|=</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.ipow">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">ipow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.ipow" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__ipow__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__ipow__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__ipow__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">ipow(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">**=</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.irshift">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">irshift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.irshift" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__irshift__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__irshift__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__irshift__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">irshift(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&gt;&gt;=</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.isub">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">isub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.isub" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__isub__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__isub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__isub__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">isub(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">-=</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.itruediv">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">itruediv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.itruediv" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__itruediv__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__itruediv__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__itruediv__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">itruediv(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">/=</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="operator.ixor">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">ixor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.ixor" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="operator.__ixor__">
+<span class="sig-prename descclassname"><span class="pre">operator.</span></span><span class="sig-name descname"><span class="pre">__ixor__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#operator.__ixor__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">ixor(a,</span> <span class="pre">b)</span></code> é equivalente a <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">^=</span> <span class="pre">b</span></code>.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">operator</span></code> — Operadores padrões como funções</a><ul>
+<li><a class="reference internal" href="#mapping-operators-to-functions">Mapeando os operadores para suas respectivas funções</a></li>
+<li><a class="reference internal" href="#in-place-operators">Operadores in-place</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="functools.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">functools</span></code> — Funções e operações de ordem superior em objetos chamáveis</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="filesys.html"
+                          title="próximo capítulo">Acesso a arquivos e diretórios</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/operator.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/operator.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/operator.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="filesys.html" title="Acesso a arquivos e diretórios"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="functools.html" title="functools — Funções e operações de ordem superior em objetos chamáveis"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="functional.html" >Módulos de Programação Funcional</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">operator</span></code> — Operadores padrões como funções</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

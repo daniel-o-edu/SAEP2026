@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="importlib.metadata – Acessando metadados do pacote" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/importlib.metadata.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/importlib/metadata/__init__.py importlib.metadata é uma biblioteca que fornece acesso aos metadados de um Pacote de Distribuição instalado, como seus pontos de entrada ou seus nom..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_importlib.metadata_df07b9f4.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/importlib/metadata/__init__.py importlib.metadata é uma biblioteca que fornece acesso aos metadados de um Pacote de Distribuição instalado, como seus pontos de entrada ou seus nom..." />
+<meta name="description" content="Código-fonte: Lib/importlib/metadata/__init__.py importlib.metadata é uma biblioteca que fornece acesso aos metadados de um Pacote de Distribuição instalado, como seus pontos de entrada ou seus nom..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>importlib.metadata – Acessando metadados do pacote &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="A inicialização do caminho de pesquisa de módulos sys.path" href="sys_path_init.html" />
+    <link rel="prev" title="importlib.resources.abc – Classes base abstratas para recursos" href="importlib.resources.abc.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/importlib.metadata.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.metadata</span></code> – Acessando metadados do pacote</a><ul>
+<li><a class="reference internal" href="#overview">Visão Geral</a></li>
+<li><a class="reference internal" href="#functional-api">API funcional</a><ul>
+<li><a class="reference internal" href="#entry-points">Pontos de entrada</a></li>
+<li><a class="reference internal" href="#distribution-metadata">Metadados de distribuição</a></li>
+<li><a class="reference internal" href="#distribution-versions">Versões de distribuição</a></li>
+<li><a class="reference internal" href="#distribution-files">Arquivos de distribuição</a></li>
+<li><a class="reference internal" href="#distribution-requirements">Requisitos de distribuição</a></li>
+<li><a class="reference internal" href="#mapping-import-to-distribution-packages">Mapeando importação pra pacotes de distribuição</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#distributions">Distribuições</a></li>
+<li><a class="reference internal" href="#distribution-discovery">Descoberta de distribuição</a></li>
+<li><a class="reference internal" href="#implementing-custom-providers">Implementando provedores personalizados</a><ul>
+<li><a class="reference internal" href="#example">Exemplo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="importlib.resources.abc.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.resources.abc</span></code> – Classes base abstratas para recursos</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="sys_path_init.html"
+                          title="próximo capítulo">A inicialização do caminho de pesquisa de módulos <code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/importlib.metadata.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/importlib.metadata.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/importlib.metadata.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="sys_path_init.html" title="A inicialização do caminho de pesquisa de módulos sys.path"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="importlib.resources.abc.html" title="importlib.resources.abc – Classes base abstratas para recursos"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="modules.html" accesskey="U">Importando módulos</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.metadata</span></code> – Acessando metadados do pacote</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-importlib.metadata">
+<span id="importlib-metadata-accessing-package-metadata"></span><span id="using"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.metadata</span></code> – Acessando metadados do pacote<a class="headerlink" href="#module-importlib.metadata" title="Link para este cabeçalho">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.8.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.10: </span><code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> não é mais provisório.</p>
+</div>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/importlib/metadata/__init__.py">Lib/importlib/metadata/__init__.py</a></p>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> é uma biblioteca que fornece acesso aos metadados de um <a class="reference external" href="https://packaging.python.org/pt_BR/latest/glossary/#term-Import-Package">Pacote de Distribuição</a> instalado, como seus pontos de entrada ou seus nomes de nível superior (<a class="reference external" href="https://packaging.python.org/pt_BR/latest/glossary/#term-Import-Package">Pacotes de Importação</a>, módulos, se houver). Construída em parte no sistema de importação do Python, esta biblioteca fornece as APIs de ponto de entrada e de metadados que eram anteriormente expostas pelo agora removido pacote <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code>. Junto com <a class="reference internal" href="importlib.resources.html#module-importlib.resources" title="importlib.resources: Package resource reading, opening, and access"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.resources</span></code></a>, agora substitui <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code>.</p>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> opera em <em>pacotes de distribuição</em> de terceiros instalados no diretório <code class="docutils literal notranslate"><span class="pre">site-packages</span></code> do Python através de ferramentas como <a class="extlink-pypi reference external" href="https://pypi.org/project/pip/">pip</a>. Especificamente, ele funciona com distribuições com diretórios <code class="docutils literal notranslate"><span class="pre">dist-info</span></code> ou <code class="docutils literal notranslate"><span class="pre">egg-info</span></code> detectáveis, e metadados definidos pelas <a class="reference external" href="https://packaging.python.org/pt_BR/latest/specifications/core-metadata/#core-metadata">Especificações de metadados principais</a>.</p>
+<div class="admonition important">
+<p class="admonition-title">Importante</p>
+<p class="translated">Eles <em>não</em> são necessariamente equivalentes ou correspondem 1:1 aos nomes de <em>pacotes de importação</em> de nível superior que podem ser importados dentro do código Python. Um <em>pacote de distribuição</em> pode conter vários <em>pacotes de importação</em> (e módulos únicos), e um <em>pacote de importação</em> de nível superior pode ser mapeado para vários <em>pacotes de distribuição</em> se for um pacote de espaço de nomes. Você pode usar <a class="reference internal" href="#package-distributions"><span class="std std-ref">packages_distributions()</span></a> para obter um mapeamento entre eles.</p>
+</div>
+<p class="translated">Por padrão, os metadados de distribuição podem residir no sistema de arquivos ou em arquivos zip em <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a>. Através de um mecanismo de extensão, os metadados podem residir em praticamente qualquer lugar.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<dl class="simple">
+<dt class="translated"><a class="reference external" href="https://importlib-metadata.readthedocs.io/">https://importlib-metadata.readthedocs.io/</a></dt><dd><p class="translated">A documentação para <code class="docutils literal notranslate"><span class="pre">importlib_metadata</span></code>, que fornece um backport de <code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code>. Isso inclui uma <a class="reference external" href="https://importlib-metadata.readthedocs.io/en/latest/api.html">referência de API</a> para as classes e funções deste módulo, bem como um <a class="reference external" href="https://importlib-metadata.readthedocs.io/en/latest/migration.html">guia de migração</a> para usuários existentes de <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code>.</p>
+</dd>
+</dl>
+</div>
+<section id="overview">
+<h2 class="translated">Visão Geral<a class="headerlink" href="#overview" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Digamos que você queira obter a string da versão de um <a class="reference external" href="https://packaging.python.org/pt_BR/latest/glossary/#term-Distribution-Package">Pacote de Distribuição</a> que você instalou usando <code class="docutils literal notranslate"><span class="pre">pip</span></code>. Começamos criando um ambiente virtual e instalando algo nele:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>exemplo
+<span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>exemplo/bin/activate
+<span class="gp gp-VirtualEnv">(exemplo)</span> <span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>wheel
+</pre></div>
+</div>
+<p class="translated">Você pode obter a string de versão para <code class="docutils literal notranslate"><span class="pre">wheel</span></code> executando o seguinte:</p>
+<div class="untranslated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">(example) $ python</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">importlib.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">version</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">version</span><span class="p">(</span><span class="s1">'wheel'</span><span class="p">)</span>
+<span class="go">'0.32.3'</span>
+</pre></div>
+</div>
+<p class="translated">Você também pode obter uma coleção de pontos de entrada selecionáveis pelas propriedades do EntryPoint (normalmente ‘group’ ou ‘name’), como <code class="docutils literal notranslate"><span class="pre">console_scripts</span></code>, <code class="docutils literal notranslate"><span class="pre">distutils.commands</span></code> e outros. Cada grupo contém uma coleção de objetos <a class="reference internal" href="#entry-points"><span class="std std-ref">EntryPoint</span></a>.</p>
+<p class="translated">Você pode obter os <a class="reference internal" href="#metadata"><span class="std std-ref">metadados para uma distribuição</span></a>:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">importlib.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">metadata</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">metadata</span><span class="p">(</span><span class="s1">'wheel'</span><span class="p">))</span>
+<span class="go">['Metadata-Version', 'Name', 'Version', 'Summary', 'Home-page', 'Author', 'Author-email', 'Maintainer', 'Maintainer-email', 'License', 'Project-URL', 'Project-URL', 'Project-URL', 'Keywords', 'Platform', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Requires-Python', 'Provides-Extra', 'Requires-Dist', 'Requires-Dist']</span>
+</pre></div>
+</div>
+<p class="translated">Você também pode obter uma <a class="reference internal" href="#version"><span class="std std-ref">número da versão da distribuição</span></a>, listar seus <a class="reference internal" href="#files"><span class="std std-ref">arquivos constituintes</span></a> e obter uma lista dos <a class="reference internal" href="#requirements"><span class="std std-ref">Requisitos de distribuição</span></a> da distribuição.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="importlib.metadata.PackageNotFoundError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">PackageNotFoundError</span></span><a class="headerlink" href="#importlib.metadata.PackageNotFoundError" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Subclasse de <a class="reference internal" href="../builtins/exceptions.html#ModuleNotFoundError" title="ModuleNotFoundError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModuleNotFoundError</span></code></a> levantada por diversas funções neste módulo quando consultada sobre um pacote de distribuição que não está instalado no ambiente Python atual.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="importlib.metadata.MetadataNotFound">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">MetadataNotFound</span></span><a class="headerlink" href="#importlib.metadata.MetadataNotFound" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Subclass of <a class="reference internal" href="../builtins/exceptions.html#FileNotFoundError" title="FileNotFoundError"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileNotFoundError</span></code></a> raised when attempting to load metadata
+from a distribution folder that is empty or otherwise does not contain a
+metadata file.</p>
+</dd></dl>
+
+</section>
+<section id="functional-api">
+<h2 class="translated">API funcional<a class="headerlink" href="#functional-api" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Este pacote fornece a seguinte funcionalidade por meio de sua API pública.</p>
+<section id="entry-points">
+<span id="id2"></span><h3 class="translated">Pontos de entrada<a class="headerlink" href="#entry-points" title="Link para este cabeçalho">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="importlib.metadata.entry_points">
+<span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">entry_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">select_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#importlib.metadata.entry_points" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma instância de <a class="reference internal" href="#importlib.metadata.EntryPoints" title="importlib.metadata.EntryPoints"><code class="xref py py-class docutils literal notranslate"><span class="pre">EntryPoints</span></code></a> descrevendo pontos de entrada para o ambiente atual. Quaisquer parâmetros nomeados fornecidos são passados para o método <code class="xref py py-meth docutils literal notranslate"><span class="pre">select()</span></code> para comparação com os atributos das definições de pontos de entrada individuais.</p>
+<p class="untranslated">Note: to query for entry points based on <code class="xref py py-attr docutils literal notranslate"><span class="pre">EntryPoint.dist</span></code> attribute,
+use <a class="reference internal" href="#importlib.metadata.Distribution.entry_points" title="importlib.metadata.Distribution.entry_points"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Distribution.entry_points()</span></code></a> instead (as different <a class="reference internal" href="#importlib.metadata.Distribution" title="importlib.metadata.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a>
+instances do not currently compare equal, even if they have the same attributes)</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="importlib.metadata.EntryPoints">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">EntryPoints</span></span><a class="headerlink" href="#importlib.metadata.EntryPoints" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Detalhes de uma coleção de pontos de entrada instalados.</p>
+<p class="translated">Também fornece um atributo <code class="docutils literal notranslate"><span class="pre">.groups</span></code> que relata todos os grupos de pontos de entrada identificados e um atributo <code class="docutils literal notranslate"><span class="pre">.names</span></code> que relata todos os nomes de pontos de entrada identificados.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="importlib.metadata.EntryPoint">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">EntryPoint</span></span><a class="headerlink" href="#importlib.metadata.EntryPoint" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Detalhes de um ponto de entrada instalado.</p>
+<p class="translated">Cada instância de <code class="xref py py-class docutils literal notranslate"><span class="pre">EntryPoint</span></code> tem os atributos <code class="docutils literal notranslate"><span class="pre">.name</span></code>, <code class="docutils literal notranslate"><span class="pre">.group</span></code> e <code class="docutils literal notranslate"><span class="pre">.value</span></code> e um método <code class="docutils literal notranslate"><span class="pre">.load()</span></code> para resolver o valor. Há também os atributos <code class="docutils literal notranslate"><span class="pre">.module</span></code>, <code class="docutils literal notranslate"><span class="pre">.attr</span></code> e <code class="docutils literal notranslate"><span class="pre">.extras</span></code> para obter os componentes do atributo <code class="docutils literal notranslate"><span class="pre">.value</span></code> e <code class="docutils literal notranslate"><span class="pre">.dist</span></code> para obter informações sobre o pacote de distribuição que fornece o ponto de entrada.</p>
+</dd></dl>
+
+<p class="translated">Consultar todos os pontos de entrada:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">eps</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="translated">A função <code class="xref py py-func docutils literal notranslate"><span class="pre">entry_points()</span></code> retorna um objeto <code class="xref py py-class docutils literal notranslate"><span class="pre">EntryPoints</span></code>, uma coleção de todos os objetos <code class="xref py py-class docutils literal notranslate"><span class="pre">EntryPoint</span></code> com atributos <code class="docutils literal notranslate"><span class="pre">names</span></code> e <code class="docutils literal notranslate"><span class="pre">groups</span></code> por conveniência:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">eps</span><span class="o">.</span><span class="n">groups</span><span class="p">)</span>
+<span class="go">['console_scripts', 'distutils.commands', 'distutils.setup_keywords', 'egg_info.writers', 'setuptools.installation']</span>
+</pre></div>
+</div>
+<p class="translated"><code class="xref py py-class docutils literal notranslate"><span class="pre">EntryPoints</span></code> possui um método <code class="xref py py-meth docutils literal notranslate"><span class="pre">select()</span></code> para selecionar pontos de entrada correspondendo a propriedades específicas. Selecione pontos de entrada no grupo <code class="docutils literal notranslate"><span class="pre">console_scripts</span></code>:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scripts</span> <span class="o">=</span> <span class="n">eps</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">'console_scripts'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Equivalentemente, já que <code class="xref py py-func docutils literal notranslate"><span class="pre">entry_points()</span></code> passa argumentos nomeados para a seleção:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scripts</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">'console_scripts'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Escolha um script específico chamado “wheel” (encontrado no projeto wheel):</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s1">'wheel'</span> <span class="ow">in</span> <span class="n">scripts</span><span class="o">.</span><span class="n">names</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wheel</span> <span class="o">=</span> <span class="n">scripts</span><span class="p">[</span><span class="s1">'wheel'</span><span class="p">]</span>
+</pre></div>
+</div>
+<p class="translated">De forma equivalente, consulte esse ponto de entrada durante a seleção:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">wheel</span><span class="p">,)</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">'console_scripts'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'wheel'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">wheel</span><span class="p">,)</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">()</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">'console_scripts'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'wheel'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Inspecione o ponto de entrada resolvido:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wheel</span>
+<span class="go">EntryPoint(name='wheel', value='wheel.cli:main', group='console_scripts')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wheel</span><span class="o">.</span><span class="n">module</span>
+<span class="go">'wheel.cli'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wheel</span><span class="o">.</span><span class="n">attr</span>
+<span class="go">'main'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wheel</span><span class="o">.</span><span class="n">extras</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">main</span> <span class="o">=</span> <span class="n">wheel</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">main</span>
+<span class="go">&lt;function main at 0x103528488&gt;</span>
+</pre></div>
+</div>
+<p class="translated">O <code class="docutils literal notranslate"><span class="pre">group</span></code> e <code class="docutils literal notranslate"><span class="pre">name</span></code> são valores arbitrários definidos pelo autor do pacote e normalmente um cliente desejará resolver todos os pontos de entrada para um grupo específico. Leia <a class="reference external" href="https://setuptools.pypa.io/en/latest/userguide/entry_point.html">a documentação do setuptools</a> para obter mais informações sobre pontos de entrada, sua definição e uso.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.12: </span>Os pontos de entrada “selecionáveis” foram introduzidos em <code class="docutils literal notranslate"><span class="pre">importlib_metadata</span></code> 3.6 e Python 3.10. Antes dessas mudanças, <code class="docutils literal notranslate"><span class="pre">entry_points</span></code> não aceitava parâmetros e sempre retornava um dicionário de pontos de entrada, chaveado por grupo. Com <code class="docutils literal notranslate"><span class="pre">importlib_metadata</span></code> 5.0 e Python 3.12, <code class="docutils literal notranslate"><span class="pre">entry_points</span></code> sempre retorna um objeto <code class="docutils literal notranslate"><span class="pre">EntryPoints</span></code>. Veja <a class="extlink-pypi reference external" href="https://pypi.org/project/backports.entry_points_selectable/">backports.entry_points_selectable</a> para opções de compatibilidade.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>Objetos <code class="docutils literal notranslate"><span class="pre">EntryPoint</span></code> não apresentam mais uma interface tupla ou similar (<a class="reference internal" href="../reference/datamodel.html#object.__getitem__" title="object.__getitem__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code></a>).</p>
+</div>
+</section>
+<section id="distribution-metadata">
+<span id="metadata"></span><h3 class="translated">Metadados de distribuição<a class="headerlink" href="#distribution-metadata" title="Link para este cabeçalho">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="importlib.metadata.metadata">
+<span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distribution_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#importlib.metadata.metadata" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna os metadados de distribuição correspondentes ao pacote de distribuição nomeado como uma instância de <a class="reference internal" href="#importlib.metadata.PackageMetadata" title="importlib.metadata.PackageMetadata"><code class="xref py py-class docutils literal notranslate"><span class="pre">PackageMetadata</span></code></a>.</p>
+<p class="translated">Levanta <a class="reference internal" href="#importlib.metadata.PackageNotFoundError" title="importlib.metadata.PackageNotFoundError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">PackageNotFoundError</span></code></a> se o pacote de distribuição nomeado não estiver instalado no ambiente Python atual.</p>
+<p class="untranslated">Raises <a class="reference internal" href="#importlib.metadata.MetadataNotFound" title="importlib.metadata.MetadataNotFound"><code class="xref py py-exc docutils literal notranslate"><span class="pre">MetadataNotFound</span></code></a> if a distribution package is
+present but no METADATA file is present.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="importlib.metadata.PackageMetadata">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">PackageMetadata</span></span><a class="headerlink" href="#importlib.metadata.PackageMetadata" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma implementação concreta do <a class="reference external" href="https://importlib-metadata.readthedocs.io/en/latest/api.html#importlib_metadata.PackageMetadata">protocolo PackageMetadata</a>.</p>
+<p class="translated">Além de fornecer os métodos e atributos de protocolo definidos, subscrever a instância é equivalente a chamar o método <code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code>.</p>
+</dd></dl>
+
+<p class="translated">Cada <a class="reference external" href="https://packaging.python.org/pt_BR/latest/glossary/#term-Distribution-Package">Pacote de Distribuição</a> inclui alguns metadados, que você pode extrair usando a função <code class="xref py py-func docutils literal notranslate"><span class="pre">metadata()</span></code>:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wheel_metadata</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">(</span><span class="s1">'wheel'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">As chaves da estrutura de dados retornada nomeiam as palavras reservadas dos metadados, e os valores são retornados sem análise dos metadados de distribuição:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wheel_metadata</span><span class="p">[</span><span class="s1">'Requires-Python'</span><span class="p">]</span>
+<span class="go">'&gt;=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*'</span>
+</pre></div>
+</div>
+<p class="translated"><a class="reference internal" href="#importlib.metadata.PackageMetadata" title="importlib.metadata.PackageMetadata"><code class="xref py py-class docutils literal notranslate"><span class="pre">PackageMetadata</span></code></a> também apresenta um atributo <code class="xref py py-attr docutils literal notranslate"><span class="pre">json</span></code> que retorna todos os metadados em um formato compatível com JSON pela <span class="target" id="index-3"></span><a class="pep reference external" href="https://peps.python.org/pep-0566/"><strong>PEP 566</strong></a>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wheel_metadata</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">'requires_python'</span><span class="p">]</span>
+<span class="go">'&gt;=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*'</span>
+</pre></div>
+</div>
+<p class="translated">O conjunto completo de metadados disponíveis não é descrito aqui. Consulte a <a class="reference external" href="https://packaging.python.org/pt_BR/latest/specifications/core-metadata/#core-metadata">especificação de metadados principais do PyPA</a> para obter detalhes adicionais.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.15: </span>Previously and incidentally, if a METADATA file was missing from a distribution, an
+empty <code class="docutils literal notranslate"><span class="pre">PackageMetadata</span></code> would be returned, indistinguishable from
+an empty METADATA file. Now, a missing METADATA file triggers a
+<code class="docutils literal notranslate"><span class="pre">MetadataNotFound</span></code> exception.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.10: </span>A <code class="docutils literal notranslate"><span class="pre">Description</span></code> agora é incluída nos metadados quando apresentada através do payload. Os caracteres de continuação de linha foram removidos.</p>
+<p class="translated">O atributo <code class="docutils literal notranslate"><span class="pre">json</span></code> foi adicionado.</p>
+</div>
+</section>
+<section id="distribution-versions">
+<span id="version"></span><h3 class="translated">Versões de distribuição<a class="headerlink" href="#distribution-versions" title="Link para este cabeçalho">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="importlib.metadata.version">
+<span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distribution_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#importlib.metadata.version" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna a <a class="reference external" href="https://packaging.python.org/pt-br/latest/specifications/core-metadata/#version">versão</a> do pacote de distribuição instalado para o pacote de distribuição nomeado.</p>
+<p class="translated">Levanta <a class="reference internal" href="#importlib.metadata.PackageNotFoundError" title="importlib.metadata.PackageNotFoundError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">PackageNotFoundError</span></code></a> se o pacote de distribuição nomeado não estiver instalado no ambiente Python atual.</p>
+</dd></dl>
+
+<p class="translated">A função <code class="xref py py-func docutils literal notranslate"><span class="pre">version()</span></code> é a maneira mais rápida de obter o número de versão de um <a class="reference external" href="https://packaging.python.org/pt_BR/latest/glossary/#term-Distribution-Package">Pacote de Distribuição</a>, como uma string:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">version</span><span class="p">(</span><span class="s1">'wheel'</span><span class="p">)</span>
+<span class="go">'0.32.3'</span>
+</pre></div>
+</div>
+</section>
+<section id="distribution-files">
+<span id="files"></span><h3 class="translated">Arquivos de distribuição<a class="headerlink" href="#distribution-files" title="Link para este cabeçalho">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="importlib.metadata.files">
+<span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distribution_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#importlib.metadata.files" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Return the full set of files contained within the named
+distribution package as <a class="reference internal" href="#importlib.metadata.PackagePath" title="importlib.metadata.PackagePath"><code class="xref py py-class docutils literal notranslate"><span class="pre">PackagePath</span></code></a> instances.</p>
+<p class="translated">Levanta <a class="reference internal" href="#importlib.metadata.PackageNotFoundError" title="importlib.metadata.PackageNotFoundError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">PackageNotFoundError</span></code></a> se o pacote de distribuição nomeado não estiver instalado no ambiente Python atual.</p>
+<p class="translated">Retorna <a class="reference internal" href="../builtins/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a> se a distribuição for encontrada, mas os registros do banco de dados de instalação que relatam os arquivos associados ao pacote de distribuição estiverem ausentes.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="importlib.metadata.PackagePath">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">PackagePath</span></span><a class="headerlink" href="#importlib.metadata.PackagePath" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">A <a class="reference internal" href="pathlib.html#pathlib.PurePath" title="pathlib.PurePath"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.PurePath</span></code></a> derived object with additional <code class="docutils literal notranslate"><span class="pre">dist</span></code>,
+<code class="docutils literal notranslate"><span class="pre">size</span></code>, and <code class="docutils literal notranslate"><span class="pre">hash</span></code> properties corresponding to the distribution
+package’s installation metadata for that file, also:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="importlib.metadata.PackagePath.locate">
+<span class="sig-name descname"><span class="pre">locate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#importlib.metadata.PackagePath.locate" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">If possible, return the concrete <a class="reference internal" href="#importlib.metadata.SimplePath" title="importlib.metadata.SimplePath"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimplePath</span></code></a> allowing to access data,
+or raise a <a class="reference internal" href="../builtins/exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a> otherwise.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="importlib.metadata.SimplePath">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">SimplePath</span></span><a class="headerlink" href="#importlib.metadata.SimplePath" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">A protocol representing a minimal subset of <a class="reference internal" href="pathlib.html#pathlib.Path" title="pathlib.Path"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a> that allows to
+check if it <code class="docutils literal notranslate"><span class="pre">exists()</span></code>, to traverse using <code class="docutils literal notranslate"><span class="pre">joinpath()</span></code> and <code class="docutils literal notranslate"><span class="pre">parent</span></code>,
+and to retrieve data using <code class="docutils literal notranslate"><span class="pre">read_text()</span></code> and <code class="docutils literal notranslate"><span class="pre">read_bytes()</span></code>.</p>
+</dd></dl>
+
+<p class="untranslated">The <code class="xref py py-func docutils literal notranslate"><span class="pre">files()</span></code> function takes a
+<a class="reference external" href="https://packaging.python.org/en/latest/glossary/#term-Distribution-Package">Distribution Package</a>
+name and returns all of the files installed by this distribution. For example:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">util</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">files</span><span class="p">(</span><span class="s1">'wheel'</span><span class="p">)</span> <span class="k">if</span> <span class="s1">'util.py'</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">util</span>
+<span class="go">PackagePath('wheel/util.py')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">util</span><span class="o">.</span><span class="n">size</span>
+<span class="go">859</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">util</span><span class="o">.</span><span class="n">dist</span>
+<span class="go">&lt;importlib.metadata._hooks.PathDistribution object at 0x101e0cef0&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">util</span><span class="o">.</span><span class="n">hash</span>
+<span class="go">&lt;FileHash mode: sha256 value: bYkw5oMccfazVCoYQwKkkemoVyMAFoR34mmKBx8R1NI&gt;</span>
+</pre></div>
+</div>
+<p class="translated">Uma vez que tenha o arquivo, você também pode ler seu conteúdo:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+<span class="go">import base64</span>
+<span class="go">import sys</span>
+<span class="go">...</span>
+<span class="go">def as_bytes(s):</span>
+<span class="go">    if isinstance(s, text_type):</span>
+<span class="go">        return s.encode('utf-8')</span>
+<span class="go">    return s</span>
+</pre></div>
+</div>
+<p class="translated">Você também pode usar o método <code class="xref py py-meth docutils literal notranslate"><span class="pre">locate()</span></code> para obter o caminho absoluto para o arquivo:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">util</span><span class="o">.</span><span class="n">locate</span><span class="p">()</span>
+<span class="go">PosixPath('/home/gustav/example/lib/site-packages/wheel/util.py')</span>
+</pre></div>
+</div>
+<p class="translated">No caso em que o arquivo de metadados que lista os arquivos (<code class="docutils literal notranslate"><span class="pre">RECORD</span></code> ou <code class="docutils literal notranslate"><span class="pre">SOURCES.txt</span></code>) estiver faltando, <code class="xref py py-func docutils literal notranslate"><span class="pre">files()</span></code> retornará <a class="reference internal" href="../builtins/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>. O chamador pode querer agrupar chamadas para <code class="xref py py-func docutils literal notranslate"><span class="pre">files()</span></code> em <a class="reference external" href="https://more-itertools.readthedocs.io/en/stable/api.html#more_itertools.always_iterable">always_iterable</a> ou de outra forma se proteger contra isso condição se a distribuição de destino não for conhecida por ter os metadados presentes.</p>
+</section>
+<section id="distribution-requirements">
+<span id="requirements"></span><h3 class="translated">Requisitos de distribuição<a class="headerlink" href="#distribution-requirements" title="Link para este cabeçalho">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="importlib.metadata.requires">
+<span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">requires</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distribution_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#importlib.metadata.requires" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna os especificadores de dependência declarados para o pacote de distribuição nomeado.</p>
+<p class="translated">Levanta <a class="reference internal" href="#importlib.metadata.PackageNotFoundError" title="importlib.metadata.PackageNotFoundError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">PackageNotFoundError</span></code></a> se o pacote de distribuição nomeado não estiver instalado no ambiente Python atual.</p>
+</dd></dl>
+
+<p class="translated">Para obter o conjunto completo de requisitos para um <a class="reference external" href="https://packaging.python.org/pt_BR/latest/glossary/#term-Distribution-Package">Pacote de Distribuição</a>, use a função <code class="xref py py-func docutils literal notranslate"><span class="pre">requires()</span></code>:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">requires</span><span class="p">(</span><span class="s1">'wheel'</span><span class="p">)</span>
+<span class="go">["pytest (&gt;=3.0.0) ; extra == 'test'", "pytest-cov ; extra == 'test'"]</span>
+</pre></div>
+</div>
+</section>
+<section id="mapping-import-to-distribution-packages">
+<span id="import-distribution-package-mapping"></span><span id="package-distributions"></span><h3 class="translated">Mapeando importação pra pacotes de distribuição<a class="headerlink" href="#mapping-import-to-distribution-packages" title="Link para este cabeçalho">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="importlib.metadata.packages_distributions">
+<span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">packages_distributions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#importlib.metadata.packages_distributions" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um mapeamento do módulo de nível superior e importa os nomes dos pacotes encontrados via <a class="reference internal" href="sys.html#sys.meta_path" title="sys.meta_path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.meta_path</span></code></a> para os nomes dos pacotes de distribuição (se houver) que fornecem os arquivos correspondentes.</p>
+<p class="translated">Para permitir pacotes de espaço de nomes (que podem ter membros fornecidos por vários pacotes de distribuição), cada nome de importação de nível superior é mapeado para uma lista de nomes de distribuição em vez de mapear diretamente para um único nome.</p>
+</dd></dl>
+
+<p class="translated">Um método conveniente para resolver o nome do <a class="reference external" href="https://packaging.python.org/pt_BR/latest/glossary/#term-Distribution-Package">Pacote de Distribuição</a> (ou nomes, no caso de um pacote de espaço de nomes) que fornece cada módulo Python de nível superior importável ou <a class="reference external" href="https://packaging.python.org/pt_BR/latest/glossary/#term-Import-Package">Pacote de Importação</a>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">packages_distributions</span><span class="p">()</span>
+<span class="go">{'importlib_metadata': ['importlib-metadata'], 'yaml': ['PyYAML'], 'jaraco': ['jaraco.classes', 'jaraco.functools'], ...}</span>
+</pre></div>
+</div>
+<p class="translated">Algumas instalações editáveis <a class="reference external" href="https://github.com/pypa/packaging-problems/issues/609">não fornecem nomes de nível superior</a> e, portanto, esta função não é confiável com tais instalações.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.10.</span></p>
+</div>
+</section>
+</section>
+<section id="distributions">
+<span id="id9"></span><h2 class="translated">Distribuições<a class="headerlink" href="#distributions" title="Link para este cabeçalho">¶</a></h2>
+<p class="untranslated">While the module level API described above is the most common and convenient usage,
+all that information is accessible from the <a class="reference internal" href="#importlib.metadata.Distribution" title="importlib.metadata.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> class.
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code> is an abstract object that represents the metadata for
+a Python <a class="reference external" href="https://packaging.python.org/en/latest/glossary/#term-Distribution-Package">Distribution Package</a>.
+Get the concrete <code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code> subclass instance for an installed
+distribution package by calling the <a class="reference internal" href="#importlib.metadata.distribution" title="importlib.metadata.distribution"><code class="xref py py-func docutils literal notranslate"><span class="pre">distribution()</span></code></a> function:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">importlib.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">distribution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dist</span> <span class="o">=</span> <span class="n">distribution</span><span class="p">(</span><span class="s1">'wheel'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+<span class="go">&lt;class 'importlib.metadata.PathDistribution'&gt;</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="importlib.metadata.distribution">
+<span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distribution_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#importlib.metadata.distribution" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma instância de <a class="reference internal" href="#importlib.metadata.Distribution" title="importlib.metadata.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> descrevendo o pacote de distribuição nomeado.</p>
+<p class="translated">Levanta <a class="reference internal" href="#importlib.metadata.PackageNotFoundError" title="importlib.metadata.PackageNotFoundError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">PackageNotFoundError</span></code></a> se o pacote de distribuição nomeado não estiver instalado no ambiente Python atual.</p>
+</dd></dl>
+
+<p class="untranslated">Thus, an alternative way to get e.g. the version number is through the
+<a class="reference internal" href="#importlib.metadata.Distribution.version" title="importlib.metadata.Distribution.version"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Distribution.version</span></code></a> attribute:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dist</span><span class="o">.</span><span class="n">version</span>
+<span class="go">'0.32.3'</span>
+</pre></div>
+</div>
+<p class="untranslated">The same applies for <a class="reference internal" href="#importlib.metadata.entry_points" title="importlib.metadata.entry_points"><code class="xref py py-func docutils literal notranslate"><span class="pre">entry_points()</span></code></a> and <a class="reference internal" href="#importlib.metadata.files" title="importlib.metadata.files"><code class="xref py py-func docutils literal notranslate"><span class="pre">files()</span></code></a>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="importlib.metadata.Distribution">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">Distribution</span></span><a class="headerlink" href="#importlib.metadata.Distribution" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Detalhes de um pacote de distribuição instalado.</p>
+<p class="translated">Observação: instâncias diferentes de <code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code> não são atualmente consideradas iguais em uma comparação, mesmo que estejam relacionadas à mesma distribuição instalada e, portanto, tenham os mesmos atributos.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="importlib.metadata.Distribution.at">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#importlib.metadata.Distribution.at" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="importlib.metadata.Distribution.from_name">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#importlib.metadata.Distribution.from_name" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Return a <code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code> instance at the given path or
+with the given name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="importlib.metadata.Distribution.discover">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">discover</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#importlib.metadata.Distribution.discover" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Returns an iterable of <code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code> instances for all packages
+(see <a class="reference internal" href="#distribution-discovery">distribution-discovery</a>).</p>
+<p class="untranslated">The optional argument <em>context</em> is a <a class="reference internal" href="#importlib.metadata.DistributionFinder.Context" title="importlib.metadata.DistributionFinder.Context"><code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionFinder.Context</span></code></a>
+instance, used to modify the search for distributions. Alternatively,
+<em>kwargs</em> may contain keyword arguments for constructing a new
+<code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionFinder.Context</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="importlib.metadata.Distribution.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#importlib.metadata.PackageMetadata" title="importlib.metadata.PackageMetadata"><span class="pre">PackageMetadata</span></a></em><a class="headerlink" href="#importlib.metadata.Distribution.metadata" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Raises <a class="reference internal" href="#importlib.metadata.MetadataNotFound" title="importlib.metadata.MetadataNotFound"><code class="xref py py-exc docutils literal notranslate"><span class="pre">MetadataNotFound</span></code></a> if the METADATA file is not present in
+the distribution.</p>
+<p class="untranslated">There are all kinds of additional metadata available on <code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code>
+instances as a <a class="reference internal" href="#importlib.metadata.PackageMetadata" title="importlib.metadata.PackageMetadata"><code class="xref py py-class docutils literal notranslate"><span class="pre">PackageMetadata</span></code></a> instance:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dist</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">'Requires-Python'</span><span class="p">]</span>
+<span class="go">'&gt;=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dist</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">'License'</span><span class="p">]</span>
+<span class="go">'MIT'</span>
+</pre></div>
+</div>
+<p class="translated">O conjunto completo de metadados disponíveis não é descrito aqui. Consulte a <a class="reference external" href="https://packaging.python.org/pt_BR/latest/specifications/core-metadata/#core-metadata">especificação de metadados principais do PyPA</a> para obter detalhes adicionais.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="importlib.metadata.Distribution.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><span class="pre">str</span></a></em><a class="headerlink" href="#importlib.metadata.Distribution.name" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="importlib.metadata.Distribution.requires">
+<span class="sig-name descname"><span class="pre">requires</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../builtins/stdtypes.html#list" title="list"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#importlib.metadata.Distribution.requires" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="importlib.metadata.Distribution.version">
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><span class="pre">str</span></a></em><a class="headerlink" href="#importlib.metadata.Distribution.version" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">A few metadata fields are also available as shortcut properties.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.10: </span>The <code class="docutils literal notranslate"><span class="pre">name</span></code> shortcut was added.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="importlib.metadata.Distribution.origin">
+<span class="sig-name descname"><span class="pre">origin</span></span><a class="headerlink" href="#importlib.metadata.Distribution.origin" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">For editable packages, an <code class="docutils literal notranslate"><span class="pre">origin</span></code> property may present <span class="target" id="index-1"></span><a class="pep reference external" href="https://peps.python.org/pep-0610/"><strong>PEP 610</strong></a>
+metadata (for non-editable packages, <code class="docutils literal notranslate"><span class="pre">origin</span></code> is <a class="reference internal" href="../builtins/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>):</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dist</span><span class="o">.</span><span class="n">origin</span><span class="o">.</span><span class="n">url</span>
+<span class="go">'file:///caminho/para/wheel-0.32.3.editable-py3-none-any.whl'</span>
+</pre></div>
+</div>
+<p class="untranslated">The <code class="docutils literal notranslate"><span class="pre">origin</span></code> object follows the <a class="reference external" href="https://packaging.python.org/en/latest/specifications/direct-url-data-structure/">Direct URL Data Structure</a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.13.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="importlib.metadata.Distribution.entry_points">
+<span class="sig-name descname"><span class="pre">entry_points</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#importlib.metadata.EntryPoints" title="importlib.metadata.EntryPoints"><span class="pre">EntryPoints</span></a></em><a class="headerlink" href="#importlib.metadata.Distribution.entry_points" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">The entry points provided by this distribution package.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="importlib.metadata.Distribution.files">
+<span class="sig-name descname"><span class="pre">files</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../builtins/stdtypes.html#list" title="list"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#importlib.metadata.PackagePath" title="importlib.metadata.PackagePath"><span class="pre">PackagePath</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../builtins/constants.html#None" title="None"><span class="pre">None</span></a></em><a class="headerlink" href="#importlib.metadata.Distribution.files" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">All files contained in this distribution package.
+Like <a class="reference internal" href="#importlib.metadata.files" title="importlib.metadata.files"><code class="xref py py-func docutils literal notranslate"><span class="pre">files()</span></code></a>, this returns <a class="reference internal" href="../builtins/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a> if there are no records.</p>
+</dd></dl>
+
+<p class="untranslated">The following two abstract methods need to be implemented when <a class="reference internal" href="#implementing-custom-providers">implementing-custom-providers</a>:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="importlib.metadata.Distribution.locate_file">
+<span class="sig-name descname"><span class="pre">locate_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#importlib.metadata.Distribution.locate_file" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Like <code class="xref py py-meth docutils literal notranslate"><span class="pre">PackagePath.locate()</span></code>, return a <a class="reference internal" href="#importlib.metadata.SimplePath" title="importlib.metadata.SimplePath"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimplePath</span></code></a> for the given path.
+Takes a <a class="reference internal" href="os.html#os.PathLike" title="os.PathLike"><code class="xref py py-class docutils literal notranslate"><span class="pre">os.PathLike</span></code></a> or a <a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="importlib.metadata.Distribution.read_text">
+<span class="sig-name descname"><span class="pre">read_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#importlib.metadata.Distribution.read_text" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">A shortcut for <code class="docutils literal notranslate"><span class="pre">distribution.locate_file(filename).read_text()</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="distribution-discovery">
+<span id="id12"></span><h2 class="translated">Descoberta de distribuição<a class="headerlink" href="#distribution-discovery" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Por padrão, este pacote fornece suporte embutido para descoberta de metadados para sistema de arquivos e arquivo zip <a class="reference external" href="https://packaging.python.org/pt_BR/latest/glossary/#term-Distribution-Package">Pacotes de Distribuição</a>. Esta pesquisa do localizador de metadados tem como padrão <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>, mas varia um pouco na maneira como ela interpreta esses valores em relação a outras mecanismo de importação. Em particular:</p>
+<ul class="simple">
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> não honra objetos <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> em <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>.</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> irá incidentalmente honrar objetos <a class="reference internal" href="pathlib.html#pathlib.Path" title="pathlib.Path"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a> em <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> mesmo que tais valores sejam ignorados para importações.</p></li>
+</ul>
+<dl class="py class">
+<dt class="sig sig-object py" id="importlib.metadata.DistributionFinder">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">DistributionFinder</span></span><a class="headerlink" href="#importlib.metadata.DistributionFinder" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">A <a class="reference internal" href="importlib.html#importlib.abc.MetaPathFinder" title="importlib.abc.MetaPathFinder"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetaPathFinder</span></code></a> subclass capable of discovering
+installed distributions.</p>
+<p class="untranslated">Custom providers should implement this interface in order to
+supply metadata.</p>
+<blockquote>
+<div><dl class="py class">
+<dt class="sig sig-object py" id="importlib.metadata.DistributionFinder.Context">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#importlib.metadata.DistributionFinder.Context" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">A <code class="xref py py-class docutils literal notranslate"><span class="pre">Context</span></code> gives a custom provider a means to
+solicit additional details from the callers of distribution discovery
+functions like <a class="reference internal" href="#importlib.metadata.distributions" title="importlib.metadata.distributions"><code class="xref py py-func docutils literal notranslate"><span class="pre">distributions()</span></code></a> or <a class="reference internal" href="#importlib.metadata.Distribution.discover" title="importlib.metadata.Distribution.discover"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Distribution.discover()</span></code></a>
+beyond <code class="xref py py-attr docutils literal notranslate"><span class="pre">.name</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">.path</span></code> when searching
+for distributions.</p>
+<p class="untranslated">For example, a provider could expose suites of packages in either a
+“public” or “private” <code class="docutils literal notranslate"><span class="pre">realm</span></code>. A caller of distribution discovery
+functions may wish to query only for distributions in a particular realm
+and could call <code class="docutils literal notranslate"><span class="pre">distributions(realm=&quot;private&quot;)</span></code> to signal to the
+custom provider to only include distributions from that
+realm.</p>
+<p class="untranslated">Each <code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionFinder</span></code> must expect any parameters and should
+attempt to honor the canonical parameters defined below when
+appropriate.</p>
+<p class="untranslated">See the section on <a class="reference internal" href="#implementing-custom-providers"><span class="std std-ref">Implementando provedores personalizados</span></a> for more details.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="importlib.metadata.DistributionFinder.Context.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#importlib.metadata.DistributionFinder.Context.name" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Specific name for which a distribution finder should match.</p>
+<p class="untranslated">A <code class="xref py py-attr docutils literal notranslate"><span class="pre">.name</span></code> of <code class="docutils literal notranslate"><span class="pre">None</span></code> matches all distributions.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="importlib.metadata.DistributionFinder.Context.path">
+<span class="sig-name descname"><span class="pre">path</span></span><a class="headerlink" href="#importlib.metadata.DistributionFinder.Context.path" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">A property providing the sequence of directory paths that a
+distribution finder should search.</p>
+<p class="untranslated">Typically refers to Python installed package paths such as
+“site-packages” directories and defaults to <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sys.path</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="importlib.metadata.distributions">
+<span class="sig-prename descclassname"><span class="pre">importlib.metadata.</span></span><span class="sig-name descname"><span class="pre">distributions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#importlib.metadata.distributions" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Returns an iterable of <a class="reference internal" href="#importlib.metadata.Distribution" title="importlib.metadata.Distribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code></a> instances for all packages.</p>
+<p class="untranslated">The <em>kwargs</em> argument may contain either a keyword argument <code class="docutils literal notranslate"><span class="pre">context</span></code>, a
+<a class="reference internal" href="#importlib.metadata.DistributionFinder.Context" title="importlib.metadata.DistributionFinder.Context"><code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionFinder.Context</span></code></a> instance, or pass keyword arguments for
+constructing a new <code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionFinder.Context</span></code>. The
+<code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionFinder.Context</span></code> is used to modify the search for
+distributions.</p>
+</dd></dl>
+
+</section>
+<section id="implementing-custom-providers">
+<span id="id14"></span><h2 class="translated">Implementando provedores personalizados<a class="headerlink" href="#implementing-custom-providers" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> aborda duas superfícies de API, uma para <em>consumidores</em> e outra para <em>provedores</em>. A maioria dos usuários são consumidores, consumindo metadados fornecidos pelos pacotes. Existem outros casos de uso, no entanto, em que os usuários desejam expor metadados por meio de algum outro mecanismo, como junto com um importador personalizado. Esse caso de uso exige um <em>provedor personalizado</em>.</p>
+<p class="translated">Como os metadados de <a class="reference external" href="https://packaging.python.org/pt_BR/latest/glossary/#term-Distribution-Package">Pacote de Distribuição</a> não estão disponíveis por meio de pesquisas a <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a> ou carregadores de pacotes diretamente, os metadados de uma distribuição são encontrados através de <a class="reference internal" href="../reference/import.html#finders-and-loaders"><span class="std std-ref">localizadores</span></a> do sistema de importação. Para encontrar os metadados de um pacote de distribuição, <code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> consulta a lista de <a class="reference internal" href="../glossary.html#term-meta-path-finder"><span class="xref std std-term">localizadores de metacaminho</span></a> em <a class="reference internal" href="sys.html#sys.meta_path" title="sys.meta_path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.meta_path</span></code></a>.</p>
+<p class="translated">A implementação possui ganchos integrados ao <code class="docutils literal notranslate"><span class="pre">PathFinder</span></code>, servindo metadados para pacotes de distribuição encontrados no sistema de arquivos.</p>
+<p class="untranslated">The abstract class <a class="reference internal" href="importlib.html#importlib.abc.MetaPathFinder" title="importlib.abc.MetaPathFinder"><code class="xref py py-class docutils literal notranslate"><span class="pre">importlib.abc.MetaPathFinder</span></code></a> defines the
+interface expected of finders by Python’s import system.
+<code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> extends this protocol by looking for an optional
+<code class="docutils literal notranslate"><span class="pre">find_distributions</span></code> callable on the finders from
+<a class="reference internal" href="sys.html#sys.meta_path" title="sys.meta_path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.meta_path</span></code></a> and presents this extended interface as the
+<a class="reference internal" href="#importlib.metadata.DistributionFinder" title="importlib.metadata.DistributionFinder"><code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionFinder</span></code></a> abstract base class, which defines this abstract
+method:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_distributions</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="n">DistributionFinder</span><span class="o">.</span><span class="n">Context</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Distribution</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return an iterable of all Distribution instances capable of</span>
+<span class="sd">    loading the metadata for packages for the indicated ``context``.</span>
+<span class="sd">    """</span>
+</pre></div>
+</div>
+<p class="untranslated">The <a class="reference internal" href="#importlib.metadata.DistributionFinder.Context" title="importlib.metadata.DistributionFinder.Context"><code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionFinder.Context</span></code></a> object provides
+<a class="reference internal" href="#importlib.metadata.DistributionFinder.Context.path" title="importlib.metadata.DistributionFinder.Context.path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">path</span></code></a> and
+<a class="reference internal" href="#importlib.metadata.DistributionFinder.Context.name" title="importlib.metadata.DistributionFinder.Context.name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code></a> properties indicating the path to
+search and name to match and may supply other relevant context sought by the
+consumer.</p>
+<p class="untranslated">In practice, to support finding distribution package
+metadata in locations other than the file system, subclass
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code> and implement the abstract methods. Then from
+a custom finder, return instances of this derived <code class="xref py py-class docutils literal notranslate"><span class="pre">Distribution</span></code> in the
+<code class="docutils literal notranslate"><span class="pre">find_distributions()</span></code> method.</p>
+<section id="example">
+<h3 class="translated">Exemplo<a class="headerlink" href="#example" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Imagine um localizador personalizado que carrega módulos Python de um banco de dados:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">DatabaseImporter</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">MetaPathFinder</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullname</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModuleSpec</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">spec_from_name</span><span class="p">(</span><span class="n">fullname</span><span class="p">)</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">meta_path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DatabaseImporter</span><span class="p">(</span><span class="n">connect_db</span><span class="p">(</span><span class="o">...</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p class="untranslated">That importer now presumably provides importable modules from a
+database, but it provides no metadata or entry points. For this
+custom importer to provide metadata, it would also need to implement
+<a class="reference internal" href="#importlib.metadata.DistributionFinder" title="importlib.metadata.DistributionFinder"><code class="xref py py-class docutils literal notranslate"><span class="pre">DistributionFinder</span></code></a>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">importlib.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributionFinder</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">DatabaseImporter</span><span class="p">(</span><span class="n">DistributionFinder</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_distributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">DistributionFinder</span><span class="o">.</span><span class="n">Context</span><span class="p">()):</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">name</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">dist_record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query_distributions</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">DatabaseDistribution</span><span class="p">(</span><span class="n">dist_record</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Desta forma, <code class="docutils literal notranslate"><span class="pre">query_distributions</span></code> retornaria registros para cada distribuição servida pelo banco de dados correspondente à consulta. Por exemplo, se <code class="docutils literal notranslate"><span class="pre">requests-1.0</span></code> estiver no banco de dados, <code class="docutils literal notranslate"><span class="pre">find_distributions</span></code> produziria um <code class="docutils literal notranslate"><span class="pre">DatabaseDistribution</span></code> para <code class="docutils literal notranslate"><span class="pre">Context(name='requests')</span></code> ou <code class="docutils literal notranslate"><span class="pre">Context(name=None)</span></code>.</p>
+<p class="translated">Por uma questão de simplicidade, este exemplo ignora <code class="docutils literal notranslate"><span class="pre">context.path</span></code>. O atributo <code class="docutils literal notranslate"><span class="pre">path</span></code> tem como padrão <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> e é o conjunto de caminhos de importação a serem considerados na pesquisa. Um <code class="docutils literal notranslate"><span class="pre">DatabaseImporter</span></code> poderia funcionar potencialmente sem qualquer preocupação com um caminho de pesquisa. Supondo que o importador não faça particionamento, o caminho “path” seria irrelevante. Para ilustrar o propósito de <code class="docutils literal notranslate"><span class="pre">path</span></code>, o exemplo precisaria ilustrar um <code class="docutils literal notranslate"><span class="pre">DatabaseImporter</span></code> mais complexo cujo comportamento variasse dependendo de <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>/<code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code>. Nesse caso, <code class="docutils literal notranslate"><span class="pre">find_distributions</span></code> deve respeitar o <code class="docutils literal notranslate"><span class="pre">context.path</span></code> e produzir apenas <code class="docutils literal notranslate"><span class="pre">Distribution</span></code>s pertinentes a esse caminho.</p>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">DatabaseDistribution</span></code>, então, se pareceria com algo como:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">DatabaseDistribution</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">Distribution</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">record</span> <span class="o">=</span> <span class="n">record</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Lê um arquivo como "METADATA" para a atual distribuição.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">"METADATA"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">"""Name: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">name</span><span class="si">}</span>
+<span class="s2">Version: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">version</span><span class="si">}</span>
+<span class="s2">"""</span>
+        <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">"entry_points.txt"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+              <span class="sa">f</span><span class="s2">"""[</span><span class="si">{</span><span class="n">ep</span><span class="o">.</span><span class="n">group</span><span class="si">}</span><span class="s2">]</span><span class="se">\n</span><span class="si">{</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">ep</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">"""</span>
+              <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">entry_points</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">locate_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"This distribution has no file system"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Esta implementação básica deve fornecer metadados e pontos de entrada para pacotes servidos pelo <code class="docutils literal notranslate"><span class="pre">DatabaseImporter</span></code>, presumindo que o <code class="docutils literal notranslate"><span class="pre">record</span></code> forneça os atributos <code class="docutils literal notranslate"><span class="pre">.name</span></code>, <code class="docutils literal notranslate"><span class="pre">.version</span></code> e <code class="docutils literal notranslate"><span class="pre">.entry_points</span></code> adequados.</p>
+<p class="untranslated">The <code class="docutils literal notranslate"><span class="pre">DatabaseDistribution</span></code> may also provide other metadata files, like
+<code class="docutils literal notranslate"><span class="pre">RECORD</span></code> (required for <code class="xref py py-attr docutils literal notranslate"><span class="pre">Distribution.files</span></code>) or override the
+implementation of <code class="xref py py-attr docutils literal notranslate"><span class="pre">Distribution.files</span></code>. See the source for more inspiration.</p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.metadata</span></code> – Acessando metadados do pacote</a><ul>
+<li><a class="reference internal" href="#overview">Visão Geral</a></li>
+<li><a class="reference internal" href="#functional-api">API funcional</a><ul>
+<li><a class="reference internal" href="#entry-points">Pontos de entrada</a></li>
+<li><a class="reference internal" href="#distribution-metadata">Metadados de distribuição</a></li>
+<li><a class="reference internal" href="#distribution-versions">Versões de distribuição</a></li>
+<li><a class="reference internal" href="#distribution-files">Arquivos de distribuição</a></li>
+<li><a class="reference internal" href="#distribution-requirements">Requisitos de distribuição</a></li>
+<li><a class="reference internal" href="#mapping-import-to-distribution-packages">Mapeando importação pra pacotes de distribuição</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#distributions">Distribuições</a></li>
+<li><a class="reference internal" href="#distribution-discovery">Descoberta de distribuição</a></li>
+<li><a class="reference internal" href="#implementing-custom-providers">Implementando provedores personalizados</a><ul>
+<li><a class="reference internal" href="#example">Exemplo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="importlib.resources.abc.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.resources.abc</span></code> – Classes base abstratas para recursos</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="sys_path_init.html"
+                          title="próximo capítulo">A inicialização do caminho de pesquisa de módulos <code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/importlib.metadata.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/importlib.metadata.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/importlib.metadata.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="sys_path_init.html" title="A inicialização do caminho de pesquisa de módulos sys.path"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="importlib.resources.abc.html" title="importlib.resources.abc – Classes base abstratas para recursos"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="modules.html" >Importando módulos</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.metadata</span></code> – Acessando metadados do pacote</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Python support for the perf map compatible profilers" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/howto/perf_profiling.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="The Linux perf profiler and samply are powerful tools that allow you to profile and obtain information about the performance of your application. Both tools have vibrant ecosystems that aid with th..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_howto_perf_profiling_05f77f95.png" />
+<meta property="og:image:alt" content="The Linux perf profiler and samply are powerful tools that allow you to profile and obtain information about the performance of your application. Both tools have vibrant ecosystems that aid with th..." />
+<meta name="description" content="The Linux perf profiler and samply are powerful tools that allow you to profile and obtain information about the performance of your application. Both tools have vibrant ecosystems that aid with th..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Python support for the perf map compatible profilers &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Boas práticas para anotações" href="annotations.html" />
+    <link rel="prev" title="Instrumentando o CPython com DTrace e SystemTap" href="instrumentation.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/howto/perf_profiling.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Python support for the <code class="docutils literal notranslate"><span class="pre">perf</span> <span class="pre">map</span></code> compatible profilers</a><ul>
+<li><a class="reference internal" href="#using-the-samply-profiler">Using the samply profiler</a></li>
+<li><a class="reference internal" href="#how-to-enable-perf-profiling-support">Como habilitar o suporte a perfilação com <code class="docutils literal notranslate"><span class="pre">perf</span></code></a></li>
+<li><a class="reference internal" href="#how-to-obtain-the-best-results">Como obter os melhores resultados</a></li>
+<li><a class="reference internal" href="#how-to-work-without-frame-pointers">Como trabalhar sem ponteiros de quadro</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="instrumentation.html"
+                          title="capítulo anterior">Instrumentando o CPython com DTrace e SystemTap</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="annotations.html"
+                          title="próximo capítulo">Boas práticas para anotações</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "howto/perf_profiling.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/howto/perf_profiling.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/howto/perf_profiling.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="annotations.html" title="Boas práticas para anotações"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="instrumentation.html" title="Instrumentando o CPython com DTrace e SystemTap"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python HOWTOs</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Python support for the <code class="docutils literal notranslate"><span class="pre">perf</span> <span class="pre">map</span></code> compatible profilers</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="python-support-for-the-perf-map-compatible-profilers">
+<span id="perf-profiling"></span><h1 class="untranslated">Python support for the <code class="docutils literal notranslate"><span class="pre">perf</span> <span class="pre">map</span></code> compatible profilers<a class="headerlink" href="#python-support-for-the-perf-map-compatible-profilers" title="Link para este cabeçalho">¶</a></h1>
+<p class="untranslated"><a class="reference external" href="https://perf.wiki.kernel.org">The Linux perf profiler</a> and
+<a class="reference external" href="https://github.com/mstange/samply">samply</a> are powerful tools that allow you to
+profile and obtain information about the performance of your application.
+Both tools have vibrant ecosystems that aid with the analysis of the data they produce.</p>
+<p class="untranslated">The main problem with using these profilers with Python applications is that
+they only get information about native symbols, that is, the names of
+functions and procedures written in C. This means that the names and file names
+of Python functions in your code will not appear in the profiler output.</p>
+<p class="untranslated">Since Python 3.12, the interpreter can run in a special mode that allows Python
+functions to appear in the output of compatible profilers. When this mode is
+enabled, the interpreter will interpose a small piece of code compiled on the
+fly before the execution of every Python function and it will teach the profiler the
+relationship between this piece of code and the associated Python function using
+<a class="reference internal" href="../c-api/perfmaps.html"><span class="doc">perf map files</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="untranslated">Support for profiling is available on Linux and macOS on select architectures.
+Perf is available on Linux, while samply can be used on both Linux and macOS.
+samply support on macOS is available starting from Python 3.15.
+Check the output of the <code class="docutils literal notranslate"><span class="pre">configure</span></code> build step or
+check the output of <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">sysconfig</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">HAVE_PERF_TRAMPOLINE</span></code>
+to see if your system is supported.</p>
+</div>
+<p class="translated">Por exemplo, considere o seguinte script:</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">bar</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">foo</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">baz</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">bar</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">baz</span><span class="p">(</span><span class="mi">1000000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Podemos executar <code class="docutils literal notranslate"><span class="pre">perf</span></code> para obter amostras de rastreamentos de pilha da CPU em 9999 hertz:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>perf<span class="w"> </span>record<span class="w"> </span>-F<span class="w"> </span><span class="m">9999</span><span class="w"> </span>-g<span class="w"> </span>-o<span class="w"> </span>perf.data<span class="w"> </span>python<span class="w"> </span>meu_script.py
+</pre></div>
+</div>
+<p class="translated">Então podemos usar <code class="docutils literal notranslate"><span class="pre">perf</span> <span class="pre">report</span></code> para analisar os dados:</p>
+<div class="untranslated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>perf<span class="w"> </span>report<span class="w"> </span>--stdio<span class="w"> </span>-n<span class="w"> </span>-g
+
+<span class="gp"># </span>Children<span class="w">      </span>Self<span class="w">       </span>Samples<span class="w">  </span>Command<span class="w">     </span>Shared<span class="w"> </span>Object<span class="w">       </span>Symbol
+<span class="gp"># </span>........<span class="w">  </span>........<span class="w">  </span>............<span class="w">  </span>..........<span class="w">  </span>..................<span class="w">  </span>..........................................
+<span class="gp">#</span>
+<span class="go">    91.08%     0.00%             0  python.exe  python.exe          [.] _start</span>
+<span class="go">            |</span>
+<span class="go">            ---_start</span>
+<span class="go">            |</span>
+<span class="go">                --90.71%--__libc_start_main</span>
+<span class="go">                        Py_BytesMain</span>
+<span class="go">                        |</span>
+<span class="go">                        |--56.88%--pymain_run_python.constprop.0</span>
+<span class="go">                        |          |</span>
+<span class="go">                        |          |--56.13%--_PyRun_AnyFileObject</span>
+<span class="go">                        |          |          _PyRun_SimpleFileObject</span>
+<span class="go">                        |          |          |</span>
+<span class="go">                        |          |          |--55.02%--run_mod</span>
+<span class="go">                        |          |          |          |</span>
+<span class="go">                        |          |          |           --54.65%--PyEval_EvalCode</span>
+<span class="go">                        |          |          |                     _PyEval_EvalFrameDefault</span>
+<span class="go">                        |          |          |                     PyObject_Vectorcall</span>
+<span class="go">                        |          |          |                     _PyEval_Vector</span>
+<span class="go">                        |          |          |                     _PyEval_EvalFrameDefault</span>
+<span class="go">                        |          |          |                     PyObject_Vectorcall</span>
+<span class="go">                        |          |          |                     _PyEval_Vector</span>
+<span class="go">                        |          |          |                     _PyEval_EvalFrameDefault</span>
+<span class="go">                        |          |          |                     PyObject_Vectorcall</span>
+<span class="go">                        |          |          |                     _PyEval_Vector</span>
+<span class="go">                        |          |          |                     |</span>
+<span class="go">                        |          |          |                     |--51.67%--_PyEval_EvalFrameDefault</span>
+<span class="go">                        |          |          |                     |          |</span>
+<span class="go">                        |          |          |                     |          |--11.52%--_PyCompactLong_Add</span>
+<span class="go">                        |          |          |                     |          |          |</span>
+<span class="go">                        |          |          |                     |          |          |--2.97%--_PyObject_Malloc</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+<p class="translated">Como você pode ver, as funções Python não são mostradas na saída, apenas <code class="docutils literal notranslate"><span class="pre">_PyEval_EvalFrameDefault</span></code> (a função que avalia o bytecode Python) aparece. Infelizmente isso não é muito útil porque todas as funções Python usam a mesma função C para avaliar bytecode, portanto não podemos saber qual função Python corresponde a qual função de avaliação de bytecode.</p>
+<p class="translated">Em vez disso, se executarmos o mesmo experimento com o suporte <code class="docutils literal notranslate"><span class="pre">perf</span></code> ativado, obteremos:</p>
+<div class="untranslated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>perf<span class="w"> </span>report<span class="w"> </span>--stdio<span class="w"> </span>-n<span class="w"> </span>-g
+
+<span class="gp"># </span>Children<span class="w">      </span>Self<span class="w">       </span>Samples<span class="w">  </span>Command<span class="w">     </span>Shared<span class="w"> </span>Object<span class="w">       </span>Symbol
+<span class="gp"># </span>........<span class="w">  </span>........<span class="w">  </span>............<span class="w">  </span>..........<span class="w">  </span>..................<span class="w">  </span>.....................................................................
+<span class="gp">#</span>
+<span class="go">    90.58%     0.36%             1  python.exe  python.exe          [.] _start</span>
+<span class="go">            |</span>
+<span class="go">            ---_start</span>
+<span class="go">            |</span>
+<span class="go">                --89.86%--__libc_start_main</span>
+<span class="go">                        Py_BytesMain</span>
+<span class="go">                        |</span>
+<span class="go">                        |--55.43%--pymain_run_python.constprop.0</span>
+<span class="go">                        |          |</span>
+<span class="go">                        |          |--54.71%--_PyRun_AnyFileObject</span>
+<span class="go">                        |          |          _PyRun_SimpleFileObject</span>
+<span class="go">                        |          |          |</span>
+<span class="go">                        |          |          |--53.62%--run_mod</span>
+<span class="go">                        |          |          |          |</span>
+<span class="go">                        |          |          |           --53.26%--PyEval_EvalCode</span>
+<span class="go">                        |          |          |                     py::&lt;module&gt;:/src/script.py</span>
+<span class="go">                        |          |          |                     _PyEval_EvalFrameDefault</span>
+<span class="go">                        |          |          |                     PyObject_Vectorcall</span>
+<span class="go">                        |          |          |                     _PyEval_Vector</span>
+<span class="go">                        |          |          |                     py::baz:/src/script.py</span>
+<span class="go">                        |          |          |                     _PyEval_EvalFrameDefault</span>
+<span class="go">                        |          |          |                     PyObject_Vectorcall</span>
+<span class="go">                        |          |          |                     _PyEval_Vector</span>
+<span class="go">                        |          |          |                     py::bar:/src/script.py</span>
+<span class="go">                        |          |          |                     _PyEval_EvalFrameDefault</span>
+<span class="go">                        |          |          |                     PyObject_Vectorcall</span>
+<span class="go">                        |          |          |                     _PyEval_Vector</span>
+<span class="go">                        |          |          |                     py::foo:/src/script.py</span>
+<span class="go">                        |          |          |                     |</span>
+<span class="go">                        |          |          |                     |--51.81%--_PyEval_EvalFrameDefault</span>
+<span class="go">                        |          |          |                     |          |</span>
+<span class="go">                        |          |          |                     |          |--13.77%--_PyCompactLong_Add</span>
+<span class="go">                        |          |          |                     |          |          |</span>
+<span class="go">                        |          |          |                     |          |          |--3.26%--_PyObject_Malloc</span>
+</pre></div>
+</div>
+<section id="using-the-samply-profiler">
+<h2 class="untranslated">Using the samply profiler<a class="headerlink" href="#using-the-samply-profiler" title="Link para este cabeçalho">¶</a></h2>
+<p class="untranslated">samply is a modern profiler that can be used as an alternative to perf.
+It uses the same perf map files that Python generates, making it compatible
+with Python’s profiling support. samply is particularly useful on macOS
+where perf is not available.</p>
+<p class="untranslated">To use samply with Python, first install it following the instructions at
+<a class="reference external" href="https://github.com/mstange/samply">https://github.com/mstange/samply</a>, then run:</p>
+<div class="untranslated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>samply<span class="w"> </span>record<span class="w"> </span><span class="nv">PYTHONPERFSUPPORT</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>python<span class="w"> </span>my_script.py
+</pre></div>
+</div>
+<p class="untranslated">This will open a web interface where you can analyze the profiling data
+interactively. The advantage of samply is that it provides a modern
+web-based interface for analyzing profiling data and works on both Linux
+and macOS.</p>
+<p class="untranslated">On macOS, samply support requires Python 3.15 or later. Also on macOS, samply
+can’t profile signed Python executables due to restrictions by macOS. You can
+profile with Python binaries that you’ve compiled yourself, or which are
+unsigned or locally-signed (such as anything installed by Homebrew). In
+order to attach to running processes on macOS, run <code class="docutils literal notranslate"><span class="pre">samply</span> <span class="pre">setup</span></code> once (and
+every time samply is updated) to self-sign the samply binary.</p>
+</section>
+<section id="how-to-enable-perf-profiling-support">
+<h2 class="translated">Como habilitar o suporte a perfilação com <code class="docutils literal notranslate"><span class="pre">perf</span></code><a class="headerlink" href="#how-to-enable-perf-profiling-support" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O suporte à perfilação com <code class="docutils literal notranslate"><span class="pre">perf</span></code> pode ser habilitado desde o início usando a variável de ambiente <span class="target" id="index-4"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONPERFSUPPORT"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONPERFSUPPORT</span></code></a> ou a opção <a class="reference internal" href="../using/cmdline.html#cmdoption-X"><code class="xref std std-option docutils literal notranslate"><span class="pre">-X</span> <span class="pre">perf</span></code></a>, ou dinamicamente usando <a class="reference internal" href="../library/sys.html#sys.activate_stack_trampoline" title="sys.activate_stack_trampoline"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.activate_stack_trampoline()</span></code></a> e <a class="reference internal" href="../library/sys.html#sys.deactivate_stack_trampoline" title="sys.deactivate_stack_trampoline"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.deactivate_stack_trampoline()</span></code></a>.</p>
+<p class="translated">As funções <code class="xref py py-mod docutils literal notranslate"><span class="pre">sys</span></code> têm precedência sobre a opção <code class="xref std std-option docutils literal notranslate"><span class="pre">-X</span></code>, a opção <code class="xref std std-option docutils literal notranslate"><span class="pre">-X</span></code> tem precedência sobre a variável de ambiente.</p>
+<p class="translated">Exemplo usando a variável de ambiente:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nv">PYTHONPERFSUPPORT</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>perf<span class="w"> </span>record<span class="w"> </span>-F<span class="w"> </span><span class="m">9999</span><span class="w"> </span>-g<span class="w"> </span>-o<span class="w"> </span>perf.data<span class="w"> </span>python<span class="w"> </span>meu_script.py
+<span class="gp">$ </span>perf<span class="w"> </span>report<span class="w"> </span>-g<span class="w"> </span>-i<span class="w"> </span>perf.data
+</pre></div>
+</div>
+<p class="translated">Exemplo usando a opção <code class="xref std std-option docutils literal notranslate"><span class="pre">-X</span></code>:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>perf<span class="w"> </span>record<span class="w"> </span>-F<span class="w"> </span><span class="m">9999</span><span class="w"> </span>-g<span class="w"> </span>-o<span class="w"> </span>perf.data<span class="w"> </span>python<span class="w"> </span>-X<span class="w"> </span>perf<span class="w"> </span>meu_script.py
+<span class="gp">$ </span>perf<span class="w"> </span>report<span class="w"> </span>-g<span class="w"> </span>-i<span class="w"> </span>perf.data
+</pre></div>
+</div>
+<p class="translated">Exemplo usando as APIs de <a class="reference internal" href="../library/sys.html#module-sys" title="sys: Access system-specific parameters and functions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">sys</span></code></a> em <code class="file docutils literal notranslate"><span class="pre">example.py</span></code>:</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">activate_stack_trampoline</span><span class="p">(</span><span class="s2">"perf"</span><span class="p">)</span>
+<span class="n">do_profiled_stuff</span><span class="p">()</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">deactivate_stack_trampoline</span><span class="p">()</span>
+
+<span class="n">non_profiled_stuff</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="translated">… então:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>perf<span class="w"> </span>record<span class="w"> </span>-F<span class="w"> </span><span class="m">9999</span><span class="w"> </span>-g<span class="w"> </span>-o<span class="w"> </span>perf.data<span class="w"> </span>python<span class="w"> </span>./example.py
+<span class="gp">$ </span>perf<span class="w"> </span>report<span class="w"> </span>-g<span class="w"> </span>-i<span class="w"> </span>perf.data
+</pre></div>
+</div>
+</section>
+<section id="how-to-obtain-the-best-results">
+<h2 class="translated">Como obter os melhores resultados<a class="headerlink" href="#how-to-obtain-the-best-results" title="Link para este cabeçalho">¶</a></h2>
+<p class="untranslated">For best results, keep frame pointers enabled. On supported GCC-compatible
+toolchains, CPython builds itself with <code class="docutils literal notranslate"><span class="pre">-fno-omit-frame-pointer</span></code> and similar
+flags (see <a class="reference internal" href="../using/configure.html#cmdoption-without-frame-pointers"><code class="xref std std-option docutils literal notranslate"><span class="pre">--without-frame-pointers</span></code></a> for details). These flags allow
+profilers to unwind using only the frame pointer and not on DWARF debug
+information. This is because as the code that is interposed to allow <code class="docutils literal notranslate"><span class="pre">perf</span></code>
+support is dynamically generated it doesn’t have any DWARF debugging information
+available.</p>
+<p class="translated">Você pode verificar se o seu sistema foi compilado com este sinalizador executando:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>sysconfig<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'no-omit-frame-pointer'</span>
+</pre></div>
+</div>
+<p class="translated">Se você não vir nenhuma saída, significa que seu interpretador não foi compilado com ponteiros de quadro e, portanto, pode não ser capaz de mostrar funções Python na saída de <code class="docutils literal notranslate"><span class="pre">perf</span></code>.</p>
+</section>
+<section id="how-to-work-without-frame-pointers">
+<h2 class="translated">Como trabalhar sem ponteiros de quadro<a class="headerlink" href="#how-to-work-without-frame-pointers" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Se você estiver trabalhando com um interpretador Python que foi compilado sem ponteiros de quadro, você ainda pode usar o perfilador <code class="docutils literal notranslate"><span class="pre">perf</span></code>, mas a sobrecarga será um pouco maior porque o Python precisa gerar informações de desenrolamento para cada chamada de função Python em tempo real. Além disso, <code class="docutils literal notranslate"><span class="pre">perf</span></code> levará mais tempo para processar os dados porque precisará usar as informações de depuração DWARF para desenrolar a pilha e este é um processo lento.</p>
+<p class="translated">Para habilitar esse modo, você pode usar a variável de ambiente <span class="target" id="index-5"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHON_PERF_JIT_SUPPORT"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHON_PERF_JIT_SUPPORT</span></code></a> ou a opção <a class="reference internal" href="../using/cmdline.html#cmdoption-X"><code class="xref std std-option docutils literal notranslate"><span class="pre">-X</span> <span class="pre">perf_jit</span></code></a>, que habilitará o modo JIT para o perfilador <code class="docutils literal notranslate"><span class="pre">perf</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Devido a um bug na ferramenta <code class="docutils literal notranslate"><span class="pre">perf</span></code>, apenas versões <code class="docutils literal notranslate"><span class="pre">perf</span></code> superiores à v6.8 funcionarão com o modo JIT. A correção também foi portada para a versão v6.7.2 da ferramenta.</p>
+<p class="translated">Note que ao verificar a versão da ferramenta <code class="docutils literal notranslate"><span class="pre">perf</span></code> (o que pode ser feito executando <code class="docutils literal notranslate"><span class="pre">perf</span> <span class="pre">version</span></code>) você deve levar em conta que algumas distros adicionam alguns números de versão personalizados, incluindo um caractere <code class="docutils literal notranslate"><span class="pre">-</span></code>. Isso significa que <code class="docutils literal notranslate"><span class="pre">perf</span> <span class="pre">6.7-3</span></code> não é necessariamente <code class="docutils literal notranslate"><span class="pre">perf</span> <span class="pre">6.7.3</span></code>.</p>
+</div>
+<p class="translated">Ao usar o modo JIT do perf, você precisa de uma etapa extra antes de poder executar <code class="docutils literal notranslate"><span class="pre">perf</span> <span class="pre">report</span></code>. Você precisa chamar o comando <code class="docutils literal notranslate"><span class="pre">perf</span> <span class="pre">inject</span></code> para injetar as informações JIT no arquivo <code class="docutils literal notranslate"><span class="pre">perf.data</span></code>.:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>perf<span class="w"> </span>record<span class="w"> </span>-F<span class="w"> </span><span class="m">9999</span><span class="w"> </span>-g<span class="w"> </span>-k<span class="w"> </span><span class="m">1</span><span class="w"> </span>--call-graph<span class="w"> </span>dwarf<span class="w"> </span>-o<span class="w"> </span>perf.data<span class="w"> </span>python<span class="w"> </span>-Xperf_jit<span class="w"> </span>meu_script.py
+<span class="gp">$ </span>perf<span class="w"> </span>inject<span class="w"> </span>-i<span class="w"> </span>perf.data<span class="w"> </span>--jit<span class="w"> </span>--output<span class="w"> </span>perf.jit.data
+<span class="gp">$ </span>perf<span class="w"> </span>report<span class="w"> </span>-g<span class="w"> </span>-i<span class="w"> </span>perf.jit.data
+</pre></div>
+</div>
+<p class="translated">ou usando a variável de ambiente:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nv">PYTHON_PERF_JIT_SUPPORT</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>perf<span class="w"> </span>record<span class="w"> </span>-F<span class="w"> </span><span class="m">9999</span><span class="w"> </span>-g<span class="w"> </span>--call-graph<span class="w"> </span>dwarf<span class="w"> </span>-o<span class="w"> </span>perf.data<span class="w"> </span>python<span class="w"> </span>meu_script.py
+<span class="gp">$ </span>perf<span class="w"> </span>inject<span class="w"> </span>-i<span class="w"> </span>perf.data<span class="w"> </span>--jit<span class="w"> </span>--output<span class="w"> </span>perf.jit.data
+<span class="gp">$ </span>perf<span class="w"> </span>report<span class="w"> </span>-g<span class="w"> </span>-i<span class="w"> </span>perf.jit.data
+</pre></div>
+</div>
+<p class="translated">O comando <code class="docutils literal notranslate"><span class="pre">perf</span> <span class="pre">inject</span> <span class="pre">--jit</span></code> lerá <code class="docutils literal notranslate"><span class="pre">perf.data</span></code>, pegará automaticamente o arquivo de dump perf que o Python cria (em <code class="docutils literal notranslate"><span class="pre">/tmp/perf-$PID.dump</span></code>) e, em seguida, criará <code class="docutils literal notranslate"><span class="pre">perf.jit.data</span></code> que mescla todas as informações JIT. Ele também deve criar muitos arquivos <code class="docutils literal notranslate"><span class="pre">jitted-XXXX-N.so</span></code> no diretório atual, que são imagens ELF para todos os trampolins JIT que foram criados pelo Python.</p>
+<div class="admonition warning">
+<p class="admonition-title">Aviso</p>
+<p class="translated">Ao usar <code class="docutils literal notranslate"><span class="pre">--call-graph</span> <span class="pre">dwarf</span></code>, a ferramenta <code class="docutils literal notranslate"><span class="pre">perf</span></code> fará snapshots da pilha do processo que está sendo perfilado e salvará as informações no arquivo <code class="docutils literal notranslate"><span class="pre">perf.data</span></code>. Por padrão, o tamanho do dump da pilha é de 8192 bytes, mas você pode alterar o tamanho passando-o após uma vírgula, como <code class="docutils literal notranslate"><span class="pre">--call-graph</span> <span class="pre">dwarf,16384</span></code>.</p>
+<p class="translated">O tamanho do dump da pilha é importante porque, se for muito pequeno, o <code class="docutils literal notranslate"><span class="pre">perf</span></code> não conseguirá desfazer o descompasso da pilha e a saída será incompleta. Por outro lado, se for muito grande, o <code class="docutils literal notranslate"><span class="pre">perf</span></code> não conseguirá amostrar o processo com a frequência desejada, pois a sobrecarga será maior.</p>
+<p class="translated">O tamanho da pilha é particularmente importante ao criar perfis de código Python compilado com níveis de otimização baixos (como <code class="docutils literal notranslate"><span class="pre">-O0</span></code>), pois essas construções tendem a ter quadros de pilha maiores. Se você estiver compilando Python com <code class="docutils literal notranslate"><span class="pre">-O0</span></code> e não estiver vendo funções Python na saída do perfil, tente aumentar o tamanho do despejo de pilha para 65528 bytes (o máximo):</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>perf<span class="w"> </span>record<span class="w"> </span>-F<span class="w"> </span><span class="m">9999</span><span class="w"> </span>-g<span class="w"> </span>-k<span class="w"> </span><span class="m">1</span><span class="w"> </span>--call-graph<span class="w"> </span>dwarf,65528<span class="w"> </span>-o<span class="w"> </span>perf.data<span class="w"> </span>python<span class="w"> </span>-Xperf_jit<span class="w"> </span>meu_script.py
+</pre></div>
+</div>
+<p class="translated">Diferentes sinalizadores de compilação podem impactar significativamente os tamanhos de pilha:</p>
+<ul class="simple">
+<li><p class="translated">Construções com <code class="docutils literal notranslate"><span class="pre">-O0</span></code> geralmente têm quadros de pilha muito maiores do que aquelas com <code class="docutils literal notranslate"><span class="pre">-O1</span></code> ou superior</p></li>
+<li><p class="translated">Adiciona otimizações (<code class="docutils literal notranslate"><span class="pre">-O1</span></code>, <code class="docutils literal notranslate"><span class="pre">-O2</span></code>, etc.) normalmente reduz o tamanho da pilha</p></li>
+<li><p class="translated">Os ponteiros de quadro (<code class="docutils literal notranslate"><span class="pre">-fno-omit-frame-pointer</span></code>) geralmente fornecem um desenrolamento de pilha mais confiável</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Python support for the <code class="docutils literal notranslate"><span class="pre">perf</span> <span class="pre">map</span></code> compatible profilers</a><ul>
+<li><a class="reference internal" href="#using-the-samply-profiler">Using the samply profiler</a></li>
+<li><a class="reference internal" href="#how-to-enable-perf-profiling-support">Como habilitar o suporte a perfilação com <code class="docutils literal notranslate"><span class="pre">perf</span></code></a></li>
+<li><a class="reference internal" href="#how-to-obtain-the-best-results">Como obter os melhores resultados</a></li>
+<li><a class="reference internal" href="#how-to-work-without-frame-pointers">Como trabalhar sem ponteiros de quadro</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="instrumentation.html"
+                          title="capítulo anterior">Instrumentando o CPython com DTrace e SystemTap</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="annotations.html"
+                          title="próximo capítulo">Boas práticas para anotações</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "howto/perf_profiling.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/howto/perf_profiling.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/howto/perf_profiling.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="annotations.html" title="Boas práticas para anotações"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="instrumentation.html" title="Instrumentando o CPython com DTrace e SystemTap"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python HOWTOs</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Python support for the <code class="docutils literal notranslate"><span class="pre">perf</span> <span class="pre">map</span></code> compatible profilers</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

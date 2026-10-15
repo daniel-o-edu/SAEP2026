@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="multiprocessing.shared_memory — Memória compartilhada para acesso direto entre processos" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/multiprocessing.shared_memory.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/multiprocessing/shared_memory.py Este módulo fornece uma classe, SharedMemory, para a alocação e gerenciamento da memória compartilhada a ser acessada por um ou mais processos em ..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_multiprocessing.shared_memory_b69e4ec3.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/multiprocessing/shared_memory.py Este módulo fornece uma classe, SharedMemory, para a alocação e gerenciamento da memória compartilhada a ser acessada por um ou mais processos em ..." />
+<meta name="description" content="Código-fonte: Lib/multiprocessing/shared_memory.py Este módulo fornece uma classe, SharedMemory, para a alocação e gerenciamento da memória compartilhada a ser acessada por um ou mais processos em ..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>multiprocessing.shared_memory — Memória compartilhada para acesso direto entre processos &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="O pacote concurrent" href="concurrent.html" />
+    <link rel="prev" title="multiprocessing — Paralelismo baseado em processo" href="multiprocessing.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/multiprocessing.shared_memory.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="multiprocessing.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">multiprocessing</span></code> — Paralelismo baseado em processo</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="concurrent.html"
+                          title="próximo capítulo">O pacote <code class="xref py py-mod docutils literal notranslate"><span class="pre">concurrent</span></code></a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/multiprocessing.shared_memory.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/multiprocessing.shared_memory.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/multiprocessing.shared_memory.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="concurrent.html" title="O pacote concurrent"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="multiprocessing.html" title="multiprocessing — Paralelismo baseado em processo"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concurrency.html" accesskey="U">Execução Concorrente</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">multiprocessing.shared_memory</span></code> — Memória compartilhada para acesso direto entre processos</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-multiprocessing.shared_memory">
+<span id="multiprocessing-shared-memory-shared-memory-for-direct-access-across-processes"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">multiprocessing.shared_memory</span></code> — Memória compartilhada para acesso direto entre processos<a class="headerlink" href="#module-multiprocessing.shared_memory" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/multiprocessing/shared_memory.py">Lib/multiprocessing/shared_memory.py</a></p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.8.</span></p>
+</div>
+<hr class="docutils" id="index-0" />
+<p class="translated">Este módulo fornece uma classe, <a class="reference internal" href="#multiprocessing.shared_memory.SharedMemory" title="multiprocessing.shared_memory.SharedMemory"><code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemory</span></code></a>, para a alocação e gerenciamento da memória compartilhada a ser acessada por um ou mais processos em uma máquina multicore ou de multiprocessamento simétrico (SMP). Para ajudar com o gerenciamento do ciclo de vida da memória compartilhada especialmente entre processos distintos, uma subclasse de <a class="reference internal" href="multiprocessing.html#multiprocessing.managers.BaseManager" title="multiprocessing.managers.BaseManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseManager</span></code></a>, <a class="reference internal" href="#multiprocessing.managers.SharedMemoryManager" title="multiprocessing.managers.SharedMemoryManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemoryManager</span></code></a>, também é fornecida no módulo <a class="reference internal" href="multiprocessing.html#module-multiprocessing.managers" title="multiprocessing.managers: Share data between process with shared objects."><code class="xref py py-mod docutils literal notranslate"><span class="pre">multiprocessing.managers</span></code></a>.</p>
+<p class="translated">Neste módulo, memória compartilhada refere-se a blocos de memória compartilhada no “estilo POSIX” (embora não seja necessariamente implementado explicitamente como tal) e não se refere a “memória compartilhada distribuída”. Este estilo de memória compartilhada permite que processos distintos potencialmente leiam e escrevam em uma região comum (ou compartilhada) de memória volátil. Os processos são convencionalmente limitados a ter acesso somente ao próprio espaço de memória de processo mas a memória compartilhada permite o compartilhamento de dados entre processos, evitando a necessidade de enviar mensagens entre processos contendo estes dados. Compartilhar dados diretamente via memória pode fornecer ganhos de desempenho significativos comparado ao compartilhamento de dados via disco ou soquete ou outras comunicações que requerem a serialização/desserialização e cópia dos dados.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="multiprocessing.shared_memory.SharedMemory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">multiprocessing.shared_memory.</span></span><span class="sig-name descname"><span class="pre">SharedMemory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">track</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#multiprocessing.shared_memory.SharedMemory" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cria uma instância da classe <code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemory</span></code> para criar um novo bloco de memória compartilhada ou anexar a um bloco de memória compartilhada existente. A cada bloco de memória compartilhada é atribuído um nome único. Desta forma, um processo pode criar um bloco de memória compartilhada com um nome particular e um processo diferente pode ser anexado a esse mesmo bloco de memória compartilhada usando este mesmo nome.</p>
+<p class="translated">Como um recurso para compartilhar dados entre processos, os blocos de memória compartilhada podem sobreviver ao processo original que os criou. Quando um processo não precisa mais acessar um bloco de memória compartilhada que ainda pode ser necessário para outros processos, o método <a class="reference internal" href="#multiprocessing.shared_memory.SharedMemory.close" title="multiprocessing.shared_memory.SharedMemory.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code></a> deve ser chamado. Quando um bloco de memória compartilhada não é mais necessário para nenhum processo, o método <a class="reference internal" href="#multiprocessing.shared_memory.SharedMemory.unlink" title="multiprocessing.shared_memory.SharedMemory.unlink"><code class="xref py py-meth docutils literal notranslate"><span class="pre">unlink()</span></code></a> deve ser chamado para garantir a limpeza apropriada.</p>
+<dl class="field-list simple">
+<dt class="field-odd untranslated">Parâmetros<span class="colon">:</span></dt>
+<dd class="field-odd untranslated"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><em>str</em></a><em> | </em><em>None</em>) – O nome único para a memória compartilhada requisitada, especificado como uma string. Ao criar um novo bloco de memória compartilhada, se <code class="docutils literal notranslate"><span class="pre">None</span></code> (o padrão) é fornecido para o nome, um novo nome será gerado.</p></li>
+<li><p><strong>create</strong> (<a class="reference internal" href="../builtins/functions.html#bool" title="bool"><em>bool</em></a>) – Controla quando um novo bloco de memória compartilhada é criado (<code class="docutils literal notranslate"><span class="pre">True</span></code>) ou um bloco de memória compartilhada existente é anexado (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><strong>size</strong> (<a class="reference internal" href="../builtins/functions.html#int" title="int"><em>int</em></a>) – O número de bytes requeridos ao criar um novo bloco de memória compartilhada. Como algumas plataformas optam por alocar pedaços de memória com base no tamanho da página de memória da própria plataforma, o tamanho exato do bloco de memória compartilhada pode ser maior ou igual ao tamanho requerido. Ao anexar a um bloco de memória compartilhada existente, o parâmetro <em>size</em> é ignorado.</p></li>
+<li><p><strong>track</strong> (<a class="reference internal" href="../builtins/functions.html#bool" title="bool"><em>bool</em></a>) – Quando <code class="docutils literal notranslate"><span class="pre">True</span></code>, registra o bloco de memória compartilhada com um processo de rastreador de recursos em plataformas onde o sistema operacional não faz isso automaticamente. O rastreador de recursos garante a limpeza adequada da memória compartilhada, mesmo se todos os outros processos com acesso à memória saírem sem fazer isso. Os processos Python criados a partir de um ancestral comum usando os recursos de <a class="reference internal" href="multiprocessing.html#module-multiprocessing" title="multiprocessing: Process-based parallelism."><code class="xref py py-mod docutils literal notranslate"><span class="pre">multiprocessing</span></code></a> compartilham um único processo de rastreador de recursos, e o tempo de vida dos segmentos de memória compartilhada é manipulado automaticamente entre esses processos. Os processos Python criados de qualquer outra forma receberão seu próprio rastreador de recursos ao acessar a memória compartilhada com <em>track</em> habilitado. Isso fará com que a memória compartilhada seja excluída pelo rastreador de recursos do primeiro processo que terminar. Para evitar esse problema, os usuários de <a class="reference internal" href="subprocess.html#module-subprocess" title="subprocess: Subprocess management."><code class="xref py py-mod docutils literal notranslate"><span class="pre">subprocess</span></code></a> ou processos Python autônomos devem definir <em>track</em> como <code class="docutils literal notranslate"><span class="pre">False</span></code> quando já houver outro processo em vigor que faça a contabilidade. <em>track</em> é ignorado no Windows, que tem seu próprio rastreamento e exclui automaticamente a memória compartilhada quando todos os identificadores para ele foram fechados.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>Adicionado o parâmetro <em>track</em>.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="multiprocessing.shared_memory.SharedMemory.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#multiprocessing.shared_memory.SharedMemory.close" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Fecha o identificador/descritor de arquivo para a memória compartilhada desta instância. <a class="reference internal" href="#multiprocessing.shared_memory.SharedMemory.close" title="multiprocessing.shared_memory.SharedMemory.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code></a> deve ser chamado quando o acesso ao bloco de memória compartilhada desta instância não for mais necessário. Dependendo do sistema operacional, a memória subjacente pode ou não ser liberada, mesmo que todos os identificadores para ela tenham sido fechados. Para garantir uma limpeza adequada, use o método <a class="reference internal" href="#multiprocessing.shared_memory.SharedMemory.unlink" title="multiprocessing.shared_memory.SharedMemory.unlink"><code class="xref py py-meth docutils literal notranslate"><span class="pre">unlink()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="multiprocessing.shared_memory.SharedMemory.unlink">
+<span class="sig-name descname"><span class="pre">unlink</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#multiprocessing.shared_memory.SharedMemory.unlink" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exclui o bloco de memória compartilhada subjacente. Isso deve ser chamado apenas uma vez por bloco de memória compartilhada, independentemente do número de handles para ele, mesmo em outros processos. <a class="reference internal" href="#multiprocessing.shared_memory.SharedMemory.unlink" title="multiprocessing.shared_memory.SharedMemory.unlink"><code class="xref py py-meth docutils literal notranslate"><span class="pre">unlink()</span></code></a> e <a class="reference internal" href="#multiprocessing.shared_memory.SharedMemory.close" title="multiprocessing.shared_memory.SharedMemory.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code></a> podem ser chamados em qualquer ordem, mas tentar acessar dados dentro de um bloco de memória compartilhada após <code class="xref py py-meth docutils literal notranslate"><span class="pre">unlink()</span></code> pode resultar em erros de acesso à memória, dependendo da plataforma.</p>
+<p class="translated">Este método não tem efeito no Windows, onde a única maneira de excluir um bloco de memória compartilhada é fechar todos os identificadores.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="multiprocessing.shared_memory.SharedMemory.buf">
+<span class="sig-name descname"><span class="pre">buf</span></span><a class="headerlink" href="#multiprocessing.shared_memory.SharedMemory.buf" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma visualização de memória do conteúdo do bloco de memória compartilhada.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="multiprocessing.shared_memory.SharedMemory.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#multiprocessing.shared_memory.SharedMemory.name" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Acesso somente leitura ao nome único do bloco de memória compartilhada.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="multiprocessing.shared_memory.SharedMemory.size">
+<span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#multiprocessing.shared_memory.SharedMemory.size" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Acesso somente leitura ao tamanho em bytes do bloco de memória compartilhada.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p class="translated">O exemplo a seguir demonstra um uso baixo nível de instâncias de <a class="reference internal" href="#multiprocessing.shared_memory.SharedMemory" title="multiprocessing.shared_memory.SharedMemory"><code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemory</span></code></a>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">multiprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">shared_memory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shm_a</span> <span class="o">=</span> <span class="n">shared_memory</span><span class="o">.</span><span class="n">SharedMemory</span><span class="p">(</span><span class="n">create</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">shm_a</span><span class="o">.</span><span class="n">buf</span><span class="p">)</span>
+<span class="go">&lt;class 'memoryview'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">buffer</span> <span class="o">=</span> <span class="n">shm_a</span><span class="o">.</span><span class="n">buf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">buffer</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">([</span><span class="mi">22</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">55</span><span class="p">])</span>  <span class="c1"># Modifica vários de uma só vez</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">buffer</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>                           <span class="c1"># Modifica um único byte de cada vez</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Anexa a um bloco de memória compartilhada existente</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shm_b</span> <span class="o">=</span> <span class="n">shared_memory</span><span class="o">.</span><span class="n">SharedMemory</span><span class="p">(</span><span class="n">shm_a</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">array</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">'b'</span><span class="p">,</span> <span class="n">shm_b</span><span class="o">.</span><span class="n">buf</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>  <span class="c1"># Copia os dados para um novo array.array</span>
+<span class="go">array('b', [22, 33, 44, 55, 100])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shm_b</span><span class="o">.</span><span class="n">buf</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">'howdy'</span>  <span class="c1"># Modifica via shm_b usando bytes</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">bytes</span><span class="p">(</span><span class="n">shm_a</span><span class="o">.</span><span class="n">buf</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>      <span class="c1"># Acessa via shm_a</span>
+<span class="go">b'howdy'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shm_b</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>   <span class="c1"># Fecha cada instância de SharedMemory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shm_a</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shm_a</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>  <span class="c1"># Chama unlink uma vez para liberar a memória Compartilhada</span>
+</pre></div>
+</div>
+<p class="translated">O exemplo a seguir demonstra um uso prático da classe <a class="reference internal" href="#multiprocessing.shared_memory.SharedMemory" title="multiprocessing.shared_memory.SharedMemory"><code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemory</span></code></a> com <a class="reference external" href="https://numpy.org/">arrays do NumPy</a>, acessando o mesmo <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> de dois consoles Python distintos.</p>
+<div class="translated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># No primeiro console interativo do Python</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>  <span class="c1"># Inicia com um array de NumPy existente</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">multiprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">shared_memory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shm</span> <span class="o">=</span> <span class="n">shared_memory</span><span class="o">.</span><span class="n">SharedMemory</span><span class="p">(</span><span class="n">create</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">nbytes</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Agora cria um array de NumPy suportado por memória compartilhada</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">buffer</span><span class="o">=</span><span class="n">shm</span><span class="o">.</span><span class="n">buf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:]</span>  <span class="c1"># Copia os dados originais para memória compartilhada</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span>
+<span class="go">array([1, 1, 2, 3, 5, 8])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">&lt;class 'numpy.ndarray'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">&lt;class 'numpy.ndarray'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shm</span><span class="o">.</span><span class="n">name</span>  <span class="c1"># Não especificamos um nome, então um foi escolhido por nós</span>
+<span class="go">'psm_21467_46075'</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># No mesmo shell ou em um novo console do Python na mesma máquina</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">multiprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">shared_memory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Anexa ao bloco de memória compartilhada existente</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">existing_shm</span> <span class="o">=</span> <span class="n">shared_memory</span><span class="o">.</span><span class="n">SharedMemory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'psm_21467_46075'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Observe que a.shape é (6,) e a.dtype é np.int64 neste exemplo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="mi">6</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">buffer</span><span class="o">=</span><span class="n">existing_shm</span><span class="o">.</span><span class="n">buf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span>
+<span class="go">array([1, 1, 2, 3, 5, 8])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">888</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span>
+<span class="go">array([  1,   1,   2,   3,   5, 888])</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># De volta ao primeiro console interativo do Python, b reflete essa mudança</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span>
+<span class="go">array([  1,   1,   2,   3,   5, 888])</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Limpeza de dentro do segundo console Python</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">c</span>  <span class="c1"># Desnecessário; apenas enfatizar a array não é mais usado</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">existing_shm</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Limpeza de dentro do primeiro console Python</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">b</span>  <span class="c1"># Desnecessário; apenas enfatizar a array não é mais usado</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shm</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shm</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>  <span class="c1"># Libera o bloco de memória compartilhada no final</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="multiprocessing.managers.SharedMemoryManager">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">multiprocessing.managers.</span></span><span class="sig-name descname"><span class="pre">SharedMemoryManager</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">authkey</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#multiprocessing.managers.SharedMemoryManager" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma subclasse de <a class="reference internal" href="multiprocessing.html#multiprocessing.managers.BaseManager" title="multiprocessing.managers.BaseManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">multiprocessing.managers.BaseManager</span></code></a> que pode ser usada para o gerenciamento dos blocos de memória compartilhada entre processos.</p>
+<p class="translated">Uma chamada ao método <a class="reference internal" href="multiprocessing.html#multiprocessing.managers.BaseManager.start" title="multiprocessing.managers.BaseManager.start"><code class="xref py py-meth docutils literal notranslate"><span class="pre">start()</span></code></a> em uma instância de <code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemoryManager</span></code> faz com que um novo processo seja iniciado. A única finalidade desse novo processo é gerenciar o ciclo de vida de todos os blocos de memória criados através dele. Para acionar a liberação de todos os blocos de memória gerenciados por este processo, invoque o método <a class="reference internal" href="multiprocessing.html#multiprocessing.managers.BaseManager.shutdown" title="multiprocessing.managers.BaseManager.shutdown"><code class="xref py py-meth docutils literal notranslate"><span class="pre">shutdown()</span></code></a> na instância. Isso aciona uma chamada de <a class="reference internal" href="#multiprocessing.shared_memory.SharedMemory.unlink" title="multiprocessing.shared_memory.SharedMemory.unlink"><code class="xref py py-meth docutils literal notranslate"><span class="pre">unlink()</span></code></a> em todos os objetos <a class="reference internal" href="#multiprocessing.managers.SharedMemoryManager.SharedMemory" title="multiprocessing.managers.SharedMemoryManager.SharedMemory"><code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemory</span></code></a> gerenciados por esse processo e então para o processo em si. Ao criar instâncias de <code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemory</span></code> através de um <code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemoryManager</span></code>, evitamos a necessidade de rastrear e acionar manualmente a liberação dos recursos de memória compartilhada.</p>
+<p class="translated">Esta classe fornece métodos para criar e retornar instâncias de <a class="reference internal" href="#multiprocessing.managers.SharedMemoryManager.SharedMemory" title="multiprocessing.managers.SharedMemoryManager.SharedMemory"><code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemory</span></code></a> e para criar um objeto lista ou similar (<a class="reference internal" href="#multiprocessing.managers.SharedMemoryManager.ShareableList" title="multiprocessing.managers.SharedMemoryManager.ShareableList"><code class="xref py py-class docutils literal notranslate"><span class="pre">ShareableList</span></code></a>) apoiado por memória compartilhada.</p>
+<p class="translated">Consulte <a class="reference internal" href="multiprocessing.html#multiprocessing.managers.BaseManager" title="multiprocessing.managers.BaseManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseManager</span></code></a> para obter uma descrição dos argumentos de entrada opcionais herdados <em>address</em> e <em>authkey</em> e como eles podem ser usados para conectar-se a um serviço <code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemoryManager</span></code> existente de outros processos.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="multiprocessing.managers.SharedMemoryManager.SharedMemory">
+<span class="sig-name descname"><span class="pre">SharedMemory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#multiprocessing.managers.SharedMemoryManager.SharedMemory" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cria e retorna um novo objeto <a class="reference internal" href="#multiprocessing.managers.SharedMemoryManager.SharedMemory" title="multiprocessing.managers.SharedMemoryManager.SharedMemory"><code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemory</span></code></a> com o <em>size</em> especificado em bytes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="multiprocessing.managers.SharedMemoryManager.ShareableList">
+<span class="sig-name descname"><span class="pre">ShareableList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#multiprocessing.managers.SharedMemoryManager.ShareableList" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cria e retorna um novo objeto <a class="reference internal" href="#multiprocessing.managers.SharedMemoryManager.ShareableList" title="multiprocessing.managers.SharedMemoryManager.ShareableList"><code class="xref py py-class docutils literal notranslate"><span class="pre">ShareableList</span></code></a>, inicializado pelos valores da entrada <em>sequence</em>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p class="translated">O exemplo a seguir demonstra os mecanismos básicos de um <a class="reference internal" href="#multiprocessing.managers.SharedMemoryManager" title="multiprocessing.managers.SharedMemoryManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemoryManager</span></code></a>:</p>
+<div class="translated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">multiprocessing.managers</span><span class="w"> </span><span class="kn">import</span> <span class="n">SharedMemoryManager</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">smm</span> <span class="o">=</span> <span class="n">SharedMemoryManager</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">smm</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>  <span class="c1"># Inicia o procsso que gerencia os blocos de memória compartilhada</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sl</span> <span class="o">=</span> <span class="n">smm</span><span class="o">.</span><span class="n">ShareableList</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sl</span>
+<span class="go">ShareableList([0, 1, 2, 3], name='psm_6572_7512')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">raw_shm</span> <span class="o">=</span> <span class="n">smm</span><span class="o">.</span><span class="n">SharedMemory</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">another_sl</span> <span class="o">=</span> <span class="n">smm</span><span class="o">.</span><span class="n">ShareableList</span><span class="p">(</span><span class="s1">'alpha'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">another_sl</span>
+<span class="go">ShareableList(['a', 'l', 'p', 'h', 'a'], name='psm_6572_12221')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">smm</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>  <span class="c1"># Chama unlink() em sl, raw_shm, e another_sl</span>
+</pre></div>
+</div>
+<p class="translated">O exemplo a seguir retrata um padrão potencialmente mais conveniente para usar objetos <a class="reference internal" href="#multiprocessing.managers.SharedMemoryManager" title="multiprocessing.managers.SharedMemoryManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemoryManager</span></code></a> através da instrução <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> para garantir que todos os blocos de memória compartilhada são liberados depois que não são mais necessários.</p>
+<div class="translated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">SharedMemoryManager</span><span class="p">()</span> <span class="k">as</span> <span class="n">smm</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">sl</span> <span class="o">=</span> <span class="n">smm</span><span class="o">.</span><span class="n">ShareableList</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2000</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="c1"># Divide o trabalho entre dois processos, armazenando resultados parciais em sl</span>
+<span class="gp">... </span>    <span class="n">p1</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">do_work</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">sl</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="n">p2</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">do_work</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">sl</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="n">p1</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">p2</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>  <span class="c1"># Um multiprocessing.Pool pode ser mais eficiente</span>
+<span class="gp">... </span>    <span class="n">p1</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">p2</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>   <span class="c1"># Espera todo trabalho ser concluído nos dois procssos</span>
+<span class="gp">... </span>    <span class="n">total_result</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">sl</span><span class="p">)</span>  <span class="c1"># Consolida os resutlados parciais agora em sl</span>
+</pre></div>
+</div>
+<p class="translated">Ao usar um <a class="reference internal" href="#multiprocessing.managers.SharedMemoryManager" title="multiprocessing.managers.SharedMemoryManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemoryManager</span></code></a> em uma instrução <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a>, os blocos de memória compartilhada criados utilizando este gerenciador são todos liberados quando o bloco de código com a instrução <code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code> termina sua execução.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="multiprocessing.shared_memory.ShareableList">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">multiprocessing.shared_memory.</span></span><span class="sig-name descname"><span class="pre">ShareableList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#multiprocessing.shared_memory.ShareableList" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Fornece um objeto mutável do tipo lista onde todos os valores armazenados dentro são armazenados em um bloco de memória compartilhada. Isso restringe valores armazenáveis aos seguintes tipos de dados embutidos:</p>
+<ul class="simple">
+<li><p class="translated"><a class="reference internal" href="../builtins/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> (com sinal, 64-bit)</p></li>
+<li><p class="translated"><a class="reference internal" href="../builtins/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></li>
+<li><p class="translated"><a class="reference internal" href="../builtins/functions.html#bool" title="bool"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p></li>
+<li><p class="translated"><a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> (menos de 10M bytes cada quando codificado como UTF-8)</p></li>
+<li><p class="translated"><a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> (menos de 10M bytes cada)</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+</ul>
+<p class="translated">Ele também difere notavelmente do tipo embutido <a class="reference internal" href="../builtins/stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, pois essas listas não podem alterar seu comprimento geral (ou seja, sem <code class="xref py py-meth docutils literal notranslate"><span class="pre">append()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">insert()</span></code>, etc.) e não oferecem suporte à criação dinâmica de novas instâncias <code class="xref py py-class docutils literal notranslate"><span class="pre">ShareableList</span></code> por meio de fatiamento.</p>
+<p class="translated"><em>sequence</em> é usado para preencher um <code class="xref py py-class docutils literal notranslate"><span class="pre">ShareableList</span></code> com valores. Defina como <code class="docutils literal notranslate"><span class="pre">None</span></code> para anexar a uma <code class="xref py py-class docutils literal notranslate"><span class="pre">ShareableList</span></code> já existente pelo seu nome único de memória compartilhada.</p>
+<p class="translated"><em>name</em> é um nome único para a memória compartilhada requerida, como descrito na definição de <a class="reference internal" href="#multiprocessing.shared_memory.SharedMemory" title="multiprocessing.shared_memory.SharedMemory"><code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemory</span></code></a>. Ao anexar a uma <code class="xref py py-class docutils literal notranslate"><span class="pre">ShareableList</span></code> já existente, deve-se especificar o nome único do bloco de memória compartilhada e definir <em>sequence</em> como <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Existe um problema conhecido para os valores <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> e <a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>. Se eles terminarem com bytes ou caracteres nulos <code class="docutils literal notranslate"><span class="pre">\x00</span></code>, eles podem ser <em>silenciosamente removidos</em> ao buscá-los pelo índice da <code class="xref py py-class docutils literal notranslate"><span class="pre">ShareableList</span></code>. Esse comportamento <code class="docutils literal notranslate"><span class="pre">.rstrip(b'\x00')</span></code> é considerado um bug e pode desaparecer no futuro. Veja <a class="reference external" href="https://github.com/python/cpython/issues/106939">gh-106939</a>.</p>
+</div>
+<p class="translated">Para aplicações onde a remoção de nulos finais é um problema, contorne-o sempre anexando incondicionalmente um byte extra diferente de 0 ao final de tais valores ao armazená-los e removendo-os incondicionalmente ao buscá-los:</p>
+<div class="translated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">multiprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">shared_memory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nul_bug_demo</span> <span class="o">=</span> <span class="n">shared_memory</span><span class="o">.</span><span class="n">ShareableList</span><span class="p">([</span><span class="s1">'?</span><span class="se">\x00</span><span class="s1">'</span><span class="p">,</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x03\x02\x01\x00\x00\x00</span><span class="s1">'</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nul_bug_demo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">'?'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nul_bug_demo</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">b'\x03\x02\x01'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nul_bug_demo</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">padded</span> <span class="o">=</span> <span class="n">shared_memory</span><span class="o">.</span><span class="n">ShareableList</span><span class="p">([</span><span class="s1">'?</span><span class="se">\x00\x07</span><span class="s1">'</span><span class="p">,</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x03\x02\x01\x00\x00\x00\x07</span><span class="s1">'</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">padded</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">'?\x00'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">padded</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">b'\x03\x02\x01\x00\x00\x00'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">padded</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="multiprocessing.shared_memory.ShareableList.count">
+<span class="sig-name descname"><span class="pre">count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#multiprocessing.shared_memory.ShareableList.count" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o número de ocorrências de <em>value</em>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="multiprocessing.shared_memory.ShareableList.index">
+<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#multiprocessing.shared_memory.ShareableList.index" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna a primeira posição do índice de <em>value</em>. Levanta <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> se <em>value</em> não estiver presente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="multiprocessing.shared_memory.ShareableList.format">
+<span class="sig-name descname"><span class="pre">format</span></span><a class="headerlink" href="#multiprocessing.shared_memory.ShareableList.format" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Atributo somente leitura contendo o formato de empacotamento <a class="reference internal" href="struct.html#module-struct" title="struct: Interpret bytes as packed binary data."><code class="xref py py-mod docutils literal notranslate"><span class="pre">struct</span></code></a> usado por todos os valores armazenados atualmente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="multiprocessing.shared_memory.ShareableList.shm">
+<span class="sig-name descname"><span class="pre">shm</span></span><a class="headerlink" href="#multiprocessing.shared_memory.ShareableList.shm" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A instância de <a class="reference internal" href="#multiprocessing.shared_memory.SharedMemory" title="multiprocessing.shared_memory.SharedMemory"><code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemory</span></code></a> onde os valores são armazenados.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p class="translated">O exemplo a seguir demonstra o uso básico de uma instância de <a class="reference internal" href="#multiprocessing.shared_memory.ShareableList" title="multiprocessing.shared_memory.ShareableList"><code class="xref py py-class docutils literal notranslate"><span class="pre">ShareableList</span></code></a>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">multiprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">shared_memory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">shared_memory</span><span class="o">.</span><span class="n">ShareableList</span><span class="p">([</span><span class="s1">'howdy'</span><span class="p">,</span> <span class="sa">b</span><span class="s1">'HoWdY'</span><span class="p">,</span> <span class="o">-</span><span class="mf">273.154</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">42</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span> <span class="nb">type</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">a</span> <span class="p">]</span>
+<span class="go">[&lt;class 'str'&gt;, &lt;class 'bytes'&gt;, &lt;class 'float'&gt;, &lt;class 'int'&gt;, &lt;class 'NoneType'&gt;, &lt;class 'bool'&gt;, &lt;class 'int'&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">-273.154</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">78.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">-78.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'dry ice'</span>  <span class="c1"># Changing data types is supported as well</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">'dry ice'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'larger than previously allocated storage space'</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">  </span><span class="c">...</span>
+<span class="gr">ValueError</span>: <span class="n">exceeds available storage for existing str</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">'dry ice'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">7</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="go">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="sa">b</span><span class="s1">'howdy'</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="sa">b</span><span class="s1">'HoWdY'</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">a</span>  <span class="c1"># Use of a ShareableList after call to unlink() is unsupported</span>
+</pre></div>
+</div>
+<p class="translated">O exemplo a seguir retrata como um, dois ou mais processos podem acessar a mesma <a class="reference internal" href="#multiprocessing.shared_memory.ShareableList" title="multiprocessing.shared_memory.ShareableList"><code class="xref py py-class docutils literal notranslate"><span class="pre">ShareableList</span></code></a> fornecendo o nome do bloco de memória compartilhada por trás dela:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">shared_memory</span><span class="o">.</span><span class="n">ShareableList</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>         <span class="c1"># In a first process</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">shared_memory</span><span class="o">.</span><span class="n">ShareableList</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">b</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>  <span class="c1"># In a second process</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span>
+<span class="go">ShareableList([0, 1, 2, 3, 4], name='...')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">999</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">-999</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="translated">Os exemplos a seguir demonstram que os objetos  <a class="reference internal" href="#multiprocessing.shared_memory.ShareableList" title="multiprocessing.shared_memory.ShareableList"><code class="xref py py-class docutils literal notranslate"><span class="pre">ShareableList</span></code></a> (e o subjacente <a class="reference internal" href="#multiprocessing.shared_memory.SharedMemory" title="multiprocessing.shared_memory.SharedMemory"><code class="xref py py-class docutils literal notranslate"><span class="pre">SharedMemory</span></code></a>) podem ser serializados e desserializados com pickle, se preciso. Note, ainda será o mesmo objeto compartilhado. Isto acontece pois o objeto desserializado tem o mesmo nome único e é somente anexado ao objeto existente com o mesmo nome (se o objeto ainda existe):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">multiprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">shared_memory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sl</span> <span class="o">=</span> <span class="n">shared_memory</span><span class="o">.</span><span class="n">ShareableList</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">sl</span><span class="p">)</span>
+<span class="go">[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">deserialized_sl</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">sl</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">deserialized_sl</span><span class="p">)</span>
+<span class="go">[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deserialized_sl</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">sl</span><span class="p">)</span>
+<span class="go">[-1, -2, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">deserialized_sl</span><span class="p">)</span>
+<span class="go">[-1, -2, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sl</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sl</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="multiprocessing.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">multiprocessing</span></code> — Paralelismo baseado em processo</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="concurrent.html"
+                          title="próximo capítulo">O pacote <code class="xref py py-mod docutils literal notranslate"><span class="pre">concurrent</span></code></a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/multiprocessing.shared_memory.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/multiprocessing.shared_memory.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/multiprocessing.shared_memory.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="concurrent.html" title="O pacote concurrent"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="multiprocessing.html" title="multiprocessing — Paralelismo baseado em processo"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concurrency.html" >Execução Concorrente</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">multiprocessing.shared_memory</span></code> — Memória compartilhada para acesso direto entre processos</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

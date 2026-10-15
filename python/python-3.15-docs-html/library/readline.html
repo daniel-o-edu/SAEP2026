@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="readline — Interface para o GNU readline" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/readline.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="O módulo readline define uma série de funções para facilitar o autocomplemento e leitura/gravação de arquivos históricos do interpretador Python. Este módulo pode ser usado diretamente ou através d..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_readline_a6c834ff.png" />
+<meta property="og:image:alt" content="O módulo readline define uma série de funções para facilitar o autocomplemento e leitura/gravação de arquivos históricos do interpretador Python. Este módulo pode ser usado diretamente ou através d..." />
+<meta name="description" content="O módulo readline define uma série de funções para facilitar o autocomplemento e leitura/gravação de arquivos históricos do interpretador Python. Este módulo pode ser usado diretamente ou através d..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>readline — Interface para o GNU readline &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="rlcompleter — Função de autocomplemento para GNU readline" href="rlcompleter.html" />
+    <link rel="prev" title="stringprep — Preparação de string para internet" href="stringprep.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/readline.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code> — Interface para o GNU readline</a><ul>
+<li><a class="reference internal" href="#init-file">Arquivo init</a></li>
+<li><a class="reference internal" href="#line-buffer">Buffer de linha</a></li>
+<li><a class="reference internal" href="#history-file">Arquivo de histórico</a></li>
+<li><a class="reference internal" href="#history-list">Lista de histórico</a></li>
+<li><a class="reference internal" href="#startup-hooks">Ganchos de inicialização</a></li>
+<li><a class="reference internal" href="#completion">Autocomplemento</a></li>
+<li><a class="reference internal" href="#example">Exemplo</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="stringprep.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stringprep</span></code> — Preparação de string para internet</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="rlcompleter.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rlcompleter</span></code> — Função de autocomplemento para GNU readline</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/readline.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/readline.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/readline.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="rlcompleter.html" title="rlcompleter — Função de autocomplemento para GNU readline"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="stringprep.html" title="stringprep — Preparação de string para internet"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="text.html" accesskey="U">Serviços de Processamento de Texto</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code> — Interface para o GNU readline</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-readline">
+<span id="readline-gnu-readline-interface"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code> — Interface para o GNU readline<a class="headerlink" href="#module-readline" title="Link para este cabeçalho">¶</a></h1>
+<hr class="docutils" />
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code> define uma série de funções para facilitar o autocomplemento e leitura/gravação de arquivos históricos do interpretador Python. Este módulo pode ser usado diretamente ou através do módulo <a class="reference internal" href="rlcompleter.html#module-rlcompleter" title="rlcompleter: Python identifier completion, suitable for the GNU readline library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">rlcompleter</span></code></a>, que provê o autocomplemento de identificadores Python no prompt interativo. As configurações feitas usando este módulo afetam o comportamento do prompt interativo do interpretador e dos prompts oferecidos pela função embutida <a class="reference internal" href="../builtins/functions.html#input" title="input"><code class="xref py py-func docutils literal notranslate"><span class="pre">input()</span></code></a>.</p>
+<p class="translated">As combinações de teclas do Readline podem ser configuradas através de um arquivo de inicialização, normalmente <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code> em seu diretório inicial. Consulte <a class="reference external" href="https://tiswww.cwru.edu/php/chet/readline/rluserman.html#Readline-Init-File">Readline Init File</a> no manual do GNU Readline para obter informações sobre o formato e construções permitidas desse arquivo e os recursos da biblioteca do Readline em geral.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: not Android, not iOS, not WASI.</p>
+<p class="translated">Este módulo não tem suporte em <a class="reference internal" href="intro.html#mobile-availability"><span class="std std-ref">plataformas móveis</span></a> ou <a class="reference internal" href="intro.html#wasm-availability"><span class="std std-ref">plataformas WebAssembly</span></a>.</p>
+</div>
+<p class="translated">Este é um <a class="reference internal" href="../glossary.html#term-optional-module"><span class="xref std std-term">módulo opcional</span></a>. Se ele estiver faltando na sua cópia do CPython, procure a documentação do seu distribuidor (ou seja, quem lhe forneceu o Python). Se você for o distribuidor, consulte <a class="reference internal" href="../using/configure.html#optional-module-requirements"><span class="std std-ref">Requisitos para módulos opcionais</span></a>.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Unix.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">A API da biblioteca subjacente do Readline pode ser implementada pela biblioteca <code class="docutils literal notranslate"><span class="pre">editline</span></code> (<code class="docutils literal notranslate"><span class="pre">libedit</span></code>) em vez do GNU readline. No macOS, o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code> detecta qual biblioteca está sendo usada em tempo de execução.</p>
+<p class="translated">O arquivo de configuração do <code class="docutils literal notranslate"><span class="pre">editline</span></code> é diferente daquele do GNU readline. Se você carregar strings de configuração programaticamente, você pode usar <a class="reference internal" href="#readline.backend" title="readline.backend"><code class="xref py py-data docutils literal notranslate"><span class="pre">backend</span></code></a> para determinar qual biblioteca está sendo usada.</p>
+<p class="translated">Se você usar a emulação de readline do <code class="docutils literal notranslate"><span class="pre">editline</span></code>/<code class="docutils literal notranslate"><span class="pre">libedit</span></code> no macOS, o arquivo de inicialização localizado em seu diretório inicial será denominado <code class="docutils literal notranslate"><span class="pre">.editrc</span></code>. Por exemplo, o seguinte conteúdo em <code class="docutils literal notranslate"><span class="pre">~/.editrc</span></code> ativará os atalhos de teclado <em>vi</em> e o autocomplemento de TAB:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span><span class="p">:</span><span class="n">bind</span> <span class="o">-</span><span class="n">v</span>
+<span class="n">python</span><span class="p">:</span><span class="n">bind</span> <span class="o">^</span><span class="n">I</span> <span class="n">rl_complete</span>
+</pre></div>
+</div>
+<p class="translated">Observe também que bibliotecas diferentes podem usar formatos de arquivo de histórico diferentes. Ao alternar a biblioteca subjacente, os arquivos de histórico existentes podem se tornar inutilizáveis.</p>
+</div>
+<dl class="py data">
+<dt class="sig sig-object py" id="readline.backend">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">backend</span></span><a class="headerlink" href="#readline.backend" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O nome da biblioteca Readline subjacente que está sendo usada, seja <code class="docutils literal notranslate"><span class="pre">&quot;readline&quot;</span></code> ou <code class="docutils literal notranslate"><span class="pre">&quot;editline&quot;</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.13.</span></p>
+</div>
+</dd></dl>
+
+<section id="init-file">
+<h2 class="translated">Arquivo init<a class="headerlink" href="#init-file" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">As seguintes funções estão relacionadas ao arquivo init e à configuração do usuário:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.parse_and_bind">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">parse_and_bind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.parse_and_bind" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Executa a linha de init fornecida no argumento <em>string</em>. Isso chama <code class="xref c c-func docutils literal notranslate"><span class="pre">rl_parse_and_bind()</span></code> na biblioteca subjacente.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.read_init_file">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">read_init_file</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.read_init_file" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Executa um arquivo de inicialização readline. O nome de arquivo padrão é o último usado. Isso chama <code class="xref c c-func docutils literal notranslate"><span class="pre">rl_read_init_file()</span></code> na biblioteca subjacente. Ele levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">open</span></code> com o nome do arquivo, se fornecido, e <code class="code docutils literal notranslate"><span class="pre">&quot;&lt;readline_init_file&gt;&quot;</span></code> caso contrário, independentemente de qual arquivo a biblioteca resolve.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.14: </span>O evento de auditoria foi adicionado.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="line-buffer">
+<h2 class="translated">Buffer de linha<a class="headerlink" href="#line-buffer" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">As seguintes funções operam no buffer de linha:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.get_line_buffer">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_line_buffer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_line_buffer" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o conteúdo atual do buffer de linha (<code class="xref c c-data docutils literal notranslate"><span class="pre">rl_line_buffer</span></code> na biblioteca subjacente).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.insert_text">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">insert_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.insert_text" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Insere texto no buffer de linha na posição do cursor. Isso chama <code class="xref c c-func docutils literal notranslate"><span class="pre">rl_insert_text()</span></code> na biblioteca subjacente, mas ignora o valor de retorno.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.redisplay">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">redisplay</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.redisplay" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Altera o que é exibido na tela para refletir o conteúdo atual do buffer de linha. Isso chama <code class="xref c c-func docutils literal notranslate"><span class="pre">rl_redisplay()</span></code> na biblioteca subjacente.</p>
+</dd></dl>
+
+</section>
+<section id="history-file">
+<h2 class="translated">Arquivo de histórico<a class="headerlink" href="#history-file" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">As seguintes funções operam em um arquivo histórico:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.read_history_file">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">read_history_file</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.read_history_file" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Carrega um arquivo de histórico do readline e anexa-o à lista de histórico. O nome do arquivo padrão é <code class="file docutils literal notranslate"><span class="pre">~/.history</span></code>. Isso chama <code class="xref c c-func docutils literal notranslate"><span class="pre">read_history()</span></code> na biblioteca subjacente e levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">open</span></code> com o nome de arquivo se dado e, do contrário, <code class="code docutils literal notranslate"><span class="pre">&quot;~/.history&quot;</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.14: </span>O evento de auditoria foi adicionado.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.write_history_file">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">write_history_file</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.write_history_file" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Salva a lista de histórico para um arquivo de histórico do readline, sobrescrevendo qualquer arquivo existente. O nome do arquivo padrão é <code class="file docutils literal notranslate"><span class="pre">~/.history</span></code>. Isso chama <code class="xref c c-func docutils literal notranslate"><span class="pre">write_history()</span></code> na biblioteca subjacente e levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">open</span></code> com o nome de arquivo se dado e, do contrário, <code class="code docutils literal notranslate"><span class="pre">&quot;~/.history&quot;</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.14: </span>O evento de auditoria foi adicionado.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.append_history_file">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">append_history_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nelements</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.append_history_file" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Anexa os últimos <em>nelements</em> itens do histórico a um arquivo. O nome do arquivo padrão é <code class="file docutils literal notranslate"><span class="pre">~/.history</span></code>. O arquivo já deve existir. Isso chama <code class="xref c c-func docutils literal notranslate"><span class="pre">append_history()</span></code> na biblioteca subjacente. Esta função só existe se o Python foi compilado para uma versão da biblioteca que a suporta. Ela levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">open</span></code> com o nome de arquivo se dado e, do contrário, <code class="code docutils literal notranslate"><span class="pre">&quot;~/.history&quot;</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.5.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.14: </span>O evento de auditoria foi adicionado.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.get_history_length">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_history_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_history_length" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="readline.set_history_length">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">set_history_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.set_history_length" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Define ou retorna o número desejado de linhas para salvar no arquivo de histórico. A função <a class="reference internal" href="#readline.write_history_file" title="readline.write_history_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">write_history_file()</span></code></a> usa este valor para truncar o arquivo de histórico, chamando <code class="xref c c-func docutils literal notranslate"><span class="pre">history_truncate_file()</span></code> na biblioteca subjacente. Valores negativos implicam tamanho ilimitado do arquivo de histórico.</p>
+</dd></dl>
+
+</section>
+<section id="history-list">
+<h2 class="translated">Lista de histórico<a class="headerlink" href="#history-list" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">As seguintes funções operam em uma lista de histórico global:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.clear_history">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">clear_history</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.clear_history" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Limpa o histórico atual. Isso chama <code class="xref c c-func docutils literal notranslate"><span class="pre">clear_history()</span></code> na biblioteca subjacente. A função Python só existe se o Python foi compilado para uma versão da biblioteca que a suporta.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.get_current_history_length">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_current_history_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_current_history_length" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o número de itens atualmente no histórico. (Isso é diferente de <a class="reference internal" href="#readline.get_history_length" title="readline.get_history_length"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_history_length()</span></code></a>, que retorna o número máximo de linhas que serão gravadas em um arquivo de histórico.)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.get_history_item">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_history_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_history_item" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o conteúdo atual do item do histórico em <em>index</em>. O índice do item é baseado em um. Isso chama <code class="xref c c-func docutils literal notranslate"><span class="pre">history_get()</span></code> na biblioteca subjacente.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.remove_history_item">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">remove_history_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.remove_history_item" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Remove o item de histórico especificado por sua posição do histórico. A posição conta a partir de zero. Isso chama <code class="xref c c-func docutils literal notranslate"><span class="pre">remove_history()</span></code> na biblioteca subjacente.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.replace_history_item">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">replace_history_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.replace_history_item" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Substitui o item de histórico especificado pela sua posição por <em>linha</em>. A posição conta a partir do zero. Isso chama <code class="xref c c-func docutils literal notranslate"><span class="pre">replace_history_entry()</span></code> na biblioteca subjacente.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.add_history">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">add_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.add_history" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Acrescenta <em>line</em> ao buffer do histórico, como se fosse a última linha digitada. Isso chama <code class="xref c c-func docutils literal notranslate"><span class="pre">add_history()</span></code> na biblioteca subjacente.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.set_auto_history">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">set_auto_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.set_auto_history" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Habilita ou desabilita chamadas automáticas para <code class="xref c c-func docutils literal notranslate"><span class="pre">add_history()</span></code> ao ler a entrada via readline. O argumento <em>enabled</em> deve ser um valor booleano que, quando verdadeiro, ativa o histórico automático e, quando falso, desativa o histórico automático.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.6.</span></p>
+</div>
+<div class="impl-detail compound">
+<p class="translated">O histórico automático está ativado por padrão e as alterações não persistem em várias sessões.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="startup-hooks">
+<h2 class="translated">Ganchos de inicialização<a class="headerlink" href="#startup-hooks" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.set_startup_hook">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">set_startup_hook</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.set_startup_hook" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Define ou remove a função invocada pelo retorno de chamada <code class="xref c c-data docutils literal notranslate"><span class="pre">rl_startup_hook</span></code> da biblioteca subjacente. Se <em>function</em> for especificada, ela será usada como a nova função de gancho; se omitido ou <code class="docutils literal notranslate"><span class="pre">None</span></code>, qualquer função já instalada será removida. O gancho é chamado sem argumentos antes de readline imprimir o primeiro prompt.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.set_pre_input_hook">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">set_pre_input_hook</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.set_pre_input_hook" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Define ou remove a função invocada pelo retorno de chamada <code class="xref c c-data docutils literal notranslate"><span class="pre">rl_pre_input_hook</span></code> da biblioteca subjacente. Se <em>function</em> for especificada, ela será usada como a nova função de gancho; se omitida ou <code class="docutils literal notranslate"><span class="pre">None</span></code>, qualquer função já instalada será removida. O gancho é chamado sem argumentos após a impressão do primeiro prompt e pouco antes de readline começar a ler os caracteres de entrada. Esta função só existe se o Python foi compilado para uma versão da biblioteca que a suporta.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.get_pre_input_hook">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_pre_input_hook</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_pre_input_hook" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Obtém a função de gancho de pré-entrada atual, ou <code class="docutils literal notranslate"><span class="pre">None</span></code> caso nenhuma função de gancho de pré-entrada tenha sido definida. Esta função só existe se o Python tiver sido compilado para uma versão da biblioteca que ofereça suporte a ela.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.15.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="completion">
+<span id="readline-completion"></span><h2 class="translated">Autocomplemento<a class="headerlink" href="#completion" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">As funções a seguir estão relacionadas à implementação de uma função personalizada de autocomplemento ou <em>completion</em>, em inglês, de palavras. Isso normalmente é operado pela tecla Tab e pode sugerir e completar automaticamente uma palavra que está sendo digitada. Por padrão, Readline está configurado para ser usado por <a class="reference internal" href="rlcompleter.html#module-rlcompleter" title="rlcompleter: Python identifier completion, suitable for the GNU readline library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">rlcompleter</span></code></a> para completar identificadores Python para o interpretador interativo. Se o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code> for usado com um autocomplemento personalizado, um conjunto diferente de delimitadores de palavras deverá ser definido.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.set_completer">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">set_completer</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.set_completer" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Define ou remove a função de autocomplemento. Se <em>function</em> for especificada, ela será usada como a nova função de autocomplemento; se omitido ou <code class="docutils literal notranslate"><span class="pre">None</span></code>, qualquer função de autocomplemento já instalada será removida. A função de autocomplemento é chamada como <code class="docutils literal notranslate"><span class="pre">function(text,</span> <span class="pre">state)</span></code>, para <em>state</em> em <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">2</span></code>, …, até retornar um valor que não seja string. Deve retornar o próximo autocomplemento possível começando com <em>text</em>.</p>
+<p class="translated">A função de autocomplemento instalada é invocada pelo retorno de chamada <em>entry_func</em> passado para <code class="xref c c-func docutils literal notranslate"><span class="pre">rl_completion_matches()</span></code> na biblioteca subjacente. A string <em>text</em> vem do primeiro parâmetro para o retorno de chamada <code class="xref c c-data docutils literal notranslate"><span class="pre">rl_attempted_completion_function</span></code> da biblioteca subjacente.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.get_completer">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_completer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_completer" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Obtém a função de autocomplemento ou <code class="docutils literal notranslate"><span class="pre">None</span></code> se nenhuma função de autocomplemento tiver sido definida.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.get_completion_type">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_completion_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_completion_type" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Obtém o tipo de autocomplemento que está sendo tentado. Isso retorna a variável <code class="xref c c-data docutils literal notranslate"><span class="pre">rl_completion_type</span></code> na biblioteca subjacente como um número inteiro.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.get_begidx">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_begidx</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_begidx" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="readline.get_endidx">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_endidx</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_endidx" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Obtém o índice inicial ou final do escopo de autocomplemento. Esses índices são os argumentos <em>start</em> e <em>end</em> passados para o retorno de chamada <code class="xref c c-data docutils literal notranslate"><span class="pre">rl_attempted_completion_function</span></code> da biblioteca subjacente. Os valores podem ser diferentes no mesmo cenário de edição de entrada com base na implementação de C readline subjacente. Por exemplo, sabe-se que o libedit se comporta de maneira diferente do libreadline.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.set_completer_delims">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">set_completer_delims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#readline.set_completer_delims" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="readline.get_completer_delims">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">get_completer_delims</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.get_completer_delims" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Define ou obtém os delimitadores de palavras para autocomplemento. Estes determinam o início da palavra a ser considerada para autocomplemento (o escopo de autocomplemento). Essas funções acessam a variável <code class="xref c c-data docutils literal notranslate"><span class="pre">rl_completer_word_break_characters</span></code> na biblioteca subjacente.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="readline.set_completion_display_matches_hook">
+<span class="sig-prename descclassname"><span class="pre">readline.</span></span><span class="sig-name descname"><span class="pre">set_completion_display_matches_hook</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#readline.set_completion_display_matches_hook" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Define ou remove a função de exibição de autocomplemento. Se <em>function</em> for especificada, ela será usada como a nova função de exibição de autocomplemento; se omitida ou <code class="docutils literal notranslate"><span class="pre">None</span></code>, qualquer função de exibição de autocomplemento já instalada será removida. Isso define ou limpa o retorno de chamada <code class="xref c c-data docutils literal notranslate"><span class="pre">rl_completion_display_matches_hook</span></code> na biblioteca subjacente. A função de exibição de autocomplemento é chamada como <code class="docutils literal notranslate"><span class="pre">function(substitution,</span> <span class="pre">[matches],</span> <span class="pre">longest_match_length)</span></code> uma vez que cada correspondência precisa ser exibida.</p>
+</dd></dl>
+
+</section>
+<section id="example">
+<span id="readline-example"></span><h2 class="translated">Exemplo<a class="headerlink" href="#example" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O exemplo a seguir demonstra como usar as funções de leitura e gravação de histórico do módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code> para carregar e salvar automaticamente um arquivo de histórico chamado <code class="file docutils literal notranslate"><span class="pre">.python_history</span></code> do diretório inicial do usuário. O código abaixo normalmente seria executado automaticamente durante sessões interativas do arquivo <span class="target" id="index-4"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONSTARTUP"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONSTARTUP</span></code></a> do usuário.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">atexit</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">readline</span>
+
+<span class="n">histfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">"~"</span><span class="p">),</span> <span class="s2">".python_history"</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">readline</span><span class="o">.</span><span class="n">read_history_file</span><span class="p">(</span><span class="n">histfile</span><span class="p">)</span>
+    <span class="c1"># comprimento padrão do histórico é -1 (infinito), que pode crescer sem controle</span>
+    <span class="n">readline</span><span class="o">.</span><span class="n">set_history_length</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">readline</span><span class="o">.</span><span class="n">write_history_file</span><span class="p">,</span> <span class="n">histfile</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Na verdade, este código é executado automaticamente quando o Python é executado no <a class="reference internal" href="../tutorial/interpreter.html#tut-interactive"><span class="std std-ref">modo interativo</span></a> (veja <a class="reference internal" href="site.html#rlcompleter-config"><span class="std std-ref">Configuração Readline</span></a>).</p>
+<p class="translated">O exemplo a seguir atinge o mesmo objetivo, mas oferece suporte a sessões interativas simultâneas, anexando apenas o novo histórico.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">atexit</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">readline</span>
+<span class="n">histfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">"~"</span><span class="p">),</span> <span class="s2">".python_history"</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">readline</span><span class="o">.</span><span class="n">read_history_file</span><span class="p">(</span><span class="n">histfile</span><span class="p">)</span>
+    <span class="n">h_len</span> <span class="o">=</span> <span class="n">readline</span><span class="o">.</span><span class="n">get_current_history_length</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+    <span class="nb">open</span><span class="p">(</span><span class="n">histfile</span><span class="p">,</span> <span class="s1">'wb'</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">h_len</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="n">prev_h_len</span><span class="p">,</span> <span class="n">histfile</span><span class="p">):</span>
+    <span class="n">new_h_len</span> <span class="o">=</span> <span class="n">readline</span><span class="o">.</span><span class="n">get_current_history_length</span><span class="p">()</span>
+    <span class="n">readline</span><span class="o">.</span><span class="n">set_history_length</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">readline</span><span class="o">.</span><span class="n">append_history_file</span><span class="p">(</span><span class="n">new_h_len</span> <span class="o">-</span> <span class="n">prev_h_len</span><span class="p">,</span> <span class="n">histfile</span><span class="p">)</span>
+<span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">save</span><span class="p">,</span> <span class="n">h_len</span><span class="p">,</span> <span class="n">histfile</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">O exemplo a seguir estende a classe <a class="reference internal" href="code.html#code.InteractiveConsole" title="code.InteractiveConsole"><code class="xref py py-class docutils literal notranslate"><span class="pre">code.InteractiveConsole</span></code></a> para prover salvamento/restauração do histórico.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">atexit</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">code</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">readline</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">HistoryConsole</span><span class="p">(</span><span class="n">code</span><span class="o">.</span><span class="n">InteractiveConsole</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">locals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">"&lt;console&gt;"</span><span class="p">,</span>
+                 <span class="n">histfile</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">"~/.console-history"</span><span class="p">)):</span>
+        <span class="n">code</span><span class="o">.</span><span class="n">InteractiveConsole</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">locals</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_history</span><span class="p">(</span><span class="n">histfile</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">histfile</span><span class="p">):</span>
+        <span class="n">readline</span><span class="o">.</span><span class="n">parse_and_bind</span><span class="p">(</span><span class="s2">"tab: complete"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">readline</span><span class="p">,</span> <span class="s2">"read_history_file"</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">readline</span><span class="o">.</span><span class="n">read_history_file</span><span class="p">(</span><span class="n">histfile</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_history</span><span class="p">,</span> <span class="n">histfile</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">histfile</span><span class="p">):</span>
+        <span class="n">readline</span><span class="o">.</span><span class="n">set_history_length</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+        <span class="n">readline</span><span class="o">.</span><span class="n">write_history_file</span><span class="p">(</span><span class="n">histfile</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">O novo <a class="reference internal" href="../glossary.html#term-REPL"><span class="xref std std-term">REPL</span></a> introduzido na versão 3.13 não oferece suporte a readline. No entanto, readline ainda pode ser usado definindo a variável de ambiente <span class="target" id="index-5"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHON_BASIC_REPL"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHON_BASIC_REPL</span></code></a>.</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code> — Interface para o GNU readline</a><ul>
+<li><a class="reference internal" href="#init-file">Arquivo init</a></li>
+<li><a class="reference internal" href="#line-buffer">Buffer de linha</a></li>
+<li><a class="reference internal" href="#history-file">Arquivo de histórico</a></li>
+<li><a class="reference internal" href="#history-list">Lista de histórico</a></li>
+<li><a class="reference internal" href="#startup-hooks">Ganchos de inicialização</a></li>
+<li><a class="reference internal" href="#completion">Autocomplemento</a></li>
+<li><a class="reference internal" href="#example">Exemplo</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="stringprep.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stringprep</span></code> — Preparação de string para internet</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="rlcompleter.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rlcompleter</span></code> — Função de autocomplemento para GNU readline</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/readline.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/readline.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/readline.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="rlcompleter.html" title="rlcompleter — Função de autocomplemento para GNU readline"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="stringprep.html" title="stringprep — Preparação de string para internet"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="text.html" >Serviços de Processamento de Texto</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code> — Interface para o GNU readline</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

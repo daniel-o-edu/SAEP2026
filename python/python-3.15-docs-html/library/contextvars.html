@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="contextvars — Variáveis de contexto" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/contextvars.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Este módulo fornece APIs para gerenciar, armazenar e acessar o estado local do contexto. A classe ContextVar é usada para declarar e trabalhar com Variáveis de Contexto. A função copy_context() e a..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_contextvars_91782c0a.png" />
+<meta property="og:image:alt" content="Este módulo fornece APIs para gerenciar, armazenar e acessar o estado local do contexto. A classe ContextVar é usada para declarar e trabalhar com Variáveis de Contexto. A função copy_context() e a..." />
+<meta name="description" content="Este módulo fornece APIs para gerenciar, armazenar e acessar o estado local do contexto. A classe ContextVar é usada para declarar e trabalhar com Variáveis de Contexto. A função copy_context() e a..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>contextvars — Variáveis de contexto &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="_thread— API de segmentação de baixo nível" href="_thread.html" />
+    <link rel="prev" title="queue — Uma classe de fila sincronizada" href="queue.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/contextvars.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">contextvars</span></code> — Variáveis de contexto</a><ul>
+<li><a class="reference internal" href="#context-variables">Variáveis de contexto</a></li>
+<li><a class="reference internal" href="#manual-context-management">Gerenciamento de contexto manual</a></li>
+<li><a class="reference internal" href="#asyncio-support">Suporte a asyncio</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="queue.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code> — Uma classe de fila sincronizada</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="_thread.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">_thread</span></code>— API de segmentação de baixo nível</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/contextvars.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/contextvars.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/contextvars.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="_thread.html" title="_thread— API de segmentação de baixo nível"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="queue.html" title="queue — Uma classe de fila sincronizada"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concurrency.html" accesskey="U">Execução Concorrente</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">contextvars</span></code> — Variáveis de contexto</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-contextvars">
+<span id="contextvars-context-variables"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">contextvars</span></code> — Variáveis de contexto<a class="headerlink" href="#module-contextvars" title="Link para este cabeçalho">¶</a></h1>
+<hr class="docutils" />
+<p class="translated">Este módulo fornece APIs para gerenciar, armazenar e acessar o estado local do contexto. A classe <a class="reference internal" href="#contextvars.ContextVar" title="contextvars.ContextVar"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextVar</span></code></a> é usada para declarar e trabalhar com <em>Variáveis de Contexto</em>. A função <a class="reference internal" href="#contextvars.copy_context" title="contextvars.copy_context"><code class="xref py py-func docutils literal notranslate"><span class="pre">copy_context()</span></code></a> e a classe <a class="reference internal" href="#contextvars.Context" title="contextvars.Context"><code class="xref py py-class docutils literal notranslate"><span class="pre">Context</span></code></a> devem ser usadas para gerenciar o contexto atual em frameworks assíncronos.</p>
+<p class="translated">Os gerenciadores de contexto que possuem estado devem usar Variáveis de Contexto ao invés de <a class="reference internal" href="threading.html#threading.local" title="threading.local"><code class="xref py py-func docutils literal notranslate"><span class="pre">threading.local()</span></code></a> para evitar que seu estado vaze para outro código inesperadamente, quando usado em código concorrente.</p>
+<p class="translated">Veja também a <span class="target" id="index-2"></span><a class="pep reference external" href="https://peps.python.org/pep-0567/"><strong>PEP 567</strong></a> para detalhes adicionais.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.7.</span></p>
+</div>
+<section id="context-variables">
+<h2 class="translated">Variáveis de contexto<a class="headerlink" href="#context-variables" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="contextvars.ContextVar">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">contextvars.</span></span><span class="sig-name descname"><span class="pre">ContextVar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#contextvars.ContextVar" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Esta classe é usada para declarar uma nova variável de contexto, como, por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">var</span><span class="p">:</span> <span class="n">ContextVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">ContextVar</span><span class="p">(</span><span class="s1">'var'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">O parâmetro obrigatório <em>name</em> é usado para fins de introspecção e depuração.</p>
+<p class="translated">O parâmetro somente-nomeado opcional <em>default</em> é retornado por <a class="reference internal" href="#contextvars.ContextVar.get" title="contextvars.ContextVar.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ContextVar.get()</span></code></a> quando nenhum valor para a variável é encontrado no contexto atual.</p>
+<p class="translated"><strong>Importante:</strong> Variáveis de Contexto devem ser criadas no nível do módulo superior e nunca em fechamentos. Os objetos <a class="reference internal" href="#contextvars.Context" title="contextvars.Context"><code class="xref py py-class docutils literal notranslate"><span class="pre">Context</span></code></a> contêm referências fortes a variáveis de contexto que evitam que as variáveis de contexto sejam coletadas como lixo corretamente.</p>
+<p class="untranslated"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextVar</span></code>s are <a class="reference internal" href="typing.html#generics"><span class="std std-ref">generic</span></a> over the type of
+their contained value.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contextvars.ContextVar.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#contextvars.ContextVar.name" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O nome da variável. Esta é uma propriedade somente leitura.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.7.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="contextvars.ContextVar.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">default</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#contextvars.ContextVar.get" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um valor para a variável de contexto para o contexto atual.</p>
+<p class="translated">Se não houver valor para a variável no contexto atual, o método vai:</p>
+<ul class="simple">
+<li><p class="translated">retornar o valor do argumento <em>default</em> do método, se fornecido; ou</p></li>
+<li><p class="translated">retornar o valor padrão para a variável de contexto, se ela foi criada com uma; ou</p></li>
+<li><p class="translated">levantar uma <a class="reference internal" href="../builtins/exceptions.html#LookupError" title="LookupError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">LookupError</span></code></a>.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="contextvars.ContextVar.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#contextvars.ContextVar.set" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Chame para definir um novo valor para a variável de contexto no contexto atual.</p>
+<p class="translated">O argumento <em>value</em> obrigatório é o novo valor para a variável de contexto.</p>
+<p class="translated">Retorna um objeto <a class="reference internal" href="#contextvars.Token" title="contextvars.Token"><code class="xref py py-class docutils literal notranslate"><span class="pre">Token</span></code></a> que pode ser usado para restaurar a variável ao seu valor anterior através do método <a class="reference internal" href="#contextvars.ContextVar.reset" title="contextvars.ContextVar.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ContextVar.reset()</span></code></a>.</p>
+<p class="untranslated">For convenience, the token object can be used as a context manager
+to avoid calling <a class="reference internal" href="#contextvars.ContextVar.reset" title="contextvars.ContextVar.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ContextVar.reset()</span></code></a> manually:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="o">=</span> <span class="n">ContextVar</span><span class="p">(</span><span class="s1">'var'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">'default value'</span><span class="p">)</span><span class="k">with</span> <span class="n">var</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'new value'</span><span class="p">):</span>    <span class="k">assert</span> <span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'new value'</span><span class="k">assert</span> <span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'default value'</span>
+</pre></div>
+</div>
+<p class="untranslated">It is a shorthand for:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="o">=</span> <span class="n">ContextVar</span><span class="p">(</span><span class="s1">'var'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">'default value'</span><span class="p">)</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'new value'</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">assert</span> <span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'new value'</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="n">var</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'default value'</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14: </span>Added support for using tokens as context managers.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="contextvars.ContextVar.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#contextvars.ContextVar.reset" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Redefine a variável de contexto para o valor que tinha antes de <a class="reference internal" href="#contextvars.ContextVar.set" title="contextvars.ContextVar.set"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ContextVar.set()</span></code></a>. que criou o <em>token</em>, ser usado.</p>
+<p class="translated">Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="o">=</span> <span class="n">ContextVar</span><span class="p">(</span><span class="s1">'var'</span><span class="p">)</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'novo valor'</span><span class="p">)</span>
+<span class="c1"># código que usa 'var'; var.get() retorna 'novo valor'.</span>
+<span class="n">var</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+
+<span class="c1"># Após uma chamada de redefinição, var não tem mais valor,</span>
+<span class="c1"># então var.get() levantaria uma exceção LookupError.</span>
+</pre></div>
+</div>
+<p class="untranslated">The same <em>token</em> cannot be used twice.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="contextvars.Token">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">contextvars.</span></span><span class="sig-name descname"><span class="pre">Token</span></span><a class="headerlink" href="#contextvars.Token" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated"><em>Token</em> objects are returned by the <a class="reference internal" href="#contextvars.ContextVar.set" title="contextvars.ContextVar.set"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ContextVar.set()</span></code></a> method.
+They can be passed to the <a class="reference internal" href="#contextvars.ContextVar.reset" title="contextvars.ContextVar.reset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ContextVar.reset()</span></code></a> method to revert
+the value of the variable to what it was before the corresponding
+<em>set</em>. A single token cannot reset a context variable more than once.</p>
+<p class="untranslated">Tokens support the <a class="reference internal" href="../reference/datamodel.html#context-managers"><span class="std std-ref">context manager protocol</span></a>
+to automatically reset context variables. See <a class="reference internal" href="#contextvars.ContextVar.set" title="contextvars.ContextVar.set"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ContextVar.set()</span></code></a>.</p>
+<p class="untranslated">Tokens are <a class="reference internal" href="typing.html#generics"><span class="std std-ref">generic</span></a> over the same type as the
+<a class="reference internal" href="#contextvars.ContextVar" title="contextvars.ContextVar"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextVar</span></code></a> which created them.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14: </span>Adicionado suporte para uso como gerenciador de contexto.</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contextvars.Token.var">
+<span class="sig-name descname"><span class="pre">var</span></span><a class="headerlink" href="#contextvars.Token.var" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma propriedade somente leitura. Aponta para o objeto <a class="reference internal" href="#contextvars.ContextVar" title="contextvars.ContextVar"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextVar</span></code></a> que criou o token.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contextvars.Token.old_value">
+<span class="sig-name descname"><span class="pre">old_value</span></span><a class="headerlink" href="#contextvars.Token.old_value" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma propriedade somente leitura. Definida com o valor que a variável tinha antes da chamada do método <a class="reference internal" href="#contextvars.ContextVar.set" title="contextvars.ContextVar.set"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ContextVar.set()</span></code></a> que criou o token. Aponta para <a class="reference internal" href="#contextvars.Token.MISSING" title="contextvars.Token.MISSING"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Token.MISSING</span></code></a> se a variável não foi definida antes da chamada.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="contextvars.Token.MISSING">
+<span class="sig-name descname"><span class="pre">MISSING</span></span><a class="headerlink" href="#contextvars.Token.MISSING" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um objeto marcador usado por <a class="reference internal" href="#contextvars.Token.old_value" title="contextvars.Token.old_value"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Token.old_value</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="manual-context-management">
+<h2 class="translated">Gerenciamento de contexto manual<a class="headerlink" href="#manual-context-management" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="contextvars.copy_context">
+<span class="sig-prename descclassname"><span class="pre">contextvars.</span></span><span class="sig-name descname"><span class="pre">copy_context</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#contextvars.copy_context" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma cópia do objeto <a class="reference internal" href="#contextvars.Context" title="contextvars.Context"><code class="xref py py-class docutils literal notranslate"><span class="pre">Context</span></code></a> atual.</p>
+<p class="translated">O trecho a seguir obtém uma cópia do contexto atual e imprime todas as variáveis e seus valores que estão definidos nele:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span> <span class="o">=</span> <span class="n">copy_context</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+</pre></div>
+</div>
+<p class="translated">A função tem uma complexidade <em>O</em>(1), ou seja, funciona igualmente rápida para contextos com algumas variáveis de contexto e para contextos que têm muitas delas.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="contextvars.Context">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">contextvars.</span></span><span class="sig-name descname"><span class="pre">Context</span></span><a class="headerlink" href="#contextvars.Context" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um mapeamento de <a class="reference internal" href="#contextvars.ContextVar" title="contextvars.ContextVar"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextVars</span></code></a> para seus valores.</p>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">Context()</span></code> cria um contexto vazio sem valores nele. Para obter uma cópia do contexto atual, use a função <a class="reference internal" href="#contextvars.copy_context" title="contextvars.copy_context"><code class="xref py py-func docutils literal notranslate"><span class="pre">copy_context()</span></code></a>.</p>
+<p class="translated">Cada thread tem sua própria pilha efetiva de objetos <code class="xref py py-class docutils literal notranslate"><span class="pre">Context</span></code>. O <a class="reference internal" href="../glossary.html#term-current-context"><span class="xref std std-term">contexto atual</span></a> é o objeto <code class="xref py py-class docutils literal notranslate"><span class="pre">Context</span></code> no topo da pilha da thread atual. Todos os objetos <code class="xref py py-class docutils literal notranslate"><span class="pre">Context</span></code> nas pilhas são considerados como <em>inseridos</em>.</p>
+<p class="translated"><em>Inserir</em> um contexto, o que pode ser feito chamando seu método <a class="reference internal" href="#contextvars.Context.run" title="contextvars.Context.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a>, torna o contexto o contexto atual, colocando-o no topo da pilha de contexto da thread atual.</p>
+<p class="translated"><em>Sair</em> do contexto atual, o que pode ser feito retornando do retorno de chamada passado para o método <a class="reference internal" href="#contextvars.Context.run" title="contextvars.Context.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a>, restaura o contexto atual para o que era antes de o contexto ser inserido, retirando o contexto do topo da pilha de contextos.</p>
+<p class="translated">Como cada thread tem sua própria pilha de contexto, os objetos <a class="reference internal" href="#contextvars.ContextVar" title="contextvars.ContextVar"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextVar</span></code></a> se comportam de maneira semelhante a <a class="reference internal" href="threading.html#threading.local" title="threading.local"><code class="xref py py-func docutils literal notranslate"><span class="pre">threading.local()</span></code></a> quando valores são atribuídos em threads diferentes.</p>
+<p class="translated">Tentar entrar em um contexto já inserido, incluindo contextos inseridos em outras threads, levanta uma exceção <a class="reference internal" href="../builtins/exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>.</p>
+<p class="translated">Após sair de um contexto, ele pode ser acessado novamente (de qualquer thread).</p>
+<p class="translated">Quaisquer alterações nos valores de <a class="reference internal" href="#contextvars.ContextVar" title="contextvars.ContextVar"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextVar</span></code></a> por meio do método <a class="reference internal" href="#contextvars.ContextVar.set" title="contextvars.ContextVar.set"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ContextVar.set()</span></code></a> são registradas no contexto atual. O método <a class="reference internal" href="#contextvars.ContextVar.get" title="contextvars.ContextVar.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ContextVar.get()</span></code></a> retorna o valor associado ao contexto atual. Sair de um contexto efetivamente reverte quaisquer alterações feitas nas variáveis de contexto enquanto o contexto foi inserido (se necessário, os valores podem ser restaurados ao inserir novamente o contexto).</p>
+<p class="translated">Context implementa a interface <a class="reference internal" href="collections.abc.html#collections.abc.Mapping" title="collections.abc.Mapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Mapping</span></code></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="contextvars.Context.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#contextvars.Context.run" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Entra no Context, executa <code class="docutils literal notranslate"><span class="pre">callable(*args,</span> <span class="pre">**kwargs)</span></code> e sai do Context. Retorna o valor de retorno de <em>callable</em> ou propaga uma exceção, se ocorrer uma.</p>
+<p class="translated">Exemplo:</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">contextvars</span>
+
+<span class="n">var</span> <span class="o">=</span> <span class="n">contextvars</span><span class="o">.</span><span class="n">ContextVar</span><span class="p">(</span><span class="s1">'var'</span><span class="p">)</span>
+<span class="n">var</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'spam'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>  <span class="c1"># 'spam'</span>
+
+<span class="n">ctx</span> <span class="o">=</span> <span class="n">contextvars</span><span class="o">.</span><span class="n">copy_context</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># 'var' foi definida para 'spam' antes de</span>
+    <span class="c1"># chamar 'copy_context()' e 'ctx.run(main)', então:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>  <span class="c1"># 'spam'</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ctx</span><span class="p">[</span><span class="n">var</span><span class="p">])</span>  <span class="c1"># 'spam'</span>
+
+    <span class="n">var</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'ham'</span><span class="p">)</span>
+
+    <span class="c1"># Agora, após definir 'var' para 'ham':</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>  <span class="c1"># 'ham'</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ctx</span><span class="p">[</span><span class="n">var</span><span class="p">])</span>  <span class="c1"># 'ham'</span>
+
+<span class="c1"># Qualquer alteração que a função 'main' feitas a 'var'</span>
+<span class="c1"># serão contidos em 'ctx'.</span>
+<span class="n">ctx</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">)</span>
+
+<span class="c1"># A função 'main()' era executada no contexto 'ctx',</span>
+<span class="c1"># então alterações a 'var' são contidas nele:</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ctx</span><span class="p">[</span><span class="n">var</span><span class="p">])</span>  <span class="c1"># 'ham'</span>
+
+<span class="c1"># No entanto, fora de 'ctx', 'var' ainda está definida para 'spam':</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>  <span class="c1"># 'spam'</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="contextvars.Context.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#contextvars.Context.copy" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma cópia rasa do objeto contexto.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">var</span> <span class="pre">in</span> <span class="pre">context</span></span></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se <em>context</em> tem uma variável para <em>var</em> definida; do contrário, retorna <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">context[var]</span></span></dt>
+<dd><p class="translated">Retorna o valor da variável <a class="reference internal" href="#contextvars.ContextVar" title="contextvars.ContextVar"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextVar</span></code></a> <em>var</em>. Se a variável não for definida no objeto contexto, uma <a class="reference internal" href="../builtins/exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> é levantada.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="contextvars.Context.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#contextvars.Context.get" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o valor para <em>var</em> se <em>var</em> tiver o valor no objeto contexto. Caso contrário, retorna <em>default</em>. Se <em>default</em> não for fornecido, retorna <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">iter(context)</span></span></dt>
+<dd><p class="translated">Retorna um iterador sobre as variáveis armazenadas no objeto contexto.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">len(proxy)</span></span></dt>
+<dd><p class="translated">Retorna o número das variáveis definidas no objeto contexto.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="contextvars.Context.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#contextvars.Context.keys" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma lista de todas as variáveis no objeto contexto.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="contextvars.Context.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#contextvars.Context.values" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma lista dos valores de todas as variáveis no objeto contexto.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="contextvars.Context.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#contextvars.Context.items" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma lista de tuplas de 2 elementos contendo todas as variáveis e seus valores no objeto contexto.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="asyncio-support">
+<h2 class="translated">Suporte a asyncio<a class="headerlink" href="#asyncio-support" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Variáveis de contexto encontram suporte nativo em <a class="reference internal" href="asyncio.html#module-asyncio" title="asyncio: Asynchronous I/O."><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code></a> e estão prontas para serem usadas sem qualquer configuração extra. Por exemplo, aqui está um servidor simples de eco, que usa uma variável de contexto para disponibilizar o endereço de um cliente remoto na Task que lida com esse cliente:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">contextvars</span>
+
+<span class="n">client_addr_var</span> <span class="o">=</span> <span class="n">contextvars</span><span class="o">.</span><span class="n">ContextVar</span><span class="p">(</span><span class="s1">'client_addr'</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">render_goodbye</span><span class="p">():</span>
+    <span class="c1"># The address of the currently handled client can be accessed</span>
+    <span class="c1"># without passing it explicitly to this function.</span>
+
+    <span class="n">client_addr</span> <span class="o">=</span> <span class="n">client_addr_var</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">'Good bye, client @ </span><span class="si">{</span><span class="n">client_addr</span><span class="si">}</span><span class="se">\r\n</span><span class="s1">'</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_request</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">writer</span><span class="p">):</span>
+    <span class="n">addr</span> <span class="o">=</span> <span class="n">writer</span><span class="o">.</span><span class="n">transport</span><span class="o">.</span><span class="n">get_extra_info</span><span class="p">(</span><span class="s1">'socket'</span><span class="p">)</span><span class="o">.</span><span class="n">getpeername</span><span class="p">()</span>
+    <span class="n">client_addr_var</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>
+
+    <span class="c1"># In any code that we call, it is now possible to get the</span>
+    <span class="c1"># client's address by calling 'client_addr_var.get()'.</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="k">await</span> <span class="n">reader</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+            <span class="k">break</span>
+
+    <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s1">'HTTP/1.1 200 OK</span><span class="se">\r\n</span><span class="s1">'</span><span class="p">)</span>  <span class="c1"># status line</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s1">'</span><span class="se">\r\n</span><span class="s1">'</span><span class="p">)</span>  <span class="c1"># headers</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">render_goodbye</span><span class="p">())</span>  <span class="c1"># body</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">srv</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">start_server</span><span class="p">(</span>
+        <span class="n">handle_request</span><span class="p">,</span> <span class="s1">'127.0.0.1'</span><span class="p">,</span> <span class="mi">8081</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">with</span> <span class="n">srv</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">srv</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+
+<span class="c1"># To test it you can use telnet or curl:</span>
+<span class="c1">#     telnet 127.0.0.1 8081</span>
+<span class="c1">#     curl 127.0.0.1:8081</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">contextvars</span></code> — Variáveis de contexto</a><ul>
+<li><a class="reference internal" href="#context-variables">Variáveis de contexto</a></li>
+<li><a class="reference internal" href="#manual-context-management">Gerenciamento de contexto manual</a></li>
+<li><a class="reference internal" href="#asyncio-support">Suporte a asyncio</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="queue.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code> — Uma classe de fila sincronizada</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="_thread.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">_thread</span></code>— API de segmentação de baixo nível</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/contextvars.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/contextvars.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/contextvars.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="_thread.html" title="_thread— API de segmentação de baixo nível"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="queue.html" title="queue — Uma classe de fila sincronizada"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concurrency.html" >Execução Concorrente</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">contextvars</span></code> — Variáveis de contexto</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

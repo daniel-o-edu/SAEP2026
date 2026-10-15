@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="A inicialização do caminho de pesquisa de módulos sys.path" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/sys_path_init.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Um caminho de pesquisa de módulos é inicializado quando o Python é iniciado. Este caminho de pesquisa de módulos pode ser acessado em sys.path. A primeira entrada no caminho de pesquisa de módulos ..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_sys_path_init_12b45a52.png" />
+<meta property="og:image:alt" content="Um caminho de pesquisa de módulos é inicializado quando o Python é iniciado. Este caminho de pesquisa de módulos pode ser acessado em sys.path. A primeira entrada no caminho de pesquisa de módulos ..." />
+<meta name="description" content="Um caminho de pesquisa de módulos é inicializado quando o Python é iniciado. Este caminho de pesquisa de módulos pode ser acessado em sys.path. A primeira entrada no caminho de pesquisa de módulos ..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>A inicialização do caminho de pesquisa de módulos sys.path &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Serviços da Linguagem Python" href="language.html" />
+    <link rel="prev" title="importlib.metadata – Acessando metadados do pacote" href="importlib.metadata.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/sys_path_init.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">A inicialização do caminho de pesquisa de módulos <code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a><ul>
+<li><a class="reference internal" href="#virtual-environments">Ambientes virtuais</a></li>
+<li><a class="reference internal" href="#pth-files">Arquivos _pth</a></li>
+<li><a class="reference internal" href="#embedded-python">Python embarcado</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="importlib.metadata.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.metadata</span></code> – Acessando metadados do pacote</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="language.html"
+                          title="próximo capítulo">Serviços da Linguagem Python</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/sys_path_init.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/sys_path_init.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/sys_path_init.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="language.html" title="Serviços da Linguagem Python"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="importlib.metadata.html" title="importlib.metadata – Acessando metadados do pacote"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="modules.html" accesskey="U">Importando módulos</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">A inicialização do caminho de pesquisa de módulos <code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="the-initialization-of-the-sys-path-module-search-path">
+<span id="sys-path-init"></span><h1 class="translated">A inicialização do caminho de pesquisa de módulos <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a><a class="headerlink" href="#the-initialization-of-the-sys-path-module-search-path" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated">Um caminho de pesquisa de módulos é inicializado quando o Python é iniciado. Este caminho de pesquisa de módulos pode ser acessado em <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a>.</p>
+<p class="translated">A primeira entrada no caminho de pesquisa de módulos é o diretório que contém o script de entrada, se houver. Caso contrário, a primeira entrada é o diretório atual, que é o caso ao executar o console interativo, um comando com <a class="reference internal" href="../using/cmdline.html#cmdoption-c"><code class="xref std std-option docutils literal notranslate"><span class="pre">-c</span></code></a> ou um módulo com <a class="reference internal" href="../using/cmdline.html#cmdoption-m"><code class="xref std std-option docutils literal notranslate"><span class="pre">-m</span></code></a>.</p>
+<p class="translated">A variável de ambiente <span class="target" id="index-14"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONPATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONPATH</span></code></a> é frequentemente usada para adicionar diretórios ao caminho de pesquisa. Se esta variável de ambiente for encontrada, o conteúdo será adicionado ao caminho de pesquisa de módulos.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated"><span class="target" id="index-15"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONPATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONPATH</span></code></a> afetará todas as versões/ambientes Python instalados. Tenha cuidado ao definir isso em seu perfil do shell ou em variáveis de ambiente globais. O módulo <a class="reference internal" href="site.html#module-site" title="site: Module responsible for site-specific configuration."><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code></a> oferece técnicas mais diferenciadas, conforme mencionado abaixo.</p>
+</div>
+<p class="translated">Os próximos itens adicionados são os diretórios contendo módulos padrão do Python, bem como quaisquer <a class="reference internal" href="../glossary.html#term-extension-module"><span class="xref std std-term">módulos de extensão</span></a> dos quais esses módulos dependem. Módulos de extensão são arquivos <code class="docutils literal notranslate"><span class="pre">.pyd</span></code> no Windows e arquivos <code class="docutils literal notranslate"><span class="pre">.so</span></code> em outras plataformas. O diretório com os módulos Python independentes de plataforma é chamado <code class="docutils literal notranslate"><span class="pre">prefix</span></code>. O diretório com os módulos de extensão é chamado <code class="docutils literal notranslate"><span class="pre">exec_prefix</span></code>.</p>
+<p class="translated">A variável de ambiente <span class="target" id="index-16"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONHOME"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONHOME</span></code></a> pode ser usada para definir os locais <code class="docutils literal notranslate"><span class="pre">prefix</span></code> e <code class="docutils literal notranslate"><span class="pre">exec_prefix</span></code>. Caso contrário, esses diretórios serão encontrados usando o executável Python como ponto de partida e, em seguida, procurando por vários arquivos e diretórios “de referência”. Observe que todos os links simbólicos são seguidos para que o local real do executável do Python seja usado como ponto de partida da pesquisa. O local do executável do Python é chamado <code class="docutils literal notranslate"><span class="pre">home</span></code>.</p>
+<p class="translated">Uma vez que <code class="docutils literal notranslate"><span class="pre">home</span></code> é determinado, o diretório <code class="docutils literal notranslate"><span class="pre">prefix</span></code> é encontrado procurando primeiro por <code class="file docutils literal notranslate"><span class="pre">python</span><em><span class="pre">majorversion</span></em><em><span class="pre">minorversion</span></em><span class="pre">.zip</span></code> (<code class="docutils literal notranslate"><span class="pre">python311.zip</span></code>). No Windows, o arquivo zip é procurado em <code class="docutils literal notranslate"><span class="pre">home</span></code> e no Unix espera-se que o arquivo esteja em <code class="file docutils literal notranslate"><span class="pre">lib</span></code>. Observe que o local esperado do arquivo zip é adicionado ao caminho de pesquisa de módulos, mesmo que o arquivo não exista. Se nenhum arquivo for encontrado, o Python no Windows continuará a pesquisa por <code class="docutils literal notranslate"><span class="pre">prefix</span></code> procurando por <code class="file docutils literal notranslate"><span class="pre">Lib\os.py</span></code>. Python no Unix procurará por <code class="file docutils literal notranslate"><span class="pre">lib/python</span><em><span class="pre">majorversion</span></em><span class="pre">.</span><em><span class="pre">minorversion</span></em><span class="pre">/os.py</span></code> (<code class="docutils literal notranslate"><span class="pre">lib/python3.11/os.py</span></code>). No Windows, <code class="docutils literal notranslate"><span class="pre">prefix</span></code> e <code class="docutils literal notranslate"><span class="pre">exec_prefix</span></code> são iguais, porém em outras plataformas <code class="file docutils literal notranslate"><span class="pre">lib/python</span><em><span class="pre">majorversion</span></em><span class="pre">.</span><em><span class="pre">minorversion</span></em><span class="pre">/lib-dynload</span></code> (<code class="docutils literal notranslate"><span class="pre">lib/python3.11/lib-dynload</span></code>) é pesquisado e usado como âncora para <code class="docutils literal notranslate"><span class="pre">exec_prefix</span></code>. Em algumas plataformas, <code class="file docutils literal notranslate"><span class="pre">lib</span></code> pode ser <code class="file docutils literal notranslate"><span class="pre">lib64</span></code> ou outro valor, veja <a class="reference internal" href="sys.html#sys.platlibdir" title="sys.platlibdir"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.platlibdir</span></code></a> e <span class="target" id="index-17"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONPLATLIBDIR"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONPLATLIBDIR</span></code></a>.</p>
+<p class="translated">Uma vez encontrados, <code class="docutils literal notranslate"><span class="pre">prefix</span></code> e <code class="docutils literal notranslate"><span class="pre">exec_prefix</span></code> estão disponíveis em <a class="reference internal" href="sys.html#sys.base_prefix" title="sys.base_prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.base_prefix</span></code></a> e <a class="reference internal" href="sys.html#sys.base_exec_prefix" title="sys.base_exec_prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.base_exec_prefix</span></code></a>, respectivamente.</p>
+<p class="translated">Se <span class="target" id="index-18"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONHOME"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONHOME</span></code></a> não estiver definido e um arquivo <code class="docutils literal notranslate"><span class="pre">pyvenv.cfg</span></code> for encontrado ao lado do executável principal ou em seu diretório pai, <a class="reference internal" href="sys.html#sys.prefix" title="sys.prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.prefix</span></code></a> e <a class="reference internal" href="sys.html#sys.exec_prefix" title="sys.exec_prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.exec_prefix</span></code></a> serão definidos para o diretório que contém <code class="docutils literal notranslate"><span class="pre">pyvenv.cfg</span></code>; caso contrário, serão definidos com o mesmo valor que <a class="reference internal" href="sys.html#sys.base_prefix" title="sys.base_prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.base_prefix</span></code></a> e <a class="reference internal" href="sys.html#sys.base_exec_prefix" title="sys.base_exec_prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.base_exec_prefix</span></code></a>, respectivamente. Isso é usado por <a class="reference internal" href="#sys-path-init-virtual-environments"><span class="std std-ref">Ambientes virtuais</span></a>.</p>
+<p class="untranslated">Finally, the <a class="reference internal" href="site.html#module-site" title="site: Module responsible for site-specific configuration."><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code></a> module is processed and <code class="file docutils literal notranslate"><span class="pre">site-packages</span></code>
+directories are added to the module search path.  The <span class="target" id="index-5"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONUSERBASE"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONUSERBASE</span></code></a>
+environment variable controls where is searched for user site-packages and the
+<span class="target" id="index-6"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONNOUSERSITE"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONNOUSERSITE</span></code></a> environment variable prevents searching for user
+site-packages all together.  A common way to customize the search path is to
+create <a class="reference internal" href="site.html#module-sitecustomize" title="sitecustomize"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sitecustomize</span></code></a> or <a class="reference internal" href="site.html#module-usercustomize" title="usercustomize"><code class="xref py py-mod docutils literal notranslate"><span class="pre">usercustomize</span></code></a> modules as described in the
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code> module documentation.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="untranslated">The command line options <a class="reference internal" href="../using/cmdline.html#cmdoption-E"><code class="xref std std-option docutils literal notranslate"><span class="pre">-E</span></code></a>, <a class="reference internal" href="../using/cmdline.html#cmdoption-P"><code class="xref std std-option docutils literal notranslate"><span class="pre">-P</span></code></a>, <a class="reference internal" href="../using/cmdline.html#cmdoption-I"><code class="xref std std-option docutils literal notranslate"><span class="pre">-I</span></code></a>,
+<a class="reference internal" href="../using/cmdline.html#cmdoption-S"><code class="xref std std-option docutils literal notranslate"><span class="pre">-S</span></code></a> and <a class="reference internal" href="../using/cmdline.html#cmdoption-s"><code class="xref std std-option docutils literal notranslate"><span class="pre">-s</span></code></a> further affect path calculations, see their
+documentation for details.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.14: </span><a class="reference internal" href="sys.html#sys.prefix" title="sys.prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.prefix</span></code></a> e <a class="reference internal" href="sys.html#sys.exec_prefix" title="sys.exec_prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.exec_prefix</span></code></a> agora são definidos para o diretório <code class="docutils literal notranslate"><span class="pre">pyvenv.cfg</span></code> durante a inicialização do caminho. Isso era feito anteriormente por <a class="reference internal" href="site.html#module-site" title="site: Module responsible for site-specific configuration."><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code></a> e, portanto, afetado por <a class="reference internal" href="../using/cmdline.html#cmdoption-S"><code class="xref std std-option docutils literal notranslate"><span class="pre">-S</span></code></a>.</p>
+</div>
+<section id="virtual-environments">
+<span id="sys-path-init-virtual-environments"></span><h2 class="translated">Ambientes virtuais<a class="headerlink" href="#virtual-environments" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Ambientes virtuais colocam um arquivo <code class="docutils literal notranslate"><span class="pre">pyvenv.cfg</span></code> em seu prefixo, o que faz com que <a class="reference internal" href="sys.html#sys.prefix" title="sys.prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.prefix</span></code></a> e <a class="reference internal" href="sys.html#sys.exec_prefix" title="sys.exec_prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.exec_prefix</span></code></a> apontem para eles, em vez da instalação base.</p>
+<p class="translated">Os valores <code class="docutils literal notranslate"><span class="pre">prefix</span></code> e <code class="docutils literal notranslate"><span class="pre">exec_prefix</span></code> da instalação base estão disponíveis em <a class="reference internal" href="sys.html#sys.base_prefix" title="sys.base_prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.base_prefix</span></code></a> e <a class="reference internal" href="sys.html#sys.base_exec_prefix" title="sys.base_exec_prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.base_exec_prefix</span></code></a>.</p>
+<p class="translated">Além de ser usado como um marcador para identificar ambientes virtuais, <code class="docutils literal notranslate"><span class="pre">pyvenv.cfg</span></code> também pode ser usado para configurar a inicialização do <a class="reference internal" href="site.html#module-site" title="site: Module responsible for site-specific configuration."><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code></a>. Consulte a <a class="reference internal" href="site.html#site-virtual-environments-configuration"><span class="std std-ref">documentação de ambientes virtuais</span></a> do <code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated"><span class="target" id="index-19"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONHOME"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONHOME</span></code></a> substitui a detecção <code class="docutils literal notranslate"><span class="pre">pyvenv.cfg</span></code>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="untranslated">There are other ways “virtual environments” could be implemented.
+This documentation refers to implementations based on the <code class="docutils literal notranslate"><span class="pre">pyvenv.cfg</span></code>
+mechanism, such as <a class="reference internal" href="venv.html#module-venv" title="venv: Creation of virtual environments."><code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code></a>, that many virtual environment implementations
+follow.</p>
+</div>
+</section>
+<section id="pth-files">
+<span id="sys-path-init-pth-files"></span><h2 class="translated">Arquivos _pth<a class="headerlink" href="#pth-files" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Para substituir completamente <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a>, crie um arquivo <code class="docutils literal notranslate"><span class="pre">._pth</span></code> com o mesmo nome da biblioteca compartilhada ou executável (<code class="docutils literal notranslate"><span class="pre">python._pth</span></code> ou <code class="docutils literal notranslate"><span class="pre">python311._pth</span></code>). O caminho da biblioteca compartilhada é sempre conhecido no Windows, mas pode não estar disponível em outras plataformas. No arquivo <code class="docutils literal notranslate"><span class="pre">._pth</span></code>, especifique uma linha para cada caminho a ser adicionado a <code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code>. O arquivo baseado no nome da biblioteca compartilhada substitui aquele baseado no executável, o que permite que os caminhos sejam restritos para qualquer programa que carregue o tempo de execução, se desejado.</p>
+<p class="translated">Quando o arquivo existe, todos os registros e variáveis de ambiente são ignorados, o modo isolado é ativado, e <a class="reference internal" href="site.html#module-site" title="site: Module responsible for site-specific configuration."><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code></a> não é importado a menos que uma linha do arquivo especifique <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">site</span></code>. Caminhos em branco e linhas começando com <code class="docutils literal notranslate"><span class="pre">#</span></code> são ignorados. Cada caminho pode ser absoluto ou relativo ao local do arquivo. Instruções de importação diferente de <code class="docutils literal notranslate"><span class="pre">site</span></code> não são permitidas, e código arbitrário não pode ser especificado.</p>
+<p class="translated">Note que arquivos <code class="docutils literal notranslate"><span class="pre">.pth</span></code> (sem o sublinhado no início) serão processados normalmente pelo módulo <a class="reference internal" href="site.html#module-site" title="site: Module responsible for site-specific configuration."><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code></a> quando <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">site</span></code> tiver sido especificado.</p>
+</section>
+<section id="embedded-python">
+<h2 class="translated">Python embarcado<a class="headerlink" href="#embedded-python" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Se o Python estiver incorporado em outra aplicação, <a class="reference internal" href="../c-api/interp-lifecycle.html#c.Py_InitializeFromConfig" title="Py_InitializeFromConfig"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_InitializeFromConfig()</span></code></a> e a estrutura <a class="reference internal" href="../c-api/init_config.html#c.PyConfig" title="PyConfig"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyConfig</span></code></a> podem ser usados para inicializar o Python. Os detalhes específicos do caminho estão descritos em <a class="reference internal" href="../c-api/init_config.html#init-path-config"><span class="std std-ref">Python Path Configuration</span></a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<ul class="simple">
+<li><p class="translated"><a class="reference internal" href="../using/windows.html#windows-finding-modules"><span class="std std-ref">Encontrando módulos</span></a> para observações detalhadas do Windows.</p></li>
+<li><p class="translated"><a class="reference internal" href="../using/unix.html#using-on-unix"><span class="std std-ref">Utilizando Python em plataformas Unix</span></a> para detalhes do Unix.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">A inicialização do caminho de pesquisa de módulos <code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a><ul>
+<li><a class="reference internal" href="#virtual-environments">Ambientes virtuais</a></li>
+<li><a class="reference internal" href="#pth-files">Arquivos _pth</a></li>
+<li><a class="reference internal" href="#embedded-python">Python embarcado</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="importlib.metadata.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.metadata</span></code> – Acessando metadados do pacote</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="language.html"
+                          title="próximo capítulo">Serviços da Linguagem Python</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/sys_path_init.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/sys_path_init.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/sys_path_init.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="language.html" title="Serviços da Linguagem Python"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="importlib.metadata.html" title="importlib.metadata – Acessando metadados do pacote"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="modules.html" >Importando módulos</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">A inicialização do caminho de pesquisa de módulos <code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

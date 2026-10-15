@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="2. Utilizando Python em plataformas Unix" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/using/unix.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Obtendo e instalando a versão mais recente do Python: No Linux: O Python vem pré-instalado na maioria das distribuições Linux e está disponível como um pacote em todas as outras. No entanto, há cer..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_using_unix_ae11e3a8.png" />
+<meta property="og:image:alt" content="Obtendo e instalando a versão mais recente do Python: No Linux: O Python vem pré-instalado na maioria das distribuições Linux e está disponível como um pacote em todas as outras. No entanto, há cer..." />
+<meta name="description" content="Obtendo e instalando a versão mais recente do Python: No Linux: O Python vem pré-instalado na maioria das distribuições Linux e está disponível como um pacote em todas as outras. No entanto, há cer..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>2. Utilizando Python em plataformas Unix &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="3. Configurando o Python" href="configure.html" />
+    <link rel="prev" title="1. Linha de comando e ambiente" href="cmdline.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/using/unix.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">2. Utilizando Python em plataformas Unix</a><ul>
+<li><a class="reference internal" href="#getting-and-installing-the-latest-version-of-python">2.1. Obtendo e instalando a versão mais recente do Python</a><ul>
+<li><a class="reference internal" href="#on-linux">2.1.1. No Linux</a><ul>
+<li><a class="reference internal" href="#installing-idle">2.1.1.1. Instalação do IDLE</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#on-freebsd-and-openbsd">2.1.2. No FreeBSD e OpenBSD</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-python">2.2. Compilando o Python</a></li>
+<li><a class="reference internal" href="#python-related-paths-and-files">2.3. Paths e arquivos relacionados com o Python</a></li>
+<li><a class="reference internal" href="#miscellaneous">2.4. Diversos</a></li>
+<li><a class="reference internal" href="#custom-openssl">2.5. OpenSSL personalizado</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="cmdline.html"
+                          title="capítulo anterior"><span class="section-number">1. </span>Linha de comando e ambiente</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="configure.html"
+                          title="próximo capítulo"><span class="section-number">3. </span>Configurando o Python</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "using/unix.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/using/unix.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/using/unix.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="configure.html" title="3. Configurando o Python"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="cmdline.html" title="1. Linha de comando e ambiente"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Configurações e Uso do Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">2. </span>Utilizando Python em plataformas Unix</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="using-python-on-unix-platforms">
+<span id="using-on-unix"></span><h1 class="translated"><span class="section-number">2. </span>Utilizando Python em plataformas Unix<a class="headerlink" href="#using-python-on-unix-platforms" title="Link para este cabeçalho">¶</a></h1>
+<section id="getting-and-installing-the-latest-version-of-python">
+<h2 class="translated"><span class="section-number">2.1. </span>Obtendo e instalando a versão mais recente do Python<a class="headerlink" href="#getting-and-installing-the-latest-version-of-python" title="Link para este cabeçalho">¶</a></h2>
+<section id="on-linux">
+<h3 class="translated"><span class="section-number">2.1.1. </span>No Linux<a class="headerlink" href="#on-linux" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">O Python vem pré-instalado na maioria das distribuições Linux e está disponível como um pacote em todas as outras. No entanto, há certos recursos que você pode querer usar que não estão disponíveis no pacote da sua distribuição. Você pode compilar a versão mais recente do Python a partir do código-fonte.</p>
+<p class="translated">No caso de a versão mais recente do Python não vir pré-instalada e não estar nos repositórios também, você pode criar pacotes para sua própria distro. Dê uma olhada nos seguintes links:</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<dl class="simple">
+<dt class="translated"><a class="reference external" href="https://www.debian.org/doc/manuals/maint-guide/first.en.html">https://www.debian.org/doc/manuals/maint-guide/first.en.html</a></dt><dd><p class="translated">para usuários Debian</p>
+</dd>
+<dt class="translated"><a class="reference external" href="https://en.opensuse.org/Portal:Packaging">https://en.opensuse.org/Portal:Packaging</a></dt><dd><p class="translated">para usuários OpenSuse</p>
+</dd>
+<dt class="translated"><a class="reference external" href="https://docs.fedoraproject.org/en-US/package-maintainers/Packaging_Tutorial_GNU_Hello/">https://docs.fedoraproject.org/en-US/package-maintainers/Packaging_Tutorial_GNU_Hello/</a></dt><dd><p class="translated">para usuários Fedora</p>
+</dd>
+<dt class="translated"><a class="reference external" href="https://slackbook.org/html/package-management-making-packages.html">https://slackbook.org/html/package-management-making-packages.html</a></dt><dd><p class="translated">para usuários do Slackware</p>
+</dd>
+</dl>
+</div>
+<section id="installing-idle">
+<span id="installing-idle-on-linux"></span><h4 class="translated"><span class="section-number">2.1.1.1. </span>Instalação do IDLE<a class="headerlink" href="#installing-idle" title="Link para este cabeçalho">¶</a></h4>
+<p class="translated">Em alguns casos, o IDLE pode não estar incluído em sua instalação do Python.</p>
+<ul>
+<li><p class="translated">Para usuários do Debian e do Ubuntu:</p>
+<div class="translated highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>idle
+</pre></div>
+</div>
+</li>
+<li><p class="translated">Para usuários do Fedora, RHEL e CentOS:</p>
+<div class="translated highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>python3-idle
+</pre></div>
+</div>
+</li>
+<li><p class="translated">Para usuários do SUSE e do OpenSUSE:</p>
+<div class="translated highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>zypper<span class="w"> </span>install<span class="w"> </span>python3-idle
+</pre></div>
+</div>
+</li>
+<li><p class="translated">Para usuários do Alpine Linux:</p>
+<div class="translated highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apk<span class="w"> </span>add<span class="w"> </span>python3-idle
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+<section id="on-freebsd-and-openbsd">
+<h3 class="translated"><span class="section-number">2.1.2. </span>No FreeBSD e OpenBSD<a class="headerlink" href="#on-freebsd-and-openbsd" title="Link para este cabeçalho">¶</a></h3>
+<ul>
+<li><p class="translated">usuários do FreeBSD, para adicionar a utilização do pacote utilize:</p>
+<div class="translated highlight-sh notranslate"><div class="highlight"><pre><span></span>pkg<span class="w"> </span>install<span class="w"> </span>python3
+</pre></div>
+</div>
+</li>
+<li><p class="translated">Usuários do OpenBSD, para adicionar pacotes use:</p>
+<div class="translated highlight-sh notranslate"><div class="highlight"><pre><span></span>pkg_add<span class="w"> </span>-r<span class="w"> </span>python
+
+pkg_add<span class="w"> </span>ftp://ftp.openbsd.org/pub/OpenBSD/4.2/packages/&lt;insert<span class="w"> </span>your<span class="w"> </span>architecture<span class="w"> </span>here&gt;/python-&lt;version&gt;.tgz
+</pre></div>
+</div>
+<p class="translated">Por exemplo, usuários i386 podem pegar a versão 2.5.1 do Python usando o comando:</p>
+<div class="translated highlight-sh notranslate"><div class="highlight"><pre><span></span>pkg_add<span class="w"> </span>ftp://ftp.openbsd.org/pub/OpenBSD/4.2/packages/i386/python-2.5.1p2.tgz
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+<section id="building-python">
+<span id="building-python-on-unix"></span><h2 class="translated"><span class="section-number">2.2. </span>Compilando o Python<a class="headerlink" href="#building-python" title="Link para este cabeçalho">¶</a></h2>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<p class="translated">Se você deseja contribuir com o CPython, consulte o <a class="reference external" href="https://devguide.python.org/getting-started/setup-building/">devguide</a>, que inclui instruções de construção e outras dicas sobre como configurar o ambiente.</p>
+</div>
+<p class="translated">Se você quer compilar o CPython, a primeira coisa que você precisa fazer é baixar o <a class="reference external" href="https://www.python.org/downloads/source/">código-fonte</a>. Você pode baixar a última versão ou obter um <a class="reference external" href="https://devguide.python.org/setup/#get-the-source-code">clone</a> atualizado. Você também pode querer instalar os <a class="reference internal" href="configure.html#build-requirements"><span class="std std-ref">requisitos de construção</span></a>.</p>
+<p class="translated">O processo de compilação consiste nos comandos usuais:</p>
+<div class="translated highlight-sh notranslate"><div class="highlight"><pre><span></span>./configure
+make
+make<span class="w"> </span>install
+</pre></div>
+</div>
+<p class="translated"><a class="reference internal" href="configure.html#configure-options"><span class="std std-ref">Opções de configuração</span></a> e advertências para plataformas específicas do Unix estão amplamente documentadas no arquivo <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/README.rst">README.rst</a> na raiz da árvore de fontes Python.</p>
+<div class="admonition warning">
+<p class="admonition-title">Aviso</p>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code> pode sobrescrever ou mascarar o arquivo binário <code class="file docutils literal notranslate"><span class="pre">python3</span></code>. <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">altinstall</span></code> é, portanto, recomendado ao invés de <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code> uma vez que o mesmo apenas instala o arquivo <code class="file docutils literal notranslate"><em><span class="pre">exec_prefix</span></em><span class="pre">/bin/python</span><em><span class="pre">version</span></em></code>.</p>
+</div>
+</section>
+<section id="python-related-paths-and-files">
+<h2 class="translated"><span class="section-number">2.3. </span>Paths e arquivos relacionados com o Python<a class="headerlink" href="#python-related-paths-and-files" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Estes estão sujeitos a diferenças dependendo das convenções de instalação local; <a class="reference internal" href="configure.html#cmdoption-prefix"><code class="xref std std-option docutils literal notranslate"><span class="pre">prefix</span></code></a> e <a class="reference internal" href="configure.html#cmdoption-exec-prefix"><code class="xref std std-option docutils literal notranslate"><span class="pre">exec_prefix</span></code></a> dependem da instalação e devem ser interpretados da mesma forma que para o software GNU; eles poderão ser os mesmos.</p>
+<p class="translated">Por exemplo, na maioria dos sistemas Linux, o padrão para ambos é <code class="file docutils literal notranslate"><span class="pre">/usr</span></code>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Arquivo/diretório</p></th>
+<th class="head"><p class="translated">Significado</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">exec_prefix</span></em><span class="pre">/bin/python3</span></code></p></td>
+<td><p class="translated">Localização recomendada do interpretador.</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em><span class="pre">/lib/python</span><em><span class="pre">version</span></em></code>,
+<code class="file docutils literal notranslate"><em><span class="pre">exec_prefix</span></em><span class="pre">/lib/python</span><em><span class="pre">version</span></em></code></p></td>
+<td><p class="translated">A localização recomendada dos diretórios contendo os módulos padrão.</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em><span class="pre">/include/python</span><em><span class="pre">version</span></em></code>,
+<code class="file docutils literal notranslate"><em><span class="pre">exec_prefix</span></em><span class="pre">/include/python</span><em><span class="pre">version</span></em></code></p></td>
+<td><p class="translated">Localizações recomendadas dos diretórios contendo os arquivos de inclusão necessários para o desenvolvimento de extensões Python e incorporação do interpretador.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="miscellaneous">
+<h2 class="translated"><span class="section-number">2.4. </span>Diversos<a class="headerlink" href="#miscellaneous" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Para usar facilmente scripts Python no Unix, você precisa torná-los executáveis, por exemplo, com</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>chmod<span class="w"> </span>+x<span class="w"> </span>script
+</pre></div>
+</div>
+<p class="translated">e colocar uma linha Shebang apropriada no topo do script. Uma boa escolha normalmente é</p>
+<div class="translated highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+</pre></div>
+</div>
+<p class="translated">que procura o interpretador do Python no conjunto <span class="target" id="index-2"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code>. No entanto, alguns sistemas Unix podem não ter o comando <strong class="program">env</strong>, então você pode precisar codificar <code class="docutils literal notranslate"><span class="pre">/usr/bin/python3</span></code> como o caminho do interpretador.</p>
+<p class="translated">Para usar comandos Shell em seus scripts Python, veja o módulo <a class="reference internal" href="../library/subprocess.html#module-subprocess" title="subprocess: Subprocess management."><code class="xref py py-mod docutils literal notranslate"><span class="pre">subprocess</span></code></a>.</p>
+</section>
+<section id="custom-openssl">
+<span id="unix-custom-openssl"></span><h2 class="translated"><span class="section-number">2.5. </span>OpenSSL personalizado<a class="headerlink" href="#custom-openssl" title="Link para este cabeçalho">¶</a></h2>
+<ol class="arabic">
+<li><p class="translated">Para usar a configuração OpenSSL do seu fornecedor e armazenamento confiável do sistema, localize o diretório com o arquivo <code class="docutils literal notranslate"><span class="pre">openssl.cnf</span></code> ou link simbólico em <code class="docutils literal notranslate"><span class="pre">/etc</span></code>. Na maioria das distribuições o arquivo está em <code class="docutils literal notranslate"><span class="pre">/etc/ssl</span></code> ou em <code class="docutils literal notranslate"><span class="pre">/etc/pki/tls</span></code>. O diretório também deve conter um arquivo <code class="docutils literal notranslate"><span class="pre">cert.pem</span></code> e/ou um diretório <code class="docutils literal notranslate"><span class="pre">certs</span></code>.</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>find<span class="w"> </span>/etc/<span class="w"> </span>-name<span class="w"> </span>openssl.cnf<span class="w"> </span>-printf<span class="w"> </span><span class="s2">"%h\n"</span>
+<span class="go">/etc/ssl</span>
+</pre></div>
+</div>
+</li>
+<li><p class="translated">Baixe, construa e instale o OpenSSL. Certifique-se de usar <code class="docutils literal notranslate"><span class="pre">install_sw</span></code> e não <code class="docutils literal notranslate"><span class="pre">install</span></code>. O destino <code class="docutils literal notranslate"><span class="pre">install_sw</span></code> não substitui o <code class="docutils literal notranslate"><span class="pre">openssl.cnf</span></code>.</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>curl<span class="w"> </span>-O<span class="w"> </span>https://www.openssl.org/source/openssl-VERSÃO.tar.gz
+<span class="gp">$ </span>tar<span class="w"> </span>xzf<span class="w"> </span>openssl-VERSÃO
+<span class="gp">$ </span><span class="nb">pushd</span><span class="w"> </span>openssl-VERSÃO
+<span class="gp">$ </span>./config<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--prefix<span class="o">=</span>/usr/local/custom-openssl<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--libdir<span class="o">=</span>lib<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--openssldir<span class="o">=</span>/etc/ssl
+<span class="gp">$ </span>make<span class="w"> </span>-j1<span class="w"> </span>depend
+<span class="gp">$ </span>make<span class="w"> </span>-j8
+<span class="gp">$ </span>make<span class="w"> </span>install_sw
+<span class="gp">$ </span><span class="nb">popd</span>
+</pre></div>
+</div>
+</li>
+<li><p class="translated">Construa o Python com o OpenSSL personalizado (veja as opções configure <code class="docutils literal notranslate"><span class="pre">--with-openssl</span></code> e <code class="docutils literal notranslate"><span class="pre">--with-openssl-rpath</span></code>)</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">pushd</span><span class="w"> </span>python-3.x.x
+<span class="gp">$ </span>./configure<span class="w"> </span>-C<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--with-openssl<span class="o">=</span>/usr/local/custom-openssl<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--with-openssl-rpath<span class="o">=</span>auto<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--prefix<span class="o">=</span>/usr/local/python-3.x.x
+<span class="gp">$ </span>make<span class="w"> </span>-j8
+<span class="gp">$ </span>make<span class="w"> </span>altinstall
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">As versões de patches do OpenSSL têm uma ABI compatível com versões anteriores. Você não precisa recompilar o Python para atualizar o OpenSSL. É suficiente substituir a instalação personalizada do OpenSSL por uma versão mais recente.</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">2. Utilizando Python em plataformas Unix</a><ul>
+<li><a class="reference internal" href="#getting-and-installing-the-latest-version-of-python">2.1. Obtendo e instalando a versão mais recente do Python</a><ul>
+<li><a class="reference internal" href="#on-linux">2.1.1. No Linux</a><ul>
+<li><a class="reference internal" href="#installing-idle">2.1.1.1. Instalação do IDLE</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#on-freebsd-and-openbsd">2.1.2. No FreeBSD e OpenBSD</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-python">2.2. Compilando o Python</a></li>
+<li><a class="reference internal" href="#python-related-paths-and-files">2.3. Paths e arquivos relacionados com o Python</a></li>
+<li><a class="reference internal" href="#miscellaneous">2.4. Diversos</a></li>
+<li><a class="reference internal" href="#custom-openssl">2.5. OpenSSL personalizado</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="cmdline.html"
+                          title="capítulo anterior"><span class="section-number">1. </span>Linha de comando e ambiente</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="configure.html"
+                          title="próximo capítulo"><span class="section-number">3. </span>Configurando o Python</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "using/unix.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/using/unix.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/using/unix.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="configure.html" title="3. Configurando o Python"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="cmdline.html" title="1. Linha de comando e ambiente"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Configurações e Uso do Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">2. </span>Utilizando Python em plataformas Unix</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

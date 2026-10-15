@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="textwrap — Quebra automática e preenchimento de texto" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/textwrap.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/textwrap.py O módulo textwrap fornece algumas funções úteis, assim como a classe TextWrapper, que faz todo o trabalho. Se você estiver apenas preenchendo ou quebrando uma ou duas ..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_textwrap_e2062097.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/textwrap.py O módulo textwrap fornece algumas funções úteis, assim como a classe TextWrapper, que faz todo o trabalho. Se você estiver apenas preenchendo ou quebrando uma ou duas ..." />
+<meta name="description" content="Código-fonte: Lib/textwrap.py O módulo textwrap fornece algumas funções úteis, assim como a classe TextWrapper, que faz todo o trabalho. Se você estiver apenas preenchendo ou quebrando uma ou duas ..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>textwrap — Quebra automática e preenchimento de texto &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="unicodedata — Banco de dados de Unicode" href="unicodedata.html" />
+    <link rel="prev" title="difflib — Helpers for computing deltas" href="difflib.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/textwrap.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="difflib.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">difflib</span></code> — Helpers for computing deltas</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="unicodedata.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">unicodedata</span></code> — Banco de dados de Unicode</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/textwrap.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/textwrap.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/textwrap.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="unicodedata.html" title="unicodedata — Banco de dados de Unicode"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="difflib.html" title="difflib — Helpers for computing deltas"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="text.html" accesskey="U">Serviços de Processamento de Texto</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">textwrap</span></code> — Quebra automática e preenchimento de texto</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-textwrap">
+<span id="textwrap-text-wrapping-and-filling"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">textwrap</span></code> — Quebra automática e preenchimento de texto<a class="headerlink" href="#module-textwrap" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/textwrap.py">Lib/textwrap.py</a></p>
+<hr class="docutils" />
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">textwrap</span></code> fornece algumas funções úteis, assim como a classe <a class="reference internal" href="#textwrap.TextWrapper" title="textwrap.TextWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextWrapper</span></code></a>, que faz todo o trabalho. Se você estiver apenas preenchendo ou quebrando uma ou duas strings, as funções de conveniência deverão ser suficientes; caso contrário, você deve usar uma instância de <code class="xref py py-class docutils literal notranslate"><span class="pre">TextWrapper</span></code> para maior eficiência.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="textwrap.wrap">
+<span class="sig-prename descclassname"><span class="pre">textwrap.</span></span><span class="sig-name descname"><span class="pre">wrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">70</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsequent_indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expand_tabs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_whitespace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_sentence_endings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">break_long_words</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_whitespace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">break_on_hyphens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tabsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">placeholder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">[...]'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#textwrap.wrap" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Quebra do parágrafo único em <em>text</em> (uma string) para que cada linha tenha, no máximo, <em>width</em> caracteres. Retorna uma lista de linhas de saída, sem novas linhas ao final.</p>
+<p class="translated">Argumentos nomeados opcionais correspondem aos atributos de instância de <a class="reference internal" href="#textwrap.TextWrapper" title="textwrap.TextWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextWrapper</span></code></a>, documentados abaixo.</p>
+<p class="translated">Veja o método <a class="reference internal" href="#textwrap.TextWrapper.wrap" title="textwrap.TextWrapper.wrap"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TextWrapper.wrap()</span></code></a> para detalhes adicionais sobre como <a class="reference internal" href="#textwrap.wrap" title="textwrap.wrap"><code class="xref py py-func docutils literal notranslate"><span class="pre">wrap()</span></code></a> se comporta.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="textwrap.fill">
+<span class="sig-prename descclassname"><span class="pre">textwrap.</span></span><span class="sig-name descname"><span class="pre">fill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">70</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsequent_indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expand_tabs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_whitespace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_sentence_endings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">break_long_words</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_whitespace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">break_on_hyphens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tabsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">placeholder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">[...]'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#textwrap.fill" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Quebra o parágrafo único em <em>text</em> e retorna uma única string contendo o parágrafo quebrado. <a class="reference internal" href="#textwrap.fill" title="textwrap.fill"><code class="xref py py-func docutils literal notranslate"><span class="pre">fill()</span></code></a> é uma abreviação de</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">wrap</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">...</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="translated">Em particular, <a class="reference internal" href="#textwrap.fill" title="textwrap.fill"><code class="xref py py-func docutils literal notranslate"><span class="pre">fill()</span></code></a> aceita exatamente os mesmos argumentos nomeados que <a class="reference internal" href="#textwrap.wrap" title="textwrap.wrap"><code class="xref py py-func docutils literal notranslate"><span class="pre">wrap()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="textwrap.shorten">
+<span class="sig-prename descclassname"><span class="pre">textwrap.</span></span><span class="sig-name descname"><span class="pre">shorten</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_sentence_endings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">break_long_words</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">break_on_hyphens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">placeholder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">[...]'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#textwrap.shorten" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Reduz e trunca o texto <em>text</em> para que ele caiba na largura <em>width</em> fornecida.</p>
+<p class="translated">Primeiro, o espaço em branco em <em>text</em> é reduzido (todos os espaços em branco são substituídos por espaços simples). Se o resultado couber em <em>width</em>, ele será retornado. Caso contrário, palavras suficientes serão eliminadas do final para que as palavras restantes mais o <em>placeholder</em> caibam em <em>largura</em>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">textwrap</span><span class="o">.</span><span class="n">shorten</span><span class="p">(</span><span class="s2">"Olá  mundo!"</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="go">'Olá mundo!'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">textwrap</span><span class="o">.</span><span class="n">shorten</span><span class="p">(</span><span class="s2">"Olá  mundo!"</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="go">'Olá [...]'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">textwrap</span><span class="o">.</span><span class="n">shorten</span><span class="p">(</span><span class="s2">"Olá mundo"</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">placeholder</span><span class="o">=</span><span class="s2">"..."</span><span class="p">)</span>
+<span class="go">'Olá...'</span>
+</pre></div>
+</div>
+<p class="translated">Argumentos nomeados opcionais correspondem aos atributos de instância de <a class="reference internal" href="#textwrap.TextWrapper" title="textwrap.TextWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextWrapper</span></code></a>, documentados abaixo. Observe que o espaço em branco é reduzido antes do texto ser passado para a função <code class="xref py py-class docutils literal notranslate"><span class="pre">TextWrapper</span></code> <a class="reference internal" href="#textwrap.fill" title="textwrap.fill"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fill()</span></code></a>, alterando assim o valor de <a class="reference internal" href="#textwrap.TextWrapper.tabsize" title="textwrap.TextWrapper.tabsize"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tabsize</span></code></a>, <a class="reference internal" href="#textwrap.TextWrapper.expand_tabs" title="textwrap.TextWrapper.expand_tabs"><code class="xref py py-attr docutils literal notranslate"><span class="pre">expand_tabs</span></code></a>, <a class="reference internal" href="#textwrap.TextWrapper.drop_whitespace" title="textwrap.TextWrapper.drop_whitespace"><code class="xref py py-attr docutils literal notranslate"><span class="pre">drop_whitespace</span></code></a> e <a class="reference internal" href="#textwrap.TextWrapper.replace_whitespace" title="textwrap.TextWrapper.replace_whitespace"><code class="xref py py-attr docutils literal notranslate"><span class="pre">replace_whitespace</span></code></a> não terão efeito.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="textwrap.dedent">
+<span class="sig-prename descclassname"><span class="pre">textwrap.</span></span><span class="sig-name descname"><span class="pre">dedent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#textwrap.dedent" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Remove qualquer espaço em branco inicial em comum de todas as linhas do <em>text</em>.</p>
+<p class="translated">Isso pode ser usado para alinhar strings entre aspas triplas à borda esquerda da tela, enquanto ainda as apresenta no código-fonte com indentação.</p>
+<p class="translated">Observe que tabulações e espaços são tratados como espaços em branco, mas não são iguais: as linhas <code class="docutils literal notranslate"><span class="pre">&quot;</span>&#160; <span class="pre">hello&quot;</span></code> e <code class="docutils literal notranslate"><span class="pre">&quot;\thello&quot;</span></code> são consideradas como não tendo espaços em branco iniciais comuns.</p>
+<p class="translated">Linhas contendo apenas espaços em branco são ignoradas na entrada e normalizadas para uma nova linha de um único caractere na saída.</p>
+<p class="translated">Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">test</span><span class="p">():</span>
+    <span class="c1"># fim da primeira linha com \ para evitar uma linha vazia!</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s1">'''</span><span class="se">\</span>
+<span class="s1">    olá</span>
+<span class="s1">      mundo</span>
+<span class="s1">    '''</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>          <span class="c1"># exibe '    olá\n      mundo\n    '</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">dedent</span><span class="p">(</span><span class="n">s</span><span class="p">)))</span>  <span class="c1"># exibe 'olá\n  mundo\n'</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.14: </span>A função <code class="xref py py-func docutils literal notranslate"><span class="pre">dedent()</span></code> agora normaliza corretamente linhas em branco que contenham apenas caracteres de espaço em branco. Anteriormente, a implementação apenas normalizava linhas em branco que contivessem tabulações e espaços.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="textwrap.indent">
+<span class="sig-prename descclassname"><span class="pre">textwrap.</span></span><span class="sig-name descname"><span class="pre">indent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#textwrap.indent" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Adiciona <em>prefix</em> ao início das linhas selecionadas em <em>text</em>.</p>
+<p class="translated">As linhas são separadas chamando <code class="docutils literal notranslate"><span class="pre">text.splitlines(True)</span></code>.</p>
+<p class="translated">Por padrão, <em>prefix</em> é adicionado a todas as linhas que não consistem apenas em espaços em branco (incluindo quaisquer finais de linha).</p>
+<p class="translated">Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s1">'olá</span><span class="se">\n\n</span><span class="s1"> </span><span class="se">\n</span><span class="s1">mundo'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">indent</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s1">'  '</span><span class="p">)</span>
+<span class="go">'  olá\n\n \n  mundo'</span>
+</pre></div>
+</div>
+<p class="translated">O argumento opcional <em>predicate</em> pode ser usado para controlar quais linhas têm indentação. Por exemplo, é fácil adicionar <em>prefix</em> até mesmo em linhas vazias e apenas com espaços em branco:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">indent</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s1">'+ '</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">line</span><span class="p">:</span> <span class="kc">True</span><span class="p">))</span>
+<span class="go">+ olá</span>
+<span class="go">+</span>
+<span class="go">+</span>
+<span class="go">+ mundo</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+<p class="translated"><a class="reference internal" href="#textwrap.wrap" title="textwrap.wrap"><code class="xref py py-func docutils literal notranslate"><span class="pre">wrap()</span></code></a>, <a class="reference internal" href="#textwrap.fill" title="textwrap.fill"><code class="xref py py-func docutils literal notranslate"><span class="pre">fill()</span></code></a> e <a class="reference internal" href="#textwrap.shorten" title="textwrap.shorten"><code class="xref py py-func docutils literal notranslate"><span class="pre">shorten()</span></code></a> funcionam criando uma instância <a class="reference internal" href="#textwrap.TextWrapper" title="textwrap.TextWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextWrapper</span></code></a> e chamando um único método nela. Essa instância não é reutilizada, então para aplicações que processam muitas strings de texto usando <code class="xref py py-func docutils literal notranslate"><span class="pre">wrap()</span></code> e/ou <code class="xref py py-func docutils literal notranslate"><span class="pre">fill()</span></code>, pode ser mais eficiente criar seu próprio objeto <code class="xref py py-class docutils literal notranslate"><span class="pre">TextWrapper</span></code>.</p>
+<p class="translated">O texto é preferencialmente colocado em espaços em branco e logo após os hífens nas palavras hifenizadas; somente então palavras longas serão quebradas se necessário, a menos que <a class="reference internal" href="#textwrap.TextWrapper.break_long_words" title="textwrap.TextWrapper.break_long_words"><code class="xref py py-attr docutils literal notranslate"><span class="pre">TextWrapper.break_long_words</span></code></a> seja definido como falso.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="textwrap.TextWrapper">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">textwrap.</span></span><span class="sig-name descname"><span class="pre">TextWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#textwrap.TextWrapper" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O construtor <a class="reference internal" href="#textwrap.TextWrapper" title="textwrap.TextWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextWrapper</span></code></a> aceita vários argumentos nomeados opcionais. Cada argumento nomeado corresponde a um atributo de instância, por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">wrapper</span> <span class="o">=</span> <span class="n">TextWrapper</span><span class="p">(</span><span class="n">initial_indent</span><span class="o">=</span><span class="s2">"* "</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">é o mesmo que</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">wrapper</span> <span class="o">=</span> <span class="n">TextWrapper</span><span class="p">()</span>
+<span class="n">wrapper</span><span class="o">.</span><span class="n">initial_indent</span> <span class="o">=</span> <span class="s2">"* "</span>
+</pre></div>
+</div>
+<p class="translated">Você pode reutilizar o mesmo objeto <a class="reference internal" href="#textwrap.TextWrapper" title="textwrap.TextWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextWrapper</span></code></a> muitas vezes e pode alterar qualquer uma de suas opções através de atribuição direta a atributos de instância entre os usos.</p>
+<p class="translated">Os atributos de instância <a class="reference internal" href="#textwrap.TextWrapper" title="textwrap.TextWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextWrapper</span></code></a> (e argumentos nomeados para o construtor) são os seguintes:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="textwrap.TextWrapper.width">
+<span class="sig-name descname"><span class="pre">width</span></span><a class="headerlink" href="#textwrap.TextWrapper.width" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">(padrão: <code class="docutils literal notranslate"><span class="pre">70</span></code>) O comprimento máximo das linhas quebradas. Contanto que não existam palavras individuais no texto de entrada maiores que <a class="reference internal" href="#textwrap.TextWrapper.width" title="textwrap.TextWrapper.width"><code class="xref py py-attr docutils literal notranslate"><span class="pre">width</span></code></a>, <a class="reference internal" href="#textwrap.TextWrapper" title="textwrap.TextWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextWrapper</span></code></a> garante que nenhuma linha de saída será maior que <code class="xref py py-attr docutils literal notranslate"><span class="pre">width</span></code> caracteres.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="textwrap.TextWrapper.expand_tabs">
+<span class="sig-name descname"><span class="pre">expand_tabs</span></span><a class="headerlink" href="#textwrap.TextWrapper.expand_tabs" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">(padrão: <code class="docutils literal notranslate"><span class="pre">True</span></code>) Se verdadeiro, então todos os caracteres de tabulação em <em>text</em> serão expandidos para espaços usando o método <a class="reference internal" href="../builtins/stdtypes.html#str.expandtabs" title="str.expandtabs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">expandtabs()</span></code></a> de <em>text</em>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="textwrap.TextWrapper.tabsize">
+<span class="sig-name descname"><span class="pre">tabsize</span></span><a class="headerlink" href="#textwrap.TextWrapper.tabsize" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">(padrão: <code class="docutils literal notranslate"><span class="pre">8</span></code>) Se <a class="reference internal" href="#textwrap.TextWrapper.expand_tabs" title="textwrap.TextWrapper.expand_tabs"><code class="xref py py-attr docutils literal notranslate"><span class="pre">expand_tabs</span></code></a> for verdadeiro, então todos os caracteres de tabulação em <em>text</em> serão expandidos para zero ou mais espaços, dependendo da coluna atual e do tamanho da tabulação fornecido.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="textwrap.TextWrapper.replace_whitespace">
+<span class="sig-name descname"><span class="pre">replace_whitespace</span></span><a class="headerlink" href="#textwrap.TextWrapper.replace_whitespace" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">(padrão: <code class="docutils literal notranslate"><span class="pre">True</span></code>) Se verdadeiro, após a expansão da tabulação, mas antes da quebra, o método <a class="reference internal" href="#textwrap.wrap" title="textwrap.wrap"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wrap()</span></code></a> substituirá cada caractere de espaço em branco por um único espaço. Os caracteres de espaço em branco substituídos são os seguintes: tabulação, nova linha, tabulação vertical, feed de formulário e retorno de carro (<code class="docutils literal notranslate"><span class="pre">'\t\n\v\f\r'</span></code>).</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Se <a class="reference internal" href="#textwrap.TextWrapper.expand_tabs" title="textwrap.TextWrapper.expand_tabs"><code class="xref py py-attr docutils literal notranslate"><span class="pre">expand_tabs</span></code></a> for falso e <a class="reference internal" href="#textwrap.TextWrapper.replace_whitespace" title="textwrap.TextWrapper.replace_whitespace"><code class="xref py py-attr docutils literal notranslate"><span class="pre">replace_whitespace</span></code></a> for verdadeiro, cada caractere de tabulação será substituído por um único espaço, que <em>não</em> é o mesmo que expansão de tabulação.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Se <a class="reference internal" href="#textwrap.TextWrapper.replace_whitespace" title="textwrap.TextWrapper.replace_whitespace"><code class="xref py py-attr docutils literal notranslate"><span class="pre">replace_whitespace</span></code></a> for falso, novas linhas podem aparecer no meio de uma linha e causar uma saída estranha. Por esta razão, o texto deve ser dividido em parágrafos (usando <a class="reference internal" href="../builtins/stdtypes.html#str.splitlines" title="str.splitlines"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.splitlines()</span></code></a> ou similar) que são agrupados separadamente.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="textwrap.TextWrapper.drop_whitespace">
+<span class="sig-name descname"><span class="pre">drop_whitespace</span></span><a class="headerlink" href="#textwrap.TextWrapper.drop_whitespace" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">(padrão: <code class="docutils literal notranslate"><span class="pre">True</span></code>) Se verdadeiro, os espaços em branco no início e no final de cada linha (após quebra automática, mas antes do recuo) são eliminados. O espaço em branco no início do parágrafo, entretanto, não será eliminado se não houver espaço em branco após ele. Se o espaço em branco eliminado ocupar uma linha inteira, a linha inteira será eliminada.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="textwrap.TextWrapper.initial_indent">
+<span class="sig-name descname"><span class="pre">initial_indent</span></span><a class="headerlink" href="#textwrap.TextWrapper.initial_indent" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">(padrão: <code class="docutils literal notranslate"><span class="pre">''</span></code>) String que será anexada à primeira linha da saída com quebra de linha. Conta para o comprimento da primeira linha. A string vazia não recebe indentação.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="textwrap.TextWrapper.subsequent_indent">
+<span class="sig-name descname"><span class="pre">subsequent_indent</span></span><a class="headerlink" href="#textwrap.TextWrapper.subsequent_indent" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">(padrão: <code class="docutils literal notranslate"><span class="pre">''</span></code>) String que será anexada a todas as linhas da saída com quebra de linha, exceto a primeira. Conta para o comprimento de cada linha, exceto a primeira.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="textwrap.TextWrapper.fix_sentence_endings">
+<span class="sig-name descname"><span class="pre">fix_sentence_endings</span></span><a class="headerlink" href="#textwrap.TextWrapper.fix_sentence_endings" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">(padrão: <code class="docutils literal notranslate"><span class="pre">False</span></code>) Se verdadeiro, <a class="reference internal" href="#textwrap.TextWrapper" title="textwrap.TextWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextWrapper</span></code></a> tenta detectar finais de sentenças e garantir que as sentenças sejam sempre separadas por exatamente dois espaços. Isso geralmente é desejado para texto em fonte monoespaçada. No entanto, o algoritmo de detecção de frase é imperfeito: ele presume que o final de uma frase consiste em uma letra minúscula seguida por uma de <code class="docutils literal notranslate"><span class="pre">'.'</span></code>, <code class="docutils literal notranslate"><span class="pre">'!'</span></code> ou <code class="docutils literal notranslate"><span class="pre">'?'</span></code>, possivelmente seguido por um de <code class="docutils literal notranslate"><span class="pre">'&quot;'</span></code> ou <code class="docutils literal notranslate"><span class="pre">&quot;'&quot;</span></code>, seguido por um espaço. Um problema com este algoritmo é que ele é incapaz de detectar a diferença entre “Dr.” em</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="n">Dr</span><span class="o">.</span> <span class="n">Frankenstein</span><span class="s1">'s monster [...]</span>
+</pre></div>
+</div>
+<p class="translated">e “Spot.” em</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="n">See</span> <span class="n">Spot</span><span class="o">.</span> <span class="n">See</span> <span class="n">Spot</span> <span class="n">run</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p class="translated"><a class="reference internal" href="#textwrap.TextWrapper.fix_sentence_endings" title="textwrap.TextWrapper.fix_sentence_endings"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fix_sentence_endings</span></code></a> é falso por padrão</p>
+<p class="translated">Como o algoritmo de detecção de frase depende de <code class="docutils literal notranslate"><span class="pre">string.lowercase</span></code> para a definição de “letra minúscula” e de uma convenção de usar dois espaços após um ponto final para separar frases na mesma linha, ele é específico para textos em inglês.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="textwrap.TextWrapper.break_long_words">
+<span class="sig-name descname"><span class="pre">break_long_words</span></span><a class="headerlink" href="#textwrap.TextWrapper.break_long_words" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">(padrão: <code class="docutils literal notranslate"><span class="pre">True</span></code>) Se verdadeiro, palavras maiores que <a class="reference internal" href="#textwrap.TextWrapper.width" title="textwrap.TextWrapper.width"><code class="xref py py-attr docutils literal notranslate"><span class="pre">width</span></code></a> serão quebradas para garantir que nenhuma linha seja maior que <code class="xref py py-attr docutils literal notranslate"><span class="pre">width</span></code>. Se for falso, palavras longas não serão quebradas e algumas linhas poderão ser maiores que <code class="xref py py-attr docutils literal notranslate"><span class="pre">width</span></code>. (Palavras longas serão colocadas sozinhas em uma linha, a fim de minimizar o valor pelo qual <code class="xref py py-attr docutils literal notranslate"><span class="pre">width</span></code> é excedido.)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="textwrap.TextWrapper.break_on_hyphens">
+<span class="sig-name descname"><span class="pre">break_on_hyphens</span></span><a class="headerlink" href="#textwrap.TextWrapper.break_on_hyphens" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">(padrão: <code class="docutils literal notranslate"><span class="pre">True</span></code>) Se verdadeiro, a quebra ocorrerá preferencialmente em espaços em branco e logo após hífens em palavras compostas, como é habitual em inglês. Se for falso, apenas os espaços em branco serão considerados locais potencialmente bons para quebras de linha, mas você precisa definir <a class="reference internal" href="#textwrap.TextWrapper.break_long_words" title="textwrap.TextWrapper.break_long_words"><code class="xref py py-attr docutils literal notranslate"><span class="pre">break_long_words</span></code></a> como falso se quiser palavras verdadeiramente inseparáveis. O comportamento padrão nas versões anteriores era sempre permitir a quebra de palavras hifenizadas.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="textwrap.TextWrapper.max_lines">
+<span class="sig-name descname"><span class="pre">max_lines</span></span><a class="headerlink" href="#textwrap.TextWrapper.max_lines" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">(padrão: <code class="docutils literal notranslate"><span class="pre">None</span></code>) Se não for <code class="docutils literal notranslate"><span class="pre">None</span></code>, então a saída conterá no máximo <em>max_lines</em> linhas, com <em>placeholder</em> aparecendo no final da saída.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute" id="index-0">
+<dt class="sig sig-object py" id="textwrap.TextWrapper.placeholder">
+<span class="sig-name descname"><span class="pre">placeholder</span></span><a class="headerlink" href="#textwrap.TextWrapper.placeholder" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">(padrão: <code class="docutils literal notranslate"><span class="pre">'</span> <span class="pre">[...]'</span></code>) String que aparecerá no final do texto de saída se ele tiver sido truncado.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.4.</span></p>
+</div>
+</dd></dl>
+
+<p class="translated"><a class="reference internal" href="#textwrap.TextWrapper" title="textwrap.TextWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextWrapper</span></code></a> também fornece alguns métodos públicos, análogos às funções de conveniência em nível de módulo:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="textwrap.TextWrapper.wrap">
+<span class="sig-name descname"><span class="pre">wrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#textwrap.TextWrapper.wrap" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Quebra o parágrafo único em <em>text</em> (uma string) para que cada linha tenha no máximo <a class="reference internal" href="#textwrap.TextWrapper.width" title="textwrap.TextWrapper.width"><code class="xref py py-attr docutils literal notranslate"><span class="pre">width</span></code></a> caracteres. Todas as opções de quebra de linha são obtidas dos atributos da instância <a class="reference internal" href="#textwrap.TextWrapper" title="textwrap.TextWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextWrapper</span></code></a>. Retorna uma lista de linhas de saída, sem novas linhas finais. Se a saída agrupada não tiver conteúdo, a lista retornada estará vazia.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="textwrap.TextWrapper.fill">
+<span class="sig-name descname"><span class="pre">fill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#textwrap.TextWrapper.fill" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Quebra o parágrafo único em <em>text</em> e retorna uma única string contendo o parágrafo quebrado.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="difflib.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">difflib</span></code> — Helpers for computing deltas</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="unicodedata.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">unicodedata</span></code> — Banco de dados de Unicode</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/textwrap.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/textwrap.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/textwrap.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="unicodedata.html" title="unicodedata — Banco de dados de Unicode"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="difflib.html" title="difflib — Helpers for computing deltas"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="text.html" >Serviços de Processamento de Texto</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">textwrap</span></code> — Quebra automática e preenchimento de texto</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

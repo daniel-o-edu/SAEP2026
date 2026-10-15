@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="netrc — Arquivo de processamento netrc" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/netrc.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/netrc.py A classe netrc analisa e encapsula o formato do arquivo netrc usado pelo programa Unix ftp e outros clientes FTP. Objetos netrc: Uma instância da classe netrc tem os segu..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_netrc_85560ae0.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/netrc.py A classe netrc analisa e encapsula o formato do arquivo netrc usado pelo programa Unix ftp e outros clientes FTP. Objetos netrc: Uma instância da classe netrc tem os segu..." />
+<meta name="description" content="Código-fonte: Lib/netrc.py A classe netrc analisa e encapsula o formato do arquivo netrc usado pelo programa Unix ftp e outros clientes FTP. Objetos netrc: Uma instância da classe netrc tem os segu..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>netrc — Arquivo de processamento netrc &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="plistlib — Gera e analisa arquivos Apple .plist" href="plistlib.html" />
+    <link rel="prev" title="tomllib — Analisa arquivos TOML" href="tomllib.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/netrc.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">netrc</span></code> — Arquivo de processamento netrc</a><ul>
+<li><a class="reference internal" href="#netrc-objects">Objetos netrc</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="tomllib.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tomllib</span></code> — Analisa arquivos TOML</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="plistlib.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plistlib</span></code> — Gera e analisa arquivos Apple <code class="docutils literal notranslate"><span class="pre">.plist</span></code></a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/netrc.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/netrc.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/netrc.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="plistlib.html" title="plistlib — Gera e analisa arquivos Apple .plist"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="tomllib.html" title="tomllib — Analisa arquivos TOML"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="fileformats.html" accesskey="U">Formatos de Arquivo</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">netrc</span></code> — Arquivo de processamento netrc</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-netrc">
+<span id="netrc-netrc-file-processing"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">netrc</span></code> — Arquivo de processamento netrc<a class="headerlink" href="#module-netrc" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/netrc.py">Lib/netrc.py</a></p>
+<hr class="docutils" />
+<p class="translated">A classe <a class="reference internal" href="#netrc.netrc" title="netrc.netrc"><code class="xref py py-class docutils literal notranslate"><span class="pre">netrc</span></code></a> analisa e encapsula o formato do arquivo netrc usado pelo programa Unix <strong class="program">ftp</strong> e outros clientes FTP.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="netrc.netrc">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">netrc.</span></span><span class="sig-name descname"><span class="pre">netrc</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#netrc.netrc" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma instância ou instância de subclasse de <a class="reference internal" href="#netrc.netrc" title="netrc.netrc"><code class="xref py py-class docutils literal notranslate"><span class="pre">netrc</span></code></a> encapsula dados de um arquivo netrc. O argumento de inicialização, se presente, especifica o arquivo a ser analisado. Se nenhum argumento for fornecido, o arquivo <code class="file docutils literal notranslate"><span class="pre">.netrc</span></code> no diretório inicial do usuário – conforme determinado por <a class="reference internal" href="os.path.html#os.path.expanduser" title="os.path.expanduser"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.path.expanduser()</span></code></a> – será lido. Caso contrário, uma exceção <a class="reference internal" href="../builtins/exceptions.html#FileNotFoundError" title="FileNotFoundError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">FileNotFoundError</span></code></a> será levantada. Os erros de análise levantam <a class="reference internal" href="#netrc.NetrcParseError" title="netrc.NetrcParseError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NetrcParseError</span></code></a> com informações de diagnóstico, incluindo o nome do arquivo, o número da linha e o token final.</p>
+<p class="translated">Se nenhum argumento for especificado em um sistema POSIX, a presença de senhas no arquivo <code class="file docutils literal notranslate"><span class="pre">.netrc</span></code> levantará um <a class="reference internal" href="#netrc.NetrcParseError" title="netrc.NetrcParseError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NetrcParseError</span></code></a> se a propriedade ou as permissões do arquivo forem inseguras (pertencentes a um usuário que não seja o usuário executando o processo ou acessível para leitura ou gravação por qualquer outro usuário). Isso implementa um comportamento de segurança equivalente ao do ftp e de outros programas que usam <code class="file docutils literal notranslate"><span class="pre">.netrc</span></code>. Essas verificações de segurança não estão disponíveis em plataformas que não oferecem suporte a <a class="reference internal" href="os.html#os.getuid" title="os.getuid"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.getuid()</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.4: </span>Adicionada a verificação de permissão POSIX.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.7: </span><a class="reference internal" href="os.path.html#os.path.expanduser" title="os.path.expanduser"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.path.expanduser()</span></code></a> é usado para encontrar a localização do arquivo <code class="file docutils literal notranslate"><span class="pre">.netrc</span></code> quando <em>file</em> não é passado como argumento.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.10: </span><a class="reference internal" href="#module-netrc" title="netrc: Loading of .netrc files."><code class="xref py py-class docutils literal notranslate"><span class="pre">netrc</span></code></a> tenta a codificação UTF-8 antes de usar a codificação específica da localidade. A entrada no arquivo netrc não precisa mais conter todos os tokens. O valor padrão dos tokens ausentes é uma string vazia. Todos os tokens e seus valores agora podem conter caracteres arbitrários, como espaços em branco e caracteres não ASCII. Se o nome de login for anônimo, ele não acionará a verificação de segurança.</p>
+</div>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="netrc.NetrcParseError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">netrc.</span></span><span class="sig-name descname"><span class="pre">NetrcParseError</span></span><a class="headerlink" href="#netrc.NetrcParseError" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exceção levantada pela classe <a class="reference internal" href="#netrc.netrc" title="netrc.netrc"><code class="xref py py-class docutils literal notranslate"><span class="pre">netrc</span></code></a> quando erros sintáticos são encontrados no texto fonte. As instâncias desta exceção fornecem três atributos interessantes:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="netrc.NetrcParseError.msg">
+<span class="sig-name descname"><span class="pre">msg</span></span><a class="headerlink" href="#netrc.NetrcParseError.msg" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Explicação textual do erro.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="netrc.NetrcParseError.filename">
+<span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#netrc.NetrcParseError.filename" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O nome do arquivo de origem.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="netrc.NetrcParseError.lineno">
+<span class="sig-name descname"><span class="pre">lineno</span></span><a class="headerlink" href="#netrc.NetrcParseError.lineno" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O número da linha em que o erro foi encontrado.</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="netrc-objects">
+<span id="id1"></span><h2 class="translated">Objetos netrc<a class="headerlink" href="#netrc-objects" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Uma instância da classe <a class="reference internal" href="#netrc.netrc" title="netrc.netrc"><code class="xref py py-class docutils literal notranslate"><span class="pre">netrc</span></code></a> tem os seguintes métodos:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="netrc.netrc.authenticators">
+<span class="sig-prename descclassname"><span class="pre">netrc.</span></span><span class="sig-name descname"><span class="pre">authenticators</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#netrc.netrc.authenticators" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma tupla de 3 elementos <code class="docutils literal notranslate"><span class="pre">(login,</span> <span class="pre">conta,</span> <span class="pre">senha)</span></code> dos autenticadores do <em>host</em>. Se o arquivo netrc não contém uma entrada para o host dado, retorna a tupla associada com a entrada padrão. Se não houver nenhum host correspondente nem uma entrada padrão estiver disponível, retorna <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="netrc.netrc.__repr__">
+<span class="sig-prename descclassname"><span class="pre">netrc.</span></span><span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#netrc.netrc.__repr__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Despeja os dados da classe como uma string no formato de um arquivo netrc. (Isso descarta os comentários e pode reordenar as entradas.)</p>
+</dd></dl>
+
+<p class="translated">Instâncias de <a class="reference internal" href="#netrc.netrc" title="netrc.netrc"><code class="xref py py-class docutils literal notranslate"><span class="pre">netrc</span></code></a> possuem variáveis de instância públicas:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="netrc.netrc.hosts">
+<span class="sig-prename descclassname"><span class="pre">netrc.</span></span><span class="sig-name descname"><span class="pre">hosts</span></span><a class="headerlink" href="#netrc.netrc.hosts" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Dicionário mapeando nomes de host para tuplas <code class="docutils literal notranslate"><span class="pre">(login,</span> <span class="pre">conta,</span> <span class="pre">senha)</span></code>. A entrada <em>default</em>, se houver, é representada como um pseudo-host por esse nome.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="netrc.netrc.macros">
+<span class="sig-prename descclassname"><span class="pre">netrc.</span></span><span class="sig-name descname"><span class="pre">macros</span></span><a class="headerlink" href="#netrc.netrc.macros" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Dicionário mapeando nomes de macros para listas de strings.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">netrc</span></code> — Arquivo de processamento netrc</a><ul>
+<li><a class="reference internal" href="#netrc-objects">Objetos netrc</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="tomllib.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tomllib</span></code> — Analisa arquivos TOML</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="plistlib.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plistlib</span></code> — Gera e analisa arquivos Apple <code class="docutils literal notranslate"><span class="pre">.plist</span></code></a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/netrc.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/netrc.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/netrc.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="plistlib.html" title="plistlib — Gera e analisa arquivos Apple .plist"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="tomllib.html" title="tomllib — Analisa arquivos TOML"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="fileformats.html" >Formatos de Arquivo</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">netrc</span></code> — Arquivo de processamento netrc</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

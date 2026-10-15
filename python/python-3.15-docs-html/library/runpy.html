@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="runpy — Localizando e executando módulos Python" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/runpy.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/runpy.py The runpy module is used to locate and run Python modules without importing them first. Its main use is to implement the-m command line switch that allows scripts to be l..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_runpy_81bdbff5.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/runpy.py The runpy module is used to locate and run Python modules without importing them first. Its main use is to implement the-m command line switch that allows scripts to be l..." />
+<meta name="description" content="Código-fonte: Lib/runpy.py The runpy module is used to locate and run Python modules without importing them first. Its main use is to implement the-m command line switch that allows scripts to be l..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>runpy — Localizando e executando módulos Python &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="importlib — A implementação de import" href="importlib.html" />
+    <link rel="prev" title="modulefinder — Procura módulos usados por um script" href="modulefinder.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/runpy.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="modulefinder.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">modulefinder</span></code> — Procura módulos usados por um script</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="importlib.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib</span></code> — A implementação de <code class="xref std std-keyword docutils literal notranslate"><span class="pre">import</span></code></a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/runpy.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/runpy.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/runpy.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="importlib.html" title="importlib — A implementação de import"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="modulefinder.html" title="modulefinder — Procura módulos usados por um script"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="modules.html" accesskey="U">Importando módulos</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">runpy</span></code> — Localizando e executando módulos Python</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-runpy">
+<span id="runpy-locating-and-executing-python-modules"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">runpy</span></code> — Localizando e executando módulos Python<a class="headerlink" href="#module-runpy" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/runpy.py">Lib/runpy.py</a></p>
+<hr class="docutils" />
+<p class="untranslated">The <code class="xref py py-mod docutils literal notranslate"><span class="pre">runpy</span></code> module is used to locate and run Python modules without
+importing them first. Its main use is to implement the <a class="reference internal" href="../using/cmdline.html#cmdoption-m"><code class="xref std std-option docutils literal notranslate"><span class="pre">-m</span></code></a> command
+line switch that allows scripts to be located using the Python module
+namespace rather than the filesystem.</p>
+<p class="translated">Observe que este <em>não</em> é um módulo isolado - todo o código é executado no processo atual, e quaisquer efeitos colaterais (como importações em cache de outros módulos) irão permanecer em vigor após o retorno da função.</p>
+<p class="untranslated">Furthermore, any functions and classes defined by the executed code are not
+guaranteed to work correctly after a <code class="xref py py-mod docutils literal notranslate"><span class="pre">runpy</span></code> function has returned.
+If that limitation is not acceptable for a given use case, <a class="reference internal" href="importlib.html#module-importlib" title="importlib: The implementation of the import machinery."><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib</span></code></a>
+is likely to be a more suitable choice than this module.</p>
+<p class="untranslated">The <code class="xref py py-mod docutils literal notranslate"><span class="pre">runpy</span></code> module provides two functions:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="runpy.run_module">
+<span class="sig-prename descclassname"><span class="pre">runpy.</span></span><span class="sig-name descname"><span class="pre">run_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mod_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_globals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alter_sys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#runpy.run_module" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated" id="index-0">Executa o código do módulo especificado e retorna o dicionário de globals do módulo resultante. O código do módulo é localizado primeiro usando o mecanismo de importação padrão (consulte <span class="target" id="index-16"></span><a class="pep reference external" href="https://peps.python.org/pep-0302/"><strong>PEP 302</strong></a> para detalhes) e então executado em um novo espaço de nomes de módulo.</p>
+<p class="translated">O argumento <em>mod_name</em> deve ser um nome de módulo absoluto. Se o nome do módulo se referir a um pacote ao invés de um módulo normal, então esse pacote é importado e o submódulo <a class="reference internal" href="__main__.html#module-__main__" title="__main__: The environment where top-level code is run. Covers command-line interfaces, import-time behavior, and ``__name__ == '__main__'``."><code class="xref py py-mod docutils literal notranslate"><span class="pre">__main__</span></code></a> dentro desse pacote é então executado e o dicionário global do módulo resultante retornado.</p>
+<p class="translated">O argumento opcional de dicionário <em>init_globals</em> pode ser usado para preencher previamente o dicionário global do módulo antes do código ser executado. <em>init_globals</em> não será modificado. Se qualquer uma das variáveis globais especiais abaixo for definida em <em>init_globals</em>, estas definições serão substituídas por <a class="reference internal" href="#runpy.run_module" title="runpy.run_module"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_module()</span></code></a>.</p>
+<p class="untranslated">The special global variables <code class="docutils literal notranslate"><span class="pre">__name__</span></code>, <code class="docutils literal notranslate"><span class="pre">__spec__</span></code>, <code class="docutils literal notranslate"><span class="pre">__file__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__loader__</span></code> and <code class="docutils literal notranslate"><span class="pre">__package__</span></code> are set in the globals dictionary before
+the module code is executed. (Note that this is a minimal set of variables -
+other variables may be set implicitly as an interpreter implementation
+detail.)</p>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">__name__</span></code> é definido como <em>run_name</em> se este argumento opcional não for <a class="reference internal" href="../builtins/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>, para <code class="docutils literal notranslate"><span class="pre">mod_name</span> <span class="pre">+</span> <span class="pre">'.__main__'</span></code> se o módulo nomeado for um pacote e para o argumento <em>mod_name</em> caso contrário .</p>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">__spec__</span></code> será definido adequadamente para o módulo <em>efetivamente</em> importado (isto é, <code class="docutils literal notranslate"><span class="pre">__spec__.name</span></code> vai sempre ser <em>mod_name</em> ou <code class="docutils literal notranslate"><span class="pre">mod_name</span> <span class="pre">+</span> <span class="pre">'.__main__'</span></code>, nunca <em>run_name</em>).</p>
+<p class="untranslated"><code class="docutils literal notranslate"><span class="pre">__file__</span></code>, <code class="docutils literal notranslate"><span class="pre">__loader__</span></code> and <code class="docutils literal notranslate"><span class="pre">__package__</span></code> are
+<a class="reference internal" href="../reference/datamodel.html#import-mod-attrs"><span class="std std-ref">set as normal</span></a> based on the module spec.</p>
+<p class="translated">Se o argumento <em>alter_sys</em> for fornecido e for avaliado como <a class="reference internal" href="../builtins/constants.html#True" title="True"><code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code></a>, então <code class="docutils literal notranslate"><span class="pre">sys.argv[0]</span></code> será atualizado com o valor de <code class="docutils literal notranslate"><span class="pre">__file__</span></code> e <code class="docutils literal notranslate"><span class="pre">sys.modules[__name__]</span></code> é atualizado com um objeto de módulo temporário para o módulo que está sendo executado. Ambos <code class="docutils literal notranslate"><span class="pre">sys.argv[0]</span></code> e <code class="docutils literal notranslate"><span class="pre">sys.modules[__name__]</span></code> são restaurados para seus valores originais antes que a função retorne.</p>
+<p class="translated">Note que esta manipulação de <a class="reference internal" href="sys.html#module-sys" title="sys: Access system-specific parameters and functions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">sys</span></code></a> não é segura para thread. Outras threads podem ver o módulo parcialmente inicializado, bem como a lista alterada de argumentos. É recomendado que o módulo <code class="docutils literal notranslate"><span class="pre">sys</span></code> seja deixado sozinho ao invocar esta função a partir do código encadeado.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<p class="translated">A opção <a class="reference internal" href="../using/cmdline.html#cmdoption-m"><code class="xref std std-option docutils literal notranslate"><span class="pre">-m</span></code></a> oferece funcionalidade equivalente na linha de comando.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.1: </span>Adicionada capacidade de executar pacotes procurando por um submódulo <a class="reference internal" href="__main__.html#module-__main__" title="__main__: The environment where top-level code is run. Covers command-line interfaces, import-time behavior, and ``__name__ == '__main__'``."><code class="xref py py-mod docutils literal notranslate"><span class="pre">__main__</span></code></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.2: </span>Adicionada a variável global <code class="docutils literal notranslate"><span class="pre">__cached__</span></code> (veja <span class="target" id="index-17"></span><a class="pep reference external" href="https://peps.python.org/pep-3147/"><strong>PEP 3147</strong></a>).</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.4: </span>Atualizado para aproveitar o recurso de spec de módulo adicionado por <span class="target" id="index-18"></span><a class="pep reference external" href="https://peps.python.org/pep-0451/"><strong>PEP 451</strong></a>. Isso permite que <code class="docutils literal notranslate"><span class="pre">__cached__</span></code> seja configurado corretamente para módulos executados desta forma, assim como garante que o nome real do módulo esteja sempre acessível como <code class="docutils literal notranslate"><span class="pre">__spec__.name</span></code>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.12: </span>A definição de <code class="docutils literal notranslate"><span class="pre">__cached__</span></code>, <code class="docutils literal notranslate"><span class="pre">__loader__</span></code> e <code class="docutils literal notranslate"><span class="pre">__package__</span></code> foi descontinuada. Veja <a class="reference internal" href="importlib.html#importlib.machinery.ModuleSpec" title="importlib.machinery.ModuleSpec"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModuleSpec</span></code></a> para alternativas.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.15: </span>The global variable <code class="docutils literal notranslate"><span class="pre">__cached__</span></code> is no longer set.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="runpy.run_path">
+<span class="sig-prename descclassname"><span class="pre">runpy.</span></span><span class="sig-name descname"><span class="pre">run_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_globals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#runpy.run_path" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated" id="index-4">Executa o código no local do sistema de arquivos nomeado e retorna o dicionário de globals do módulo resultante. Assim como um nome de script fornecido à linha de comando CPython, <em>file_path</em> pode se referir a um arquivo fonte Python, um arquivo compilado em bytecode ou uma entrada válida de <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a> contendo um módulo <a class="reference internal" href="__main__.html#module-__main__" title="__main__: The environment where top-level code is run. Covers command-line interfaces, import-time behavior, and ``__name__ == '__main__'``."><code class="xref py py-mod docutils literal notranslate"><span class="pre">__main__</span></code></a> (por exemplo, um arquivo zip contendo um arquivo de nível superior <code class="file docutils literal notranslate"><span class="pre">__main__.py</span></code>).</p>
+<p class="translated">Para um script simples, o código especificado é simplesmente executado em um novo espaço de nomes de módulo. Para uma entrada válida <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a> (normalmente um arquivo zip ou diretório), a entrada é primeiro adicionada ao início de <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>. A função então procura e executa um módulo <a class="reference internal" href="__main__.html#module-__main__" title="__main__: The environment where top-level code is run. Covers command-line interfaces, import-time behavior, and ``__name__ == '__main__'``."><code class="xref py py-mod docutils literal notranslate"><span class="pre">__main__</span></code></a> usando o caminho atualizado. Observe que não há proteção especial contra invocar uma entrada <code class="docutils literal notranslate"><span class="pre">__main__</span></code> existente localizada em outro lugar em <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> se não houver tal módulo no local especificado.</p>
+<p class="translated">O argumento opcional de dicionário <em>init_globals</em> pode ser usado para preencher previamente o dicionário de globals do módulo antes do código ser executado. <em>init_globals</em> não será modificado. Se qualquer uma das variáveis globais especiais abaixo for definida em <em>init_globals</em>, estas definições serão substituídas por <a class="reference internal" href="#runpy.run_path" title="runpy.run_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_path()</span></code></a>.</p>
+<p class="untranslated">The special global variables <code class="docutils literal notranslate"><span class="pre">__name__</span></code>, <code class="docutils literal notranslate"><span class="pre">__spec__</span></code>, <code class="docutils literal notranslate"><span class="pre">__file__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__loader__</span></code> and <code class="docutils literal notranslate"><span class="pre">__package__</span></code> are set in the globals dictionary before
+the module code is executed. (Note that this is a minimal set of variables -
+other variables may be set implicitly as an interpreter implementation
+detail.)</p>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">__name__</span></code> é definido como <em>run_name</em> se este argumento opcional não for <a class="reference internal" href="../builtins/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a> e como <code class="docutils literal notranslate"><span class="pre">'&lt;run_path&gt;'</span></code> caso contrário.</p>
+<p class="untranslated">If <em>file_path</em> directly references a script file (whether as source
+or as precompiled byte code), then <code class="docutils literal notranslate"><span class="pre">__file__</span></code> will be set to
+<em>file_path</em>, and <code class="docutils literal notranslate"><span class="pre">__spec__</span></code>, <code class="docutils literal notranslate"><span class="pre">__loader__</span></code> and
+<code class="docutils literal notranslate"><span class="pre">__package__</span></code> will all be set to <a class="reference internal" href="../builtins/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+<p class="untranslated">If <em>file_path</em> is a reference to a valid <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a> entry, then
+<code class="docutils literal notranslate"><span class="pre">__spec__</span></code> will be set appropriately for the imported <a class="reference internal" href="__main__.html#module-__main__" title="__main__: The environment where top-level code is run. Covers command-line interfaces, import-time behavior, and ``__name__ == '__main__'``."><code class="xref py py-mod docutils literal notranslate"><span class="pre">__main__</span></code></a>
+module (that is, <code class="docutils literal notranslate"><span class="pre">__spec__.name</span></code> will always be <code class="docutils literal notranslate"><span class="pre">__main__</span></code>).
+<code class="docutils literal notranslate"><span class="pre">__file__</span></code>, <code class="docutils literal notranslate"><span class="pre">__loader__</span></code> and <code class="docutils literal notranslate"><span class="pre">__package__</span></code> will be
+<a class="reference internal" href="../reference/datamodel.html#import-mod-attrs"><span class="std std-ref">set as normal</span></a> based on the module spec.</p>
+<p class="translated">Várias alterações também são feitas no módulo <a class="reference internal" href="sys.html#module-sys" title="sys: Access system-specific parameters and functions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">sys</span></code></a>. Primeiramente, <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a> pode ser alterado conforme descrito acima. <code class="docutils literal notranslate"><span class="pre">sys.argv[0]</span></code> é atualizado com o valor de <em>file_path</em> e <code class="docutils literal notranslate"><span class="pre">sys.modules[__name__]</span></code> é atualizado com um objeto de módulo temporário para o módulo que está sendo executado. Todas as modificações em itens em <code class="xref py py-mod docutils literal notranslate"><span class="pre">sys</span></code> são revertidas antes que a função retorne.</p>
+<p class="translated">Note que, diferentemente de <a class="reference internal" href="#runpy.run_module" title="runpy.run_module"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_module()</span></code></a>, as alterações feitas em <a class="reference internal" href="sys.html#module-sys" title="sys: Access system-specific parameters and functions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">sys</span></code></a> não são opcionais nesta função, pois esses ajustes são essenciais para permitir a execução das entradas do <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a>. Como as limitações de segurança de threads ainda se aplicam, o uso dessa função no código encadeado deve ser serializado com a trava de importação ou delegado a um processo separado.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<p class="translated"><a class="reference internal" href="../using/cmdline.html#using-on-interface-options"><span class="std std-ref">Opções de interface</span></a> para funcionalidade equivalente na linha de comando (<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">path/to/script</span></code>).</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.2.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.4: </span>Atualizado para aproveitar o recurso de spec de módulo adicionado por <span class="target" id="index-19"></span><a class="pep reference external" href="https://peps.python.org/pep-0451/"><strong>PEP 451</strong></a>. Isso permite que <code class="docutils literal notranslate"><span class="pre">__cached__</span></code> seja definido corretamente no caso em que <code class="docutils literal notranslate"><span class="pre">__main__</span></code> é importado de uma entrada <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a> válida em vez de ser executado diretamente.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.12: </span>A definição de <code class="docutils literal notranslate"><span class="pre">__cached__</span></code>, <code class="docutils literal notranslate"><span class="pre">__loader__</span></code> e <code class="docutils literal notranslate"><span class="pre">__package__</span></code> foi descontinuada.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.15: </span>The global variable <code class="docutils literal notranslate"><span class="pre">__cached__</span></code> is no longer set.</p>
+</div>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<dl class="simple">
+<dt class="translated"><span class="target" id="index-20"></span><a class="pep reference external" href="https://peps.python.org/pep-0338/"><strong>PEP 338</strong></a> – Executando módulos como scripts</dt><dd><p class="translated">PEP escrita e implementada por Nick Coghlan.</p>
+</dd>
+<dt class="translated"><span class="target" id="index-21"></span><a class="pep reference external" href="https://peps.python.org/pep-0366/"><strong>PEP 366</strong></a> – Importações relativas explícitas do módulo principal</dt><dd><p class="translated">PEP escrita e implementada por Nick Coghlan.</p>
+</dd>
+<dt class="translated"><span class="target" id="index-22"></span><a class="pep reference external" href="https://peps.python.org/pep-0451/"><strong>PEP 451</strong></a> – Um tipo ModuleSpec para o sistema de importação</dt><dd><p class="translated">PEP escrita e implementada por Eric Snow</p>
+</dd>
+</dl>
+<p class="translated"><a class="reference internal" href="../using/cmdline.html#using-on-general"><span class="std std-ref">Linha de comando e ambiente</span></a> - Detalhes da linha de comando do CPython</p>
+<p class="translated">A função <a class="reference internal" href="importlib.html#importlib.import_module" title="importlib.import_module"><code class="xref py py-func docutils literal notranslate"><span class="pre">importlib.import_module()</span></code></a></p>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="modulefinder.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">modulefinder</span></code> — Procura módulos usados por um script</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="importlib.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib</span></code> — A implementação de <code class="xref std std-keyword docutils literal notranslate"><span class="pre">import</span></code></a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/runpy.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/runpy.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/runpy.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="importlib.html" title="importlib — A implementação de import"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="modulefinder.html" title="modulefinder — Procura módulos usados por um script"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="modules.html" >Importando módulos</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">runpy</span></code> — Localizando e executando módulos Python</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="poplib — Cliente de protocolo POP3" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/poplib.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Source code: Lib/poplib.py Este módulo define uma classe, POP3, que encapsula uma conexão com um servidor POP3 e implementa o protocolo conforme definido em RFC 1939. A classe POP3 oferece suporte ..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_poplib_f5cc48d9.png" />
+<meta property="og:image:alt" content="Source code: Lib/poplib.py Este módulo define uma classe, POP3, que encapsula uma conexão com um servidor POP3 e implementa o protocolo conforme definido em RFC 1939. A classe POP3 oferece suporte ..." />
+<meta name="description" content="Source code: Lib/poplib.py Este módulo define uma classe, POP3, que encapsula uma conexão com um servidor POP3 e implementa o protocolo conforme definido em RFC 1939. A classe POP3 oferece suporte ..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>poplib — Cliente de protocolo POP3 &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="imaplib — IMAP4 protocol client" href="imaplib.html" />
+    <link rel="prev" title="ftplib — FTP protocol client" href="ftplib.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/poplib.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">poplib</span></code> — Cliente de protocolo POP3</a><ul>
+<li><a class="reference internal" href="#pop3-objects">Objetos POP3</a></li>
+<li><a class="reference internal" href="#pop3-example">Exemplo POP3</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="ftplib.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ftplib</span></code> — FTP protocol client</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="imaplib.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">imaplib</span></code> — IMAP4 protocol client</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/poplib.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/poplib.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/poplib.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="imaplib.html" title="imaplib — IMAP4 protocol client"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="ftplib.html" title="ftplib — FTP protocol client"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="internet.html" accesskey="U">Protocolos de Internet e Suporte</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">poplib</span></code> — Cliente de protocolo POP3</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-poplib">
+<span id="poplib-pop3-protocol-client"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">poplib</span></code> — Cliente de protocolo POP3<a class="headerlink" href="#module-poplib" title="Link para este cabeçalho">¶</a></h1>
+<p class="untranslated"><strong>Source code:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/poplib.py">Lib/poplib.py</a></p>
+<hr class="docutils" id="index-0" />
+<p class="translated">Este módulo define uma classe, <a class="reference internal" href="#poplib.POP3" title="poplib.POP3"><code class="xref py py-class docutils literal notranslate"><span class="pre">POP3</span></code></a>, que encapsula uma conexão com um servidor POP3 e implementa o protocolo conforme definido em <span class="target" id="index-10"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1939.html"><strong>RFC 1939</strong></a>. A classe <code class="xref py py-class docutils literal notranslate"><span class="pre">POP3</span></code> oferece suporte aos conjuntos de comandos mínimos e opcionais de <span class="target" id="index-11"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1939.html"><strong>RFC 1939</strong></a>. A classe <code class="xref py py-class docutils literal notranslate"><span class="pre">POP3</span></code> também oferece suporte ao comando <code class="docutils literal notranslate"><span class="pre">STLS</span></code> introduzido em <span class="target" id="index-12"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2595.html"><strong>RFC 2595</strong></a> para permitir a comunicação criptografada em uma conexão já estabelecida.</p>
+<p class="translated">Além disso, este módulo fornece uma classe <a class="reference internal" href="#poplib.POP3_SSL" title="poplib.POP3_SSL"><code class="xref py py-class docutils literal notranslate"><span class="pre">POP3_SSL</span></code></a>, que fornece suporte para conexão a servidores POP3 que usam SSL como uma camada de protocolo subjacente.</p>
+<p class="translated">Observe que o POP3, embora amplamente suportado, está obsoleto. A qualidade de implementação dos servidores POP3 varia muito, e muitos são bastante ruins. Se o seu servidor de e-mail oferece suporte a IMAP, seria melhor usar a classe <a class="reference internal" href="imaplib.html#imaplib.IMAP4" title="imaplib.IMAP4"><code class="xref py py-class docutils literal notranslate"><span class="pre">imaplib.IMAP4</span></code></a>, pois os servidores IMAP tendem a ter uma implementação melhor.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: not WASI.</p>
+<p class="translated">Este módulo não funciona ou não está disponível em WebAssembly. Veja <a class="reference internal" href="intro.html#wasm-availability"><span class="std std-ref">Plataformas WebAssembly</span></a> para mais informações.</p>
+</div>
+<p class="untranslated">The <code class="xref py py-mod docutils literal notranslate"><span class="pre">poplib</span></code> module provides two classes:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poplib.POP3">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poplib.</span></span><span class="sig-name descname"><span class="pre">POP3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port=POP3_PORT</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Esta classe implementa o protocolo POP3 real. A conexão é criada quando a instância é inicializada. Se <em>port</em> for omitido, a porta POP3 padrão (110) será usada. O parâmetro opcional <em>timeout</em> especifica um tempo limite em segundos para a tentativa de conexão (se não for especificado, a configuração de tempo limite padrão global será usada).</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">ftplib.connect</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">self</span></code>, <code class="docutils literal notranslate"><span class="pre">host</span></code>, <code class="docutils literal notranslate"><span class="pre">port</span></code>.</p>
+<p class="audit-hook translated">Todos os comandos levantarão um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">poplib.putline</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">self</span></code> e <code class="docutils literal notranslate"><span class="pre">line</span></code>, onde <code class="docutils literal notranslate"><span class="pre">line</span></code> são os bytes prestes a serem enviados ao host remoto.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.9: </span>Se o parâmetro <em>timeout</em> for definido como zero, será levantada <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a> para impedir a criação de um soquete não bloqueante.</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="poplib.POP3_SSL">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poplib.</span></span><span class="sig-name descname"><span class="pre">POP3_SSL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">POP3_SSL_PORT</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3_SSL" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Esta é uma subclasse de <a class="reference internal" href="#poplib.POP3" title="poplib.POP3"><code class="xref py py-class docutils literal notranslate"><span class="pre">POP3</span></code></a> que se conecta ao servidor por meio de um soquete criptografado SSL. Se <em>port</em> não for especificado, 995, a porta padrão POP3 sobre SSL será usada. <em>timeout</em> funciona como no construtor <code class="xref py py-class docutils literal notranslate"><span class="pre">POP3</span></code>. <em>context</em> é um objeto opcional <a class="reference internal" href="ssl.html#ssl.SSLContext" title="ssl.SSLContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">ssl.SSLContext</span></code></a> que permite agrupar opções de configuração SSL, certificados e chaves privadas em uma única estrutura (potencialmente duradoura). Consulte <a class="reference internal" href="ssl.html#ssl-security"><span class="std std-ref">Considerações de segurança</span></a> para obter as melhores práticas.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">ftplib.connect</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">self</span></code>, <code class="docutils literal notranslate"><span class="pre">host</span></code>, <code class="docutils literal notranslate"><span class="pre">port</span></code>.</p>
+<p class="audit-hook translated">Todos os comandos levantarão um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">poplib.putline</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">self</span></code> e <code class="docutils literal notranslate"><span class="pre">line</span></code>, onde <code class="docutils literal notranslate"><span class="pre">line</span></code> são os bytes prestes a serem enviados ao host remoto.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.2: </span>Parâmetro <em>context</em> adicionado.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.4: </span>A classe agora oferece suporte a verificação de nome de host com <a class="reference internal" href="ssl.html#ssl.SSLContext.check_hostname" title="ssl.SSLContext.check_hostname"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ssl.SSLContext.check_hostname</span></code></a> e <em>Indicação de nome de servidor</em> (veja <a class="reference internal" href="ssl.html#ssl.HAS_SNI" title="ssl.HAS_SNI"><code class="xref py py-const docutils literal notranslate"><span class="pre">ssl.HAS_SNI</span></code></a>).</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.9: </span>Se o parâmetro <em>timeout</em> for definido como zero, será levantada <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a> para impedir a criação de um soquete não bloqueante.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.12: </span>Os parâmetros depreciados <em>keyfile</em> e <em>certfile</em>  foram removidos.</p>
+</div>
+</dd></dl>
+
+<p class="untranslated">One exception is defined as an attribute of the <code class="xref py py-mod docutils literal notranslate"><span class="pre">poplib</span></code> module:</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="poplib.error_proto">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poplib.</span></span><span class="sig-name descname"><span class="pre">error_proto</span></span><a class="headerlink" href="#poplib.error_proto" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exceção levantada em caso de erros deste módulo (erros do módulo <a class="reference internal" href="socket.html#module-socket" title="socket: Low-level networking interface."><code class="xref py py-mod docutils literal notranslate"><span class="pre">socket</span></code></a> não são detectados). O motivo da exceção é passado ao construtor como uma string.</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<dl class="simple">
+<dt class="translated">Módulo <a class="reference internal" href="imaplib.html#module-imaplib" title="imaplib: IMAP4 protocol client (requires sockets)."><code class="xref py py-mod docutils literal notranslate"><span class="pre">imaplib</span></code></a></dt><dd><p class="untranslated">The standard Python IMAP module.</p>
+</dd>
+<dt class="untranslated"><a class="reference external" href="http://www.catb.org/~esr/fetchmail/fetchmail-FAQ.html">Frequently Asked Questions About Fetchmail</a></dt><dd><p class="untranslated">The FAQ for the <strong class="program">fetchmail</strong> POP/IMAP client collects information on
+POP3 server variations and RFC noncompliance that may be useful if you need to
+write an application based on the POP protocol.</p>
+</dd>
+</dl>
+</div>
+<section id="pop3-objects">
+<span id="id1"></span><h2 class="translated">Objetos POP3<a class="headerlink" href="#pop3-objects" title="Link para este cabeçalho">¶</a></h2>
+<p class="untranslated">All POP3 commands are represented by methods of the same name, in lowercase;
+most return the response text sent by the server.</p>
+<p class="untranslated">A <a class="reference internal" href="#poplib.POP3" title="poplib.POP3"><code class="xref py py-class docutils literal notranslate"><span class="pre">POP3</span></code></a> instance has the following methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.set_debuglevel">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">set_debuglevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.set_debuglevel" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Set the instance’s debugging level.  This controls the amount of debugging
+output printed.  The default, <code class="docutils literal notranslate"><span class="pre">0</span></code>, produces no debugging output.  A value of
+<code class="docutils literal notranslate"><span class="pre">1</span></code> produces a moderate amount of debugging output, generally a single line
+per request.  A value of <code class="docutils literal notranslate"><span class="pre">2</span></code> or higher produces the maximum amount of
+debugging output, logging each line sent and received on the control connection.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.getwelcome">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">getwelcome</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.getwelcome" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Returns the greeting string sent by the POP3 server.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.capa">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">capa</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.capa" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Query the server’s capabilities as specified in <span class="target" id="index-4"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2449.html"><strong>RFC 2449</strong></a>.
+Returns a dictionary in the form <code class="docutils literal notranslate"><span class="pre">{'name':</span> <span class="pre">['param'...]}</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.user">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.user" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Send user command, response should indicate that a password is required.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.pass_">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">pass_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.pass_" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Send password, response includes message count and mailbox size. Note: the
+mailbox on the server is locked until <a class="reference internal" href="#poplib.POP3.quit" title="poplib.POP3.quit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">quit()</span></code></a> is called.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.apop">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">apop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">secret</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.apop" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Use the more secure APOP authentication to log into the POP3 server.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.rpop">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">rpop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.rpop" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Use RPOP authentication (similar to UNIX r-commands) to log into POP3 server.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.stat">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">stat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.stat" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Get mailbox status.  The result is a tuple of 2 integers: <code class="docutils literal notranslate"><span class="pre">(message</span> <span class="pre">count,</span>
+<span class="pre">mailbox</span> <span class="pre">size)</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.list">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">which</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.list" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Request message list, result is in the form <code class="docutils literal notranslate"><span class="pre">(response,</span> <span class="pre">['mesg_num</span> <span class="pre">octets',</span>
+<span class="pre">...],</span> <span class="pre">octets)</span></code>. If <em>which</em> is set, it is the message to list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.retr">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">retr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">which</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.retr" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Retrieve whole message number <em>which</em>, and set its seen flag. Result is in form
+<code class="docutils literal notranslate"><span class="pre">(response,</span> <span class="pre">['line',</span> <span class="pre">...],</span> <span class="pre">octets)</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.dele">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">dele</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">which</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.dele" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Flag message number <em>which</em> for deletion.  On most servers deletions are not
+actually performed until QUIT (the major exception is Eudora QPOP, which
+deliberately violates the RFCs by doing pending deletes on any disconnect).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.rset">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">rset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.rset" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Remove any deletion marks for the mailbox.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.noop">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">noop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.noop" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Do nothing.  Might be used as a keep-alive.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.quit">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">quit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.quit" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Signoff:  commit changes, unlock mailbox, drop connection.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.top">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">top</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">which</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">howmuch</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.top" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Retrieves the message header plus <em>howmuch</em> lines of the message after the
+header of message number <em>which</em>. Result is in form <code class="docutils literal notranslate"><span class="pre">(response,</span> <span class="pre">['line',</span> <span class="pre">...],</span>
+<span class="pre">octets)</span></code>.</p>
+<p class="untranslated">The POP3 TOP command this method uses, unlike the RETR command, doesn’t set the
+message’s seen flag; unfortunately, TOP is poorly specified in the RFCs and is
+frequently broken in off-brand servers. Test this method by hand against the
+POP3 servers you will use before trusting it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.uidl">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">uidl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">which</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.uidl" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Return message digest (unique id) list. If <em>which</em> is specified, result contains
+the unique id for that message in the form <code class="docutils literal notranslate"><span class="pre">'response</span> <span class="pre">mesgnum</span> <span class="pre">uid</span></code>, otherwise
+result is list <code class="docutils literal notranslate"><span class="pre">(response,</span> <span class="pre">['mesgnum</span> <span class="pre">uid',</span> <span class="pre">...],</span> <span class="pre">octets)</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.utf8">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">utf8</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.utf8" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Try to switch to UTF-8 mode. Returns the server response if successful,
+raises <a class="reference internal" href="#poplib.error_proto" title="poplib.error_proto"><code class="xref py py-class docutils literal notranslate"><span class="pre">error_proto</span></code></a> if not. Specified in <span class="target" id="index-5"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc6856.html"><strong>RFC 6856</strong></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poplib.POP3.stls">
+<span class="sig-prename descclassname"><span class="pre">POP3.</span></span><span class="sig-name descname"><span class="pre">stls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poplib.POP3.stls" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Start a TLS session on the active connection as specified in <span class="target" id="index-6"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2595.html"><strong>RFC 2595</strong></a>.
+This is only allowed before user authentication</p>
+<p class="untranslated"><em>context</em> parameter is a <a class="reference internal" href="ssl.html#ssl.SSLContext" title="ssl.SSLContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">ssl.SSLContext</span></code></a> object which allows
+bundling SSL configuration options, certificates and private keys into
+a single (potentially long-lived) structure.  Please read <a class="reference internal" href="ssl.html#ssl-security"><span class="std std-ref">Considerações de segurança</span></a>
+for best practices.</p>
+<p class="untranslated">This method supports hostname checking via
+<a class="reference internal" href="ssl.html#ssl.SSLContext.check_hostname" title="ssl.SSLContext.check_hostname"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ssl.SSLContext.check_hostname</span></code></a> and <em>Server Name Indication</em> (see
+<a class="reference internal" href="ssl.html#ssl.HAS_SNI" title="ssl.HAS_SNI"><code class="xref py py-const docutils literal notranslate"><span class="pre">ssl.HAS_SNI</span></code></a>).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.4.</span></p>
+</div>
+</dd></dl>
+
+<p class="untranslated">Instances of <a class="reference internal" href="#poplib.POP3_SSL" title="poplib.POP3_SSL"><code class="xref py py-class docutils literal notranslate"><span class="pre">POP3_SSL</span></code></a> have no additional methods. The interface of this
+subclass is identical to its parent.</p>
+</section>
+<section id="pop3-example">
+<span id="id2"></span><h2 class="translated">Exemplo POP3<a class="headerlink" href="#pop3-example" title="Link para este cabeçalho">¶</a></h2>
+<p class="untranslated">Here is a minimal example (without error checking) that opens a mailbox and
+retrieves and prints all messages:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span><span class="o">,</span><span class="w"> </span><span class="nn">poplib</span>
+
+<span class="n">M</span> <span class="o">=</span> <span class="n">poplib</span><span class="o">.</span><span class="n">POP3</span><span class="p">(</span><span class="s1">'localhost'</span><span class="p">)</span>
+<span class="n">M</span><span class="o">.</span><span class="n">user</span><span class="p">(</span><span class="n">getpass</span><span class="o">.</span><span class="n">getuser</span><span class="p">())</span>
+<span class="n">M</span><span class="o">.</span><span class="n">pass_</span><span class="p">(</span><span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">())</span>
+<span class="n">numMessages</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">list</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numMessages</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">M</span><span class="o">.</span><span class="n">retr</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="untranslated">At the end of the module, there is a test section that contains a more extensive
+example of usage.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">poplib</span></code> — Cliente de protocolo POP3</a><ul>
+<li><a class="reference internal" href="#pop3-objects">Objetos POP3</a></li>
+<li><a class="reference internal" href="#pop3-example">Exemplo POP3</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="ftplib.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ftplib</span></code> — FTP protocol client</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="imaplib.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">imaplib</span></code> — IMAP4 protocol client</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/poplib.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/poplib.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/poplib.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="imaplib.html" title="imaplib — IMAP4 protocol client"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="ftplib.html" title="ftplib — FTP protocol client"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="internet.html" >Protocolos de Internet e Suporte</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">poplib</span></code> — Cliente de protocolo POP3</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

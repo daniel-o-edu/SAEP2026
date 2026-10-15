@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="winreg — Acesso aos registros do Windows" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/winreg.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Source code: PC/winreg.c Essas funções expõem a API de registro do Windows ao Python. Em vez de usar um inteiro como identificador de registro, um objeto identificador é usado para garantir que os ..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_winreg_393c3839.png" />
+<meta property="og:image:alt" content="Source code: PC/winreg.c Essas funções expõem a API de registro do Windows ao Python. Em vez de usar um inteiro como identificador de registro, um objeto identificador é usado para garantir que os ..." />
+<meta name="description" content="Source code: PC/winreg.c Essas funções expõem a API de registro do Windows ao Python. Em vez de usar um inteiro como identificador de registro, um objeto identificador é usado para garantir que os ..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>winreg — Acesso aos registros do Windows &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="winsound — Interface de reprodução de som para o Windows" href="winsound.html" />
+    <link rel="prev" title="msvcrt — Rotinas úteis do runtime MS VC++" href="msvcrt.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/winreg.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winreg</span></code> — Acesso aos registros do Windows</a><ul>
+<li><a class="reference internal" href="#functions">Funções</a></li>
+<li><a class="reference internal" href="#constants">Constantes</a><ul>
+<li><a class="reference internal" href="#hkey-constants">Constantes HKEY_*</a></li>
+<li><a class="reference internal" href="#access-rights">Direitos de acesso</a><ul>
+<li><a class="reference internal" href="#bit-specific">Específico de 64 bits</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#value-types">Tipos de valores</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#registry-handle-objects">Objetos identificador de registro</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="msvcrt.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">msvcrt</span></code> — Rotinas úteis do runtime MS VC++</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="winsound.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winsound</span></code> — Interface de reprodução de som para o Windows</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/winreg.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/winreg.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/winreg.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="winsound.html" title="winsound — Interface de reprodução de som para o Windows"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="msvcrt.html" title="msvcrt — Rotinas úteis do runtime MS VC++"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="windows.html" accesskey="U">Serviços Específicos do MS Windows</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">winreg</span></code> — Acesso aos registros do Windows</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-winreg">
+<span id="winreg-windows-registry-access"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winreg</span></code> — Acesso aos registros do Windows<a class="headerlink" href="#module-winreg" title="Link para este cabeçalho">¶</a></h1>
+<p class="untranslated"><strong>Source code:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/PC/winreg.c">PC/winreg.c</a></p>
+<hr class="docutils" />
+<p class="translated">Essas funções expõem a API de registro do Windows ao Python. Em vez de usar um inteiro como identificador de registro, um <a class="reference internal" href="#handle-object"><span class="std std-ref">objeto identificador</span></a> é usado para garantir que os identificadores sejam fechados corretamente, mesmo que o programador não os feche explicitamente.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Windows.</p>
+</div>
+<div class="versionchanged" id="exception-changed">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>Várias funções neste módulo costumavam levantar um <a class="reference internal" href="../builtins/exceptions.html#WindowsError" title="WindowsError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">WindowsError</span></code></a> , que agora é um apelido de <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>.</p>
+</div>
+<section id="functions">
+<span id="id1"></span><h2 class="translated">Funções<a class="headerlink" href="#functions" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Este módulo oferece as seguintes funções:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.CloseKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">CloseKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hkey</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.CloseKey" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Fecha uma chave de registro aberta anteriormente. O argumento <em>hkey</em> especifica uma chave aberta anteriormente.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Se <em>hkey</em> não for fechado usando este método (ou via <a class="reference internal" href="#winreg.PyHKEY.Close" title="winreg.PyHKEY.Close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">hkey.Close()</span></code></a>), ele será fechado quando o objeto <em>hkey</em> for destruído pelo Python.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.ConnectRegistry">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">ConnectRegistry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">computer_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.ConnectRegistry" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Estabelece uma conexão com um identificador de registro predefinido em outro computador e retorna um <a class="reference internal" href="#handle-object"><span class="std std-ref">objeto identificador</span></a>.</p>
+<p class="translated"><em>computer_name</em> é o nome do computador remoto, no formato <code class="docutils literal notranslate"><span class="pre">r&quot;\\computername&quot;</span></code>. Se <code class="docutils literal notranslate"><span class="pre">None</span></code>, o computador local será usado.</p>
+<p class="translated"><em>key</em> é o identificador predefinido para conexão.</p>
+<p class="translated">O valor de retorno é o identificador da chave aberta. Se a função falhar, uma exceção <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> será levantada.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.ConnectRegistry</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">computer_name</span></code>, <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>Veja <a class="reference internal" href="#exception-changed"><span class="std std-ref">acima</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.CreateKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">CreateKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.CreateKey" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cria ou abre a chave especificada, retornando um <a class="reference internal" href="#handle-object"><span class="std std-ref">objeto identificador</span></a>.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated"><em>sub_key</em> é uma string que nomeia a chave que este método abre ou cria.</p>
+<p class="translated">Se <em>key</em> for uma das chaves predefinidas, <em>sub_key</em> poderá ser <code class="docutils literal notranslate"><span class="pre">None</span></code>. Nesse caso, o identificador retornado será o mesmo identificador de chave passado para a função.</p>
+<p class="translated">Se a chave já existir, esta função abre a chave existente.</p>
+<p class="translated">O valor de retorno é o identificador da chave aberta. Se a função falhar, uma exceção <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> será levantada.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.CreateKey</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_key</span></code>, <code class="docutils literal notranslate"><span class="pre">access</span></code>.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.OpenKey/result</span></code> com o argumento <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>Veja <a class="reference internal" href="#exception-changed"><span class="std std-ref">acima</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.CreateKeyEx">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">CreateKeyEx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reserved</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">KEY_WRITE</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.CreateKeyEx" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cria ou abre a chave especificada, retornando um <a class="reference internal" href="#handle-object"><span class="std std-ref">objeto identificador</span></a>.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated"><em>sub_key</em> é uma string que nomeia a chave que este método abre ou cria.</p>
+<p class="translated"><em>reserved</em> é um inteiro reservado e deve ser zero. O padrão é zero.</p>
+<p class="translated"><em>access</em> é um inteiro que especifica uma máscara de acesso que descreve o acesso de segurança desejado para a chave. O padrão é <a class="reference internal" href="#winreg.KEY_WRITE" title="winreg.KEY_WRITE"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_WRITE</span></code></a>. Consulte <a class="reference internal" href="#access-rights"><span class="std std-ref">Direitos de acesso</span></a> para outros valores permitidos.</p>
+<p class="translated">Se <em>key</em> for uma das chaves predefinidas, <em>sub_key</em> poderá ser <code class="docutils literal notranslate"><span class="pre">None</span></code>. Nesse caso, o identificador retornado será o mesmo identificador de chave passado para a função.</p>
+<p class="translated">Se a chave já existir, esta função abre a chave existente.</p>
+<p class="translated">O valor de retorno é o identificador da chave aberta. Se a função falhar, uma exceção <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> será levantada.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.CreateKey</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_key</span></code>, <code class="docutils literal notranslate"><span class="pre">access</span></code>.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.OpenKey/result</span></code> com o argumento <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.2.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>Veja <a class="reference internal" href="#exception-changed"><span class="std std-ref">acima</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.DeleteKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">DeleteKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.DeleteKey" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exclui a chave especificada.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated"><em>sub_key</em> é uma string que deve ser uma subchave da chave identificada pelo parâmetro <em>key</em>. Este valor não pode ser <code class="docutils literal notranslate"><span class="pre">None</span></code>, e a chave não pode ter subchaves.</p>
+<p class="translated"><em>Este método não pode excluir chaves com subchaves.</em></p>
+<p class="translated">Se o método for bem-sucedido, a chave inteira, incluindo todos os seus valores, será removida. Se o método falhar, uma exceção <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> será levantada.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.DeleteKey</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_key</span></code>, <code class="docutils literal notranslate"><span class="pre">access</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>Veja <a class="reference internal" href="#exception-changed"><span class="std std-ref">acima</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.DeleteKeyEx">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">DeleteKeyEx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">KEY_WOW64_64KEY</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reserved</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.DeleteKeyEx" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exclui a chave especificada.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated"><em>sub_key</em> é uma string que deve ser uma subchave da chave identificada pelo parâmetro <em>key</em>. Este valor não pode ser <code class="docutils literal notranslate"><span class="pre">None</span></code>, e a chave não pode ter subchaves.</p>
+<p class="translated"><em>reserved</em> é um inteiro reservado e deve ser zero. O padrão é zero.</p>
+<p class="translated"><em>access</em> é um inteiro que especifica uma máscara de acesso que descreve o acesso de segurança desejado para a chave. O padrão é <a class="reference internal" href="#winreg.KEY_WOW64_64KEY" title="winreg.KEY_WOW64_64KEY"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_WOW64_64KEY</span></code></a>. No Windows de 32 bits, as constantes WOW64 são ignoradas. Consulte <a class="reference internal" href="#access-rights"><span class="std std-ref">Direitos de acesso</span></a> para outros valores permitidos.</p>
+<p class="translated"><em>Este método não pode excluir chaves com subchaves.</em></p>
+<p class="translated">Se o método for bem-sucedido, a chave inteira, incluindo todos os seus valores, será removida. Se o método falhar, uma exceção <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> será levantada.</p>
+<p class="translated">Em versões do Windows sem suporte, <a class="reference internal" href="../builtins/exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a> é levantada.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.DeleteKey</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_key</span></code>, <code class="docutils literal notranslate"><span class="pre">access</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.2.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>Veja <a class="reference internal" href="#exception-changed"><span class="std std-ref">acima</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.DeleteTree">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">DeleteTree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.DeleteTree" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Deletes the specified key and all its subkeys and values recursively.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="untranslated"><em>sub_key</em> is a string that names the subkey to delete. If <code class="docutils literal notranslate"><span class="pre">None</span></code>,
+deletes all subkeys and values of the specified key.</p>
+<p class="untranslated">This function deletes a key and all its descendants. If <em>sub_key</em> is
+<code class="docutils literal notranslate"><span class="pre">None</span></code>, all subkeys and values of the specified key are deleted.</p>
+<p class="audit-hook untranslated">Raises an <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">auditing event</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.DeleteTree</span></code> with arguments <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_key</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.15.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.DeleteValue">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">DeleteValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.DeleteValue" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Remove um valor nomeado de uma chave de registro.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated"><em>value</em> é uma string que identifica o valor a ser removido.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.DeleteValue</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">value</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.EnumKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">EnumKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.EnumKey" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Enumera subchaves de uma chave de registro aberta, retornando uma string.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated"><em>index</em> é um inteiro que identifica o índice da chave a ser recuperada.</p>
+<p class="translated">A função recupera o nome de uma subchave cada vez que é chamada. Normalmente, ela é chamada repetidamente até que uma exceção <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> seja levantada, indicando que não há mais valores disponíveis.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.EnumKey</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">index</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>Veja <a class="reference internal" href="#exception-changed"><span class="std std-ref">acima</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.EnumValue">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">EnumValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.EnumValue" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Enumera valores de uma chave de registro aberta, retornando uma tupla.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated"><em>index</em> é um inteiro que identifica o índice do valor a ser recuperado.</p>
+<p class="translated">A função recupera o nome de uma subchave cada vez que é chamada. Normalmente, ela é chamada repetidamente, até que uma exceção <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> seja levantada, indicando que não há mais valores.</p>
+<p class="translated">O resultado é uma tupla de 3 itens:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Índice</p></th>
+<th class="head"><p class="translated">Significado</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p class="translated">Uma string que identifica o nome do valor</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p class="translated">Um objeto que contém os dados de valor e cujo tipo depende do tipo de registro subjacente</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">2</span></code></p></td>
+<td><p class="translated">Um inteiro que identifica o tipo dos dados do valor (veja a tabela na documentação para <a class="reference internal" href="#winreg.SetValueEx" title="winreg.SetValueEx"><code class="xref py py-meth docutils literal notranslate"><span class="pre">SetValueEx()</span></code></a>)</p></td>
+</tr>
+</tbody>
+</table>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.EnumValue</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">index</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>Veja <a class="reference internal" href="#exception-changed"><span class="std std-ref">acima</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function" id="index-0">
+<dt class="sig sig-object py" id="winreg.ExpandEnvironmentStrings">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">ExpandEnvironmentStrings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.ExpandEnvironmentStrings" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Expande os espaços reservados de posição de variáveis de ambiente <code class="docutils literal notranslate"><span class="pre">%NAME%</span></code> em strings como <a class="reference internal" href="#winreg.REG_EXPAND_SZ" title="winreg.REG_EXPAND_SZ"><code class="xref py py-const docutils literal notranslate"><span class="pre">REG_EXPAND_SZ</span></code></a>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ExpandEnvironmentStrings</span><span class="p">(</span><span class="s1">'%windir%'</span><span class="p">)</span>
+<span class="go">'C:\\Windows'</span>
+</pre></div>
+</div>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.ExpandEnvironmentStrings</span></code> com o argumento <code class="docutils literal notranslate"><span class="pre">str</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.FlushKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">FlushKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.FlushKey" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Grava todos os atributos de uma chave no registro.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated">Não é necessário chamar <a class="reference internal" href="#winreg.FlushKey" title="winreg.FlushKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">FlushKey()</span></code></a> para alterar uma chave. As alterações do registro são descarregadas no disco pelo registro usando seu limpador lento. As alterações do registro também são descarregadas no disco no desligamento do sistema. Ao contrário de <a class="reference internal" href="#winreg.CloseKey" title="winreg.CloseKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">CloseKey()</span></code></a>, o método <code class="xref py py-func docutils literal notranslate"><span class="pre">FlushKey()</span></code> retorna somente quando todos os dados foram gravados no registro. Uma aplicação só deve chamar <code class="xref py py-func docutils literal notranslate"><span class="pre">FlushKey()</span></code> se precisar de certeza absoluta de que as alterações do registro estão no disco.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Se você não sabe se uma chamada <a class="reference internal" href="#winreg.FlushKey" title="winreg.FlushKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">FlushKey()</span></code></a> é necessária, provavelmente não é.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.LoadKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">LoadKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.LoadKey" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cria uma subchave sob a chave especificada e armazena informações de registro de um arquivo especificado nessa subchave.</p>
+<p class="translated"><em>key</em> é um identificador retornado por <a class="reference internal" href="#winreg.ConnectRegistry" title="winreg.ConnectRegistry"><code class="xref py py-func docutils literal notranslate"><span class="pre">ConnectRegistry()</span></code></a> ou uma das constantes <a class="reference internal" href="#winreg.HKEY_USERS" title="winreg.HKEY_USERS"><code class="xref py py-const docutils literal notranslate"><span class="pre">HKEY_USERS</span></code></a> ou <a class="reference internal" href="#winreg.HKEY_LOCAL_MACHINE" title="winreg.HKEY_LOCAL_MACHINE"><code class="xref py py-const docutils literal notranslate"><span class="pre">HKEY_LOCAL_MACHINE</span></code></a>.</p>
+<p class="translated"><em>sub_key</em> é uma string que identifica a subchave a ser carregada.</p>
+<p class="translated"><em>file_name</em> é o nome do arquivo do qual serão carregados os dados do registro. Este arquivo deve ter sido criado com a função <a class="reference internal" href="#winreg.SaveKey" title="winreg.SaveKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">SaveKey()</span></code></a>. No sistema de arquivos da tabela de alocação de arquivos (FAT), o nome do arquivo não pode ter extensão.</p>
+<p class="translated">Uma chamada para <a class="reference internal" href="#winreg.LoadKey" title="winreg.LoadKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">LoadKey()</span></code></a> falhará se o processo de chamada não tiver o privilégio <code class="xref c c-data docutils literal notranslate"><span class="pre">SE_RESTORE_PRIVILEGE</span></code>. Observe que privilégios são diferentes de permissões — consulte a <a class="reference external" href="https://msdn.microsoft.com/en-us/library/ms724889%28v=VS.85%29.aspx">documentação do RegLoadKey</a> para mais detalhes.</p>
+<p class="translated">Se <em>key</em> for um identificador retornado por <a class="reference internal" href="#winreg.ConnectRegistry" title="winreg.ConnectRegistry"><code class="xref py py-func docutils literal notranslate"><span class="pre">ConnectRegistry()</span></code></a>, então o caminho especificado em <em>file_name</em> será relativo ao computador remoto.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.LoadKey</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_key</span></code>, <code class="docutils literal notranslate"><span class="pre">file_name</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.OpenKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">OpenKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reserved</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">KEY_READ</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.OpenKey" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="winreg.OpenKeyEx">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">OpenKeyEx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reserved</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">KEY_READ</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.OpenKeyEx" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Abre a chave especificada, retornando um <a class="reference internal" href="#handle-object"><span class="std std-ref">objeto identificador</span></a>.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated"><em>sub_key</em> é uma string que identifica a sub_key a ser aberta.</p>
+<p class="translated"><em>reserved</em> é um inteiro reservado e deve ser zero. O padrão é zero.</p>
+<p class="translated"><em>access</em> é um inteiro que especifica uma máscara de acesso que descreve o acesso de segurança desejado para a chave. O padrão é <a class="reference internal" href="#winreg.KEY_READ" title="winreg.KEY_READ"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_READ</span></code></a>. Consulte <a class="reference internal" href="#access-rights"><span class="std std-ref">Direitos de acesso</span></a> para outros valores permitidos.</p>
+<p class="translated">O resultado é um novo identificador para a chave especificada.</p>
+<p class="translated">Se a função falhar, <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> será levantada.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.OpenKey</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_key</span></code>, <code class="docutils literal notranslate"><span class="pre">access</span></code>.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.OpenKey/result</span></code> com o argumento <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.2: </span>Permite o uso de argumentos nomeados.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>Veja <a class="reference internal" href="#exception-changed"><span class="std std-ref">acima</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.QueryInfoKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">QueryInfoKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.QueryInfoKey" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna informações sobre uma chave, como uma tupla.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated">O resultado é uma tupla de 3 itens:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Índice</p></th>
+<th class="head"><p class="translated">Significado</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p class="translated">Um inteiro que fornece o número de subchaves que esta chave possui.</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p class="translated">Um inteiro que fornece o número de valores que esta chave possui.</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">2</span></code></p></td>
+<td><p class="translated">Um número inteiro que indica quando a chave foi modificada pela última vez (se disponível) em centenas de nanossegundos desde 1º de janeiro de 1601.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.QueryInfoKey</span></code> com o argumento <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.QueryValue">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">QueryValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.QueryValue" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Recupera o valor sem nome de uma chave, como uma string.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated"><em>sub_key</em> é uma string que contém o nome da subchave à qual o valor está associado. Se este parâmetro for <code class="docutils literal notranslate"><span class="pre">None</span></code> ou estiver vazio, a função recupera o valor definido pelo método <a class="reference internal" href="#winreg.SetValue" title="winreg.SetValue"><code class="xref py py-func docutils literal notranslate"><span class="pre">SetValue()</span></code></a> para a chave identificada por <em>key</em>.</p>
+<p class="translated">Os valores no registro têm componentes de nome, tipo e dados. Este método recupera os dados do primeiro valor de uma chave que possui um nome <code class="docutils literal notranslate"><span class="pre">NULL</span></code>. Mas a chamada de API subjacente não retorna o tipo, portanto, sempre use <a class="reference internal" href="#winreg.QueryValueEx" title="winreg.QueryValueEx"><code class="xref py py-func docutils literal notranslate"><span class="pre">QueryValueEx()</span></code></a> se possível.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.QueryValue</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_key</span></code>, <code class="docutils literal notranslate"><span class="pre">value_name</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.QueryValueEx">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">QueryValueEx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.QueryValueEx" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Recupera o tipo e os dados de um nome de valor especificado associado a uma chave de registro aberta.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated"><em>value_name</em> é uma string que indica o valor a ser consultado.</p>
+<p class="translated">O resultado é uma tupla de 2 itens:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Índice</p></th>
+<th class="head"><p class="translated">Significado</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p class="translated">O valor do item do registro.</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p class="translated">Um inteiro que fornece o tipo de registro para este valor (veja a tabela na documentação para <a class="reference internal" href="#winreg.SetValueEx" title="winreg.SetValueEx"><code class="xref py py-meth docutils literal notranslate"><span class="pre">SetValueEx()</span></code></a>)</p></td>
+</tr>
+</tbody>
+</table>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.QueryValue</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_key</span></code>, <code class="docutils literal notranslate"><span class="pre">value_name</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.SaveKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">SaveKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.SaveKey" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Salva a chave especificada e todas as suas subchaves no arquivo especificado.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated"><em>file_name</em> é o nome do arquivo para salvar os dados do registro. Este arquivo não pode existir. Se este nome de arquivo incluir uma extensão, ele não poderá ser usado em sistemas de arquivos FAT (tabela de alocação de arquivos) pelo método <a class="reference internal" href="#winreg.LoadKey" title="winreg.LoadKey"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LoadKey()</span></code></a>.</p>
+<p class="translated">Se <em>key</em> representa uma chave em um computador remoto, o caminho descrito por <em>file_name</em> é relativo ao computador remoto. O chamador deste método deve possuir o privilégio de segurança <strong>SeBackupPrivilege</strong>. Observe que privilégios são diferentes de permissões — consulte a documentação <a class="reference external" href="https://msdn.microsoft.com/en-us/library/ms724878%28v=VS.85%29.aspx">Conflitos entre Direitos e Permissões do Usuário</a> para obter mais detalhes.</p>
+<p class="translated">Esta função passa <code class="docutils literal notranslate"><span class="pre">NULL</span></code> para <em>security_attributes</em> para a API.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.SaveKey</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">file_name</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.SetValue">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">SetValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.SetValue" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Associa um valor a uma chave especificada.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated"><em>sub_key</em> é uma string que nomeia a subchave à qual o valor está associado.</p>
+<p class="translated"><em>type</em> é um inteiro que especifica o tipo dos dados. Atualmente, deve ser <a class="reference internal" href="#winreg.REG_SZ" title="winreg.REG_SZ"><code class="xref py py-const docutils literal notranslate"><span class="pre">REG_SZ</span></code></a>, o que significa que apenas strings são suportadas. Use a função <a class="reference internal" href="#winreg.SetValueEx" title="winreg.SetValueEx"><code class="xref py py-func docutils literal notranslate"><span class="pre">SetValueEx()</span></code></a> para suporte a outros tipos de dados.</p>
+<p class="translated"><em>valor</em> é uma string que especifica o novo valor.</p>
+<p class="translated">Se a chave especificada pelo parâmetro <em>sub_key</em> não existir, a função SetValue a criará.</p>
+<p class="translated">O comprimento dos valores é limitado pela memória disponível. Valores longos (mais de 2048 bytes) devem ser armazenados como arquivos com os nomes dos arquivos armazenados no registro de configuração. Isso ajuda o registro a funcionar com eficiência.</p>
+<p class="translated">A chave identificada pelo parâmetro <em>key</em> deve ter sido aberta com acesso <a class="reference internal" href="#winreg.KEY_SET_VALUE" title="winreg.KEY_SET_VALUE"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_SET_VALUE</span></code></a>.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.SetValue</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_key</span></code>, <code class="docutils literal notranslate"><span class="pre">type</span></code>, <code class="docutils literal notranslate"><span class="pre">value</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.SetValueEx">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">SetValueEx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reserved</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.SetValueEx" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Armazena dados no campo de valor de uma chave de registro aberta.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated"><em>value_name</em> é uma string que nomeia a subchave à qual o valor está associado.</p>
+<p class="translated"><em>reserved</em> pode ser qualquer coisa – zero é sempre passado para a API.</p>
+<p class="translated"><em>type</em> é um inteiro que especifica o tipo dos dados. Consulte <a class="reference internal" href="#value-types"><span class="std std-ref">Tipos de valor</span></a> para os tipos disponíveis.</p>
+<p class="translated"><em>valor</em> é uma string que especifica o novo valor.</p>
+<p class="translated">Este método também pode definir informações adicionais de valor e tipo para a chave especificada. A chave identificada pelo parâmetro key deve ter sido aberta com o acesso <a class="reference internal" href="#winreg.KEY_SET_VALUE" title="winreg.KEY_SET_VALUE"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_SET_VALUE</span></code></a>.</p>
+<p class="translated">Para abrir a chave, use os métodos <a class="reference internal" href="#winreg.CreateKey" title="winreg.CreateKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">CreateKey()</span></code></a> ou <a class="reference internal" href="#winreg.OpenKey" title="winreg.OpenKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">OpenKey()</span></code></a>.</p>
+<p class="translated">O comprimento dos valores é limitado pela memória disponível. Valores longos (mais de 2048 bytes) devem ser armazenados como arquivos com os nomes dos arquivos armazenados no registro de configuração. Isso ajuda o registro a funcionar com eficiência.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.SetValue</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">key</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_key</span></code>, <code class="docutils literal notranslate"><span class="pre">type</span></code>, <code class="docutils literal notranslate"><span class="pre">value</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.DisableReflectionKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">DisableReflectionKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.DisableReflectionKey" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Desabilita a reflexão do registro para processos de 32 bits em execução em um sistema operacional de 64 bits.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated">Geralmente levantará <a class="reference internal" href="../builtins/exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a> se executado em um sistema operacional de 32 bits.</p>
+<p class="translated">Se a chave não estiver na lista de reflexão, a função será bem-sucedida, mas não terá efeito. Desabilitar a reflexão para uma chave não afeta a reflexão de nenhuma subchave.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.DisableReflectionKey</span></code> com o argumento <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.EnableReflectionKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">EnableReflectionKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.EnableReflectionKey" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Restaura a reflexão do registro para a chave desabilitada especificada.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated">Geralmente levantará <a class="reference internal" href="../builtins/exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a> se executado em um sistema operacional de 32 bits.</p>
+<p class="translated">Restaura a reflexão de uma chave não afeta a reflexão de nenhuma subchave.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.EnableReflectionKey</span></code> com o argumento <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winreg.QueryReflectionKey">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">QueryReflectionKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.QueryReflectionKey" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Determina o estado de reflexão para a chave especificada.</p>
+<p class="translated"><em>key</em> é uma chave já aberta, ou uma das constantes predefinidas <a class="reference internal" href="#hkey-constants"><span class="std std-ref">HKEY_*</span></a>.</p>
+<p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se a reflexão estiver desabilitada.</p>
+<p class="translated">Geralmente levantará <a class="reference internal" href="../builtins/exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a> se executado em um sistema operacional de 32 bits.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.QueryReflectionKey</span></code> com o argumento <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
+</dd></dl>
+
+</section>
+<section id="constants">
+<span id="id2"></span><h2 class="translated">Constantes<a class="headerlink" href="#constants" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">As seguintes constantes são definidas para uso em muitas funções do módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">winreg</span></code>.</p>
+<section id="hkey-constants">
+<span id="id3"></span><h3 class="translated">Constantes HKEY_*<a class="headerlink" href="#hkey-constants" title="Link para este cabeçalho">¶</a></h3>
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.HKEY_CLASSES_ROOT">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">HKEY_CLASSES_ROOT</span></span><a class="headerlink" href="#winreg.HKEY_CLASSES_ROOT" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Entradas de registro subordinadas a esta chave definem tipos (ou classes) de documentos e as propriedades associadas a esses tipos. Aplicações Shell e COM utilizam as informações armazenadas sob esta chave.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.HKEY_CURRENT_USER">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">HKEY_CURRENT_USER</span></span><a class="headerlink" href="#winreg.HKEY_CURRENT_USER" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">As entradas de registro subordinadas a esta chave definem as preferências do usuário atual. Essas preferências incluem as configurações de variáveis de ambiente, dados sobre grupos de programas, cores, impressoras, conexões de rede e preferências de aplicações.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.HKEY_LOCAL_MACHINE">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">HKEY_LOCAL_MACHINE</span></span><a class="headerlink" href="#winreg.HKEY_LOCAL_MACHINE" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">As entradas de registro subordinadas a esta chave definem o estado físico do computador, incluindo dados sobre o tipo de barramento, memória do sistema e hardware e software instalados.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.HKEY_USERS">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">HKEY_USERS</span></span><a class="headerlink" href="#winreg.HKEY_USERS" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">As entradas de registro subordinadas a esta chave definem a configuração de usuário padrão para novos usuários no computador local e a configuração de usuário para o usuário atual.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.HKEY_PERFORMANCE_DATA">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">HKEY_PERFORMANCE_DATA</span></span><a class="headerlink" href="#winreg.HKEY_PERFORMANCE_DATA" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Entradas de registro subordinadas a esta chave permitem que você acesse dados de desempenho. Os dados não são armazenados no registro; as funções de registro fazem com que o sistema colete os dados de sua fonte.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.HKEY_CURRENT_CONFIG">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">HKEY_CURRENT_CONFIG</span></span><a class="headerlink" href="#winreg.HKEY_CURRENT_CONFIG" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Contém informações sobre o perfil de hardware atual do sistema de computador local.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.HKEY_DYN_DATA">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">HKEY_DYN_DATA</span></span><a class="headerlink" href="#winreg.HKEY_DYN_DATA" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Esta chave não é usada em versões do Windows posteriores à 98.</p>
+</dd></dl>
+
+</section>
+<section id="access-rights">
+<span id="id4"></span><h3 class="translated">Direitos de acesso<a class="headerlink" href="#access-rights" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Para obter mais informações, consulte <a class="reference external" href="https://msdn.microsoft.com/en-us/library/ms724878%28v=VS.85%29.aspx">Segurança e acesso a chaves do registro</a>.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_ALL_ACCESS">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_ALL_ACCESS</span></span><a class="headerlink" href="#winreg.KEY_ALL_ACCESS" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Combina os direitos de acesso STANDARD_RIGHTS_REQUIRED, <a class="reference internal" href="#winreg.KEY_QUERY_VALUE" title="winreg.KEY_QUERY_VALUE"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_QUERY_VALUE</span></code></a>, <a class="reference internal" href="#winreg.KEY_SET_VALUE" title="winreg.KEY_SET_VALUE"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_SET_VALUE</span></code></a>, <a class="reference internal" href="#winreg.KEY_CREATE_SUB_KEY" title="winreg.KEY_CREATE_SUB_KEY"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_CREATE_SUB_KEY</span></code></a>, <a class="reference internal" href="#winreg.KEY_ENUMERATE_SUB_KEYS" title="winreg.KEY_ENUMERATE_SUB_KEYS"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_ENUMERATE_SUB_KEYS</span></code></a>, <a class="reference internal" href="#winreg.KEY_NOTIFY" title="winreg.KEY_NOTIFY"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_NOTIFY</span></code></a> e <a class="reference internal" href="#winreg.KEY_CREATE_LINK" title="winreg.KEY_CREATE_LINK"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_CREATE_LINK</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_WRITE">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_WRITE</span></span><a class="headerlink" href="#winreg.KEY_WRITE" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Combina os direitos de acesso STANDARD_RIGHTS_WRITE, <a class="reference internal" href="#winreg.KEY_SET_VALUE" title="winreg.KEY_SET_VALUE"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_SET_VALUE</span></code></a> e <a class="reference internal" href="#winreg.KEY_CREATE_SUB_KEY" title="winreg.KEY_CREATE_SUB_KEY"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_CREATE_SUB_KEY</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_READ">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_READ</span></span><a class="headerlink" href="#winreg.KEY_READ" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Combina os valores STANDARD_RIGHTS_READ, <a class="reference internal" href="#winreg.KEY_QUERY_VALUE" title="winreg.KEY_QUERY_VALUE"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_QUERY_VALUE</span></code></a>, <a class="reference internal" href="#winreg.KEY_ENUMERATE_SUB_KEYS" title="winreg.KEY_ENUMERATE_SUB_KEYS"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_ENUMERATE_SUB_KEYS</span></code></a> e <a class="reference internal" href="#winreg.KEY_NOTIFY" title="winreg.KEY_NOTIFY"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_NOTIFY</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_EXECUTE">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_EXECUTE</span></span><a class="headerlink" href="#winreg.KEY_EXECUTE" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Equivalente a <a class="reference internal" href="#winreg.KEY_READ" title="winreg.KEY_READ"><code class="xref py py-const docutils literal notranslate"><span class="pre">KEY_READ</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_QUERY_VALUE">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_QUERY_VALUE</span></span><a class="headerlink" href="#winreg.KEY_QUERY_VALUE" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Necessário para consultar os valores de uma chave de registro.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_SET_VALUE">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_SET_VALUE</span></span><a class="headerlink" href="#winreg.KEY_SET_VALUE" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Necessário para criar, excluir ou definir um valor de registro.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_CREATE_SUB_KEY">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_CREATE_SUB_KEY</span></span><a class="headerlink" href="#winreg.KEY_CREATE_SUB_KEY" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Necessário para criar uma subchave de uma chave de registro.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_ENUMERATE_SUB_KEYS">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_ENUMERATE_SUB_KEYS</span></span><a class="headerlink" href="#winreg.KEY_ENUMERATE_SUB_KEYS" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Necessário para enumerar as subchaves de uma chave de registro.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_NOTIFY">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_NOTIFY</span></span><a class="headerlink" href="#winreg.KEY_NOTIFY" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Necessário para solicitar notificações de alteração para uma chave de registro ou para subchaves de uma chave de registro.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_CREATE_LINK">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_CREATE_LINK</span></span><a class="headerlink" href="#winreg.KEY_CREATE_LINK" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Reservado para uso pelo sistema.</p>
+</dd></dl>
+
+<section id="bit-specific">
+<span id="bit-access-rights"></span><h4 class="translated">Específico de 64 bits<a class="headerlink" href="#bit-specific" title="Link para este cabeçalho">¶</a></h4>
+<p class="translated">Para obter mais informações, consulte <a class="reference external" href="https://msdn.microsoft.com/en-us/library/aa384129(v=VS.85).aspx">Acessando uma exibição alternativa do Registro</a>.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_WOW64_64KEY">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_WOW64_64KEY</span></span><a class="headerlink" href="#winreg.KEY_WOW64_64KEY" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Indica que uma aplicação no Windows 64 bits deve operar na visualização de registro de 64 bits. No Windows de 32 bits, esta constante é ignorada.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.KEY_WOW64_32KEY">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">KEY_WOW64_32KEY</span></span><a class="headerlink" href="#winreg.KEY_WOW64_32KEY" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Indica que uma aplicação no Windows 64 bits deve operar na visualização de registro de 32 bits. No Windows de 32 bits, esta constante é ignorada.</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="value-types">
+<span id="id5"></span><h3 class="translated">Tipos de valores<a class="headerlink" href="#value-types" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Para obter mais informações, consulte <a class="reference external" href="https://msdn.microsoft.com/en-us/library/ms724884%28v=VS.85%29.aspx">Tipos de valor do Registro</a>.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_BINARY">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_BINARY</span></span><a class="headerlink" href="#winreg.REG_BINARY" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Dados binários em qualquer formato.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_DWORD">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_DWORD</span></span><a class="headerlink" href="#winreg.REG_DWORD" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Número de 32 bits.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_DWORD_LITTLE_ENDIAN">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_DWORD_LITTLE_ENDIAN</span></span><a class="headerlink" href="#winreg.REG_DWORD_LITTLE_ENDIAN" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um número de 32 bits no formato little-endian. Equivalente a <a class="reference internal" href="#winreg.REG_DWORD" title="winreg.REG_DWORD"><code class="xref py py-const docutils literal notranslate"><span class="pre">REG_DWORD</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_DWORD_BIG_ENDIAN">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_DWORD_BIG_ENDIAN</span></span><a class="headerlink" href="#winreg.REG_DWORD_BIG_ENDIAN" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um número de 32 bits no formato big-endian.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_EXPAND_SZ">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_EXPAND_SZ</span></span><a class="headerlink" href="#winreg.REG_EXPAND_SZ" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">String terminada em nulo contendo referências a variáveis de ambiente (<code class="docutils literal notranslate"><span class="pre">%PATH%</span></code>).</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_LINK">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_LINK</span></span><a class="headerlink" href="#winreg.REG_LINK" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um link simbólico Unicode.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_MULTI_SZ">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_MULTI_SZ</span></span><a class="headerlink" href="#winreg.REG_MULTI_SZ" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma sequência de strings terminadas em nulo, terminadas por dois caracteres nulos. (O Python lida com essa terminação automaticamente.)</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_NONE">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_NONE</span></span><a class="headerlink" href="#winreg.REG_NONE" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Nenhum tipo de valor definido.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_QWORD">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_QWORD</span></span><a class="headerlink" href="#winreg.REG_QWORD" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um número de 64 bits.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_QWORD_LITTLE_ENDIAN">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_QWORD_LITTLE_ENDIAN</span></span><a class="headerlink" href="#winreg.REG_QWORD_LITTLE_ENDIAN" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um número de 64 bits no formato little-endian. Equivalente a <a class="reference internal" href="#winreg.REG_QWORD" title="winreg.REG_QWORD"><code class="xref py py-const docutils literal notranslate"><span class="pre">REG_QWORD</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_RESOURCE_LIST">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_RESOURCE_LIST</span></span><a class="headerlink" href="#winreg.REG_RESOURCE_LIST" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma lista de recursos de driver de dispositivo.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_FULL_RESOURCE_DESCRIPTOR">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_FULL_RESOURCE_DESCRIPTOR</span></span><a class="headerlink" href="#winreg.REG_FULL_RESOURCE_DESCRIPTOR" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma configuração de hardware.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_RESOURCE_REQUIREMENTS_LIST">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_RESOURCE_REQUIREMENTS_LIST</span></span><a class="headerlink" href="#winreg.REG_RESOURCE_REQUIREMENTS_LIST" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma lista de recursos de hardware.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winreg.REG_SZ">
+<span class="sig-prename descclassname"><span class="pre">winreg.</span></span><span class="sig-name descname"><span class="pre">REG_SZ</span></span><a class="headerlink" href="#winreg.REG_SZ" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma string terminada em nulo.</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="registry-handle-objects">
+<span id="handle-object"></span><h2 class="translated">Objetos identificador de registro<a class="headerlink" href="#registry-handle-objects" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Este objeto encapsula um objeto HKEY do Windows, fechando-o automaticamente quando o objeto é destruído. Para garantir a limpeza, você pode chamar o método <a class="reference internal" href="#winreg.PyHKEY.Close" title="winreg.PyHKEY.Close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Close()</span></code></a> no objeto ou a função <a class="reference internal" href="#winreg.CloseKey" title="winreg.CloseKey"><code class="xref py py-func docutils literal notranslate"><span class="pre">CloseKey()</span></code></a>.</p>
+<p class="translated">Todas as funções de registro neste módulo retornam um destes objetos.</p>
+<p class="translated">Todas as funções de registro neste módulo que aceitam um objeto identificador também aceitam um inteiro; no entanto, o uso do objeto identificador é incentivado.</p>
+<p class="translated">Objetos identificador fornecem semântica para <a class="reference internal" href="../reference/datamodel.html#object.__bool__" title="object.__bool__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__bool__()</span></code></a> – portanto</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">handle</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Sim"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">vai exibir <code class="docutils literal notranslate"><span class="pre">Sim</span></code> se o identificador for válido no momento (não foi fechado ou desanexado).</p>
+<p class="untranslated">The object also support equality comparison semantics, so handle objects will
+compare equal if they both reference the same underlying Windows handle value.
+Closed handle objects (those with a handle value of zero) always compare equal.</p>
+<p class="translated">Objetos identificador podem ser convertidos em um inteiro (por exemplo, usando a função embutida <a class="reference internal" href="../builtins/functions.html#int" title="int"><code class="xref py py-func docutils literal notranslate"><span class="pre">int()</span></code></a>), caso em que o valor do identificador do Windows subjacente é retornado. Você também pode usar o método <a class="reference internal" href="#winreg.PyHKEY.Detach" title="winreg.PyHKEY.Detach"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Detach()</span></code></a> para retornar o identificador inteiro e também desconectar o identificador do Windows do objeto identificador.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="winreg.PyHKEY.Close">
+<span class="sig-prename descclassname"><span class="pre">PyHKEY.</span></span><span class="sig-name descname"><span class="pre">Close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#winreg.PyHKEY.Close" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Fecha o identificador subjacente do Windows.</p>
+<p class="translated">Se o identificador já estiver fechado, nenhum erro será levantado.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="winreg.PyHKEY.Detach">
+<span class="sig-prename descclassname"><span class="pre">PyHKEY.</span></span><span class="sig-name descname"><span class="pre">Detach</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#winreg.PyHKEY.Detach" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Separa o identificador do Windows do objeto identificador.</p>
+<p class="translated">O resultado é um inteiro que contém o valor do identificador antes de ser destacado. Se o identificador já estiver destacado ou fechado, isso retornará zero.</p>
+<p class="translated">Após chamar esta função, o identificador é efetivamente invalidado, mas não é fechado. Você chamaria esta função quando precisasse que o identificador subjacente de Win32 existisse além do tempo de vida do objeto identificador.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">winreg.PyHKEY.Detach</span></code> com o argumento <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="winreg.PyHKEY.__enter__">
+<span class="sig-prename descclassname"><span class="pre">PyHKEY.</span></span><span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#winreg.PyHKEY.__enter__" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="winreg.PyHKEY.__exit__">
+<span class="sig-prename descclassname"><span class="pre">PyHKEY.</span></span><span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">exc_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winreg.PyHKEY.__exit__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O objeto HKEY implementa <a class="reference internal" href="../reference/datamodel.html#object.__enter__" title="object.__enter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__enter__()</span></code></a> e <a class="reference internal" href="../reference/datamodel.html#object.__exit__" title="object.__exit__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__exit__()</span></code></a> e, portanto, oferece suporte ao protocolo de contexto para a instrução <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">OpenKey</span><span class="p">(</span><span class="n">HKEY_LOCAL_MACHINE</span><span class="p">,</span> <span class="s2">"foo"</span><span class="p">)</span> <span class="k">as</span> <span class="n">key</span><span class="p">:</span>
+    <span class="o">...</span>  <span class="c1"># trabalha com a chave "key"</span>
+</pre></div>
+</div>
+<p class="translated">vai fechar automaticamente <em>key</em> quando o controle sair do bloco <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a>.</p>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.15: </span>Handle objects are now compared by their underlying Windows handle value
+instead of object identity for equality comparisons.</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winreg</span></code> — Acesso aos registros do Windows</a><ul>
+<li><a class="reference internal" href="#functions">Funções</a></li>
+<li><a class="reference internal" href="#constants">Constantes</a><ul>
+<li><a class="reference internal" href="#hkey-constants">Constantes HKEY_*</a></li>
+<li><a class="reference internal" href="#access-rights">Direitos de acesso</a><ul>
+<li><a class="reference internal" href="#bit-specific">Específico de 64 bits</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#value-types">Tipos de valores</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#registry-handle-objects">Objetos identificador de registro</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="msvcrt.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">msvcrt</span></code> — Rotinas úteis do runtime MS VC++</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="winsound.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winsound</span></code> — Interface de reprodução de som para o Windows</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/winreg.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/winreg.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/winreg.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="winsound.html" title="winsound — Interface de reprodução de som para o Windows"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="msvcrt.html" title="msvcrt — Rotinas úteis do runtime MS VC++"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="windows.html" >Serviços Específicos do MS Windows</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">winreg</span></code> — Acesso aos registros do Windows</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

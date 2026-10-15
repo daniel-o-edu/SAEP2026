@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Estendendo e incorporando o interpretador Python" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/extending/index.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Este documento descreve o desenvolvimento de módulos com C ou C++ para adicionar recursos ao interpretador Python criando novos módulos. Esses módulos podem fazer o que o código Python faz – defini..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_extending_index_d150767d.png" />
+<meta property="og:image:alt" content="Este documento descreve o desenvolvimento de módulos com C ou C++ para adicionar recursos ao interpretador Python criando novos módulos. Esses módulos podem fazer o que o código Python faz – defini..." />
+<meta name="description" content="Este documento descreve o desenvolvimento de módulos com C ou C++ para adicionar recursos ao interpretador Python criando novos módulos. Esses módulos podem fazer o que o código Python faz – defini..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Estendendo e incorporando o interpretador Python &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Seu primeiro módulo de extensão da API C" href="first-extension-module.html" />
+    <link rel="prev" title="Considerações de segurança" href="../library/security_warnings.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/extending/index.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Estendendo e incorporando o interpretador Python</a><ul>
+<li><a class="reference internal" href="#recommended-third-party-tools">Ferramentas de terceiros recomendadas</a></li>
+<li><a class="reference internal" href="#c-api-tutorial">Tutorial da API C</a></li>
+<li><a class="reference internal" href="#guides-for-intermediate-topics">Guias para tópicos intermediários</a></li>
+<li><a class="reference internal" href="#embedding-the-cpython-runtime-in-a-larger-application">Incorporando o tempo de execução do CPython em uma aplicação maior</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="../library/security_warnings.html"
+                          title="capítulo anterior">Considerações de segurança</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="first-extension-module.html"
+                          title="próximo capítulo">Seu primeiro módulo de extensão da API C</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "extending/index.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/extending/index.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/extending/index.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="first-extension-module.html" title="Seu primeiro módulo de extensão da API C"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="../library/security_warnings.html" title="Considerações de segurança"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+        <li class="nav-item nav-item-this"><a href="">Estendendo e incorporando o interpretador Python</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="extending-and-embedding-the-python-interpreter">
+<span id="extending-index"></span><h1 class="translated">Estendendo e incorporando o interpretador Python<a class="headerlink" href="#extending-and-embedding-the-python-interpreter" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated">Este documento descreve o desenvolvimento de módulos com C ou C++ para adicionar recursos ao interpretador Python criando novos módulos. Esses módulos podem fazer o que o código Python faz – definir funções, tipos de objeto e métodos –, mas também interagir com bibliotecas nativas ou obter melhor desempenho ao evitar a sobrecarga de um interpretador. O documento também descreve como embutir o interpretador Python em outra aplicação, de forma a utilizá-lo como sendo uma linguagem de extensão. Por fim, é mostrado como se pode compilar e fazer a vinculação dos módulos de extensão para que estes possam ser carregados dinamicamente (em tempo de execução) pelo interpretador, caso o sistema operacional subjacente suportar esse recurso.</p>
+<p class="translated">Este documento pressupõe conhecimentos básicos sobre C e Python. Para uma introdução informal ao Python, consulte <a class="reference internal" href="../tutorial/index.html#tutorial-index"><span class="std std-ref">O tutorial do Python</span></a>. <a class="reference internal" href="../reference/index.html#reference-index"><span class="std std-ref">A Referência da Linguagem Python</span></a> fornece uma definição mais formal da linguagem. <a class="reference internal" href="../builtins/index.html#builtins-index"><span class="std std-ref">Referência da bibliotecas embutidas do Python</span></a> documenta as funções embutidas e tipos de objetos, e <a class="reference internal" href="../library/index.html#library-index"><span class="std std-ref">A biblioteca padrão do Python</span></a> documenta os módulos de objetos existentes (embutidos e escritos em Python) que dão à linguagem sua ampla gama de aplicações.</p>
+<p class="translated">Para uma descrição detalhada de toda a API Python/C, consulte o <a class="reference internal" href="../c-api/index.html#c-api-index"><span class="std std-ref">Manual de referência da API C/Python</span></a> separado.</p>
+<p class="translated">Para dar suporte a extensões, a API do Python API (Application Programmers Interface) define um conjunto de funções, macros e variáveis que fornecem acesso à maior parte dos aspectos do sistema de tempo de execução do Python.  A API do Python pode ser incorporada em um arquivo fonte em C com a inclusão do cabeçalho <code class="docutils literal notranslate"><span class="pre">&quot;Python.h&quot;</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">A interface de extensões em C é específica para o CPython, e módulos de extensão não funcionam em outras implementações do Python.  Em muitos casos, é possível evitar a criação destas extensões em C e preservar a portabilidade para outras implementações. Por exemplo, se o seu caso de uso for o de fazer chamadas a funções em bibliotecas C ou chamadas de sistema, considere utilizar o módulo <a class="reference internal" href="../library/ctypes.html#module-ctypes" title="ctypes: A foreign function library for Python."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ctypes</span></code></a> ou a biblioteca <a class="reference external" href="https://cffi.readthedocs.io/">cffi</a> ao invés de escrever código C personalizado. Esses módulos permitem escrever código Python que pode interoperar com código C e que é mais portável entre implementações do Python do que escrever e compilar um módulo de extensão em C.</p>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<section id="recommended-third-party-tools">
+<h2 class="translated">Ferramentas de terceiros recomendadas<a class="headerlink" href="#recommended-third-party-tools" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Este documenta aborda apenas as ferramentas básicas para a criação de extensões fornecidas como parte desta versão do CPython. Algumas <a class="reference internal" href="../c-api/intro.html#c-api-tools"><span class="std std-ref">ferramentas de terceiros</span></a> oferecem abordagens mais simples e mais sofisticadas para a criação de extensões em C e C++ para Python.</p>
+<p class="translated">Embora este documento seja voltado para autores de extensões, ele também deve ser útil para os autores de tais ferramentas. Por exemplo, o módulo de tutorial pode servir como um caso de teste simples para uma ferramenta de build ou como uma amostra da saída esperada de um gerador de código.</p>
+</section>
+<section id="c-api-tutorial">
+<h2 class="translated">Tutorial da API C<a class="headerlink" href="#c-api-tutorial" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Este tutorial descreve como escrever um módulo simples em C ou C++ usando a API C do Python — isto é, utilizando as ferramentas básicas fornecidas como parte desta versão do CPython.</p>
+<ol class="arabic simple">
+<li><p class="translated"><a class="reference internal" href="first-extension-module.html#first-extension-module"><span class="std std-ref">Seu primeiro módulo de extensão da API C</span></a></p></li>
+</ol>
+</section>
+<section id="guides-for-intermediate-topics">
+<h2 class="translated">Guias para tópicos intermediários<a class="headerlink" href="#guides-for-intermediate-topics" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Esta seção do guia aborda a criação de extensões C e C++ sem assistência de ferramentas de terceiros. Destina-se principalmente aos criadores dessas ferramentas, em vez de ser uma maneira recomendada de criar suas próprias extensões C.</p>
+<ul class="simple">
+<li><p class="translated"><a class="reference internal" href="extending.html#extending-intro"><span class="std std-ref">Using the C API: Assorted topics</span></a></p></li>
+<li><p class="translated"><a class="reference internal" href="newtypes_tutorial.html#defining-new-types"><span class="std std-ref">Definindo Tipos de Extensão: Tutorial</span></a></p></li>
+<li><p class="translated"><a class="reference internal" href="newtypes.html#new-types-topics"><span class="std std-ref">Defining Extension Types: Assorted Topics</span></a></p></li>
+<li><p class="translated"><a class="reference internal" href="building.html#building"><span class="std std-ref">Construindo extensões C e C++</span></a></p></li>
+<li><p class="translated"><a class="reference internal" href="windows.html#building-on-windows"><span class="std std-ref">Construindo Extensões C e C++ no Windows</span></a></p></li>
+</ul>
+</section>
+<section id="embedding-the-cpython-runtime-in-a-larger-application">
+<h2 class="translated">Incorporando o tempo de execução do CPython em uma aplicação maior<a class="headerlink" href="#embedding-the-cpython-runtime-in-a-larger-application" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Às vezes, em vez de criar uma extensão que é executada dentro do interpretador Python como a aplicação principal, é desejável incorporar o tempo de execução do CPython em uma aplicação maior. Esta seção aborda alguns dos detalhes envolvidos para fazer isso com êxito.</p>
+<ul class="simple">
+<li><p class="translated"><a class="reference internal" href="embedding.html#embedding"><span class="std std-ref">Incorporando o Python numa Outra Aplicação</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Estendendo e incorporando o interpretador Python</a><ul>
+<li><a class="reference internal" href="#recommended-third-party-tools">Ferramentas de terceiros recomendadas</a></li>
+<li><a class="reference internal" href="#c-api-tutorial">Tutorial da API C</a></li>
+<li><a class="reference internal" href="#guides-for-intermediate-topics">Guias para tópicos intermediários</a></li>
+<li><a class="reference internal" href="#embedding-the-cpython-runtime-in-a-larger-application">Incorporando o tempo de execução do CPython em uma aplicação maior</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="../library/security_warnings.html"
+                          title="capítulo anterior">Considerações de segurança</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="first-extension-module.html"
+                          title="próximo capítulo">Seu primeiro módulo de extensão da API C</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "extending/index.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/extending/index.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/extending/index.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="first-extension-module.html" title="Seu primeiro módulo de extensão da API C"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="../library/security_warnings.html" title="Considerações de segurança"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+        <li class="nav-item nav-item-this"><a href="">Estendendo e incorporando o interpretador Python</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="cmd — Suporte para interpretadores de comando orientado a linhas" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/cmd.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/cmd.py A classe Cmd fornece um framework simples para escrever interpretadores de comando orientados a linhas. Eles são frequentemente úteis para melhorar testes, ferramentas admi..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_cmd_9b5d552f.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/cmd.py A classe Cmd fornece um framework simples para escrever interpretadores de comando orientados a linhas. Eles são frequentemente úteis para melhorar testes, ferramentas admi..." />
+<meta name="description" content="Código-fonte: Lib/cmd.py A classe Cmd fornece um framework simples para escrever interpretadores de comando orientados a linhas. Eles são frequentemente úteis para melhorar testes, ferramentas admi..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>cmd — Suporte para interpretadores de comando orientado a linhas &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Execução Concorrente" href="concurrency.html" />
+    <link rel="prev" title="curses.panel — Uma extensão de pilha de painéis para o curses" href="curses.panel.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/cmd.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cmd</span></code> — Suporte para interpretadores de comando orientado a linhas</a><ul>
+<li><a class="reference internal" href="#cmd-objects">Objetos Cmd</a></li>
+<li><a class="reference internal" href="#cmd-example">Exemplo do Cmd</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="curses.panel.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">curses.panel</span></code> — Uma extensão de pilha de painéis para o curses</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="concurrency.html"
+                          title="próximo capítulo">Execução Concorrente</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/cmd.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/cmd.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/cmd.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="concurrency.html" title="Execução Concorrente"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="curses.panel.html" title="curses.panel — Uma extensão de pilha de painéis para o curses"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="cmdlinelibs.html" accesskey="U">Bibliotecas de interface de linha de comando</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">cmd</span></code> — Suporte para interpretadores de comando orientado a linhas</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-cmd">
+<span id="cmd-support-for-line-oriented-command-interpreters"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cmd</span></code> — Suporte para interpretadores de comando orientado a linhas<a class="headerlink" href="#module-cmd" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/cmd.py">Lib/cmd.py</a></p>
+<hr class="docutils" />
+<p class="translated">A classe <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> fornece um framework simples para escrever interpretadores de comando orientados a linhas. Eles são frequentemente úteis para melhorar testes, ferramentas administrativas e protótipos que mais tarde serão encapsulados em uma interface mais sofisticada.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cmd.Cmd">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cmd.</span></span><span class="sig-name descname"><span class="pre">Cmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">completekey</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma instância de <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> ou instância de sua subclasse é um framework de interpretador orientado a linhas. Não há um bom motivo para instanciar <code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code> em si; em vez disso, ele é útil como uma superclasse de uma classe de interpretador que você mesmo define para herdar os métodos de <code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code> e encapsular métodos de ação.</p>
+<p class="translated">O argumento opcional <em>completekey</em> é o nome <a class="reference internal" href="readline.html#module-readline" title="readline: GNU readline support for Python."><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code></a> de uma chave de conclusão; o padrão é <kbd class="kbd docutils literal notranslate">Tab</kbd>. Se <em>completekey</em> não for <a class="reference internal" href="../builtins/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a> e <code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code> estiver disponível, a conclusão do comando será feita automaticamente.</p>
+<p class="translated">O padrão, <code class="docutils literal notranslate"><span class="pre">'tab'</span></code>, é tratado especialmente, de modo que se refere à tecla <kbd class="kbd docutils literal notranslate">Tab</kbd> em cada <a class="reference internal" href="readline.html#readline.backend" title="readline.backend"><code class="xref py py-data docutils literal notranslate"><span class="pre">readline.backend</span></code></a>. Especificamente, se <code class="xref py py-data docutils literal notranslate"><span class="pre">readline.backend</span></code> for <code class="docutils literal notranslate"><span class="pre">editline</span></code>, <code class="docutils literal notranslate"><span class="pre">Cmd</span></code> usará <code class="docutils literal notranslate"><span class="pre">'^I'</span></code> em vez de <code class="docutils literal notranslate"><span class="pre">'tab'</span></code>. Observe que outros valores não são tratados dessa forma e podem funcionar apenas com um backend específico.</p>
+<p class="translated">Os argumentos opcionais <em>stdin</em> e <em>stdout</em> especificam os objetos arquivo de entrada e saída que a instância Cmd ou instância de sua subclasse usará para entrada e saída. Se não forem especificados, eles serão padronizados para <a class="reference internal" href="sys.html#sys.stdin" title="sys.stdin"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stdin</span></code></a> e <a class="reference internal" href="sys.html#sys.stdout" title="sys.stdout"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stdout</span></code></a>.</p>
+<p class="translated">Se você quiser que um determinado <em>stdin</em> seja usado, certifique-se de definir o atributo <a class="reference internal" href="#cmd.Cmd.use_rawinput" title="cmd.Cmd.use_rawinput"><code class="xref py py-attr docutils literal notranslate"><span class="pre">use_rawinput</span></code></a> da instância como <code class="docutils literal notranslate"><span class="pre">False</span></code>, caso contrário, <em>stdin</em> será ignorado.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span><code class="docutils literal notranslate"><span class="pre">completekey='tab'</span></code> é substituído por <code class="docutils literal notranslate"><span class="pre">'^I'</span></code> para <code class="docutils literal notranslate"><span class="pre">editline</span></code>.</p>
+</div>
+</dd></dl>
+
+<section id="cmd-objects">
+<span id="id1"></span><h2 class="translated">Objetos Cmd<a class="headerlink" href="#cmd-objects" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Uma instância <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> tem os seguintes métodos:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.cmdloop">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">cmdloop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intro</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.cmdloop" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Emite um prompt repetidamente, aceite a entrada, analise um prefixo inicial da entrada recebida e despache para métodos de ação, passando a eles o restante da linha como argumento.</p>
+<p class="translated">O argumento opcional é um banner ou uma string de introdução a ser emitida antes do primeiro prompt (isso substitui o atributo de classe <a class="reference internal" href="#cmd.Cmd.intro" title="cmd.Cmd.intro"><code class="xref py py-attr docutils literal notranslate"><span class="pre">intro</span></code></a>).</p>
+<p class="translated">Se o módulo <a class="reference internal" href="readline.html#module-readline" title="readline: GNU readline support for Python."><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code></a> for carregado, a entrada vai herdar automaticamente a edição de lista de histórico semelhante a <strong class="program">bash</strong> (por exemplo, <kbd class="kbd docutils literal notranslate">Control</kbd>-<kbd class="kbd docutils literal notranslate">P</kbd> retorna ao último comando, <kbd class="kbd docutils literal notranslate">Control</kbd>-<kbd class="kbd docutils literal notranslate">N</kbd> avança para o próximo, <kbd class="kbd docutils literal notranslate">Control</kbd>-<kbd class="kbd docutils literal notranslate">F</kbd> move o cursor para a direita de forma não destrutiva, <kbd class="kbd docutils literal notranslate">Control</kbd>-<kbd class="kbd docutils literal notranslate">B</kbd> move o cursor para a esquerda de forma não destrutiva, etc.).</p>
+<p class="translated">Um fim de arquivo na entrada é retornado como a string <code class="docutils literal notranslate"><span class="pre">'EOF'</span></code>.</p>
+<p class="translated" id="index-0">Uma instância de interpretador reconhecerá um comando chamado <code class="docutils literal notranslate"><span class="pre">foo</span></code> se e somente se ele tiver um método <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_foo()</span></code>. Como um caso especial, uma linha começando com o caractere <code class="docutils literal notranslate"><span class="pre">'?'</span></code> é despachada para o método <a class="reference internal" href="#cmd.Cmd.do_help" title="cmd.Cmd.do_help"><code class="xref py py-meth docutils literal notranslate"><span class="pre">do_help()</span></code></a>. Como outro caso especial, uma linha começando com o caractere <code class="docutils literal notranslate"><span class="pre">'!'</span></code> é despachada para o método <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_shell()</span></code> (se tal método for definido).</p>
+<p class="translated">Este método retornará quando o método <a class="reference internal" href="#cmd.Cmd.postcmd" title="cmd.Cmd.postcmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">postcmd()</span></code></a> retornar um valor true. O argumento <em>stop</em> para <code class="xref py py-meth docutils literal notranslate"><span class="pre">postcmd()</span></code> é o valor de retorno do método <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_*()</span></code> correspondente do comando.</p>
+<p class="translated">Se o autocompletamento estiver habilitado, os comandos serão completados automaticamente, e o autocompletamento dos argumentos dos comandos será feito chamando <code class="xref py py-meth docutils literal notranslate"><span class="pre">complete_foo()</span></code> com os argumentos <em>text</em>, <em>line</em>, <em>begidx</em> e <em>endidx</em>. <em>text</em> é o prefixo da string que estamos tentando corresponder: todas as correspondências retornadas devem começar com ele. <em>line</em> é a linha de entrada atual com os espaços em branco iniciais removidos, <em>begidx</em> e <em>endidx</em> são os índices inicial e final do texto de prefixo, que podem ser usados para fornecer diferentes autocompletamentos dependendo da posição em que o argumento está.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.do_help">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">do_help</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.do_help" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Todas as subclasses de <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> herdam um <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_help()</span></code> predefinido. Este método, chamado com um argumento <code class="docutils literal notranslate"><span class="pre">'bar'</span></code>, invoca o método correspondente <code class="xref py py-meth docutils literal notranslate"><span class="pre">help_bar()</span></code>, e se este não estiver presente, imprime a docstring de <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_bar()</span></code>, se disponível. Sem argumento, <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_help()</span></code> lista todos os tópicos de ajuda disponíveis (isto é, todos os comandos com métodos <code class="xref py py-meth docutils literal notranslate"><span class="pre">help_*()</span></code> correspondentes ou comandos que têm docstrings), e também lista quaisquer comandos não documentados.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.onecmd">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">onecmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.onecmd" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Interpreta o argumento como se tivesse sido digitado em resposta ao prompt. Isso pode ser substituído, mas normalmente não precisa ser; veja os métodos <a class="reference internal" href="#cmd.Cmd.precmd" title="cmd.Cmd.precmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">precmd()</span></code></a> e <a class="reference internal" href="#cmd.Cmd.postcmd" title="cmd.Cmd.postcmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">postcmd()</span></code></a> para ganchos de execução úteis. O valor de retorno é um sinalizador que indica se a interpretação de comandos pelo interpretador deve parar. Se houver um método <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_*()</span></code> para o comando <em>str</em>, o valor de retorno desse método é retornado, caso contrário, o valor de retorno do método <a class="reference internal" href="#cmd.Cmd.default" title="cmd.Cmd.default"><code class="xref py py-meth docutils literal notranslate"><span class="pre">default()</span></code></a> é retornado.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.emptyline">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">emptyline</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.emptyline" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Método chamado quando uma linha vazia é inserida em resposta ao prompt. Se esse método não for substituído, ele repete o último comando não vazio inserido.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.default">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.default" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Método chamado em uma linha de entrada quando o prefixo do comando não é reconhecido. Se esse método não for substituído, ele imprime uma mensagem de erro e retorna.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.completedefault">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">completedefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">begidx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endidx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.completedefault" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Método chamado para completar uma linha de entrada quando nenhum método <code class="xref py py-meth docutils literal notranslate"><span class="pre">complete_*()</span></code> especificado pelo comando está disponível. Por padrão, ele retorna uma lista vazia.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.columnize">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">columnize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">displaywidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.columnize" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Método chamado para exibir uma lista de strings como um conjunto compacto de colunas. Cada coluna tem apenas a largura necessária. As colunas são separadas por dois espaços para legibilidade.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.precmd">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">precmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.precmd" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Método gancho executado logo antes da linha de comando <em>line</em> ser interpretada, mas depois que o prompt de entrada é gerado e emitido. Este método é um stub em <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a>; ele existe para ser substituído por subclasses. O valor de retorno é usado como o comando que será executado pelo método <a class="reference internal" href="#cmd.Cmd.onecmd" title="cmd.Cmd.onecmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">onecmd()</span></code></a>; a implementação <a class="reference internal" href="#cmd.Cmd.precmd" title="cmd.Cmd.precmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">precmd()</span></code></a> pode reescrever o comando ou simplesmente retornar <em>line</em> inalterado.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.postcmd">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">postcmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.postcmd" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Método gancho executado logo após o término do despacho de um comando. Este método é um stub em <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a>; ele existe para ser substituído por subclasses. <em>line</em> é a linha de comando que foi executada, e <em>stop</em> é um sinalizador que indica se a execução será encerrada após a chamada para <a class="reference internal" href="#cmd.Cmd.postcmd" title="cmd.Cmd.postcmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">postcmd()</span></code></a>; este será o valor de retorno do método <a class="reference internal" href="#cmd.Cmd.onecmd" title="cmd.Cmd.onecmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">onecmd()</span></code></a>. O valor de retorno deste método será usado como o novo valor para o sinalizador interno que corresponde a <em>stop</em>; retornar false fará com que a interpretação continue.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.preloop">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">preloop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.preloop" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Método gancho executado uma vez quando <a class="reference internal" href="#cmd.Cmd.cmdloop" title="cmd.Cmd.cmdloop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cmdloop()</span></code></a> é chamado. Este método é um stub em <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a>; ele existe para ser substituído por subclasses.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cmd.Cmd.postloop">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">postloop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cmd.Cmd.postloop" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Método gancho executado uma vez quando <a class="reference internal" href="#cmd.Cmd.cmdloop" title="cmd.Cmd.cmdloop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cmdloop()</span></code></a> está para ser retornado. Este método é um stub em <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a>; ele existe para ser substituído por subclasses.</p>
+</dd></dl>
+
+<p class="translated">Instâncias das subclasses <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> têm algumas variáveis de instância públicas:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.prompt">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">prompt</span></span><a class="headerlink" href="#cmd.Cmd.prompt" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O prompt emitido para solicitar informações.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.identchars">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">identchars</span></span><a class="headerlink" href="#cmd.Cmd.identchars" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A sequência de caracteres aceita para o prefixo do comando.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.lastcmd">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">lastcmd</span></span><a class="headerlink" href="#cmd.Cmd.lastcmd" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O último prefixo de comando não vazio visto.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.cmdqueue">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">cmdqueue</span></span><a class="headerlink" href="#cmd.Cmd.cmdqueue" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma lista de linhas de entrada enfileiradas. A lista cmdqueue é verificada em <a class="reference internal" href="#cmd.Cmd.cmdloop" title="cmd.Cmd.cmdloop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cmdloop()</span></code></a> quando uma nova entrada é necessária; se não estiver vazia, seus elementos serão processados em ordem, como se tivessem sido inseridos no prompt.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.intro">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">intro</span></span><a class="headerlink" href="#cmd.Cmd.intro" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma string para emitir como uma introdução ou banner. Pode ser substituída dando ao método <a class="reference internal" href="#cmd.Cmd.cmdloop" title="cmd.Cmd.cmdloop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cmdloop()</span></code></a> um argumento.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.doc_header">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">doc_header</span></span><a class="headerlink" href="#cmd.Cmd.doc_header" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O cabeçalho a ser emitido se a saída de ajuda tiver uma seção para comandos documentados.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.misc_header">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">misc_header</span></span><a class="headerlink" href="#cmd.Cmd.misc_header" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O cabeçalho a ser emitido se a saída de ajuda tiver uma seção para tópicos de ajuda diversos (ou seja, há métodos <code class="xref py py-meth docutils literal notranslate"><span class="pre">help_*()</span></code> sem métodos <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_*()</span></code> correspondentes).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.undoc_header">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">undoc_header</span></span><a class="headerlink" href="#cmd.Cmd.undoc_header" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O cabeçalho a ser emitido se a saída de ajuda tiver uma seção para comandos não documentados (ou seja, houver métodos <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_*()</span></code> sem métodos <code class="xref py py-meth docutils literal notranslate"><span class="pre">help_*()</span></code> correspondentes).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.ruler">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">ruler</span></span><a class="headerlink" href="#cmd.Cmd.ruler" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O caractere usado para desenhar linhas separadoras sob os cabeçalhos de mensagem de ajuda. Se estiver vazio, nenhuma linha de régua será desenhada. O padrão é <code class="docutils literal notranslate"><span class="pre">'='</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cmd.Cmd.use_rawinput">
+<span class="sig-prename descclassname"><span class="pre">Cmd.</span></span><span class="sig-name descname"><span class="pre">use_rawinput</span></span><a class="headerlink" href="#cmd.Cmd.use_rawinput" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um sinalizador, com padrão true. Se true, <a class="reference internal" href="#cmd.Cmd.cmdloop" title="cmd.Cmd.cmdloop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cmdloop()</span></code></a> usa <a class="reference internal" href="../builtins/functions.html#input" title="input"><code class="xref py py-func docutils literal notranslate"><span class="pre">input()</span></code></a> para exibir um prompt e ler o próximo comando; se false, <a class="reference internal" href="sys.html#sys.stdout" title="sys.stdout"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stdout.write()</span></code></a> e <a class="reference internal" href="sys.html#sys.stdin" title="sys.stdin"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stdin.readline()</span></code></a> são usados. (Isso significa que ao importar <a class="reference internal" href="readline.html#module-readline" title="readline: GNU readline support for Python."><code class="xref py py-mod docutils literal notranslate"><span class="pre">readline</span></code></a>, em sistemas que o suportam, o interpretador suportará automaticamente edição de linha no estilo <strong class="program">Emacs</strong> e pressionamentos de teclas de histórico de comando.)</p>
+</dd></dl>
+
+</section>
+<section id="cmd-example">
+<span id="id2"></span><h2 class="translated">Exemplo do Cmd<a class="headerlink" href="#cmd-example" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">cmd</span></code> é útil principalmente para criar shells personalizados que permitem ao usuário trabalhar com um programa interativamente.</p>
+<p class="translated">Esta seção apresenta um exemplo simples de como construir um shell em torno de alguns dos comandos do módulo <a class="reference internal" href="turtle.html#module-turtle" title="turtle: An educational framework for simple graphics applications"><code class="xref py py-mod docutils literal notranslate"><span class="pre">turtle</span></code></a>.</p>
+<p class="translated">Comandos básicos do turtle, como <a class="reference internal" href="turtle.html#turtle.forward" title="turtle.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code></a>, são adicionados a uma subclasse de <a class="reference internal" href="#cmd.Cmd" title="cmd.Cmd"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cmd</span></code></a> com o método chamado <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_forward()</span></code>. O argumento é convertido em um número e despachado para o módulo turtle. A docstring é usada no utilitário de ajuda fornecido pelo shell.</p>
+<p class="translated">O exemplo também inclui um recurso básico de gravação e reprodução implementado com o método <a class="reference internal" href="#cmd.Cmd.precmd" title="cmd.Cmd.precmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">precmd()</span></code></a> que é responsável por converter a entrada para minúsculas e gravar os comandos em um arquivo. O método <code class="xref py py-meth docutils literal notranslate"><span class="pre">do_playback()</span></code> lê o arquivo e adiciona os comandos gravados ao <a class="reference internal" href="#cmd.Cmd.cmdqueue" title="cmd.Cmd.cmdqueue"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cmdqueue</span></code></a> para reprodução imediata:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cmd</span><span class="o">,</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">turtle</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TurtleShell</span><span class="p">(</span><span class="n">cmd</span><span class="o">.</span><span class="n">Cmd</span><span class="p">):</span>
+    <span class="n">intro</span> <span class="o">=</span> <span class="s1">'Welcome to the turtle shell.   Type help or ? to list commands.</span><span class="se">\n</span><span class="s1">'</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="s1">'(turtle) '</span>
+    <span class="n">file</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># ----- comandos básicos do turtle -----</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">'Move the turtle forward by the specified distance:  FORWARD 10'</span>
+        <span class="n">forward</span><span class="p">(</span><span class="o">*</span><span class="n">parse</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_right</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">'Turn turtle right by given number of degrees:  RIGHT 20'</span>
+        <span class="n">right</span><span class="p">(</span><span class="o">*</span><span class="n">parse</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_left</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">'Turn turtle left by given number of degrees:  LEFT 90'</span>
+        <span class="n">left</span><span class="p">(</span><span class="o">*</span><span class="n">parse</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_goto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">'Move turtle to an absolute position with changing orientation.  GOTO 100 200'</span>
+        <span class="n">goto</span><span class="p">(</span><span class="o">*</span><span class="n">parse</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_home</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">'Return turtle to the home position:  HOME'</span>
+        <span class="n">home</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_circle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">'Draw circle with given radius an options extent and steps:  CIRCLE 50'</span>
+        <span class="n">circle</span><span class="p">(</span><span class="o">*</span><span class="n">parse</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">'Print the current turtle position:  POSITION'</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Current position is </span><span class="si">%d</span><span class="s1"> </span><span class="si">%d</span><span class="se">\n</span><span class="s1">'</span> <span class="o">%</span> <span class="n">position</span><span class="p">())</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_heading</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">'Print the current turtle heading in degrees:  HEADING'</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Current heading is </span><span class="si">%d</span><span class="se">\n</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="n">heading</span><span class="p">(),))</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">'Set the color:  COLOR BLUE'</span>
+        <span class="n">color</span><span class="p">(</span><span class="n">arg</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_undo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">'Undo (repeatedly) the last turtle action(s):  UNDO'</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">'Clear the screen and return turtle to center:  RESET'</span>
+        <span class="n">reset</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_bye</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">'Stop recording, close the turtle window, and exit:  BYE'</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Thank you for using Turtle'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">bye</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="c1"># ----- registra e reproduz -----</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">'Save future commands to filename:  RECORD rose.cmd'</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_playback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="s1">'Playback commands from a file:  PLAYBACK rose.cmd'</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cmdqueue</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">precmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="ow">and</span> <span class="s1">'playback'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">line</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+    <span class="s1">'Convert a series of zero or more numbers to an argument tuple'</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">arg</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">TurtleShell</span><span class="p">()</span><span class="o">.</span><span class="n">cmdloop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="translated">Aqui está uma sessão de exemplo com o shell do turtle mostrando as funções de ajuda, usando linhas em branco para repetir comandos e o recurso simples de gravação e reprodução:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>Welcome to the turtle shell.   Type help or ? to list commands.
+
+(turtle) ?
+
+Documented commands (type help &lt;topic&gt;):
+========================================
+bye     color    goto     home  playback  record  right
+circle  forward  heading  left  position  reset   undo
+
+(turtle) help forward
+Move the turtle forward by the specified distance:  FORWARD 10
+(turtle) record spiral.cmd
+(turtle) position
+Current position is 0 0
+
+(turtle) heading
+Current heading is 0
+
+(turtle) reset
+(turtle) circle 20
+(turtle) right 30
+(turtle) circle 40
+(turtle) right 30
+(turtle) circle 60
+(turtle) right 30
+(turtle) circle 80
+(turtle) right 30
+(turtle) circle 100
+(turtle) right 30
+(turtle) circle 120
+(turtle) right 30
+(turtle) circle 120
+(turtle) heading
+Current heading is 180
+
+(turtle) forward 100
+(turtle)
+(turtle) right 90
+(turtle) forward 100
+(turtle)
+(turtle) right 90
+(turtle) forward 400
+(turtle) right 90
+(turtle) forward 500
+(turtle) right 90
+(turtle) forward 400
+(turtle) right 90
+(turtle) forward 300
+(turtle) playback spiral.cmd
+Current position is 0 0
+
+Current heading is 0
+
+Current heading is 180
+
+(turtle) bye
+Thank you for using Turtle
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cmd</span></code> — Suporte para interpretadores de comando orientado a linhas</a><ul>
+<li><a class="reference internal" href="#cmd-objects">Objetos Cmd</a></li>
+<li><a class="reference internal" href="#cmd-example">Exemplo do Cmd</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="curses.panel.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">curses.panel</span></code> — Uma extensão de pilha de painéis para o curses</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="concurrency.html"
+                          title="próximo capítulo">Execução Concorrente</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/cmd.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/cmd.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/cmd.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="concurrency.html" title="Execução Concorrente"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="curses.panel.html" title="curses.panel — Uma extensão de pilha de painéis para o curses"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="cmdlinelibs.html" >Bibliotecas de interface de linha de comando</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">cmd</span></code> — Suporte para interpretadores de comando orientado a linhas</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

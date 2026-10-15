@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="sysconfig — Fornece acesso às informações de configuração do Python" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/sysconfig.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/sysconfig O módulo sysconfig fornece acesso às informações de configuração do Python, como a lista de caminhos de instalação e as variáveis de configuração relevantes para a plata..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_sysconfig_ea30d56e.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/sysconfig O módulo sysconfig fornece acesso às informações de configuração do Python, como a lista de caminhos de instalação e as variáveis de configuração relevantes para a plata..." />
+<meta name="description" content="Código-fonte: Lib/sysconfig O módulo sysconfig fornece acesso às informações de configuração do Python, como a lista de caminhos de instalação e as variáveis de configuração relevantes para a plata..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>sysconfig — Fornece acesso às informações de configuração do Python &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="builtins — Objetos embutidos" href="builtins.html" />
+    <link rel="prev" title="sys.monitoring — Monitoramento de eventos de execução" href="sys.monitoring.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/sysconfig.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sysconfig</span></code> — Fornece acesso às informações de configuração do Python</a><ul>
+<li><a class="reference internal" href="#configuration-variables">Variáveis de configuração</a></li>
+<li><a class="reference internal" href="#installation-paths">Caminhos de instalação</a></li>
+<li><a class="reference internal" href="#user-scheme">Esquema de usuário</a><ul>
+<li><a class="reference internal" href="#posix-user"><code class="docutils literal notranslate"><span class="pre">posix_user</span></code></a></li>
+<li><a class="reference internal" href="#nt-user"><code class="docutils literal notranslate"><span class="pre">nt_user</span></code></a></li>
+<li><a class="reference internal" href="#osx-framework-user"><code class="docutils literal notranslate"><span class="pre">osx_framework_user</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#home-scheme">Esquema de home</a><ul>
+<li><a class="reference internal" href="#posix-home"><code class="docutils literal notranslate"><span class="pre">posix_home</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#prefix-scheme">Esquema de prefixo</a><ul>
+<li><a class="reference internal" href="#posix-prefix"><code class="docutils literal notranslate"><span class="pre">posix_prefix</span></code></a></li>
+<li><a class="reference internal" href="#nt"><code class="docutils literal notranslate"><span class="pre">nt</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installation-path-functions">Funções de caminho de instalação</a></li>
+<li><a class="reference internal" href="#other-functions">Outras funções</a></li>
+<li><a class="reference internal" href="#command-line-usage">Uso na linha de comando</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="sys.monitoring.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sys.monitoring</span></code> — Monitoramento de eventos de execução</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="builtins.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">builtins</span></code> — Objetos embutidos</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/sysconfig.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/sysconfig.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/sysconfig.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="builtins.html" title="builtins — Objetos embutidos"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="sys.monitoring.html" title="sys.monitoring — Monitoramento de eventos de execução"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="python.html" accesskey="U">Serviços de Tempo de Execução Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">sysconfig</span></code> — Fornece acesso às informações de configuração do Python</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-sysconfig">
+<span id="sysconfig-provide-access-to-python-s-configuration-information"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sysconfig</span></code> — Fornece acesso às informações de configuração do Python<a class="headerlink" href="#module-sysconfig" title="Link para este cabeçalho">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.2.</span></p>
+</div>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/sysconfig">Lib/sysconfig</a></p>
+<hr class="docutils" id="index-0" />
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">sysconfig</span></code> fornece acesso às informações de configuração do Python, como a lista de caminhos de instalação e as variáveis de configuração relevantes para a plataforma atual.</p>
+<section id="configuration-variables">
+<h2 class="translated">Variáveis de configuração<a class="headerlink" href="#configuration-variables" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Uma distribuição do Python contém um arquivo de cabeçalho <code class="file docutils literal notranslate"><span class="pre">Makefile</span></code> e <code class="file docutils literal notranslate"><span class="pre">pyconfig.h</span></code> que são necessários para construir o próprio binário do Python e extensões C de terceiros compiladas usando <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>.</p>
+<p class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sysconfig</span></code> coloca todas as variáveis encontradas nestes arquivos em um dicionário que pode ser acessado usando <a class="reference internal" href="#sysconfig.get_config_vars" title="sysconfig.get_config_vars"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_config_vars()</span></code></a> ou <a class="reference internal" href="#sysconfig.get_config_var" title="sysconfig.get_config_var"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_config_var()</span></code></a>.</p>
+<p class="translated">Note que no Windows, é um conjunto muito menor.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="sysconfig.get_config_vars">
+<span class="sig-prename descclassname"><span class="pre">sysconfig.</span></span><span class="sig-name descname"><span class="pre">get_config_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sysconfig.get_config_vars" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Sem argumentos, retorna um dicionário de todas as variáveis de configuração relevantes para a plataforma atual.</p>
+<p class="translated">Com argumentos, retorna uma lista de valores resultantes da pesquisa de cada argumento no dicionário de variáveis de configuração.</p>
+<p class="translated">Para cada argumento, se o valor não for encontrado, retorna <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sysconfig.get_config_var">
+<span class="sig-prename descclassname"><span class="pre">sysconfig.</span></span><span class="sig-name descname"><span class="pre">get_config_var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sysconfig.get_config_var" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o valor de uma única variável <em>name</em>. Equivalente a <code class="docutils literal notranslate"><span class="pre">get_config_vars().get(name)</span></code>.</p>
+<p class="translated">Se <em>name</em> não for encontrado, retorna <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<p class="translated">Exemplo de uso:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">sysconfig</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sysconfig</span><span class="o">.</span><span class="n">get_config_var</span><span class="p">(</span><span class="s1">'Py_ENABLE_SHARED'</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sysconfig</span><span class="o">.</span><span class="n">get_config_var</span><span class="p">(</span><span class="s1">'LIBDIR'</span><span class="p">)</span>
+<span class="go">'/usr/local/lib'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sysconfig</span><span class="o">.</span><span class="n">get_config_vars</span><span class="p">(</span><span class="s1">'AR'</span><span class="p">,</span> <span class="s1">'CXX'</span><span class="p">)</span>
+<span class="go">['ar', 'g++']</span>
+</pre></div>
+</div>
+</section>
+<section id="installation-paths">
+<span id="id1"></span><h2 class="translated">Caminhos de instalação<a class="headerlink" href="#installation-paths" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O Python usa um esquema de instalação que difere dependendo da plataforma e das opções de instalação. Esses esquemas são armazenados em <code class="xref py py-mod docutils literal notranslate"><span class="pre">sysconfig</span></code> sob identificadores únicos baseados no valor retornado por <a class="reference internal" href="os.html#os.name" title="os.name"><code class="xref py py-const docutils literal notranslate"><span class="pre">os.name</span></code></a>. Os esquemas são usados por instaladores de pacote para determinar para onde copiar arquivos.</p>
+<p class="translated">Python atualmente oferece suporte a nove esquemas:</p>
+<ul class="simple">
+<li><p class="translated"><em>posix_prefix</em>: esquema para plataformas POSIX como Linux ou macOS. Este é o esquema padrão usado quando o Python ou um componente é instalado.</p></li>
+<li><p class="translated"><em>posix_home</em>: esquema para plataformas POSIX, quando a opção <em>home</em> é usada. Esse esquema define caminhos localizados sob um prefixo inicial específico.</p></li>
+<li><p class="translated"><em>posix_user</em>: esquema para plataformas POSIX, quando a opção <em>user</em> é usada. Esse esquema define caminhos localizados sob o diretório pessoal (home) do usuário (<a class="reference internal" href="site.html#site.USER_BASE" title="site.USER_BASE"><code class="xref py py-const docutils literal notranslate"><span class="pre">site.USER_BASE</span></code></a>).</p></li>
+<li><p class="translated"><em>posix_venv</em>: esquema para <a class="reference internal" href="venv.html#module-venv" title="venv: Creation of virtual environments."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ambientes</span> <span class="pre">virtuais</span> <span class="pre">do</span> <span class="pre">Python</span></code></a> em plataformas POSIX; por padrão, é o mesmo que <em>posix_prefix</em>.</p></li>
+<li><p class="translated"><em>nt</em>: esquema para Windows. Este é o esquema padrão usado quando o Python ou um componente é instalado.</p></li>
+<li><p class="translated"><em>nt_user</em>: esquema para Windows, quando utilizada a opção <em>user</em>.</p></li>
+<li><p class="translated"><em>nt_venv</em>: esquema para <a class="reference internal" href="venv.html#module-venv" title="venv: Creation of virtual environments."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ambientes</span> <span class="pre">virtuais</span> <span class="pre">do</span> <span class="pre">Python</span></code></a> no Windows; por padrão, é o mesmo que <em>nt_prefix</em>.</p></li>
+<li><p class="translated"><em>venv</em>: um esquema com valores de <em>posix_venv</em> ou <em>nt_venv</em> dependendo da plataforma em que o Python é executado.</p></li>
+<li><p class="translated"><em>osx_framework_user</em>: esquema para plataformas macOS, quando utilizada a opção <em>user</em>.</p></li>
+</ul>
+<p class="translated">Cada esquema é composto por uma série de caminhos e cada caminho possui um identificador único. Python atualmente usa oito caminhos:</p>
+<ul class="simple">
+<li><p class="translated"><em>stdlib</em>: diretório que contém os arquivos da biblioteca Python padrão que não são específicos da plataforma.</p></li>
+<li><p class="translated"><em>platstdlib</em>: diretório que contém os arquivos da biblioteca Python padrão que são específicos da plataforma.</p></li>
+<li><p class="translated"><em>platlib</em>: diretório para arquivos específicos do site e específicos da plataforma.</p></li>
+<li><p class="translated"><em>purelib</em>: diretório para arquivos específicos do site e não específicos da plataforma (Python ‘pure’).</p></li>
+<li><p class="translated"><em>include</em>: diretório para arquivos de cabeçalho não específicos da plataforma para a API C do Python.</p></li>
+<li><p class="translated"><em>platinclude</em>: diretório para arquivos de cabeçalho específicos da plataforma para a API C do Python.</p></li>
+<li><p class="translated"><em>scripts</em>: diretório para arquivos de script.</p></li>
+<li><p class="translated"><em>data</em>: diretório para arquivos de dados.</p></li>
+</ul>
+</section>
+<section id="user-scheme">
+<span id="sysconfig-user-scheme"></span><h2 class="translated">Esquema de usuário<a class="headerlink" href="#user-scheme" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Este esquema foi projetado para ser a solução mais conveniente para usuários que não têm permissão de escrita no diretório global de pacotes de sites ou não desejam instalar nele.</p>
+<p class="translated">Os arquivos serão instalados em subdiretórios de <a class="reference internal" href="site.html#site.USER_BASE" title="site.USER_BASE"><code class="xref py py-const docutils literal notranslate"><span class="pre">site.USER_BASE</span></code></a> (escrito como <code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em></code> daqui em diante). Este esquema instala módulos Python puros e módulos de extensão no mesmo local (também conhecido como <a class="reference internal" href="site.html#site.USER_SITE" title="site.USER_SITE"><code class="xref py py-const docutils literal notranslate"><span class="pre">site.USER_SITE</span></code></a>).</p>
+<section id="posix-user">
+<h3 class="translated"><code class="docutils literal notranslate"><span class="pre">posix_user</span></code><a class="headerlink" href="#posix-user" title="Link para este cabeçalho">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Caminho</p></th>
+<th class="head"><p class="translated">Diretório de instalação</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><em>stdlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">/lib/python</span><em><span class="pre">X.Y</span></em></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>platstdlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">/lib/python</span><em><span class="pre">X.Y</span></em></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>platlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">/lib/python</span><em><span class="pre">X.Y</span></em><span class="pre">/site-packages</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>purelib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">/lib/python</span><em><span class="pre">X.Y</span></em><span class="pre">/site-packages</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>include</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">/include/python</span><em><span class="pre">X.Y</span></em></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>scripts</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">/bin</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>data</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="nt-user">
+<h3 class="translated"><code class="docutils literal notranslate"><span class="pre">nt_user</span></code><a class="headerlink" href="#nt-user" title="Link para este cabeçalho">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Caminho</p></th>
+<th class="head"><p class="translated">Diretório de instalação</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><em>stdlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">\Python</span><em><span class="pre">XY</span></em></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>platstdlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">\Python</span><em><span class="pre">XY</span></em></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>platlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">\Python</span><em><span class="pre">XY</span></em><span class="pre">\site-packages</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>purelib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">\Python</span><em><span class="pre">XY</span></em><span class="pre">\site-packages</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>include</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">\Python</span><em><span class="pre">XY</span></em><span class="pre">\Include</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>scripts</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">\Python</span><em><span class="pre">XY</span></em><span class="pre">\Scripts</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>data</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="osx-framework-user">
+<h3 class="translated"><code class="docutils literal notranslate"><span class="pre">osx_framework_user</span></code><a class="headerlink" href="#osx-framework-user" title="Link para este cabeçalho">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Caminho</p></th>
+<th class="head"><p class="translated">Diretório de instalação</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><em>stdlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">/lib/python</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>platstdlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">/lib/python</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>platlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">/lib/python/site-packages</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>purelib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">/lib/python/site-packages</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>include</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">/include/python</span><em><span class="pre">X.Y</span></em></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>scripts</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em><span class="pre">/bin</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>data</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">userbase</span></em></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="home-scheme">
+<span id="sysconfig-home-scheme"></span><h2 class="translated">Esquema de home<a class="headerlink" href="#home-scheme" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">A ideia por trás do “esquema home” é que você construa e mantenha um estoque pessoal de módulos Python. O nome deste esquema é derivado da ideia de um diretório “home” no Unix, uma vez que não é incomum para um usuário Unix fazer seu diretório home ter um layout semelhante a <code class="file docutils literal notranslate"><span class="pre">/usr/</span></code> ou <code class="file docutils literal notranslate"><span class="pre">/usr/local/</span></code>. Este esquema pode ser usado por qualquer pessoa, independentemente do sistema operacional para o qual está instalando.</p>
+<section id="posix-home">
+<h3 class="translated"><code class="docutils literal notranslate"><span class="pre">posix_home</span></code><a class="headerlink" href="#posix-home" title="Link para este cabeçalho">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Caminho</p></th>
+<th class="head"><p class="translated">Diretório de instalação</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><em>stdlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">home</span></em><span class="pre">/lib/python</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>platstdlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">home</span></em><span class="pre">/lib/python</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>platlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">home</span></em><span class="pre">/lib/python</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>purelib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">home</span></em><span class="pre">/lib/python</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>include</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">home</span></em><span class="pre">/include/python</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>platinclude</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">home</span></em><span class="pre">/include/python</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>scripts</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">home</span></em><span class="pre">/bin</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>data</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">home</span></em></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="prefix-scheme">
+<span id="sysconfig-prefix-scheme"></span><h2 class="translated">Esquema de prefixo<a class="headerlink" href="#prefix-scheme" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O “esquema prefixo” é útil quando você deseja usar uma instalação Python para realizar a compilação/instalação (ou seja, para executar o script de configuração), mas instalar módulos no diretório de módulo de terceiros de uma instalação Python diferente (ou algo que parece uma instalação diferente do Python). Se isso parece um pouco incomum, então é – é por isso que os esquemas usuário e home vêm antes. No entanto, existem pelo menos dois casos conhecidos em que o esquema prefixo será útil.</p>
+<p class="translated">Primeiro, considere que muitas distribuições Linux colocam Python em <code class="file docutils literal notranslate"><span class="pre">/usr</span></code>, ao invés do mais tradicional <code class="file docutils literal notranslate"><span class="pre">/usr/local</span></code>. Isso é totalmente apropriado, já que, nesses casos, o Python é parte do “sistema” em vez de um complemento local. No entanto, se você estiver instalando módulos Python a partir do código-fonte, provavelmente deseja que eles entrem em <code class="file docutils literal notranslate"><span class="pre">/usr/local/lib/python2.</span><em><span class="pre">X</span></em></code> em vez de <code class="file docutils literal notranslate"><span class="pre">/usr/lib/python2.</span><em><span class="pre">X</span></em></code>.</p>
+<p class="translated">Outra possibilidade é um sistema de arquivos de rede onde o nome usado para escrever em um diretório remoto é diferente do nome usado para lê-lo: por exemplo, o interpretador Python acessado como <code class="file docutils literal notranslate"><span class="pre">/usr/local/bin/python</span></code> pode pesquisar por módulos em <code class="file docutils literal notranslate"><span class="pre">/usr/local/lib/python2.</span><em><span class="pre">X</span></em></code>, mas esses módulos teriam que ser instalados em, digamos, <code class="file docutils literal notranslate"><span class="pre">/mnt/</span><em><span class="pre">&#64;server</span></em><span class="pre">/export/lib/python2.</span><em><span class="pre">X</span></em></code>.</p>
+<section id="posix-prefix">
+<h3 class="translated"><code class="docutils literal notranslate"><span class="pre">posix_prefix</span></code><a class="headerlink" href="#posix-prefix" title="Link para este cabeçalho">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Caminho</p></th>
+<th class="head"><p class="translated">Diretório de instalação</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><em>stdlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em><span class="pre">/lib/python</span><em><span class="pre">X.Y</span></em></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>platstdlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em><span class="pre">/lib/python</span><em><span class="pre">X.Y</span></em></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>platlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em><span class="pre">/lib/python</span><em><span class="pre">X.Y</span></em><span class="pre">/site-packages</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>purelib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em><span class="pre">/lib/python</span><em><span class="pre">X.Y</span></em><span class="pre">/site-packages</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>include</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em><span class="pre">/include/python</span><em><span class="pre">X.Y</span></em></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>platinclude</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em><span class="pre">/include/python</span><em><span class="pre">X.Y</span></em></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>scripts</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em><span class="pre">/bin</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>data</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="nt">
+<h3 class="translated"><code class="docutils literal notranslate"><span class="pre">nt</span></code><a class="headerlink" href="#nt" title="Link para este cabeçalho">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Caminho</p></th>
+<th class="head"><p class="translated">Diretório de instalação</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><em>stdlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em><span class="pre">\Lib</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>platstdlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em><span class="pre">\Lib</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>platlib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em><span class="pre">\Lib\site-packages</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>purelib</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em><span class="pre">\Lib\site-packages</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>include</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em><span class="pre">\Include</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>platinclude</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em><span class="pre">\Include</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><em>scripts</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em><span class="pre">\Scripts</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><em>data</em></p></td>
+<td><p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">prefix</span></em></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="installation-path-functions">
+<h2 class="translated">Funções de caminho de instalação<a class="headerlink" href="#installation-path-functions" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sysconfig</span></code> fornece algumas funções para determinar esses caminhos de instalação.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="sysconfig.get_scheme_names">
+<span class="sig-prename descclassname"><span class="pre">sysconfig.</span></span><span class="sig-name descname"><span class="pre">get_scheme_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sysconfig.get_scheme_names" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma tupla contendo todos os esquemas atualmente suportados em <code class="xref py py-mod docutils literal notranslate"><span class="pre">sysconfig</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sysconfig.get_default_scheme">
+<span class="sig-prename descclassname"><span class="pre">sysconfig.</span></span><span class="sig-name descname"><span class="pre">get_default_scheme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sysconfig.get_default_scheme" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o nome do esquema padrão para a plataforma atual.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.10: </span>Esta função era chamada de <code class="docutils literal notranslate"><span class="pre">_get_default_scheme()</span></code> e considerada um detalhe de implementação.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.11: </span>Quando o Python é executado em um ambiente virtual, o esquema <em>venv</em> é retornado.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sysconfig.get_preferred_scheme">
+<span class="sig-prename descclassname"><span class="pre">sysconfig.</span></span><span class="sig-name descname"><span class="pre">get_preferred_scheme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sysconfig.get_preferred_scheme" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um nome de esquema preferido para um layout de instalação especificado por <em>key</em>.</p>
+<p class="translated"><em>key</em> deve ser <code class="docutils literal notranslate"><span class="pre">&quot;prefix&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;home&quot;</span></code> ou <code class="docutils literal notranslate"><span class="pre">&quot;user&quot;</span></code>.</p>
+<p class="translated">O valor de retorno é um nome de esquema listado em <a class="reference internal" href="#sysconfig.get_scheme_names" title="sysconfig.get_scheme_names"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_scheme_names()</span></code></a>. Ele pode ser passado para as funções <code class="xref py py-mod docutils literal notranslate"><span class="pre">sysconfig</span></code> que recebem um argumento <em>scheme</em>, como <a class="reference internal" href="#sysconfig.get_paths" title="sysconfig.get_paths"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_paths()</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.10.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.11: </span>Quando o Python é executado em um ambiente virtual e <code class="docutils literal notranslate"><span class="pre">key=&quot;prefix&quot;</span></code>, o esquema <em>venv</em> é retornado.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sysconfig._get_preferred_schemes">
+<span class="sig-prename descclassname"><span class="pre">sysconfig.</span></span><span class="sig-name descname"><span class="pre">_get_preferred_schemes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sysconfig._get_preferred_schemes" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um dict contendo nomes de esquema preferidos na plataforma atual. Os implementadores e redistribuidores do Python podem adicionar seus esquemas preferidos ao valor global de nível de módulo <code class="docutils literal notranslate"><span class="pre">_INSTALL_SCHEMES</span></code> e modificar esta função para retornar esses nomes de esquema. Por exemplo, fornecer esquemas diferentes para os gerenciadores de pacotes de sistema e idioma usarem, de modo que os pacotes instalados por um não se misturem com os do outro.</p>
+<p class="translated">Os usuários finais não devem usar esta função, mas <a class="reference internal" href="#sysconfig.get_default_scheme" title="sysconfig.get_default_scheme"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_default_scheme()</span></code></a> e <a class="reference internal" href="#sysconfig.get_preferred_scheme" title="sysconfig.get_preferred_scheme"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_preferred_scheme()</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.10.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sysconfig.get_path_names">
+<span class="sig-prename descclassname"><span class="pre">sysconfig.</span></span><span class="sig-name descname"><span class="pre">get_path_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sysconfig.get_path_names" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma tupla contendo todos os nomes de caminhos atualmente suportados em <code class="xref py py-mod docutils literal notranslate"><span class="pre">sysconfig</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sysconfig.get_path">
+<span class="sig-prename descclassname"><span class="pre">sysconfig.</span></span><span class="sig-name descname"><span class="pre">get_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">vars</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">expand</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#sysconfig.get_path" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um caminho de instalação correspondente ao caminho <em>name</em>, do esquema de instalação denominado <em>scheme</em>.</p>
+<p class="translated"><em>name</em> deve ser um valor da lista retornada por <a class="reference internal" href="#sysconfig.get_path_names" title="sysconfig.get_path_names"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_path_names()</span></code></a>.</p>
+<p class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sysconfig</span></code> armazena os caminhos de instalação correspondentes a cada nome de caminho, para cada plataforma, com variáveis a serem expandidas. Por exemplo, o caminho <em>stdlib</em> para o esquema <em>nt</em> é: <code class="docutils literal notranslate"><span class="pre">{base}/Lib</span></code>.</p>
+<p class="translated"><a class="reference internal" href="#sysconfig.get_path" title="sysconfig.get_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_path()</span></code></a> usará as variáveis retornadas por <a class="reference internal" href="#sysconfig.get_config_vars" title="sysconfig.get_config_vars"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_config_vars()</span></code></a> para expandir o caminho. Todas as variáveis possuem valores padrão para cada plataforma, portanto, pode-se chamar esta função e obter o valor padrão.</p>
+<p class="translated">Se <em>scheme</em> for fornecido, deve ser um valor da lista retornada por <a class="reference internal" href="#sysconfig.get_scheme_names" title="sysconfig.get_scheme_names"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_scheme_names()</span></code></a>. Caso contrário, o esquema padrão para a plataforma atual é usado.</p>
+<p class="translated">Se <em>vars</em> for fornecido, deve ser um dicionário de variáveis que atualizará o dicionário retornado por <a class="reference internal" href="#sysconfig.get_config_vars" title="sysconfig.get_config_vars"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_config_vars()</span></code></a>.</p>
+<p class="translated">Se <em>expand</em> for definido como <code class="docutils literal notranslate"><span class="pre">False</span></code>, o caminho não será expandido usando as variáveis.</p>
+<p class="translated">Se <em>name</em> não for encontrado, levanta uma <a class="reference internal" href="../builtins/exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sysconfig.get_paths">
+<span class="sig-prename descclassname"><span class="pre">sysconfig.</span></span><span class="sig-name descname"><span class="pre">get_paths</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">vars</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">expand</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#sysconfig.get_paths" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um dicionário contendo todos os caminhos de instalação correspondentes a um esquema de instalação. Veja <a class="reference internal" href="#sysconfig.get_path" title="sysconfig.get_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_path()</span></code></a> para mais informações.</p>
+<p class="translated">Se <em>esquema</em> não for fornecido, usará o esquema padrão para a plataforma atual.</p>
+<p class="translated">Se <em>vars</em> for fornecido, deve ser um dicionário de variáveis que atualizará o dicionário usado para expandir os caminhos.</p>
+<p class="translated">Se <em>expand</em> for definido como falso, os caminhos não serão expandidos.</p>
+<p class="translated">Se <em>scheme</em> não for um esquema existente, <a class="reference internal" href="#sysconfig.get_paths" title="sysconfig.get_paths"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_paths()</span></code></a> vai levantar uma <a class="reference internal" href="../builtins/exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a>.</p>
+</dd></dl>
+
+</section>
+<section id="other-functions">
+<h2 class="translated">Outras funções<a class="headerlink" href="#other-functions" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="sysconfig.get_python_version">
+<span class="sig-prename descclassname"><span class="pre">sysconfig.</span></span><span class="sig-name descname"><span class="pre">get_python_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sysconfig.get_python_version" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o número da versão Python <code class="docutils literal notranslate"><span class="pre">MAJOR.MINOR</span></code> como uma string. Semelhante a <code class="docutils literal notranslate"><span class="pre">'%d.%d'</span> <span class="pre">%</span> <span class="pre">sys.version_info[:2]</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sysconfig.get_platform">
+<span class="sig-prename descclassname"><span class="pre">sysconfig.</span></span><span class="sig-name descname"><span class="pre">get_platform</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sysconfig.get_platform" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma string que identifica a plataforma atual.</p>
+<p class="translated">Isso é usado principalmente para distinguir diretórios de construção específicos da plataforma e distribuições construídas específicas da plataforma. Geralmente inclui o nome e a versão do sistema operacional e a arquitetura (conforme fornecido por <a class="reference internal" href="os.html#os.uname" title="os.uname"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.uname()</span></code></a>), embora as informações exatas incluídas dependam do sistema operacional; por exemplo, no Linux, a versão do kernel não é particularmente importante.</p>
+<p class="translated">Exemplos de valores retornados:</p>
+<ul class="simple">
+<li><p class="translated">linux-x86_64</p></li>
+<li><p class="translated">linux-aarch64</p></li>
+<li><p class="translated">solaris-2.6-sun4u</p></li>
+</ul>
+<p class="translated">Windows:</p>
+<ul class="simple">
+<li><p class="translated">win-amd64 (Windows 64 bits no AMD64, isto é, x86_64, Intel64 e EM64T)</p></li>
+<li><p class="translated">win-arm64 (Windows 64 bits no ARM64, isto é, AArch64)</p></li>
+<li><p class="translated">win32 (todos os demais - especificamente, sys.platform é retornado)</p></li>
+</ul>
+<p class="translated">SO baseado em POSIX:</p>
+<ul class="simple">
+<li><p class="translated">linux-x86_64</p></li>
+<li><p class="translated">macosx-15.5-arm64</p></li>
+<li><p class="translated">macosx-26.0-universal2 (macOS sobre Apple Silicon ou Intel)</p></li>
+<li><p class="translated">android-24-arm64_v8a</p></li>
+</ul>
+<p class="translated">Para outras plataformas não POSIX, é retornado apenas <a class="reference internal" href="sys.html#sys.platform" title="sys.platform"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.platform</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sysconfig.is_python_build">
+<span class="sig-prename descclassname"><span class="pre">sysconfig.</span></span><span class="sig-name descname"><span class="pre">is_python_build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sysconfig.is_python_build" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se o interpretador Python em execução foi construído a partir do código-fonte e está sendo executado a partir de seu local de construção, e não de um local resultante de, por exemplo, executando <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code> ou instalando através de um instalador binário.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sysconfig.parse_config_h">
+<span class="sig-prename descclassname"><span class="pre">sysconfig.</span></span><span class="sig-name descname"><span class="pre">parse_config_h</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">vars</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#sysconfig.parse_config_h" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Analisa um arquivo no estilo <code class="file docutils literal notranslate"><span class="pre">config.h</span></code>.</p>
+<p class="translated"><em>fp</em> é um objeto arquivo ou similar apontando para o arquivo <code class="file docutils literal notranslate"><span class="pre">config.h</span></code> ou similar.</p>
+<p class="translated">Um dicionário contendo pares nome/valor é retornado. Se um dicionário opcional for passado como segundo argumento, ele será usado no lugar de um novo dicionário e atualizado com os valores lidos no arquivo.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sysconfig.get_config_h_filename">
+<span class="sig-prename descclassname"><span class="pre">sysconfig.</span></span><span class="sig-name descname"><span class="pre">get_config_h_filename</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sysconfig.get_config_h_filename" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o caminho do <code class="file docutils literal notranslate"><span class="pre">pyconfig.h</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sysconfig.get_makefile_filename">
+<span class="sig-prename descclassname"><span class="pre">sysconfig.</span></span><span class="sig-name descname"><span class="pre">get_makefile_filename</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sysconfig.get_makefile_filename" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o caminho do <code class="file docutils literal notranslate"><span class="pre">Makefile</span></code>.</p>
+</dd></dl>
+
+</section>
+<section id="command-line-usage">
+<span id="using-sysconfig-as-a-script"></span><span id="sysconfig-cli"></span><h2 class="translated">Uso na linha de comando<a class="headerlink" href="#command-line-usage" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Você pode usar <code class="xref py py-mod docutils literal notranslate"><span class="pre">sysconfig</span></code> como um script com a opção <em>-m</em> do Python:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>sysconfig
+<span class="go">Platform: "macosx-10.4-i386"</span>
+<span class="go">Python version: "3.2"</span>
+<span class="go">Current installation scheme: "posix_prefix"</span>
+
+<span class="go">Paths:</span>
+<span class="go">        data = "/usr/local"</span>
+<span class="go">        include = "/Users/tarek/Dev/svn.python.org/py3k/Include"</span>
+<span class="go">        platinclude = "."</span>
+<span class="go">        platlib = "/usr/local/lib/python3.2/site-packages"</span>
+<span class="go">        platstdlib = "/usr/local/lib/python3.2"</span>
+<span class="go">        purelib = "/usr/local/lib/python3.2/site-packages"</span>
+<span class="go">        scripts = "/usr/local/bin"</span>
+<span class="go">        stdlib = "/usr/local/lib/python3.2"</span>
+
+<span class="go">Variables:</span>
+<span class="go">        AC_APPLE_UNIVERSAL_BUILD = "0"</span>
+<span class="go">        AIX_GENUINE_CPLUSPLUS = "0"</span>
+<span class="go">        AR = "ar"</span>
+<span class="go">        ARFLAGS = "rc"</span>
+<span class="go">        ...</span>
+</pre></div>
+</div>
+<p class="translated">Esta chamada imprimirá na saída padrão as informações retornadas por <a class="reference internal" href="#sysconfig.get_platform" title="sysconfig.get_platform"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_platform()</span></code></a>, <a class="reference internal" href="#sysconfig.get_python_version" title="sysconfig.get_python_version"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_python_version()</span></code></a>, <a class="reference internal" href="#sysconfig.get_path" title="sysconfig.get_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_path()</span></code></a> e <a class="reference internal" href="#sysconfig.get_config_vars" title="sysconfig.get_config_vars"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_config_vars()</span></code></a>.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sysconfig</span></code> — Fornece acesso às informações de configuração do Python</a><ul>
+<li><a class="reference internal" href="#configuration-variables">Variáveis de configuração</a></li>
+<li><a class="reference internal" href="#installation-paths">Caminhos de instalação</a></li>
+<li><a class="reference internal" href="#user-scheme">Esquema de usuário</a><ul>
+<li><a class="reference internal" href="#posix-user"><code class="docutils literal notranslate"><span class="pre">posix_user</span></code></a></li>
+<li><a class="reference internal" href="#nt-user"><code class="docutils literal notranslate"><span class="pre">nt_user</span></code></a></li>
+<li><a class="reference internal" href="#osx-framework-user"><code class="docutils literal notranslate"><span class="pre">osx_framework_user</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#home-scheme">Esquema de home</a><ul>
+<li><a class="reference internal" href="#posix-home"><code class="docutils literal notranslate"><span class="pre">posix_home</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#prefix-scheme">Esquema de prefixo</a><ul>
+<li><a class="reference internal" href="#posix-prefix"><code class="docutils literal notranslate"><span class="pre">posix_prefix</span></code></a></li>
+<li><a class="reference internal" href="#nt"><code class="docutils literal notranslate"><span class="pre">nt</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installation-path-functions">Funções de caminho de instalação</a></li>
+<li><a class="reference internal" href="#other-functions">Outras funções</a></li>
+<li><a class="reference internal" href="#command-line-usage">Uso na linha de comando</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="sys.monitoring.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sys.monitoring</span></code> — Monitoramento de eventos de execução</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="builtins.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">builtins</span></code> — Objetos embutidos</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/sysconfig.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/sysconfig.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/sysconfig.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="builtins.html" title="builtins — Objetos embutidos"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="sys.monitoring.html" title="sys.monitoring — Monitoramento de eventos de execução"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="python.html" >Serviços de Tempo de Execução Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">sysconfig</span></code> — Fornece acesso às informações de configuração do Python</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

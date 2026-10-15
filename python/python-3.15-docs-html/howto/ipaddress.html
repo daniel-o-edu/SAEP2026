@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Uma introdução ao módulo ipaddress" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/howto/ipaddress.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Visão Geral: Este documento tem como objetivo prover uma suave introdução ao módulo ipaddress. Ele é direcionado primeiramente para usuários que ainda não são familiarizados com a terminologia de r..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_howto_ipaddress_03ed7971.png" />
+<meta property="og:image:alt" content="Visão Geral: Este documento tem como objetivo prover uma suave introdução ao módulo ipaddress. Ele é direcionado primeiramente para usuários que ainda não são familiarizados com a terminologia de r..." />
+<meta name="description" content="Visão Geral: Este documento tem como objetivo prover uma suave introdução ao módulo ipaddress. Ele é direcionado primeiramente para usuários que ainda não são familiarizados com a terminologia de r..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Uma introdução ao módulo ipaddress &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Instrumentando o CPython com DTrace e SystemTap" href="instrumentation.html" />
+    <link rel="prev" title="Como buscar recursos da Internet usando o pacote urllib" href="urllib2.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/howto/ipaddress.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Uma introdução ao módulo ipaddress</a><ul>
+<li><a class="reference internal" href="#creating-address-network-interface-objects">Criando objetos de Endereço/Rede/Interface</a><ul>
+<li><a class="reference internal" href="#a-note-on-ip-versions">Uma observação sobre versões do IP</a></li>
+<li><a class="reference internal" href="#ip-host-addresses">Endereços IP de host</a></li>
+<li><a class="reference internal" href="#defining-networks">Definindo redes</a></li>
+<li><a class="reference internal" href="#host-interfaces">Interfaces do host</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#inspecting-address-network-interface-objects">Inspecionando objetos endereço/rede/interface</a></li>
+<li><a class="reference internal" href="#networks-as-lists-of-addresses">Redes como listas de Addresses</a></li>
+<li><a class="reference internal" href="#comparisons">Comparações</a></li>
+<li><a class="reference internal" href="#using-ip-addresses-with-other-modules">Usando endereços IP com outros módulos</a></li>
+<li><a class="reference internal" href="#getting-more-detail-when-instance-creation-fails">Obtendo mais detalhes quando a criação da instância falha</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="urllib2.html"
+                          title="capítulo anterior">Como buscar recursos da Internet usando o pacote urllib</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="instrumentation.html"
+                          title="próximo capítulo">Instrumentando o CPython com DTrace e SystemTap</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "howto/ipaddress.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/howto/ipaddress.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/howto/ipaddress.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="instrumentation.html" title="Instrumentando o CPython com DTrace e SystemTap"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="urllib2.html" title="Como buscar recursos da Internet usando o pacote urllib"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python HOWTOs</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Uma introdução ao módulo ipaddress</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="an-introduction-to-the-ipaddress-module">
+<span id="ipaddress-howto"></span><h1 class="translated">Uma introdução ao módulo ipaddress<a class="headerlink" href="#an-introduction-to-the-ipaddress-module" title="Link para este cabeçalho">¶</a></h1>
+<aside class="topic">
+<p class="translated topic-title">Visão Geral</p>
+<p class="translated">Este documento tem como objetivo prover uma suave introdução ao módulo <a class="reference internal" href="../library/ipaddress.html#module-ipaddress" title="ipaddress: IPv4/IPv6 manipulation library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ipaddress</span></code></a>. Ele é direcionado primeiramente para usuários que ainda não são familiarizados com a terminologia de rede IP, mas também pode ser útil para engenheiros de rede que querem uma visão geral de como <code class="xref py py-mod docutils literal notranslate"><span class="pre">ipaddress</span></code> representa os conceitos de endereçamento de rede IP.</p>
+</aside>
+<section id="creating-address-network-interface-objects">
+<h2 class="translated">Criando objetos de Endereço/Rede/Interface<a class="headerlink" href="#creating-address-network-interface-objects" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Como <a class="reference internal" href="../library/ipaddress.html#module-ipaddress" title="ipaddress: IPv4/IPv6 manipulation library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ipaddress</span></code></a> é um módulo para inspecionar e manipular endereços IP, a primeira coisa que você deseja fazer é criar alguns objetos. Você pode usar <code class="xref py py-mod docutils literal notranslate"><span class="pre">ipaddress</span></code> para criar objetos a partir de strings e inteiros.</p>
+<section id="a-note-on-ip-versions">
+<h3 class="translated">Uma observação sobre versões do IP<a class="headerlink" href="#a-note-on-ip-versions" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Para leitores que não estão particularmente familiarizados com o endereçamento IP, é importante saber que o Protocolo de Internet (IP) está atualmente em processo de mudança da versão 4 do protocolo para a versão 6. Esta transição está ocorrendo em grande parte porque a versão 4 do protocolo não fornece endereços suficientes para atender às necessidades do mundo inteiro, principalmente devido ao crescente número de dispositivos com conexões diretas à Internet.</p>
+<p class="translated">Explicar os detalhes das diferenças entre as duas versões do protocolo está além do escopo desta introdução, mas os leitores precisam pelo menos estar cientes de que essas duas versões existem, e às vezes será necessário forçar o uso de uma versão ou do outro.</p>
+</section>
+<section id="ip-host-addresses">
+<h3 class="translated">Endereços IP de host<a class="headerlink" href="#ip-host-addresses" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Os endereços, muitas vezes chamados de “endereços de host”, são a unidade mais básica ao trabalhar com endereçamento IP. A maneira mais simples de criar endereços é usar a função de fábrica <a class="reference internal" href="../library/ipaddress.html#ipaddress.ip_address" title="ipaddress.ip_address"><code class="xref py py-func docutils literal notranslate"><span class="pre">ipaddress.ip_address()</span></code></a>, que determina automaticamente se deve ser criado um endereço IPv4 ou IPv6 com base no valor passado:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="s1">'192.0.2.1'</span><span class="p">)</span>
+<span class="go">IPv4Address('192.0.2.1')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="s1">'2001:DB8::1'</span><span class="p">)</span>
+<span class="go">IPv6Address('2001:db8::1')</span>
+</pre></div>
+</div>
+<p class="translated">Os endereços também podem ser criados diretamente a partir de números inteiros. Os valores que cabem em 32 bits são considerados endereços IPv4:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="mi">3221225985</span><span class="p">)</span>
+<span class="go">IPv4Address('192.0.2.1')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="mi">42540766411282592856903984951653826561</span><span class="p">)</span>
+<span class="go">IPv6Address('2001:db8::1')</span>
+</pre></div>
+</div>
+<p class="translated">Para forçar o uso de endereços IPv4 ou IPv6, as classes relevantes podem ser invocadas diretamente. Isto é particularmente útil para forçar a criação de endereços IPv6 para números inteiros pequenos:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">IPv4Address('0.0.0.1')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv4Address</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">IPv4Address('0.0.0.1')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv6Address</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">IPv6Address('::1')</span>
+</pre></div>
+</div>
+</section>
+<section id="defining-networks">
+<h3 class="translated">Definindo redes<a class="headerlink" href="#defining-networks" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Endereços de host geralmente são agrupados em redes IP, então <a class="reference internal" href="../library/ipaddress.html#module-ipaddress" title="ipaddress: IPv4/IPv6 manipulation library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ipaddress</span></code></a> fornece uma maneira de criar, inspecionar e manipular definições de rede. Os objetos de rede IP são construídos a partir de strings que definem o intervalo de endereços de host que fazem parte dessa rede. A forma mais simples para essa informação é um par de “endereço de rede/prefixo de rede”, onde o prefixo define o número de bits iniciais que são comparados para determinar se um endereço faz ou não parte da rede e o endereço de rede define o valor esperado daqueles bits.</p>
+<p class="translated">Quanto aos endereços, é fornecida uma função de fábrica que determina automaticamente a versão correta do IP:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">'192.0.2.0/24'</span><span class="p">)</span>
+<span class="go">IPv4Network('192.0.2.0/24')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">'2001:db8::0/96'</span><span class="p">)</span>
+<span class="go">IPv6Network('2001:db8::/96')</span>
+</pre></div>
+</div>
+<p class="translated">Os objetos de rede não podem ter nenhum bit de host definido. O efeito prático disso é que <code class="docutils literal notranslate"><span class="pre">192.0.2.1/24</span></code> não descreve uma rede. Tais definições são chamadas de objetos interface, uma vez que a notação “ip-em-uma-rede” é comumente usada para descrever interfaces de rede de um computador em uma determinada rede e é descrita mais detalhadamente na próxima seção.</p>
+<p class="translated">Por padrão, tentar criar um objeto rede com bits de host definidos resultará na exceção <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> ser levantada. Para solicitar que os bits adicionais sejam forçados a zero, o sinalizador <code class="docutils literal notranslate"><span class="pre">strict=False</span></code> pode ser passada para o construtor:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">'192.0.2.1/24'</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">   </span><span class="c">...</span>
+<span class="gr">ValueError</span>: <span class="n">192.0.2.1/24 has host bits set</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">'192.0.2.1/24'</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">IPv4Network('192.0.2.0/24')</span>
+</pre></div>
+</div>
+<p class="translated">Embora o formato string ofereça significativamente mais flexibilidade, as redes também podem ser definidas com números inteiros, assim como os endereços de host. Neste caso, considera-se que a rede contém apenas o endereço único identificado pelo número inteiro, portanto o prefixo da rede inclui todo o endereço da rede:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="mi">3221225984</span><span class="p">)</span>
+<span class="go">IPv4Network('192.0.2.0/32')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="mi">42540766411282592856903984951653826560</span><span class="p">)</span>
+<span class="go">IPv6Network('2001:db8::/128')</span>
+</pre></div>
+</div>
+<p class="translated">Tal como acontece com os endereços, a criação de um tipo específico de rede pode ser forçada chamando diretamente o construtor da classe em vez de usar a função de fábrica.</p>
+</section>
+<section id="host-interfaces">
+<h3 class="translated">Interfaces do host<a class="headerlink" href="#host-interfaces" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Conforme mencionado acima, se você precisar descrever um endereço em uma rede específica, nem o endereço nem as classes de rede serão suficientes. Notação como <code class="docutils literal notranslate"><span class="pre">192.0.2.1/24</span></code> é comumente usada por engenheiros de rede e pessoas que escrevem ferramentas para firewalls e roteadores como uma abreviação para “o host <code class="docutils literal notranslate"><span class="pre">192.0.2.1</span></code> na rede <code class="docutils literal notranslate"><span class="pre">192.0.2.0/24</span></code>”, Consequentemente, <a class="reference internal" href="../library/ipaddress.html#module-ipaddress" title="ipaddress: IPv4/IPv6 manipulation library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ipaddress</span></code></a> fornece um conjunto de classes híbridas que associam um endereço a uma rede específica. A interface para criação é idêntica àquela para definição de objetos de rede, exceto que a parte do endereço não está restrita a ser um endereço de rede.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_interface</span><span class="p">(</span><span class="s1">'192.0.2.1/24'</span><span class="p">)</span>
+<span class="go">IPv4Interface('192.0.2.1/24')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_interface</span><span class="p">(</span><span class="s1">'2001:db8::1/96'</span><span class="p">)</span>
+<span class="go">IPv6Interface('2001:db8::1/96')</span>
+</pre></div>
+</div>
+<p class="translated">Entradas de inteiros são aceitas (como acontece com redes), e o uso de uma versão IP específica pode ser forçado chamando diretamente o construtor relevante.</p>
+</section>
+</section>
+<section id="inspecting-address-network-interface-objects">
+<h2 class="translated">Inspecionando objetos endereço/rede/interface<a class="headerlink" href="#inspecting-address-network-interface-objects" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Você se deu ao trabalho de criar um objeto IPv(4|6)(Address|Network|Interface) e provavelmente deseja obter informações sobre ele. <a class="reference internal" href="../library/ipaddress.html#module-ipaddress" title="ipaddress: IPv4/IPv6 manipulation library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ipaddress</span></code></a> tenta tornar isso fácil e intuitivo.</p>
+<p class="translated">Extraindo a versão do IP:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">addr4</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="s1">'192.0.2.1'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">addr6</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="s1">'2001:db8::1'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">addr6</span><span class="o">.</span><span class="n">version</span>
+<span class="go">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">addr4</span><span class="o">.</span><span class="n">version</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+<p class="translated">Obtendo a rede de uma interface:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">host4</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_interface</span><span class="p">(</span><span class="s1">'192.0.2.1/24'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">host4</span><span class="o">.</span><span class="n">network</span>
+<span class="go">IPv4Network('192.0.2.0/24')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">host6</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_interface</span><span class="p">(</span><span class="s1">'2001:db8::1/96'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">host6</span><span class="o">.</span><span class="n">network</span>
+<span class="go">IPv6Network('2001:db8::/96')</span>
+</pre></div>
+</div>
+<p class="translated">Descobrindo quantos endereços individuais estão em uma rede:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net4</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">'192.0.2.0/24'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net4</span><span class="o">.</span><span class="n">num_addresses</span>
+<span class="go">256</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net6</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">'2001:db8::0/96'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net6</span><span class="o">.</span><span class="n">num_addresses</span>
+<span class="go">4294967296</span>
+</pre></div>
+</div>
+<p class="translated">Iterando através dos endereços “utilizáveis” em uma rede:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net4</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">'192.0.2.0/24'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">net4</span><span class="o">.</span><span class="n">hosts</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">192.0.2.1</span>
+<span class="go">192.0.2.2</span>
+<span class="go">192.0.2.3</span>
+<span class="go">192.0.2.4</span>
+<span class="go">...</span>
+<span class="go">192.0.2.252</span>
+<span class="go">192.0.2.253</span>
+<span class="go">192.0.2.254</span>
+</pre></div>
+</div>
+<p class="translated">Obtendo a máscara de rede (ou seja, definir bits correspondentes ao prefixo da rede) ou a máscara de host (qualquer bit que não faça parte da máscara de rede):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net4</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">'192.0.2.0/24'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net4</span><span class="o">.</span><span class="n">netmask</span>
+<span class="go">IPv4Address('255.255.255.0')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net4</span><span class="o">.</span><span class="n">hostmask</span>
+<span class="go">IPv4Address('0.0.0.255')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net6</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">'2001:db8::0/96'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net6</span><span class="o">.</span><span class="n">netmask</span>
+<span class="go">IPv6Address('ffff:ffff:ffff:ffff:ffff:ffff::')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net6</span><span class="o">.</span><span class="n">hostmask</span>
+<span class="go">IPv6Address('::ffff:ffff')</span>
+</pre></div>
+</div>
+<p class="translated">Explodindo ou compactando o endereço:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">addr6</span><span class="o">.</span><span class="n">exploded</span>
+<span class="go">'2001:0db8:0000:0000:0000:0000:0000:0001'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">addr6</span><span class="o">.</span><span class="n">compressed</span>
+<span class="go">'2001:db8::1'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net6</span><span class="o">.</span><span class="n">exploded</span>
+<span class="go">'2001:0db8:0000:0000:0000:0000:0000:0000/96'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net6</span><span class="o">.</span><span class="n">compressed</span>
+<span class="go">'2001:db8::/96'</span>
+</pre></div>
+</div>
+<p class="translated">Embora o IPv4 não tenha suporte a explosão ou compactação, os objetos associados ainda fornecem as propriedades relevantes para que o código de versão neutra possa facilmente garantir que o formato mais conciso ou mais detalhado seja usado para endereços IPv6, ao mesmo tempo que manipula corretamente os endereços IPv4.</p>
+</section>
+<section id="networks-as-lists-of-addresses">
+<h2 class="translated">Redes como listas de Addresses<a class="headerlink" href="#networks-as-lists-of-addresses" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Às vezes é útil tratar redes como listas. Isso significa que é possível indexá-las assim:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net4</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">IPv4Address('192.0.2.1')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net4</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">IPv4Address('192.0.2.255')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net6</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">IPv6Address('2001:db8::1')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net6</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">IPv6Address('2001:db8::ffff:ffff')</span>
+</pre></div>
+</div>
+<p class="translated">Isso também significa que os objetos de rede se prestam ao uso da sintaxe de teste de pertinência de lista como esta:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">endereço</span> <span class="ow">in</span> <span class="n">rede</span><span class="p">:</span>
+    <span class="c1"># faz algo</span>
+</pre></div>
+</div>
+<p class="translated">O teste de contenção é feito de forma eficiente com base no prefixo de rede:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">addr4</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="s1">'192.0.2.1'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">addr4</span> <span class="ow">in</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">'192.0.2.0/24'</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">addr4</span> <span class="ow">in</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">'192.0.3.0/24'</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</section>
+<section id="comparisons">
+<h2 class="translated">Comparações<a class="headerlink" href="#comparisons" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated"><a class="reference internal" href="../library/ipaddress.html#module-ipaddress" title="ipaddress: IPv4/IPv6 manipulation library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">ipaddress</span></code></a> fornece algumas maneiras simples e, esperançosamente, intuitivas de comparar objetos, onde faz sentido:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="s1">'192.0.2.1'</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="s1">'192.0.2.2'</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p class="translated">Uma exceção <a class="reference internal" href="../builtins/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> é levantada se você tentar comparar objetos de versões ou tipos diferentes.</p>
+</section>
+<section id="using-ip-addresses-with-other-modules">
+<h2 class="translated">Usando endereços IP com outros módulos<a class="headerlink" href="#using-ip-addresses-with-other-modules" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Outros módulos que usam endereços IP (como <a class="reference internal" href="../library/socket.html#module-socket" title="socket: Low-level networking interface."><code class="xref py py-mod docutils literal notranslate"><span class="pre">socket</span></code></a>) geralmente não aceitam objetos deste módulo diretamente. Em vez disso, eles devem ser convertidos para um inteiro ou string que o outro módulo aceitará:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">addr4</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="s1">'192.0.2.1'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">addr4</span><span class="p">)</span>
+<span class="go">'192.0.2.1'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="n">addr4</span><span class="p">)</span>
+<span class="go">3221225985</span>
+</pre></div>
+</div>
+</section>
+<section id="getting-more-detail-when-instance-creation-fails">
+<h2 class="translated">Obtendo mais detalhes quando a criação da instância falha<a class="headerlink" href="#getting-more-detail-when-instance-creation-fails" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Ao criar objetos de endereço/rede/interface usando as funções de fábrica agnósticas de versão, quaisquer erros serão relatados como <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> com uma mensagem de erro genérica que simplesmente diz que o valor passado não foi reconhecido como um objeto daquele tipo. A falta de um erro específico é porque é necessário saber se o valor <em>supõe</em> ser IPv4 ou IPv6 para fornecer mais detalhes sobre o motivo de sua rejeição.</p>
+<p class="translated">Para dar suporte a casos de uso em que é útil ter acesso a esse detalhe adicional, os construtores de classe individuais na verdade geram as subclasses <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> <a class="reference internal" href="../library/ipaddress.html#ipaddress.AddressValueError" title="ipaddress.AddressValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ipaddress.AddressValueError</span></code></a> e <a class="reference internal" href="../library/ipaddress.html#ipaddress.NetmaskValueError" title="ipaddress.NetmaskValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ipaddress.NetmaskValueError</span></code></a> para indicar exatamente qual parte da definição falhou ao ser analisada corretamente.</p>
+<p class="translated">As mensagens de erro são significativamente mais detalhadas ao usar os construtores de classe diretamente. Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="s2">"192.168.0.256"</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">  </span><span class="c">...</span>
+<span class="gr">ValueError</span>: <span class="n">'192.168.0.256' does not appear to be an IPv4 or IPv6 address</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv4Address</span><span class="p">(</span><span class="s2">"192.168.0.256"</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">  </span><span class="c">...</span>
+<span class="gr">ipaddress.AddressValueError</span>: <span class="n">Octet 256 (&gt; 255) not permitted in '192.168.0.256'</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="s2">"192.168.0.1/64"</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">  </span><span class="c">...</span>
+<span class="gr">ValueError</span>: <span class="n">'192.168.0.1/64' does not appear to be an IPv4 or IPv6 network</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv4Network</span><span class="p">(</span><span class="s2">"192.168.0.1/64"</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">  </span><span class="c">...</span>
+<span class="gr">ipaddress.NetmaskValueError</span>: <span class="n">'64' is not a valid netmask</span>
+</pre></div>
+</div>
+<p class="translated">Entretanto, ambas as exceções específicas do módulo têm <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> como classe pai, então se você não estiver preocupado com o tipo específico de erro, você ainda pode escrever código como o seguinte:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">IPv4Network</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'endereço/máscara de rede é inválida para IPv4:'</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Uma introdução ao módulo ipaddress</a><ul>
+<li><a class="reference internal" href="#creating-address-network-interface-objects">Criando objetos de Endereço/Rede/Interface</a><ul>
+<li><a class="reference internal" href="#a-note-on-ip-versions">Uma observação sobre versões do IP</a></li>
+<li><a class="reference internal" href="#ip-host-addresses">Endereços IP de host</a></li>
+<li><a class="reference internal" href="#defining-networks">Definindo redes</a></li>
+<li><a class="reference internal" href="#host-interfaces">Interfaces do host</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#inspecting-address-network-interface-objects">Inspecionando objetos endereço/rede/interface</a></li>
+<li><a class="reference internal" href="#networks-as-lists-of-addresses">Redes como listas de Addresses</a></li>
+<li><a class="reference internal" href="#comparisons">Comparações</a></li>
+<li><a class="reference internal" href="#using-ip-addresses-with-other-modules">Usando endereços IP com outros módulos</a></li>
+<li><a class="reference internal" href="#getting-more-detail-when-instance-creation-fails">Obtendo mais detalhes quando a criação da instância falha</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="urllib2.html"
+                          title="capítulo anterior">Como buscar recursos da Internet usando o pacote urllib</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="instrumentation.html"
+                          title="próximo capítulo">Instrumentando o CPython com DTrace e SystemTap</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "howto/ipaddress.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/howto/ipaddress.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/howto/ipaddress.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="instrumentation.html" title="Instrumentando o CPython com DTrace e SystemTap"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="urllib2.html" title="Como buscar recursos da Internet usando o pacote urllib"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python HOWTOs</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Uma introdução ao módulo ipaddress</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

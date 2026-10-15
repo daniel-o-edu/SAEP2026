@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="winsound — Interface de reprodução de som para o Windows" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/winsound.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: PC/winsound.c O módulo winsound fornece acesso ao mecanismo básico de reprodução de som fornecido pelas plataformas Windows. Inclui funções e várias constantes. Disponibilidade: Windo..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_winsound_ffdd2b5f.png" />
+<meta property="og:image:alt" content="Código-fonte: PC/winsound.c O módulo winsound fornece acesso ao mecanismo básico de reprodução de som fornecido pelas plataformas Windows. Inclui funções e várias constantes. Disponibilidade: Windo..." />
+<meta name="description" content="Código-fonte: PC/winsound.c O módulo winsound fornece acesso ao mecanismo básico de reprodução de som fornecido pelas plataformas Windows. Inclui funções e várias constantes. Disponibilidade: Windo..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>winsound — Interface de reprodução de som para o Windows &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Serviços específicos do Unix" href="unix.html" />
+    <link rel="prev" title="winreg — Acesso aos registros do Windows" href="winreg.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/winsound.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winsound</span></code> — Interface de reprodução de som para o Windows</a><ul>
+<li><a class="reference internal" href="#functions">Funções</a></li>
+<li><a class="reference internal" href="#constants">Constantes</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="winreg.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winreg</span></code> — Acesso aos registros do Windows</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="unix.html"
+                          title="próximo capítulo">Serviços específicos do Unix</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/winsound.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/winsound.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/winsound.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="unix.html" title="Serviços específicos do Unix"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="winreg.html" title="winreg — Acesso aos registros do Windows"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="windows.html" accesskey="U">Serviços Específicos do MS Windows</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">winsound</span></code> — Interface de reprodução de som para o Windows</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-winsound">
+<span id="winsound-sound-playing-interface-for-windows"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winsound</span></code> — Interface de reprodução de som para o Windows<a class="headerlink" href="#module-winsound" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/PC/winsound.c">PC/winsound.c</a></p>
+<hr class="docutils" />
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">winsound</span></code> fornece acesso ao mecanismo básico de reprodução de som fornecido pelas plataformas Windows. Inclui funções e várias constantes.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Windows.</p>
+</div>
+<section id="functions">
+<h2 class="translated">Funções<a class="headerlink" href="#functions" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="winsound.Beep">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">Beep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frequency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winsound.Beep" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Emite um bipe no alto-falante do PC. O parâmetro <em>frequency</em> especifica a frequência, em hertz, do som e deve estar no intervalo de 37 a 32.767. O parâmetro <em>duration</em> especifica o número de milissegundos que o som deve durar. Se o sistema não conseguir emitir um bipe no alto-falante, <a class="reference internal" href="../builtins/exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a> é levantado.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winsound.PlaySound">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">PlaySound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sound</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winsound.PlaySound" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Chama a função subjacente <code class="xref c c-func docutils literal notranslate"><span class="pre">PlaySound()</span></code> da API da plataforma. O parâmetro <em>sound</em> pode ser um nome de arquivo, um apelido de som do sistema, dados de áudio como um <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">objeto bytes ou similar</span></a> ou <code class="docutils literal notranslate"><span class="pre">None</span></code>. Sua interpretação depende do valor de <em>flags</em>, que pode ser uma combinação OU bit a bit das constantes descritas abaixo. Se o parâmetro <em>sound</em> for <code class="docutils literal notranslate"><span class="pre">None</span></code>, qualquer som de forma de onda em execução no momento será interrompido. Se o sistema indicar um erro, <a class="reference internal" href="../builtins/exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a> será levantada.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="winsound.MessageBeep">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">MessageBeep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">MB_OK</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#winsound.MessageBeep" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Chama a função subjacente <code class="xref c c-func docutils literal notranslate"><span class="pre">MessageBeep()</span></code> da API da plataforma. Isso reproduz um som conforme especificado no registro. O argumento <em>type</em> especifica qual som reproduzir; os valores possíveis são <code class="docutils literal notranslate"><span class="pre">-1</span></code>, <code class="docutils literal notranslate"><span class="pre">MB_ICONASTERISK</span></code>, <code class="docutils literal notranslate"><span class="pre">MB_ICONEXCLAMATION</span></code>, <code class="docutils literal notranslate"><span class="pre">MB_ICONHAND</span></code>, <code class="docutils literal notranslate"><span class="pre">MB_ICONQUESTION</span></code> e <code class="docutils literal notranslate"><span class="pre">MB_OK</span></code>, todos descritos abaixo. O valor <code class="docutils literal notranslate"><span class="pre">-1</span></code> produz um “bipe simples”; este é o fallback final se um som não puder ser reproduzido de outra forma. Se o sistema indicar um erro, <a class="reference internal" href="../builtins/exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a> será levantada.</p>
+</dd></dl>
+
+</section>
+<section id="constants">
+<h2 class="translated">Constantes<a class="headerlink" href="#constants" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.SND_FILENAME">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">SND_FILENAME</span></span><a class="headerlink" href="#winsound.SND_FILENAME" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O parâmetro <em>sound</em> é o nome de um arquivo WAV. Não use com <a class="reference internal" href="#winsound.SND_ALIAS" title="winsound.SND_ALIAS"><code class="xref py py-const docutils literal notranslate"><span class="pre">SND_ALIAS</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.SND_ALIAS">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">SND_ALIAS</span></span><a class="headerlink" href="#winsound.SND_ALIAS" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O parâmetro <em>sound</em> é um nome de associação de som do registro. Se o registro não contiver tal nome, reproduza o som padrão do sistema, a menos que <a class="reference internal" href="#winsound.SND_NODEFAULT" title="winsound.SND_NODEFAULT"><code class="xref py py-const docutils literal notranslate"><span class="pre">SND_NODEFAULT</span></code></a> também seja especificado. Se nenhum som padrão for registrado, levanta <a class="reference internal" href="../builtins/exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>. Não use com <a class="reference internal" href="#winsound.SND_FILENAME" title="winsound.SND_FILENAME"><code class="xref py py-const docutils literal notranslate"><span class="pre">SND_FILENAME</span></code></a>.</p>
+<p class="translated">Todos os sistemas Win32 oferecem suporte a pelo menos o seguinte; a maioria dos sistemas oferecem suporte a muito mais:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated"><em>name</em> <a class="reference internal" href="#winsound.PlaySound" title="winsound.PlaySound"><code class="xref py py-func docutils literal notranslate"><span class="pre">PlaySound()</span></code></a></p></th>
+<th class="head"><p class="translated">Nome do som correspondente no Painel de Controle</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'SystemAsterisk'</span></code></p></td>
+<td><p class="translated">Asterisco</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'SystemExclamation'</span></code></p></td>
+<td><p class="translated">Exclamação</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'SystemExit'</span></code></p></td>
+<td><p class="translated">Logoff do Windows</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'SystemHand'</span></code></p></td>
+<td><p class="translated">Parada crítica</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">'SystemQuestion'</span></code></p></td>
+<td><p class="translated">Pergunta</p></td>
+</tr>
+</tbody>
+</table>
+<p class="translated">Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">winsound</span>
+<span class="c1"># Reproduz o som de logoff do Windows.</span>
+<span class="n">winsound</span><span class="o">.</span><span class="n">PlaySound</span><span class="p">(</span><span class="s2">"SystemExit"</span><span class="p">,</span> <span class="n">winsound</span><span class="o">.</span><span class="n">SND_ALIAS</span><span class="p">)</span>
+
+<span class="c1"># Provavelmente reproduz o som padrão do Windows, se algum</span>
+<span class="c1"># estiver registrado (porque "*" provavelmente não é o nome registrado</span>
+<span class="c1"># de algum som).</span>
+<span class="n">winsound</span><span class="o">.</span><span class="n">PlaySound</span><span class="p">(</span><span class="s2">"*"</span><span class="p">,</span> <span class="n">winsound</span><span class="o">.</span><span class="n">SND_ALIAS</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.SND_LOOP">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">SND_LOOP</span></span><a class="headerlink" href="#winsound.SND_LOOP" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Reproduz o som repetidamente. O sinalizador <a class="reference internal" href="#winsound.SND_ASYNC" title="winsound.SND_ASYNC"><code class="xref py py-const docutils literal notranslate"><span class="pre">SND_ASYNC</span></code></a> também deve ser usado para evitar bloqueio. Não pode ser usado com <a class="reference internal" href="#winsound.SND_MEMORY" title="winsound.SND_MEMORY"><code class="xref py py-const docutils literal notranslate"><span class="pre">SND_MEMORY</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.SND_MEMORY">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">SND_MEMORY</span></span><a class="headerlink" href="#winsound.SND_MEMORY" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O parâmetro <em>sound</em> para <a class="reference internal" href="#winsound.PlaySound" title="winsound.PlaySound"><code class="xref py py-func docutils literal notranslate"><span class="pre">PlaySound()</span></code></a> é uma imagem de memória de um arquivo WAV, como um <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">objeto bytes ou similar</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Este módulo não oferece suporte à reprodução de uma imagem de memória de forma assíncrona, portanto, uma combinação deste sinalizador e <a class="reference internal" href="#winsound.SND_ASYNC" title="winsound.SND_ASYNC"><code class="xref py py-const docutils literal notranslate"><span class="pre">SND_ASYNC</span></code></a> levantará <a class="reference internal" href="../builtins/exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.SND_PURGE">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">SND_PURGE</span></span><a class="headerlink" href="#winsound.SND_PURGE" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Para de reproduzir todas as instâncias do som especificado.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Não há suporte a este sinalizador em plataformas Windows modernas.</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.SND_ASYNC">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">SND_ASYNC</span></span><a class="headerlink" href="#winsound.SND_ASYNC" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna imediatamente, permitindo que os sons sejam reproduzidos de forma assíncrona.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.SND_NODEFAULT">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">SND_NODEFAULT</span></span><a class="headerlink" href="#winsound.SND_NODEFAULT" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Se o som especificado não for encontrado, o som padrão do sistema não será reproduzido.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.SND_NOSTOP">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">SND_NOSTOP</span></span><a class="headerlink" href="#winsound.SND_NOSTOP" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Não interrompe os sons que estão sendo reproduzidos.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.SND_NOWAIT">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">SND_NOWAIT</span></span><a class="headerlink" href="#winsound.SND_NOWAIT" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna imediatamente se o driver de som estiver ocupado.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Não há suporte a este sinalizador em plataformas Windows modernas.</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.SND_APPLICATION">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">SND_APPLICATION</span></span><a class="headerlink" href="#winsound.SND_APPLICATION" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O parâmetro <em>sound</em> é um apelido específico da aplicação no registro. Este sinalizador pode ser combinado com o sinalizador <a class="reference internal" href="#winsound.SND_ALIAS" title="winsound.SND_ALIAS"><code class="xref py py-const docutils literal notranslate"><span class="pre">SND_ALIAS</span></code></a> para especificar um apelido de som definido pela aplicação.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.SND_SENTRY">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">SND_SENTRY</span></span><a class="headerlink" href="#winsound.SND_SENTRY" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Aciona um evento SoundSentry quando o som é reproduzido.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.SND_SYNC">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">SND_SYNC</span></span><a class="headerlink" href="#winsound.SND_SYNC" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O som é reproduzido de forma sincronizada. Este é o comportamento padrão.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.SND_SYSTEM">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">SND_SYSTEM</span></span><a class="headerlink" href="#winsound.SND_SYSTEM" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Atribui o som à sessão de áudio para sons de notificação do sistema.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.MB_ICONASTERISK">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">MB_ICONASTERISK</span></span><a class="headerlink" href="#winsound.MB_ICONASTERISK" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Reproduz o som <code class="docutils literal notranslate"><span class="pre">SystemDefault</span></code>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.MB_ICONEXCLAMATION">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">MB_ICONEXCLAMATION</span></span><a class="headerlink" href="#winsound.MB_ICONEXCLAMATION" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Reproduz o som <code class="docutils literal notranslate"><span class="pre">SystemExclamation</span></code>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.MB_ICONHAND">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">MB_ICONHAND</span></span><a class="headerlink" href="#winsound.MB_ICONHAND" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Reproduz o som <code class="docutils literal notranslate"><span class="pre">SystemHand</span></code>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.MB_ICONQUESTION">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">MB_ICONQUESTION</span></span><a class="headerlink" href="#winsound.MB_ICONQUESTION" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Reproduz o som <code class="docutils literal notranslate"><span class="pre">SystemQuestion</span></code>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.MB_OK">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">MB_OK</span></span><a class="headerlink" href="#winsound.MB_OK" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Reproduz o som <code class="docutils literal notranslate"><span class="pre">SystemDefault</span></code>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.MB_ICONERROR">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">MB_ICONERROR</span></span><a class="headerlink" href="#winsound.MB_ICONERROR" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Reproduz o som <code class="docutils literal notranslate"><span class="pre">SystemHand</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.MB_ICONINFORMATION">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">MB_ICONINFORMATION</span></span><a class="headerlink" href="#winsound.MB_ICONINFORMATION" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Reproduz o som <code class="docutils literal notranslate"><span class="pre">SystemDefault</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.MB_ICONSTOP">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">MB_ICONSTOP</span></span><a class="headerlink" href="#winsound.MB_ICONSTOP" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Reproduz o som <code class="docutils literal notranslate"><span class="pre">SystemHand</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="winsound.MB_ICONWARNING">
+<span class="sig-prename descclassname"><span class="pre">winsound.</span></span><span class="sig-name descname"><span class="pre">MB_ICONWARNING</span></span><a class="headerlink" href="#winsound.MB_ICONWARNING" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Reproduz o som <code class="docutils literal notranslate"><span class="pre">SystemExclamation</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winsound</span></code> — Interface de reprodução de som para o Windows</a><ul>
+<li><a class="reference internal" href="#functions">Funções</a></li>
+<li><a class="reference internal" href="#constants">Constantes</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="winreg.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">winreg</span></code> — Acesso aos registros do Windows</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="unix.html"
+                          title="próximo capítulo">Serviços específicos do Unix</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/winsound.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/winsound.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/winsound.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="unix.html" title="Serviços específicos do Unix"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="winreg.html" title="winreg — Acesso aos registros do Windows"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="windows.html" >Serviços Específicos do MS Windows</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">winsound</span></code> — Interface de reprodução de som para o Windows</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Extensão" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/asyncio-extending.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="A direção principal para estender o módulo asyncio é escrever classes de laços de eventos personalizados. O Asyncio tem funções auxiliares que podem ser usadas para simplificar essa tarefa. Escreve..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_asyncio-extending_d3ff36a1.png" />
+<meta property="og:image:alt" content="A direção principal para estender o módulo asyncio é escrever classes de laços de eventos personalizados. O Asyncio tem funções auxiliares que podem ser usadas para simplificar essa tarefa. Escreve..." />
+<meta name="description" content="A direção principal para estender o módulo asyncio é escrever classes de laços de eventos personalizados. O Asyncio tem funções auxiliares que podem ser usadas para simplificar essa tarefa. Escreve..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Extensão &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Índice da API de alto nível" href="asyncio-api-index.html" />
+    <link rel="prev" title="Suporte a plataformas" href="asyncio-platforms.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/asyncio-extending.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Extensão</a><ul>
+<li><a class="reference internal" href="#writing-a-custom-event-loop">Escrevendo um laço de eventos personalizado</a></li>
+<li><a class="reference internal" href="#future-and-task-private-constructors">Construtores privados de Future e Task</a></li>
+<li><a class="reference internal" href="#task-lifetime-support">Suporte ao ciclo de vida de tarefas</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="asyncio-platforms.html"
+                          title="capítulo anterior">Suporte a plataformas</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="asyncio-api-index.html"
+                          title="próximo capítulo">Índice da API de alto nível</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/asyncio-extending.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/asyncio-extending.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/asyncio-extending.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="asyncio-api-index.html" title="Índice da API de alto nível"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="asyncio-platforms.html" title="Suporte a plataformas"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="ipc.html" >Comunicação em Rede e Interprocesso</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="asyncio.html" accesskey="U"><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> — E/S assíncrona</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Extensão</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="extending">
+<h1 class="translated">Extensão<a class="headerlink" href="#extending" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated">A direção principal para estender o módulo <a class="reference internal" href="asyncio.html#module-asyncio" title="asyncio: Asynchronous I/O."><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code></a> é escrever classes de <em>laços de eventos</em> personalizados. O Asyncio tem funções auxiliares que podem ser usadas para simplificar essa tarefa.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Terceiros devem reutilizar o código assíncrono existente com cuidado. Uma versão nova de Python pode quebrar a compatibilidade com versões anteriores da parte <em>interna</em> da API.</p>
+</div>
+<section id="writing-a-custom-event-loop">
+<h2 class="translated">Escrevendo um laço de eventos personalizado<a class="headerlink" href="#writing-a-custom-event-loop" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated"><a class="reference internal" href="asyncio-eventloop.html#asyncio.AbstractEventLoop" title="asyncio.AbstractEventLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">asyncio.AbstractEventLoop</span></code></a> declara muitos métodos. Implementar todos eles do zero é um trabalho tedioso.</p>
+<p class="translated">Um laço de eventos pode herdar várias implementações de métodos da classe <code class="xref py py-class docutils literal notranslate"><span class="pre">asyncio.BaseEventLoop</span></code>.</p>
+<p class="translated">Por sua vez, o sucessor deve implementar um conjunto de métodos <em>privados</em> declarados, porém não implementados, em <code class="xref py py-class docutils literal notranslate"><span class="pre">asyncio.BaseEventLoop</span></code>.</p>
+<p class="translated">Por exemplo, <code class="docutils literal notranslate"><span class="pre">loop.create_connection()``verifica</span> <span class="pre">os</span> <span class="pre">argumentos,</span> <span class="pre">resolve</span> <span class="pre">endereços</span> <span class="pre">DNS,</span> <span class="pre">e</span> <span class="pre">chama</span> <span class="pre">a</span> <span class="pre">função</span> <span class="pre">``loop._make_socket_transport()</span></code>, que deve ser implementada pela classe herdada. O método``_make_socket_transport()`` não está documentado, e é considerado parte de uma API <em>interna</em>.</p>
+</section>
+<section id="future-and-task-private-constructors">
+<h2 class="translated">Construtores privados de Future e Task<a class="headerlink" href="#future-and-task-private-constructors" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">As classes <a class="reference internal" href="asyncio-future.html#asyncio.Future" title="asyncio.Future"><code class="xref py py-class docutils literal notranslate"><span class="pre">asyncio.Future</span></code></a> e <a class="reference internal" href="asyncio-task.html#asyncio.Task" title="asyncio.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">asyncio.Task</span></code></a> nunca deverão ser criadas diretamente. Por favor, as substitua pelas <em>factories</em> correspondentes: <a class="reference internal" href="asyncio-eventloop.html#asyncio.loop.create_future" title="asyncio.loop.create_future"><code class="xref py py-meth docutils literal notranslate"><span class="pre">loop.create_future()</span></code></a> e <a class="reference internal" href="asyncio-eventloop.html#asyncio.loop.create_task" title="asyncio.loop.create_task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">loop.create_task()</span></code></a> ou <a class="reference internal" href="asyncio-task.html#asyncio.create_task" title="asyncio.create_task"><code class="xref py py-func docutils literal notranslate"><span class="pre">asyncio.create_task()</span></code></a>.</p>
+<p class="translated">Porém, <em>laços de eventos</em> de terceiros podem <em>reutilizar</em> as implementações embutidas de Future e Task, obtendo um código complexo e altamente otimizado.</p>
+<p class="translated">Por isso, segue a listagem de construtores <em>privados</em>:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Future.__init__">
+<span class="sig-prename descclassname"><span class="pre">Future.</span></span><span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Future.__init__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cria uma instância de Future embutida.</p>
+<p class="translated"><em>loop</em> é uma instância opcional do laço de eventos.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="asyncio.Task.__init__">
+<span class="sig-prename descclassname"><span class="pre">Task.</span></span><span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coro</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.Task.__init__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cria uma instância embutida de Task.</p>
+<p class="translated"><em>loop</em> é uma instância opcional do laço de eventos. Os outros argumentos estão descritos em <a class="reference internal" href="asyncio-eventloop.html#asyncio.loop.create_task" title="asyncio.loop.create_task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">loop.create_task()</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.11: </span>o argumento <em>context</em> foi adicionado</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="task-lifetime-support">
+<h2 class="translated">Suporte ao ciclo de vida de tarefas<a class="headerlink" href="#task-lifetime-support" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Implementações de Task de terceiros devem chamar as seguintes funções para manter uma tarefa visível para <a class="reference internal" href="asyncio-task.html#asyncio.all_tasks" title="asyncio.all_tasks"><code class="xref py py-func docutils literal notranslate"><span class="pre">asyncio.all_tasks()</span></code></a> e <a class="reference internal" href="asyncio-task.html#asyncio.current_task" title="asyncio.current_task"><code class="xref py py-func docutils literal notranslate"><span class="pre">asyncio.current_task()</span></code></a>:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="asyncio._register_task">
+<span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">_register_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio._register_task" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Registra uma nova <em>task</em> como gerenciada pelo <em>asyncio</em>.</p>
+<p class="translated">Chame esta função no construtor de uma tarefa.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="asyncio._unregister_task">
+<span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">_unregister_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio._unregister_task" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cancela o registro de <em>task</em> nas estruturas internas do <em>asyncio</em>.</p>
+<p class="translated">Chame esta função quando a tarefa estiver terminando.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="asyncio._enter_task">
+<span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">_enter_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio._enter_task" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Troca a tarefa atual para o argumento <em>task</em>.</p>
+<p class="translated">Chame esta função logo antes de executar uma porção da <em>corrotina</em> embutida (<a class="reference internal" href="../reference/datamodel.html#coroutine.send" title="coroutine.send"><code class="xref py py-meth docutils literal notranslate"><span class="pre">coroutine.send()</span></code></a> ou <a class="reference internal" href="../reference/datamodel.html#coroutine.throw" title="coroutine.throw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">coroutine.throw()</span></code></a>).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="asyncio._leave_task">
+<span class="sig-prename descclassname"><span class="pre">asyncio.</span></span><span class="sig-name descname"><span class="pre">_leave_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio._leave_task" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Troca a tarefa atual de <em>task</em> para <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<p class="translated">Chame esta função logo após executar <a class="reference internal" href="../reference/datamodel.html#coroutine.send" title="coroutine.send"><code class="xref py py-meth docutils literal notranslate"><span class="pre">coroutine.send()</span></code></a> ou <a class="reference internal" href="../reference/datamodel.html#coroutine.throw" title="coroutine.throw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">coroutine.throw()</span></code></a>.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Extensão</a><ul>
+<li><a class="reference internal" href="#writing-a-custom-event-loop">Escrevendo um laço de eventos personalizado</a></li>
+<li><a class="reference internal" href="#future-and-task-private-constructors">Construtores privados de Future e Task</a></li>
+<li><a class="reference internal" href="#task-lifetime-support">Suporte ao ciclo de vida de tarefas</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="asyncio-platforms.html"
+                          title="capítulo anterior">Suporte a plataformas</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="asyncio-api-index.html"
+                          title="próximo capítulo">Índice da API de alto nível</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/asyncio-extending.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/asyncio-extending.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/asyncio-extending.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="asyncio-api-index.html" title="Índice da API de alto nível"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="asyncio-platforms.html" title="Suporte a plataformas"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="ipc.html" >Comunicação em Rede e Interprocesso</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="asyncio.html" ><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> — E/S assíncrona</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Extensão</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

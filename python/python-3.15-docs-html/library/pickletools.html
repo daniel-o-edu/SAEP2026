@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="pickletools — Ferramentas para desenvolvedores pickle" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/pickletools.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/pickletools.py Este módulo contém várias constantes relacionadas aos detalhes íntimos do módulo pickle, alguns comentários extensos sobre a implementação e algumas funções úteis p..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_pickletools_cc91b02f.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/pickletools.py Este módulo contém várias constantes relacionadas aos detalhes íntimos do módulo pickle, alguns comentários extensos sobre a implementação e algumas funções úteis p..." />
+<meta name="description" content="Código-fonte: Lib/pickletools.py Este módulo contém várias constantes relacionadas aos detalhes íntimos do módulo pickle, alguns comentários extensos sobre a implementação e algumas funções úteis p..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>pickletools — Ferramentas para desenvolvedores pickle &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Serviços Específicos do MS Windows" href="windows.html" />
+    <link rel="prev" title="dis — Disassembler de bytecode do Python" href="dis.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/pickletools.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pickletools</span></code> — Ferramentas para desenvolvedores pickle</a><ul>
+<li><a class="reference internal" href="#command-line-usage">Uso na linha de comando</a><ul>
+<li><a class="reference internal" href="#command-line-options">Opções de linha de comando</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#programmatic-interface">Interface programática</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="dis.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dis</span></code> — Disassembler de bytecode do Python</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="windows.html"
+                          title="próximo capítulo">Serviços Específicos do MS Windows</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/pickletools.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/pickletools.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/pickletools.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="windows.html" title="Serviços Específicos do MS Windows"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="dis.html" title="dis — Disassembler de bytecode do Python"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="language.html" accesskey="U">Serviços da Linguagem Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">pickletools</span></code> — Ferramentas para desenvolvedores pickle</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-pickletools">
+<span id="pickletools-tools-for-pickle-developers"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pickletools</span></code> — Ferramentas para desenvolvedores pickle<a class="headerlink" href="#module-pickletools" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/pickletools.py">Lib/pickletools.py</a></p>
+<hr class="docutils" />
+<p class="translated">Este módulo contém várias constantes relacionadas aos detalhes íntimos do módulo <a class="reference internal" href="pickle.html#module-pickle" title="pickle: Convert Python objects to streams of bytes and back."><code class="xref py py-mod docutils literal notranslate"><span class="pre">pickle</span></code></a>, alguns comentários extensos sobre a implementação e algumas funções úteis para analisar dados em conserva. O conteúdo deste módulo é útil para desenvolvedores do núcleo Python que estão trabalhando no <code class="xref py py-mod docutils literal notranslate"><span class="pre">pickle</span></code>; usuários comuns do módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">pickle</span></code> provavelmente não acharão o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">pickletools</span></code> relevante.</p>
+<section id="command-line-usage">
+<span id="pickletools-cli"></span><h2 class="translated">Uso na linha de comando<a class="headerlink" href="#command-line-usage" title="Link para este cabeçalho">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.2.</span></p>
+</div>
+<p class="translated">Quando chamado a partir da linha de comando, <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pickletools</span></code> irá desmontar o conteúdo de um ou mais arquivos pickle. Note que se você quiser ver o objeto Python armazenado serializado em pickle ao invés dos detalhes do formato pickle, você pode usar <code class="docutils literal notranslate"><span class="pre">-m</span> <span class="pre">pickle</span></code>. No entanto, quando o arquivo serializado em pickle que você deseja examinar vem de uma fonte não confiável, <code class="docutils literal notranslate"><span class="pre">-m</span> <span class="pre">pickletools</span></code> é uma opção mais segura porque não executa bytecode pickle.</p>
+<p class="translated">Por exemplo, com uma tupla <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">2)</span></code> tratada com pickling no arquivo <code class="docutils literal notranslate"><span class="pre">x.pickle</span></code>:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pickle<span class="w"> </span>x.pickle
+<span class="gp gp-VirtualEnv">(1, 2)</span>
+
+<span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pickletools<span class="w"> </span>x.pickle
+<span class="go">    0: \x80 PROTO      3</span>
+<span class="go">    2: K    BININT1    1</span>
+<span class="go">    4: K    BININT1    2</span>
+<span class="go">    6: \x86 TUPLE2</span>
+<span class="go">    7: q    BINPUT     0</span>
+<span class="go">    9: .    STOP</span>
+<span class="go">highest protocol among opcodes = 2</span>
+</pre></div>
+</div>
+<section id="command-line-options">
+<h3 class="translated">Opções de linha de comando<a class="headerlink" href="#command-line-options" title="Link para este cabeçalho">¶</a></h3>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-pickletools-a">
+<span id="cmdoption-pickletools-annotate"></span><span class="sig-name descname"><span class="pre">-a</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--annotate</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-pickletools-a" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Anota cada linha com uma descrição curta do código de operação.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-pickletools-o">
+<span id="cmdoption-pickletools-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"><span class="pre">=&lt;file&gt;</span></span><a class="headerlink" href="#cmdoption-pickletools-o" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Nome de um arquivo no qual a saída deve ser escrita.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-pickletools-l">
+<span id="cmdoption-pickletools-indentlevel"></span><span class="sig-name descname"><span class="pre">-l</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--indentlevel</span></span><span class="sig-prename descclassname"><span class="pre">=&lt;num&gt;</span></span><a class="headerlink" href="#cmdoption-pickletools-l" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O número de espaços em branco para indentar um novo nível MARK.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-pickletools-m">
+<span id="cmdoption-pickletools-memo"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--memo</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-pickletools-m" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Quando vários objetos são desmontados, preserva memo entre as desmontagens.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-pickletools-p">
+<span id="cmdoption-pickletools-preamble"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--preamble</span></span><span class="sig-prename descclassname"><span class="pre">=&lt;preamble&gt;</span></span><a class="headerlink" href="#cmdoption-pickletools-p" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Quando mais de um arquivo serializado com pickle for especificado, exibe o preâmbulo fornecido antes de cada desmontagem.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-pickletools-arg-pickle_file">
+<span class="sig-name descname"><span class="pre">pickle_file</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-pickletools-arg-pickle_file" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um arquivo serializado com pickle para ler, ou <code class="docutils literal notranslate"><span class="pre">-</span></code> para indicar leitura da entrada padrão.</p>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.15: </span>A saída é colorida por padrão e ela pode ser <a class="reference internal" href="../using/cmdline.html#using-on-controlling-color"><span class="std std-ref">controlada usando variáveis de ambiente</span></a>.</p>
+</div>
+</section>
+</section>
+<section id="programmatic-interface">
+<h2 class="translated">Interface programática<a class="headerlink" href="#programmatic-interface" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pickletools.dis">
+<span class="sig-prename descclassname"><span class="pre">pickletools.</span></span><span class="sig-name descname"><span class="pre">dis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pickle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indentlevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pickletools.dis" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Produz uma desmontagem simbólica do pickle para o objeto arquivo ou similar <em>out</em>, tendo como padrão <code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code>. <em>pickle</em> pode ser uma string ou um objeto arquivo ou similar. <em>memo</em> pode ser um dicionário Python que será usado como memo do pickle; ele pode ser usado para realizar desmontagens em várias serializações com pickle criadas pelo mesmo pickler. Níveis sucessivos, indicados por códigos de operação <code class="docutils literal notranslate"><span class="pre">MARK</span></code> no fluxo, são indentados por espaços <em>indentlevel</em>. Se um valor diferente de zero for fornecido para <em>annotate</em>, cada código de operação na saída será anotado com uma breve descrição. O valor de <em>annotate</em> é usado como uma dica para a coluna onde a anotação deve começar.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.2: </span>Adicionado o parâmetro <em>annotate</em>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pickletools.genops">
+<span class="sig-prename descclassname"><span class="pre">pickletools.</span></span><span class="sig-name descname"><span class="pre">genops</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pickle</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pickletools.genops" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Fornece um <a class="reference internal" href="../glossary.html#term-iterator"><span class="xref std std-term">iterador</span></a> sobre todos os códigos de operação em uma serialização com pickle, retornando uma sequência de triplos <code class="docutils literal notranslate"><span class="pre">(opcode,</span> <span class="pre">arg,</span> <span class="pre">pos)</span></code>. <em>opcode</em> é uma instância de uma classe <code class="xref py py-class docutils literal notranslate"><span class="pre">OpcodeInfo</span></code>; <em>arg</em> é o valor decodificado, como um objeto Python, do argumento do opcode; <em>pos</em> é a posição em que este código de operação está localizado. <em>pickle</em> pode ser uma string ou um objeto arquivo ou similar.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pickletools.optimize">
+<span class="sig-prename descclassname"><span class="pre">pickletools.</span></span><span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">picklestring</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pickletools.optimize" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma nova string pickle equivalente após eliminar códigos de operação <code class="docutils literal notranslate"><span class="pre">PUT</span></code> não utilizados. O pickle otimizado é mais curto, leva menos tempo de transmissão, requer menos espaço de armazenamento e efetua unpickling com mais eficiência.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pickletools</span></code> — Ferramentas para desenvolvedores pickle</a><ul>
+<li><a class="reference internal" href="#command-line-usage">Uso na linha de comando</a><ul>
+<li><a class="reference internal" href="#command-line-options">Opções de linha de comando</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#programmatic-interface">Interface programática</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="dis.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dis</span></code> — Disassembler de bytecode do Python</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="windows.html"
+                          title="próximo capítulo">Serviços Específicos do MS Windows</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/pickletools.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/pickletools.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/pickletools.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="windows.html" title="Serviços Específicos do MS Windows"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="dis.html" title="dis — Disassembler de bytecode do Python"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="language.html" >Serviços da Linguagem Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">pickletools</span></code> — Ferramentas para desenvolvedores pickle</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

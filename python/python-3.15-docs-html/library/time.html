@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="time — Acesso e conversões de tempo" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/time.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Esse módulo provê várias funções relacionadas à tempo. Para funcionalidades relacionadas veja também os módulos datetime e calendar Apesar desse módulo sempre estar disponível, nem todas as suas fu..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_time_762773d0.png" />
+<meta property="og:image:alt" content="Esse módulo provê várias funções relacionadas à tempo. Para funcionalidades relacionadas veja também os módulos datetime e calendar Apesar desse módulo sempre estar disponível, nem todas as suas fu..." />
+<meta name="description" content="Esse módulo provê várias funções relacionadas à tempo. Para funcionalidades relacionadas veja também os módulos datetime e calendar Apesar desse módulo sempre estar disponível, nem todas as suas fu..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>time — Acesso e conversões de tempo &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="logging — Recursos de registro de eventos para Python" href="logging.html" />
+    <link rel="prev" title="io — Ferramentas essenciais para trabalhar com fluxos" href="io.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/time.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">time</span></code> — Acesso e conversões de tempo</a><ul>
+<li><a class="reference internal" href="#functions">Funções</a></li>
+<li><a class="reference internal" href="#clock-id-constants">Constantes de ID de Relógio</a></li>
+<li><a class="reference internal" href="#timezone-constants">Constantes de Fuso Horário</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="io.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">io</span></code> — Ferramentas essenciais para trabalhar com fluxos</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="logging.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging</span></code> — Recursos de registro de eventos para Python</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/time.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/time.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/time.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="logging.html" title="logging — Recursos de registro de eventos para Python"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="io.html" title="io — Ferramentas essenciais para trabalhar com fluxos"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="allos.html" accesskey="U">Serviços Genéricos do Sistema Operacional</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">time</span></code> — Acesso e conversões de tempo</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-time">
+<span id="time-time-access-and-conversions"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">time</span></code> — Acesso e conversões de tempo<a class="headerlink" href="#module-time" title="Link para este cabeçalho">¶</a></h1>
+<hr class="docutils" />
+<p class="translated">Esse módulo provê várias funções relacionadas à tempo. Para funcionalidades relacionadas veja também os módulos <a class="reference internal" href="datetime.html#module-datetime" title="datetime: Basic date and time types."><code class="xref py py-mod docutils literal notranslate"><span class="pre">datetime</span></code></a> e <a class="reference internal" href="calendar.html#module-calendar" title="calendar: Functions for working with calendars, including some emulation of the Unix cal program."><code class="xref py py-mod docutils literal notranslate"><span class="pre">calendar</span></code></a></p>
+<p class="translated">Apesar desse módulo sempre estar disponível, nem todas as suas funções estão disponíveis em todas as plataformas. A maioria das funções definidas nesse módulo chamam funções da biblioteca da plataforma de C com mesmo nome.  Pode ser útil consultar a documentação da plataforma, pois da semântica dessas funções variam a depender da plataforma.</p>
+<p class="translated">A seguir, uma explicação de algumas terminologias e convenções.</p>
+<span id="epoch"></span><ul class="simple" id="index-0">
+<li><p class="translated">O <em class="dfn">era</em> (<em>epoch</em>) é o ponto onde o tempo começa, o valor de retorno de <code class="docutils literal notranslate"><span class="pre">time.gmtime(0)</span></code>. É 1º de janeiro de 1970, 00:00:00 (UTC) em todas as plataformas.</p></li>
+</ul>
+<ul class="simple" id="index-1">
+<li><p class="translated">O termo <em class="dfn">segundos desde a era</em> refere-se ao número total de segundos decorrido desde a era, tipicamente excluindo-se os <a class="reference external" href="https://en.wikipedia.org/wiki/Leap_second">segundos bissextos</a>. Segundos bissextos são excluídos desse total em todas as plataformas compatíveis com POSIX.</p></li>
+</ul>
+<ul class="simple" id="index-2">
+<li><p class="translated">As funções desse módulo podem não conseguir tratar de datas e horários antes do <a class="reference internal" href="#epoch">epoch</a> ou muito distantes no futuro. O limite no futuro é determinado pela biblioteca C; para sistemas de 32 bit, geralmente é 2038.</p></li>
+</ul>
+<ul class="simple" id="index-3">
+<li><p class="translated">A função <a class="reference internal" href="#time.strptime" title="time.strptime"><code class="xref py py-func docutils literal notranslate"><span class="pre">strptime()</span></code></a> pode analisar anos de 2 dígitos quando é passado o código de formato <code class="docutils literal notranslate"><span class="pre">%y</span></code>. Quando anos de 2 dígitos são analisados, eles são convertidos de acordo com os padrões POSIX e ISO C: valores 69–99 são mapeados para 1969–1999, e valores 0–68 são mapeados para 2000–2068.</p></li>
+</ul>
+<ul class="simple" id="index-4">
+<li><p class="translated">UTC é <a class="reference external" href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time">Coordinated Universal Time</a> (em português, Horário Universal Coordenado) e substituiu o GMT ou <a class="reference external" href="https://en.wikipedia.org/wiki/Greenwich_Mean_Time">Greenwich Mean Time</a> (em português, Horário Médio de Greenwich) como base da cronometragem internacional. A sigla UTC não é um erro, mas está em conformidade com um esquema de nomenclatura anterior, independente de idioma, para padrões de tempo como UT0, UT1 e UT2.</p></li>
+</ul>
+<ul id="index-5">
+<li><p class="translated">DST é Daylight Saving Time (Horário de Verão), um ajuste de fuso horário por (normalmente) uma hora durante parte do ano. As regras de Horário de Verão são mágicas (determinadas por leis locais) e podem mudar de ano a ano. A biblioteca C possui uma tabela contendo as regras locais (normalmente lidas de um arquivo de sistema por flexibilidade) e nesse contexto é a única fonte de Conhecimento Verdadeiro.</p></li>
+<li><p class="translated">A precisão de várias funções em tempo real podem ser menores do que o que pode estar sugerido pelas unidades nas quais seu valor ou argumento estão expressos. Por exemplo, na maioria dos sistemas Unix, o relógio “conta” apenas 50 ou 100 vezes por segundo.</p></li>
+<li><p class="translated">Por outro lado, a precisão de <a class="reference internal" href="#time.time" title="time.time"><code class="xref py py-func docutils literal notranslate"><span class="pre">time()</span></code></a> e <a class="reference internal" href="#time.sleep" title="time.sleep"><code class="xref py py-func docutils literal notranslate"><span class="pre">sleep()</span></code></a> é melhor do que suas equivalentes Unix: tempos são expressos como números em ponto flutuante, <code class="xref py py-func docutils literal notranslate"><span class="pre">time()</span></code> retorna o tempo mais preciso disponível (utilizando <code class="xref c c-func docutils literal notranslate"><span class="pre">gettimeofday()</span></code> do Unix, quando disponível) e <code class="xref py py-func docutils literal notranslate"><span class="pre">sleep()</span></code> irá aceitar qualquer tempo como uma fração não zero (<code class="xref c c-func docutils literal notranslate"><span class="pre">select()</span></code> do Unix é utilizada para implementar isto, quando disponível).</p></li>
+<li><p class="translated">O valor de tempo conforme retornado pelas <a class="reference internal" href="#time.gmtime" title="time.gmtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">gmtime()</span></code></a>, <a class="reference internal" href="#time.localtime" title="time.localtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">localtime()</span></code></a>, e <a class="reference internal" href="#time.strptime" title="time.strptime"><code class="xref py py-func docutils literal notranslate"><span class="pre">strptime()</span></code></a>, e aceito pelas <a class="reference internal" href="#time.asctime" title="time.asctime"><code class="xref py py-func docutils literal notranslate"><span class="pre">asctime()</span></code></a>, <a class="reference internal" href="#time.mktime" title="time.mktime"><code class="xref py py-func docutils literal notranslate"><span class="pre">mktime()</span></code></a> e <a class="reference internal" href="#time.strftime" title="time.strftime"><code class="xref py py-func docutils literal notranslate"><span class="pre">strftime()</span></code></a>, é uma sequência de 9 inteiros. Os valores retornados das <code class="xref py py-func docutils literal notranslate"><span class="pre">gmtime()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">localtime()</span></code>, e <code class="xref py py-func docutils literal notranslate"><span class="pre">strptime()</span></code> também oferecem nomes de atributo para campos individuais.</p>
+<p class="translated">Veja <a class="reference internal" href="#time.struct_time" title="time.struct_time"><code class="xref py py-class docutils literal notranslate"><span class="pre">struct_time</span></code></a> para a descrição desses objetos.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>O tipo <a class="reference internal" href="#time.struct_time" title="time.struct_time"><code class="xref py py-class docutils literal notranslate"><span class="pre">struct_time</span></code></a> foi estendido para prover os atributos <a class="reference internal" href="#time.struct_time.tm_gmtoff" title="time.struct_time.tm_gmtoff"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tm_gmtoff</span></code></a> e <a class="reference internal" href="#time.struct_time.tm_zone" title="time.struct_time.tm_zone"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tm_zone</span></code></a> quando a plataforma suporta os membros <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">tm</span></code> correspondentes</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Os atributos <a class="reference internal" href="#time.struct_time.tm_gmtoff" title="time.struct_time.tm_gmtoff"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tm_gmtoff</span></code></a> e <a class="reference internal" href="#time.struct_time.tm_zone" title="time.struct_time.tm_zone"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tm_zone</span></code></a> da classe <a class="reference internal" href="#time.struct_time" title="time.struct_time"><code class="xref py py-class docutils literal notranslate"><span class="pre">struct_time</span></code></a> estão disponíveis em todas as plataformas agora.</p>
+</div>
+</li>
+<li><p class="translated">Utilize as seguintes funções para converter entre representações de tempo:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">De</p></th>
+<th class="head"><p class="translated">Para</p></th>
+<th class="head"><p class="translated">Utilize</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated">segundos desde a era</p></td>
+<td><p class="translated"><a class="reference internal" href="#time.struct_time" title="time.struct_time"><code class="xref py py-class docutils literal notranslate"><span class="pre">struct_time</span></code></a> em UTC</p></td>
+<td><p class="translated"><a class="reference internal" href="#time.gmtime" title="time.gmtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">gmtime()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">segundos desde a era</p></td>
+<td><p class="translated"><a class="reference internal" href="#time.struct_time" title="time.struct_time"><code class="xref py py-class docutils literal notranslate"><span class="pre">struct_time</span></code></a> em tempo local</p></td>
+<td><p class="translated"><a class="reference internal" href="#time.localtime" title="time.localtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">localtime()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="#time.struct_time" title="time.struct_time"><code class="xref py py-class docutils literal notranslate"><span class="pre">struct_time</span></code></a> em UTC</p></td>
+<td><p class="translated">segundos desde a era</p></td>
+<td><p class="translated"><a class="reference internal" href="calendar.html#calendar.timegm" title="calendar.timegm"><code class="xref py py-func docutils literal notranslate"><span class="pre">calendar.timegm()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="#time.struct_time" title="time.struct_time"><code class="xref py py-class docutils literal notranslate"><span class="pre">struct_time</span></code></a> em tempo local</p></td>
+<td><p class="translated">segundos desde a era</p></td>
+<td><p class="translated"><a class="reference internal" href="#time.mktime" title="time.mktime"><code class="xref py py-func docutils literal notranslate"><span class="pre">mktime()</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<section id="functions">
+<span id="time-functions"></span><h2 class="translated">Funções<a class="headerlink" href="#functions" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="time.asctime">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">asctime</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">time_tuple</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#time.asctime" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Convert a tuple or <a class="reference internal" href="#time.struct_time" title="time.struct_time"><code class="xref py py-class docutils literal notranslate"><span class="pre">struct_time</span></code></a> representing a time as returned by
+<a class="reference internal" href="#time.gmtime" title="time.gmtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">gmtime()</span></code></a> or <a class="reference internal" href="#time.localtime" title="time.localtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">localtime()</span></code></a> to a string of the following
+form: <code class="docutils literal notranslate"><span class="pre">'Sun</span> <span class="pre">Jun</span> <span class="pre">20</span> <span class="pre">23:21:05</span> <span class="pre">1993'</span></code>. The day field is two characters long
+and is space padded if the day is a single digit,
+for example: <code class="docutils literal notranslate"><span class="pre">'Wed</span> <span class="pre">Jun</span>&#160; <span class="pre">9</span> <span class="pre">04:26:40</span> <span class="pre">1993'</span></code>.</p>
+<p class="untranslated">If <em>time_tuple</em> is not provided,
+the current time as returned by <a class="reference internal" href="#time.localtime" title="time.localtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">localtime()</span></code></a> is used.
+Locale information is not used by <a class="reference internal" href="#time.asctime" title="time.asctime"><code class="xref py py-func docutils literal notranslate"><span class="pre">asctime()</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Diferentemente da função em C de mesmo nome, <a class="reference internal" href="#time.asctime" title="time.asctime"><code class="xref py py-func docutils literal notranslate"><span class="pre">asctime()</span></code></a> não adiciona uma nova linha em seguida.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.pthread_getcpuclockid">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">pthread_getcpuclockid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thread_id</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#time.pthread_getcpuclockid" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o <em>clk_id</em> do relógio de tempo de CPU específico da thread para a <em>thread_id</em> especificada.</p>
+<p class="translated">Utilize a <a class="reference internal" href="threading.html#threading.get_ident" title="threading.get_ident"><code class="xref py py-func docutils literal notranslate"><span class="pre">threading.get_ident()</span></code></a> ou o atributo <a class="reference internal" href="threading.html#threading.Thread.ident" title="threading.Thread.ident"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ident</span></code></a> dos objetos <a class="reference internal" href="threading.html#threading.Thread" title="threading.Thread"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> para obter um valor adequado para <em>thread_id</em>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Aviso</p>
+<p class="translated">Passando um <em>thread_id</em> inválido ou expirado pode resultar em um comportamento indefinido, como, por exemplo, falha de segmentação.</p>
+</div>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Unix</p>
+<p class="translated">Veja a página man para <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/pthread_getcpuclockid(3)">pthread_getcpuclockid(3)</a></em> para mais informações.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.clock_getres">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">clock_getres</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clk_id</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#time.clock_getres" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna a resolução (precisão) do relógio <em>clk_id</em> especificado. Confira <a class="reference internal" href="#time-clock-id-constants"><span class="std std-ref">Constantes de ID de Relógio</span></a> para uma lista de valores aceitos para <em>clk_id</em></p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Unix.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.clock_gettime">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">clock_gettime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clk_id</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../builtins/functions.html#float" title="float"><span class="pre">float</span></a></span></span><a class="headerlink" href="#time.clock_gettime" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o tempo to relógio <em>clk_id</em> especificado. Confira <a class="reference internal" href="#time-clock-id-constants"><span class="std std-ref">Constantes de ID de Relógio</span></a> para uma lista de valores aceitos para <em>clk_id</em>.</p>
+<p class="translated">Use <a class="reference internal" href="#time.clock_gettime_ns" title="time.clock_gettime_ns"><code class="xref py py-func docutils literal notranslate"><span class="pre">clock_gettime_ns()</span></code></a> para evitar perda de precisão causada pelo tipo <a class="reference internal" href="../builtins/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Unix.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.clock_gettime_ns">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">clock_gettime_ns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clk_id</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../builtins/functions.html#int" title="int"><span class="pre">int</span></a></span></span><a class="headerlink" href="#time.clock_gettime_ns" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Semelhante à <a class="reference internal" href="#time.clock_gettime" title="time.clock_gettime"><code class="xref py py-func docutils literal notranslate"><span class="pre">clock_gettime()</span></code></a>, mas retorna o tempo em nanossegundos.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Unix.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.clock_settime">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">clock_settime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clk_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#time.clock_settime" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Define o tempo do relógio <em>clk_id</em> especificado. Atualmente, <a class="reference internal" href="#time.CLOCK_REALTIME" title="time.CLOCK_REALTIME"><code class="xref py py-data docutils literal notranslate"><span class="pre">CLOCK_REALTIME</span></code></a> é o único valor aceito para <em>clk_id</em>.</p>
+<p class="translated">Use <a class="reference internal" href="#time.clock_settime_ns" title="time.clock_settime_ns"><code class="xref py py-func docutils literal notranslate"><span class="pre">clock_settime_ns()</span></code></a> para evitar perda de precisão causada pelo tipo <a class="reference internal" href="../builtins/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Unix, not Android, not iOS.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.15: </span>Aceita qualquer número real como <em>time</em>, e não apenas inteiros (<em>integer</em>) ou números de vírgula flutuante (<em>float</em>).</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.clock_settime_ns">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">clock_settime_ns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clk_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../builtins/functions.html#int" title="int"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#time.clock_settime_ns" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Semelhante à <a class="reference internal" href="#time.clock_settime" title="time.clock_settime"><code class="xref py py-func docutils literal notranslate"><span class="pre">clock_settime()</span></code></a>, mas define o tempo em nanossegundos.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Unix, not Android, not iOS.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.ctime">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">ctime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seconds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#time.ctime" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Convert a time expressed in seconds since the <a class="reference internal" href="#epoch">epoch</a> to a string of a form:
+<code class="docutils literal notranslate"><span class="pre">'Sun</span> <span class="pre">Jun</span> <span class="pre">20</span> <span class="pre">23:21:05</span> <span class="pre">1993'</span></code> representing local time. The day field
+is two characters long and is space padded if the day is a single digit,
+for example: <code class="docutils literal notranslate"><span class="pre">'Wed</span> <span class="pre">Jun</span>&#160; <span class="pre">9</span> <span class="pre">04:26:40</span> <span class="pre">1993'</span></code>.</p>
+<p class="untranslated">If <em>seconds</em> is not provided or <a class="reference internal" href="../builtins/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>, the current time as
+returned by <a class="reference internal" href="#time.time" title="time.time"><code class="xref py py-func docutils literal notranslate"><span class="pre">time()</span></code></a> is used. <code class="docutils literal notranslate"><span class="pre">ctime(seconds)</span></code> is equivalent to
+<code class="docutils literal notranslate"><span class="pre">asctime(localtime(seconds))</span></code>. Locale information is not used by
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ctime()</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.15: </span>Aceita qualquer número real, e não apenas inteiros (<em>integer</em>) ou números de vírgula flutuante (<em>float</em>).</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.get_clock_info">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">get_clock_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#time.get_clock_info" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Obtém informação do relógio específico como um objeto espaço de nomes. Nomes de relógios suportados e as funções correspondentes para ler seus valores são:</p>
+<ul class="simple">
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">'monotonic'</span></code>: <a class="reference internal" href="#time.monotonic" title="time.monotonic"><code class="xref py py-func docutils literal notranslate"><span class="pre">time.monotonic()</span></code></a></p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">'perf_counter'</span></code>: <a class="reference internal" href="#time.perf_counter" title="time.perf_counter"><code class="xref py py-func docutils literal notranslate"><span class="pre">time.perf_counter()</span></code></a></p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">'process_time'</span></code>: <a class="reference internal" href="#time.process_time" title="time.process_time"><code class="xref py py-func docutils literal notranslate"><span class="pre">time.process_time()</span></code></a></p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">'thread_time'</span></code>: <a class="reference internal" href="#time.thread_time" title="time.thread_time"><code class="xref py py-func docutils literal notranslate"><span class="pre">time.thread_time()</span></code></a></p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">'time'</span></code>: <a class="reference internal" href="#time.time" title="time.time"><code class="xref py py-func docutils literal notranslate"><span class="pre">time.time()</span></code></a></p></li>
+</ul>
+<p class="translated">O resultado tem os seguintes atributos:</p>
+<ul class="simple">
+<li><p class="translated"><em>adjustable</em>: <code class="docutils literal notranslate"><span class="pre">True</span></code> se o relógio puder ser configurado para avançar ou retroceder no tempo, <code class="docutils literal notranslate"><span class="pre">False</span></code> caso contrário. Não se refere a ajustes graduais da taxa NTP.</p></li>
+<li><p class="translated"><em>implementation</em>: O nome da função C subjacente utilizada para obter o valor do relógio. Confira <a class="reference internal" href="#time-clock-id-constants"><span class="std std-ref">Constantes de ID de Relógio</span></a> para valores possíveis.</p></li>
+<li><p class="translated"><em>monotonic</em>: <code class="docutils literal notranslate"><span class="pre">True</span></code> se o relógio não pode retornar a valores anteriores, backward, <code class="docutils literal notranslate"><span class="pre">False</span></code> contrário</p></li>
+<li><p class="translated"><em>resolution</em>: A resolução do relógio em segundos (<a class="reference internal" href="../builtins/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>)</p></li>
+</ul>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.gmtime">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">gmtime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seconds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#time.gmtime" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Convert a time expressed in seconds since the <a class="reference internal" href="#epoch">epoch</a> to a <a class="reference internal" href="#time.struct_time" title="time.struct_time"><code class="xref py py-class docutils literal notranslate"><span class="pre">struct_time</span></code></a> in
+UTC in which the dst flag is always zero.  If <em>seconds</em> is not provided or
+<a class="reference internal" href="../builtins/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>, the current time as returned by <a class="reference internal" href="#time.time" title="time.time"><code class="xref py py-func docutils literal notranslate"><span class="pre">time()</span></code></a> is used.  Fractions
+of a second are ignored.  See above for a description of the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">struct_time</span></code> object. See <a class="reference internal" href="calendar.html#calendar.timegm" title="calendar.timegm"><code class="xref py py-func docutils literal notranslate"><span class="pre">calendar.timegm()</span></code></a> for the inverse of this
+function.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.15: </span>Aceita qualquer número real, e não apenas inteiros (<em>integer</em>) ou números de vírgula flutuante (<em>float</em>).</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.localtime">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">localtime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seconds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#time.localtime" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Like <a class="reference internal" href="#time.gmtime" title="time.gmtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">gmtime()</span></code></a> but converts to local time.
+If <em>seconds</em> is not provided or <a class="reference internal" href="../builtins/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>,
+the current time as returned by <a class="reference internal" href="#time.time" title="time.time"><code class="xref py py-func docutils literal notranslate"><span class="pre">time()</span></code></a> is used.
+The dst flag is set to <code class="docutils literal notranslate"><span class="pre">1</span></code> when DST applies to the given time.</p>
+<p class="translated"><a class="reference internal" href="#time.localtime" title="time.localtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">localtime()</span></code></a> pode levantar <a class="reference internal" href="../builtins/exceptions.html#OverflowError" title="OverflowError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OverflowError</span></code></a>, se o registro de data e hora estiver fora de valores suportados pelas funções <code class="xref c c-func docutils literal notranslate"><span class="pre">localtime()</span></code> or <code class="xref c c-func docutils literal notranslate"><span class="pre">gmtime()</span></code> da plataforma C, e <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> no caso de <code class="xref c c-func docutils literal notranslate"><span class="pre">localtime()</span></code> ou <code class="xref c c-func docutils literal notranslate"><span class="pre">gmtime()</span></code> falharem. É comum É comum que isso seja restrito a anos de 1970 a 2038.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.15: </span>Aceita qualquer número real, e não apenas inteiros (<em>integer</em>) ou números de vírgula flutuante (<em>float</em>).</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.mktime">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">mktime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_tuple</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#time.mktime" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Esta é a função inversa de <a class="reference internal" href="#time.localtime" title="time.localtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">localtime()</span></code></a>. Seu argumento é a <a class="reference internal" href="#time.struct_time" title="time.struct_time"><code class="xref py py-class docutils literal notranslate"><span class="pre">struct_time</span></code></a> ou uma tupla com 9 itens (sendo o sinalizador de horário de verão necessário; utilize <code class="docutils literal notranslate"><span class="pre">-1</span></code> como sinalizador de horário de verão quando este for desconhecido) que expressa o tempo em tempo <em>local</em>, não UTC. Retorna um número em ponto flutuante, para ter compatibilidade com <a class="reference internal" href="#time.time" title="time.time"><code class="xref py py-func docutils literal notranslate"><span class="pre">time()</span></code></a>. Se o valor de entrada não puder ser representado como um tempo válido, ou <a class="reference internal" href="../builtins/exceptions.html#OverflowError" title="OverflowError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OverflowError</span></code></a> ou <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> serão levantadas (o que irá depender se o valor inválido é capturado pelo Python ou por bibliotecas C subjacentes). A data mais recente para qual um tempo pode ser gerado é dependente da plataforma.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.monotonic">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">monotonic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../builtins/functions.html#float" title="float"><span class="pre">float</span></a></span></span><a class="headerlink" href="#time.monotonic" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o valor (em frações de segundos) de um relógio monotônico, i.e. um relógio que não pode voltar a valores anteriores. O relógio não é afetado por atualizações do relógio do sistema. O ponto de referência do valor retornado é indefinido, portanto apenas a diferença entre os resultados de duas chamadas é válida.</p>
+<p class="translated">Relógio:</p>
+<ul class="simple">
+<li><p class="translated">No Windows, chama <code class="docutils literal notranslate"><span class="pre">QueryPerformanceCounter()</span></code> e <code class="docutils literal notranslate"><span class="pre">QueryPerformanceFrequency()</span></code>.</p></li>
+<li><p class="translated">No macOS, chama <code class="docutils literal notranslate"><span class="pre">mach_absolute_time()</span></code> e <code class="docutils literal notranslate"><span class="pre">mach_timebase_info()</span></code>.</p></li>
+<li><p class="translated">No HP-UX, chama <code class="docutils literal notranslate"><span class="pre">gethrtime()</span></code>.</p></li>
+<li><p class="translated">Chama <code class="docutils literal notranslate"><span class="pre">clock_gettime(CLOCK_HIGHRES)</span></code> se disponível.</p></li>
+<li><p class="translated">Do contrário, chama <code class="docutils literal notranslate"><span class="pre">clock_gettime(CLOCK_MONOTONIC)</span></code>.</p></li>
+</ul>
+<p class="translated">Use <a class="reference internal" href="#time.monotonic_ns" title="time.monotonic_ns"><code class="xref py py-func docutils literal notranslate"><span class="pre">monotonic_ns()</span></code></a> para evitar perda de precisão causada pelo tipo <a class="reference internal" href="../builtins/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.5: </span>A função agora está sempre disponível e o relógio agora é o mesmo para todos os processos.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.10: </span>No macOS, o relógio agora é o mesmo para todos os processos.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.monotonic_ns">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">monotonic_ns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../builtins/functions.html#int" title="int"><span class="pre">int</span></a></span></span><a class="headerlink" href="#time.monotonic_ns" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Semelhante à <a class="reference internal" href="#time.monotonic" title="time.monotonic"><code class="xref py py-func docutils literal notranslate"><span class="pre">monotonic()</span></code></a>, mas retorna tempo em nanossegundos.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.perf_counter">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">perf_counter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../builtins/functions.html#float" title="float"><span class="pre">float</span></a></span></span><a class="headerlink" href="#time.perf_counter" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated" id="index-6">Retorna o valor (em frações de segundo) de um contador de desempenho, i.e. um relógio com a maior resolução disponível para medir uma duração curta. Inclui o tempo decorrido durante a pausa. O relógio é o mesmo para todos os processos. O ponto de referência é do valor retornado é indefinido, portanto apenas a diferença entre resultados de duas chamadas é válida.</p>
+<div class="impl-detail compound">
+<p class="translated">No CPython, use o mesmo relógio que <a class="reference internal" href="#time.monotonic" title="time.monotonic"><code class="xref py py-func docutils literal notranslate"><span class="pre">time.monotonic()</span></code></a> e é um relógio monotônico, ou seja, um relógio que não pode retroceder.</p>
+</div>
+<p class="translated">Use <a class="reference internal" href="#time.perf_counter_ns" title="time.perf_counter_ns"><code class="xref py py-func docutils literal notranslate"><span class="pre">perf_counter_ns()</span></code></a> para evitar perda de precisão causada pelo tipo <a class="reference internal" href="../builtins/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.10: </span>No Windows, o relógio agora é o mesmo para todos os processos.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>Usa o mesmo relógio que <a class="reference internal" href="#time.monotonic" title="time.monotonic"><code class="xref py py-func docutils literal notranslate"><span class="pre">time.monotonic()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.perf_counter_ns">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">perf_counter_ns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../builtins/functions.html#int" title="int"><span class="pre">int</span></a></span></span><a class="headerlink" href="#time.perf_counter_ns" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Semelhante à <a class="reference internal" href="#time.perf_counter" title="time.perf_counter"><code class="xref py py-func docutils literal notranslate"><span class="pre">perf_counter()</span></code></a>, mas retorna o tempo em nanossegundos.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.process_time">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">process_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../builtins/functions.html#float" title="float"><span class="pre">float</span></a></span></span><a class="headerlink" href="#time.process_time" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated" id="index-7">Retorna o valor (em frações de segundo) da soma dos tempos do sistema e CPU de usuário do processo atual. Não inclui o tempo decorrido durante a pausa. É de todo o processo por definição. O ponto de referência do valor retornado é indefinido, então apenas a diferença dos resultados de duas chamadas é válida.</p>
+<p class="translated">Use <a class="reference internal" href="#time.process_time_ns" title="time.process_time_ns"><code class="xref py py-func docutils literal notranslate"><span class="pre">process_time_ns()</span></code></a> para evitar perda de precisão causada pelo tipo <a class="reference internal" href="../builtins/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.process_time_ns">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">process_time_ns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../builtins/functions.html#int" title="int"><span class="pre">int</span></a></span></span><a class="headerlink" href="#time.process_time_ns" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Semelhante à <a class="reference internal" href="#time.process_time" title="time.process_time"><code class="xref py py-func docutils literal notranslate"><span class="pre">process_time()</span></code></a>, mas retorna o tempo em nanossegundos.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.sleep">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">sleep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seconds</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#time.sleep" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Suspende a execução da thread de chamada por um determinado número de segundos. O argumento pode ser um número não-inteiro para indicar um tempo de pausa mais preciso.</p>
+<p class="translated">Se a pausa for interrompida por um sinal e nenhuma exceção for levantada pelo manipulador de sinal, a pausa será reiniciada com um tempo limite recalculado.</p>
+<p class="translated">O tempo de suspensão pode ser maior do que o solicitado por um valor arbitrário, devido ao agendamento de outras atividades no sistema.</p>
+<p class="translated rubric">Implementação no Windows</p>
+<p class="untranslated">On Windows, if <em>seconds</em> is zero,
+the thread relinquishes the remainder of its time slice
+to any other thread that is ready to run.
+If there are no other threads ready to run,
+the function returns immediately, and the thread continues execution.
+On Windows 10 and newer the implementation uses
+a <a class="reference external" href="https://learn.microsoft.com/windows/win32/api/synchapi/nf-synchapi-createwaitabletimerexw">high-resolution timer</a>
+which provides resolution of 100 nanoseconds.
+If <em>seconds</em> is zero, <code class="docutils literal notranslate"><span class="pre">Sleep(0)</span></code> is used.</p>
+<p class="translated rubric">Implementação no Unix</p>
+<ul class="simple">
+<li><p class="translated">Usa <code class="docutils literal notranslate"><span class="pre">clock_nanosleep()</span></code> se disponível (resolução: 1 nanossegundo);</p></li>
+<li><p class="translated">Ou usa <code class="docutils literal notranslate"><span class="pre">nanosleep()</span></code> se disponível (resolução: 1 nanossegunda);</p></li>
+<li><p class="translated">Ou usa <code class="docutils literal notranslate"><span class="pre">select()</span></code> (resolução: 1 microssegundo).</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Para emular um “no-op”, use <a class="reference internal" href="../reference/simple_stmts.html#pass"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">pass</span></code></a> em vez de <code class="docutils literal notranslate"><span class="pre">time.sleep(0)</span></code>.</p>
+<p class="translated">Para abrir mão voluntariamente da CPU, especifique uma <a class="reference internal" href="os.html#os-scheduling-policy"><span class="std std-ref">política de agendamento</span></a> em tempo real e use <a class="reference internal" href="os.html#os.sched_yield" title="os.sched_yield"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.sched_yield()</span></code></a> em seu lugar.</p>
+</div>
+<p class="audit-hook untranslated" id="audit_event_time_sleep_0">Raises an <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">auditing event</span></a> <code class="docutils literal notranslate"><span class="pre">time.sleep</span></code> with argument <code class="docutils literal notranslate"><span class="pre">seconds</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.5: </span>The function now sleeps at least <em>seconds</em>
+even if the sleep is interrupted by a signal,
+except if the signal handler raises an exception
+(see <span class="target" id="index-8"></span><a class="pep reference external" href="https://peps.python.org/pep-0475/"><strong>PEP 475</strong></a> for the rationale).</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.11: </span>No Unix, as funções <code class="docutils literal notranslate"><span class="pre">clock_nanosleep()</span></code> e <code class="docutils literal notranslate"><span class="pre">nanosleep()</span></code> são agora usadas se estiverem disponíveis. No Windows, um temporizador aguardável é agora usado.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>Levanta um evento de auditoria.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.15: </span>Aceita qualquer número real, e não apenas inteiros (<em>integer</em>) ou números de vírgula flutuante (<em>float</em>).</p>
+</div>
+</dd></dl>
+
+<dl class="py function" id="index-9">
+<dt class="sig sig-object py" id="time.strftime">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">strftime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">time_tuple</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#time.strftime" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Convert a tuple or <a class="reference internal" href="#time.struct_time" title="time.struct_time"><code class="xref py py-class docutils literal notranslate"><span class="pre">struct_time</span></code></a> representing a time as returned by
+<a class="reference internal" href="#time.gmtime" title="time.gmtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">gmtime()</span></code></a> or <a class="reference internal" href="#time.localtime" title="time.localtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">localtime()</span></code></a> to a string as specified by the <em>format</em>
+argument.  If <em>time_tuple</em> is not provided, the current time as returned by
+<code class="xref py py-func docutils literal notranslate"><span class="pre">localtime()</span></code> is used.  <em>format</em> must be a string.  <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> is
+raised if any field in <em>time_tuple</em> is outside of the allowed range.</p>
+<p class="translated">0 é um argumento legal para qualquer posição na tupla de tempo; se é normalmente ilegal, o valor é formado a um valor correto.</p>
+<p class="translated">As diretivas a seguir podem ser incorporadas na string <em>format</em>. Elas estão mostradas sem os campos de comprimento e especificação de precisão opcionais, e estão substituídos pelos caracteres indicados no resultado da <a class="reference internal" href="#time.strftime" title="time.strftime"><code class="xref py py-func docutils literal notranslate"><span class="pre">strftime()</span></code></a>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Diretiva</p></th>
+<th class="head"><p class="translated">Significado</p></th>
+<th class="head"><p class="translated">Notas</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%a</span></code></p></td>
+<td><p class="translated">Nome abreviado do dia da semana da localidade.</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%A</span></code></p></td>
+<td><p class="translated">Nome completo do dia da semana da localidade.</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%b</span></code></p></td>
+<td><p class="translated">Nome abreviado do mês da localidade.</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%B</span></code></p></td>
+<td><p class="translated">Nome completo do mês da localidade.</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%c</span></code></p></td>
+<td><p class="translated">Representação de data e hora apropriada da localidade.</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%d</span></code></p></td>
+<td><p class="translated">Dia do mês como um número decimal [01,31].</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%f</span></code></p></td>
+<td><dl class="simple">
+<dt class="translated">Microssegundos como um número decimal</dt><dd><p class="translated">[000000,999999].</p>
+</dd>
+</dl>
+</td>
+<td><p class="translated">(1)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%H</span></code></p></td>
+<td><p class="translated">Hora (relógio 24 horas) como um número decimal [00,23].</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%I</span></code></p></td>
+<td><p class="translated">Hora (relógio 12 horas) como um número decimal [01,12].</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%j</span></code></p></td>
+<td><p class="translated">Dia do ano como um número decimal [001,366].</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%m</span></code></p></td>
+<td><p class="translated">Mês como um número decimal [01,12].</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%M</span></code></p></td>
+<td><p class="translated">Minuto como um número decimal [00,59].</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%p</span></code></p></td>
+<td><p class="translated">Equivalente da localidade a AM ou PM.</p></td>
+<td><p class="translated">(2)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%S</span></code></p></td>
+<td><p class="translated">Segundo como um número decimal [00,61].</p></td>
+<td><p class="translated">(3)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%U</span></code></p></td>
+<td><p class="translated">Número da semana do ano (domingo como primeiro dia da semana) como um número decimal [00,53]. Todos os dias em um ano novo que precedem o primeiro domingo são considerados como estando na semana 0.</p></td>
+<td><p class="translated">(4)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%u</span></code></p></td>
+<td><p class="translated">Dia da semana (segunda-feira é 1; domingo é 7) como um número decimal [1, 7].</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%w</span></code></p></td>
+<td><p class="translated">Dia da semana como um número decimal [0(Domingo),6]</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%W</span></code></p></td>
+<td><p class="translated">Número da semana do ano (segunda-feira como o primeiro dia da semana) como um número decimal [00,53]. Todos os dias do ano que precedem o primeiro domingo serão considerados como estando na semana 0.</p></td>
+<td><p class="translated">(4)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%x</span></code></p></td>
+<td><p class="translated">Representação de data apropriada de localidade.</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%X</span></code></p></td>
+<td><p class="translated">Representação de hora apropriada da localidade.</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%y</span></code></p></td>
+<td><p class="translated">Ano sem século como um número decimal [00,99].</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%Y</span></code></p></td>
+<td><p class="translated">Ano com século como um número decimal.</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%z</span></code></p></td>
+<td><p class="translated">Deslocamento de fuso horário indicando uma diferença de tempo positiva ou negativa de UTC/GMT formatado como +HHMM ou -HHMM, onde H representa os dígitos decimais de hora e M representa os dígitos decimais de minuto [-23:59, +23:59]. <a class="footnote-reference brackets" href="#id4" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%Z</span></code></p></td>
+<td><p class="translated">Nome do fuso horário (nenhum caractere se nenhum fuso horário existe). Descontinuado. <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%G</span></code></p></td>
+<td><p class="translated">Ano ISO 8601 (semelhante a <code class="docutils literal notranslate"><span class="pre">%Y</span></code>, mas segue as regras para o ano calendário ISO 8601). O ano começa com a semana que contém a primeira quinta-feira do ano calendário.</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%V</span></code></p></td>
+<td><p class="translated">Número da semana ISO 8601 (como um número decimal [01,53]). A primeira semana do ano é aquela que contém a primeira quinta-feira do ano. As semanas começam na segunda-feira.</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">%%</span></code></p></td>
+<td><p class="translated">Um caractere literal <code class="docutils literal notranslate"><span class="pre">'%'</span></code>.</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="translated">Notas:</p>
+<ol class="arabic simple">
+<li><p class="translated">A diretiva de formatação <code class="docutils literal notranslate"><span class="pre">%f</span></code> é somente aplicada para <a class="reference internal" href="#time.strptime" title="time.strptime"><code class="xref py py-func docutils literal notranslate"><span class="pre">strptime()</span></code></a>, não para <a class="reference internal" href="#time.strftime" title="time.strftime"><code class="xref py py-func docutils literal notranslate"><span class="pre">strftime()</span></code></a>. Contudo, veja também <a class="reference internal" href="datetime.html#datetime.datetime.strptime" title="datetime.datetime.strptime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">datetime.datetime.strptime()</span></code></a> e <a class="reference internal" href="datetime.html#datetime.datetime.strftime" title="datetime.datetime.strftime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">datetime.datetime.strftime()</span></code></a> onde a diretiva de formatação <code class="docutils literal notranslate"><span class="pre">%f</span></code>  <a class="reference internal" href="datetime.html#format-codes"><span class="std std-ref">é aplicada para microssegundos</span></a>.</p></li>
+<li><p class="translated">Quando utilizado com a função <a class="reference internal" href="#time.strptime" title="time.strptime"><code class="xref py py-func docutils literal notranslate"><span class="pre">strptime()</span></code></a>, a diretiva <code class="docutils literal notranslate"><span class="pre">%p</span></code> apenas afeta a saída do campo se a diretiva <code class="docutils literal notranslate"><span class="pre">%I</span></code> é utilizada para analisar a hora.</p></li>
+</ol>
+<ol class="arabic simple" id="leap-second" start="3">
+<li><p class="translated">O intervalo é realmente <code class="docutils literal notranslate"><span class="pre">0</span></code> até <code class="docutils literal notranslate"><span class="pre">61</span></code>; o valor <code class="docutils literal notranslate"><span class="pre">60</span></code> é válido em registros de data e hora  representando <a class="reference external" href="https://en.wikipedia.org/wiki/Leap_second">segundos bissextos</a> e o valor <code class="docutils literal notranslate"><span class="pre">61</span></code> é suportado por razões históricas.</p></li>
+<li><p class="translated">Quando utilizado co a função <a class="reference internal" href="#time.strptime" title="time.strptime"><code class="xref py py-func docutils literal notranslate"><span class="pre">strptime()</span></code></a>, <code class="docutils literal notranslate"><span class="pre">%U</span></code> e <code class="docutils literal notranslate"><span class="pre">%W</span></code> são utilizados em cálculos apenas quando o dia da semana e ano são especificados.</p></li>
+</ol>
+<p class="translated">Veja este exemplo, um formato para datas compatível com as especificações dos padrões de e-mail <span class="target" id="index-36"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5322.html"><strong>RFC 5322</strong></a>. <a class="footnote-reference brackets" href="#id4" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">gmtime</span><span class="p">,</span> <span class="n">strftime</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">strftime</span><span class="p">(</span><span class="s2">"</span><span class="si">%a</span><span class="s2">, </span><span class="si">%d</span><span class="s2"> %b %Y %H:%M:%S +0000"</span><span class="p">,</span> <span class="n">gmtime</span><span class="p">())</span>
+<span class="go">'Thu, 28 Jun 2001 14:17:15 +0000'</span>
+</pre></div>
+</div>
+<p class="translated">Diretivas adicionais podem ser suportadas por algumas plataformas, mas apenas as listadas aqui possuem significado padronizado por ANSI C. Para ver a lista completa de códigos de formato suportados na sua plataforma, consulte a documentação <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/strftime(3)">strftime(3)</a></em>.</p>
+<p class="translated">Em algumas plataformas, um campo adicional de comprimento e especificação de precisão podem seguir imediatamente após <code class="docutils literal notranslate"><span class="pre">'%'</span></code> como uma diretiva da seguinte ordem; isto também não é portátil. O campo comprimento normalmente é 2 exceto para <code class="docutils literal notranslate"><span class="pre">%j</span></code> quando é 3.</p>
+</dd></dl>
+
+<dl class="py function" id="index-11">
+<dt class="sig sig-object py" id="time.strptime">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">strptime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">format</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#time.strptime" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Analisa a string representando um tempo de acordo com um formato. O valor retornado é um <a class="reference internal" href="#time.struct_time" title="time.struct_time"><code class="xref py py-class docutils literal notranslate"><span class="pre">struct_time</span></code></a> como retornado por <a class="reference internal" href="#time.gmtime" title="time.gmtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">gmtime()</span></code></a> ou <a class="reference internal" href="#time.localtime" title="time.localtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">localtime()</span></code></a>.</p>
+<p class="translated">O parâmetro <em>format</em> utiliza as mesmas diretivas das utilizadas por <a class="reference internal" href="#time.strftime" title="time.strftime"><code class="xref py py-func docutils literal notranslate"><span class="pre">strftime()</span></code></a>; é definido por padrão para <code class="docutils literal notranslate"><span class="pre">&quot;%a</span> <span class="pre">%b</span> <span class="pre">%d</span> <span class="pre">%H:%M:%S</span> <span class="pre">%Y&quot;</span></code> que corresponde com a formatação retornada por <a class="reference internal" href="#time.ctime" title="time.ctime"><code class="xref py py-func docutils literal notranslate"><span class="pre">ctime()</span></code></a>. Se <em>string</em> não puder ser analisada de acordo com <em>format</em>, ou se possui excesso de dados após analisar, <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> é levantado. Os valores padrão utilizados para preencher quaisquer dados faltantes quando valores mais precisos não puderem ser inferidos são <code class="docutils literal notranslate"><span class="pre">(1900,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">-1)</span></code>. Ambos <em>string</em> e <em>format</em> devem ser strings.</p>
+<p class="translated">Por exemplo:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s2">"30 Nov 00"</span><span class="p">,</span> <span class="s2">"</span><span class="si">%d</span><span class="s2"> %b %y"</span><span class="p">)</span>
+<span class="go">time.struct_time(tm_year=2000, tm_mon=11, tm_mday=30, tm_hour=0, tm_min=0,</span>
+<span class="go">                 tm_sec=0, tm_wday=3, tm_yday=335, tm_isdst=-1)</span>
+</pre></div>
+</div>
+<p class="translated">Suporte para a diretiva <code class="docutils literal notranslate"><span class="pre">%Z</span></code> é baseado nos valores contidos em <code class="docutils literal notranslate"><span class="pre">tzname</span></code> e se <code class="docutils literal notranslate"><span class="pre">daylight</span></code> é verdade.  Por causa disso, é específico de plataforma exceto por reconhecer UTC e GMT, que são sempre conhecidos (e considerados fuso horários sem horários de verão).</p>
+<p class="translated">Apenas as diretivas especificadas na documentação são suportadas. Como <code class="docutils literal notranslate"><span class="pre">strftime()</span></code> é implementada por plataforma, esta pode apenas as vezes oferecer mais diretivas do que as listadas aqui. Mas <code class="docutils literal notranslate"><span class="pre">strptime()</span></code> é independente de quaisquer plataformas e portanto não necessariamente suporta todas as diretivas disponíveis que não estão documentadas como suportadas.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="time.struct_time">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">struct_time</span></span><a class="headerlink" href="#time.struct_time" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O tipo da sequência de valor de tempo retornado por <a class="reference internal" href="#time.gmtime" title="time.gmtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">gmtime()</span></code></a>, <a class="reference internal" href="#time.localtime" title="time.localtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">localtime()</span></code></a>, e <a class="reference internal" href="#time.strptime" title="time.strptime"><code class="xref py py-func docutils literal notranslate"><span class="pre">strptime()</span></code></a>. É um objeto com uma interface <a class="reference internal" href="../glossary.html#term-named-tuple"><span class="xref std std-term">named tuple</span></a>: os valores podem ser acessados por um índice e por um nome de atributo. Os seguintes valores estão presentes:</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p class="translated">Índice</p></td>
+<td><p class="translated">Atributo</p></td>
+<td><p class="translated">Valores</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">0</p></td>
+<td><dl class="py attribute">
+<dt class="sig sig-object py" id="time.struct_time.tm_year">
+<span class="sig-name descname"><span class="pre">tm_year</span></span><a class="headerlink" href="#time.struct_time.tm_year" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+</td>
+<td><p class="translated">(por exemplo, 1993)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">1</p></td>
+<td><dl class="py attribute">
+<dt class="sig sig-object py" id="time.struct_time.tm_mon">
+<span class="sig-name descname"><span class="pre">tm_mon</span></span><a class="headerlink" href="#time.struct_time.tm_mon" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+</td>
+<td><p class="translated">intervalo [1,12]</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">2</p></td>
+<td><dl class="py attribute">
+<dt class="sig sig-object py" id="time.struct_time.tm_mday">
+<span class="sig-name descname"><span class="pre">tm_mday</span></span><a class="headerlink" href="#time.struct_time.tm_mday" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+</td>
+<td><p class="translated">intervalo [1,31]</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">3</p></td>
+<td><dl class="py attribute">
+<dt class="sig sig-object py" id="time.struct_time.tm_hour">
+<span class="sig-name descname"><span class="pre">tm_hour</span></span><a class="headerlink" href="#time.struct_time.tm_hour" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+</td>
+<td><p class="translated">intervalo [0,23]</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">4</p></td>
+<td><dl class="py attribute">
+<dt class="sig sig-object py" id="time.struct_time.tm_min">
+<span class="sig-name descname"><span class="pre">tm_min</span></span><a class="headerlink" href="#time.struct_time.tm_min" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+</td>
+<td><p class="translated">intervalo [0,59]</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">5</p></td>
+<td><dl class="py attribute">
+<dt class="sig sig-object py" id="time.struct_time.tm_sec">
+<span class="sig-name descname"><span class="pre">tm_sec</span></span><a class="headerlink" href="#time.struct_time.tm_sec" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+</td>
+<td><p class="translated">intervalo [0, 61]; veja <a class="reference internal" href="#leap-second"><span class="std std-ref">Nota (2)</span></a> em <a class="reference internal" href="#time.strftime" title="time.strftime"><code class="xref py py-func docutils literal notranslate"><span class="pre">strftime()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">6</p></td>
+<td><dl class="py attribute">
+<dt class="sig sig-object py" id="time.struct_time.tm_wday">
+<span class="sig-name descname"><span class="pre">tm_wday</span></span><a class="headerlink" href="#time.struct_time.tm_wday" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+</td>
+<td><p class="translated">intervalo [0, 6]; segunda-feira é 0</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">7</p></td>
+<td><dl class="py attribute">
+<dt class="sig sig-object py" id="time.struct_time.tm_yday">
+<span class="sig-name descname"><span class="pre">tm_yday</span></span><a class="headerlink" href="#time.struct_time.tm_yday" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+</td>
+<td><p class="translated">intervalo [1, 366]</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">8</p></td>
+<td><dl class="py attribute">
+<dt class="sig sig-object py" id="time.struct_time.tm_isdst">
+<span class="sig-name descname"><span class="pre">tm_isdst</span></span><a class="headerlink" href="#time.struct_time.tm_isdst" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+</td>
+<td><p class="translated">0, 1 ou -1; veja abaixo</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">N/D</p></td>
+<td><dl class="py attribute">
+<dt class="sig sig-object py" id="time.struct_time.tm_zone">
+<span class="sig-name descname"><span class="pre">tm_zone</span></span><a class="headerlink" href="#time.struct_time.tm_zone" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+</td>
+<td><p class="translated">abreviação do nome do fuso horário</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">N/D</p></td>
+<td><dl class="py attribute">
+<dt class="sig sig-object py" id="time.struct_time.tm_gmtoff">
+<span class="sig-name descname"><span class="pre">tm_gmtoff</span></span><a class="headerlink" href="#time.struct_time.tm_gmtoff" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+</td>
+<td><p class="translated">deslocamento a leste de UTC em segundos</p></td>
+</tr>
+</tbody>
+</table>
+<p class="translated">Note que diferentemente da estrutura C, o valor do mês é um intervalo [1,12] e não [0,11].</p>
+<p class="translated">Em chamadas para <a class="reference internal" href="#time.mktime" title="time.mktime"><code class="xref py py-func docutils literal notranslate"><span class="pre">mktime()</span></code></a>, <a class="reference internal" href="#time.struct_time.tm_isdst" title="time.struct_time.tm_isdst"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tm_isdst</span></code></a> pode ser definido como 1 quando o horário de verão estiver em efeito, e 0 quando não. Um valor de -1 indica que esta informação não é conhecida, e geralmente resultará no preenchimento do estado correto.</p>
+<p class="translated">Quando uma tupla com comprimento incorreto é passada para uma função que espera por um <a class="reference internal" href="#time.struct_time" title="time.struct_time"><code class="xref py py-class docutils literal notranslate"><span class="pre">struct_time</span></code></a>, ou por possuir elementos do tipo errado, um <a class="reference internal" href="../builtins/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> é levantado.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.time">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../builtins/functions.html#float" title="float"><span class="pre">float</span></a></span></span><a class="headerlink" href="#time.time" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o tempo em segundos desde o <a class="reference internal" href="#epoch">epoch</a> como um número em ponto flutuante. A manipulação de <a class="reference external" href="https://en.wikipedia.org/wiki/Leap_second">segundos bissextos</a> é dependente da plataforma. No Windows e na maioria dos sistemas Unix, o segundo bissexto não é contado para o tempo desde o <a class="reference internal" href="#epoch">epoch</a>. Isso é comumente referido como <a class="reference external" href="https://en.wikipedia.org/wiki/Unix_time">epoch ou era Unix</a>.</p>
+<p class="translated">Note que mesmo o tempo sendo retornado sempre como um número em ponto flutuante, nem todos os sistemas fornecem o tempo com precisão melhor que 1 segundo. Enquanto esta função normalmente retorna valores não decrescentes, pode retornar valores menores do que os de uma chamada anterior se o relógio do sistema foi redefinido entre duas chamadas.</p>
+<p class="translated">O número retornado por <a class="reference internal" href="#time.time" title="time.time"><code class="xref py py-func docutils literal notranslate"><span class="pre">time()</span></code></a> pode ser convertido a um formato de tempo mais comum (i.e. ano, mês, dia, hora etc…) em UTC por passá-lo para a função <a class="reference internal" href="#time.gmtime" title="time.gmtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">gmtime()</span></code></a> ou em tempo local por passar para a função <a class="reference internal" href="#time.localtime" title="time.localtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">localtime()</span></code></a>. Em ambos os casos, o objeto <a class="reference internal" href="#time.struct_time" title="time.struct_time"><code class="xref py py-class docutils literal notranslate"><span class="pre">struct_time</span></code></a> é retornado, por onde os componentes de data do calendário podem ser acessados ou atribuídos.</p>
+<p class="translated">Relógio:</p>
+<ul class="simple">
+<li><p class="translated">No Windows, chama <code class="docutils literal notranslate"><span class="pre">GetSystemTimePreciseAsFileTime()</span></code>.</p></li>
+<li><p class="translated">Chama <code class="docutils literal notranslate"><span class="pre">clock_gettime(CLOCK_REALTIME)</span></code> se disponível.</p></li>
+<li><p class="translated">Caso contrário, chama <code class="docutils literal notranslate"><span class="pre">gettimeofday()</span></code>.</p></li>
+</ul>
+<p class="translated">Use <a class="reference internal" href="#time.time_ns" title="time.time_ns"><code class="xref py py-func docutils literal notranslate"><span class="pre">time_ns()</span></code></a> para evitar perda de precisão causada pelo tipo <a class="reference internal" href="../builtins/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>.</p>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>No Windows, chama <code class="docutils literal notranslate"><span class="pre">GetSystemTimePreciseAsFileTime()</span></code> em vez de <code class="docutils literal notranslate"><span class="pre">GetSystemTimeAsFileTime()</span></code>.</p>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="time.time_ns">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">time_ns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../builtins/functions.html#int" title="int"><span class="pre">int</span></a></span></span><a class="headerlink" href="#time.time_ns" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Semelhante à <a class="reference internal" href="#time.time" title="time.time"><code class="xref py py-func docutils literal notranslate"><span class="pre">time()</span></code></a>, mas retorna o tempo como um número inteiro de nanossegundos desde o <a class="reference internal" href="#epoch">epoch</a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.thread_time">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">thread_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../builtins/functions.html#float" title="float"><span class="pre">float</span></a></span></span><a class="headerlink" href="#time.thread_time" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated" id="index-12">Retorna o valor (em fração de segundos) da soma dos tempos de sistema e CPU de usuário para a thread atual. Não inclui o tempo decorrido durante a pausa. É específico a thread por definição. O ponto de referência do valor retornado é indefinido, então apenas a diferença dos resultados de duas chamadas é válida.</p>
+<p class="translated">Use <a class="reference internal" href="#time.thread_time_ns" title="time.thread_time_ns"><code class="xref py py-func docutils literal notranslate"><span class="pre">thread_time_ns()</span></code></a> para evitar perda de precisão causada pelo tipo <a class="reference internal" href="../builtins/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Linux, Unix, Windows.</p>
+<p class="translated">Sistemas Unix possuem suporte para <code class="docutils literal notranslate"><span class="pre">CLOCK_THREAD_CPUTIME_ID</span></code>.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.thread_time_ns">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">thread_time_ns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../builtins/functions.html#int" title="int"><span class="pre">int</span></a></span></span><a class="headerlink" href="#time.thread_time_ns" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Semelhante à <a class="reference internal" href="#time.thread_time" title="time.thread_time"><code class="xref py py-func docutils literal notranslate"><span class="pre">thread_time()</span></code></a>, mas retorna o tempo em nanossegundos.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="time.tzset">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">tzset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#time.tzset" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Redefine as regras de conversão utilizadas pelas rotinas da biblioteca. A variável de ambiente <span class="target" id="index-37"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">TZ</span></code> especifica como isto é feito. Também irá redefinir as variáveis <code class="docutils literal notranslate"><span class="pre">tzname</span></code> (da variável de ambiente <span class="target" id="index-38"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">TZ</span></code>), <code class="docutils literal notranslate"><span class="pre">timezone</span></code> (segundos sem horário de verão a oeste de UTC), <code class="docutils literal notranslate"><span class="pre">altzone</span></code> (segundos com horário de verão a oeste de UTC) e <code class="docutils literal notranslate"><span class="pre">daylight</span></code> (para 0 se este fuso horário não possui nenhuma regra de horário de verão, ou diferente de zero se há um tempo, no presente, passado ou futuro quando o horário de verão se aplica).</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Unix.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Embora em vários casos, alterar a variável de sistema <span class="target" id="index-39"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">TZ</span></code> pode afetar a saída de funções como <a class="reference internal" href="#time.localtime" title="time.localtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">localtime()</span></code></a> sem chamar <a class="reference internal" href="#time.tzset" title="time.tzset"><code class="xref py py-func docutils literal notranslate"><span class="pre">tzset()</span></code></a>, este comportamento não deve ser confiado.</p>
+<p class="translated">A variável de sistema <span class="target" id="index-40"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">TZ</span></code> não deve conter espaços em branco.</p>
+</div>
+<p class="translated">O formato padrão da variável de sistema <span class="target" id="index-41"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">TZ</span></code> é (espaços foram adicionados por motivos de clareza):</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">std</span> <span class="n">offset</span> <span class="p">[</span><span class="n">dst</span> <span class="p">[</span><span class="n">offset</span> <span class="p">[,</span><span class="n">start</span><span class="p">[</span><span class="o">/</span><span class="n">time</span><span class="p">],</span> <span class="n">end</span><span class="p">[</span><span class="o">/</span><span class="n">time</span><span class="p">]]]]</span>
+</pre></div>
+</div>
+<p class="translated">Onde os componentes são:</p>
+<dl>
+<dt class="translated"><code class="docutils literal notranslate"><span class="pre">std</span></code> e <code class="docutils literal notranslate"><span class="pre">dst</span></code></dt><dd><p class="translated">Três ou mais alfanuméricos fornecendo a abreviação do fuso horário. Estes serão propagados para time.tzname</p>
+</dd>
+<dt class="translated"><code class="docutils literal notranslate"><span class="pre">offset</span></code></dt><dd><p class="translated">O deslocamento tem a forma: <code class="docutils literal notranslate"><span class="pre">±</span> <span class="pre">hh[:mm[:ss]]</span></code>. Isso indica que o valor adicionado adicionou o horário local para chegar a UTC. Se precedido por um ‘-’, o fuso horário está a leste do Meridiano Primário; do contrário, está a oeste. Se nenhum deslocamento segue o horário de verão, o tempo no verão é presumido como estando uma hora a frente do horário padrão.</p>
+</dd>
+<dt class="translated"><code class="docutils literal notranslate"><span class="pre">start[/time],</span> <span class="pre">end[/time]</span></code></dt><dd><p class="translated">Indica quando mudar e voltar do Horário de Verão. O formato das datas de início e fim é um dos seguintes:</p>
+<dl class="simple">
+<dt class="translated"><code class="samp docutils literal notranslate"><span class="pre">J</span><em><span class="pre">n</span></em></code></dt><dd><p class="translated">I dia juliano <em>n</em> (1 &lt;= <em>n</em> &lt;= 365). Os dias bissextos não são contados, então, em todos os anos, 28 de fevereiro é o dia 59 e 1 de março é o dia 60.</p>
+</dd>
+<dt class="translated"><code class="samp docutils literal notranslate"><em><span class="pre">n</span></em></code></dt><dd><p class="translated">O dia juliano baseado em zero (0 &lt;= <em>n</em> &lt;= 365). Dias bissextos são contados, e é possível fazer referência a 29 de fevereiro.</p>
+</dd>
+<dt class="translated"><code class="samp docutils literal notranslate"><span class="pre">M</span><em><span class="pre">m</span></em><span class="pre">.</span><em><span class="pre">n</span></em><span class="pre">.</span><em><span class="pre">d</span></em></code></dt><dd><p class="translated">O <em>d</em>-ésimo dia (0 &lt;= <em>d</em> &lt;= 6) da semana <em>n</em> do mês <em>m</em> do ano (1 &lt;= <em>n</em> &lt;= 5, 1 &lt;= <em>m</em> &lt;= 12, onde semana 5 significa “o último dia <em>d</em> no mês <em>m</em>” que pode ocorrer tanto na quarta como quinta semana). Semana 1 é a primeira semana na qual o <em>d</em>-ésimo dia ocorre. Dia zero é o domingo.</p>
+</dd>
+</dl>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">time</span></code> tem o mesmo formato que <code class="docutils literal notranslate"><span class="pre">offset</span></code>, exceto que nenhum sinal no início é permitido (‘-’ ou ‘+’). O padrão, se o tempo não é dado, é 02:00:00.</p>
+</dd>
+</dl>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'TZ'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'EST+05EDT,M4.1.0,M10.5.0'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">tzset</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'</span><span class="si">%X</span><span class="s1"> </span><span class="si">%x</span><span class="s1"> %Z'</span><span class="p">)</span>
+<span class="go">'02:07:36 05/08/03 EDT'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'TZ'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'AEST-10AEDT-11,M10.5.0,M3.5.0'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">tzset</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'</span><span class="si">%X</span><span class="s1"> </span><span class="si">%x</span><span class="s1"> %Z'</span><span class="p">)</span>
+<span class="go">'16:08:12 05/08/03 AEST'</span>
+</pre></div>
+</div>
+<p class="translated">Em muitos sistemas Unix (incluindo *BSD, Linux, Solaris, e Darwin), é mais conveniente utilizar o banco de dados de informação de fuso do sistema (<em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/tzfile(5)">tzfile(5)</a></em>) para especificar as regras de fuso horário. Para fazer isso, defina a variável de sistema <span class="target" id="index-42"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">TZ</span></code> ao path do arquivo de dados requerido de fuso horários, relativo à raiz do banco de dados de fuso horário ‘zoneinfo’ do sistema, geralmente encontrado em <code class="file docutils literal notranslate"><span class="pre">/usr/share/zoneinfo</span></code>. Por exemplo, <code class="docutils literal notranslate"><span class="pre">'US/Eastern'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Australia/Melbourne'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Egypt'</span></code> ou <code class="docutils literal notranslate"><span class="pre">'Europe/Amsterdam'</span></code>.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'TZ'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'US/Eastern'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">tzset</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">tzname</span>
+<span class="go">('EST', 'EDT')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'TZ'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Egypt'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">tzset</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">tzname</span>
+<span class="go">('EET', 'EEST')</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="clock-id-constants">
+<span id="time-clock-id-constants"></span><h2 class="translated">Constantes de ID de Relógio<a class="headerlink" href="#clock-id-constants" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Essas constantes são utilizadas como parâmetros para <a class="reference internal" href="#time.clock_getres" title="time.clock_getres"><code class="xref py py-func docutils literal notranslate"><span class="pre">clock_getres()</span></code></a> e <a class="reference internal" href="#time.clock_gettime" title="time.clock_gettime"><code class="xref py py-func docutils literal notranslate"><span class="pre">clock_gettime()</span></code></a>.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="time.CLOCK_BOOTTIME">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">CLOCK_BOOTTIME</span></span><a class="headerlink" href="#time.CLOCK_BOOTTIME" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Idêntica a <a class="reference internal" href="#time.CLOCK_MONOTONIC" title="time.CLOCK_MONOTONIC"><code class="xref py py-data docutils literal notranslate"><span class="pre">CLOCK_MONOTONIC</span></code></a>, exceto por também incluir qualquer tempo que o sistema está suspenso.</p>
+<p class="translated">Isto permite que aplicações recebam um relógio monotônico consciente suspenso sem precisar lidar com as complicações de <a class="reference internal" href="#time.CLOCK_REALTIME" title="time.CLOCK_REALTIME"><code class="xref py py-data docutils literal notranslate"><span class="pre">CLOCK_REALTIME</span></code></a>, que pode conter descontinuidades se o tempo é alterado utilizando <code class="docutils literal notranslate"><span class="pre">settimeofday()</span></code> ou algo semelhante.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Linux &gt;= 2.6.39.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="time.CLOCK_HIGHRES">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">CLOCK_HIGHRES</span></span><a class="headerlink" href="#time.CLOCK_HIGHRES" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O Solaris OS possui um timer <code class="docutils literal notranslate"><span class="pre">CLOCK_HIGHRES</span></code> que tenta utilizar recursos otimizados do hardware, e pode fornecer resolução perto de nanossegundos. <code class="docutils literal notranslate"><span class="pre">CLOCK_HIGHRES</span></code> é o relógio nanoajustável de alta resolução.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Solaris.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="time.CLOCK_MONOTONIC">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">CLOCK_MONOTONIC</span></span><a class="headerlink" href="#time.CLOCK_MONOTONIC" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Relógio que não pode ser definido e representa um tempo monotônico desde um ponto de início não especificado.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Unix.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="time.CLOCK_MONOTONIC_RAW">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">CLOCK_MONOTONIC_RAW</span></span><a class="headerlink" href="#time.CLOCK_MONOTONIC_RAW" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Semelhante à <a class="reference internal" href="#time.CLOCK_MONOTONIC" title="time.CLOCK_MONOTONIC"><code class="xref py py-data docutils literal notranslate"><span class="pre">CLOCK_MONOTONIC</span></code></a>, mas fornece acesso a um tempo bruto baseado em hardware que não está sujeito a ajustes NTP.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Linux &gt;= 2.6.28, macOS &gt;= 10.12.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="time.CLOCK_MONOTONIC_RAW_APPROX">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">CLOCK_MONOTONIC_RAW_APPROX</span></span><a class="headerlink" href="#time.CLOCK_MONOTONIC_RAW_APPROX" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Semelhante a <a class="reference internal" href="#time.CLOCK_MONOTONIC_RAW" title="time.CLOCK_MONOTONIC_RAW"><code class="xref py py-data docutils literal notranslate"><span class="pre">CLOCK_MONOTONIC_RAW</span></code></a>, mas lê um armazenado pelo sistema no gerenciador de contexto e, portanto, tem menor precisão.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: macOS &gt;= 10.12.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.13.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="time.CLOCK_PROCESS_CPUTIME_ID">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">CLOCK_PROCESS_CPUTIME_ID</span></span><a class="headerlink" href="#time.CLOCK_PROCESS_CPUTIME_ID" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Timer de alta resolução por processo no CPU.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Unix.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="time.CLOCK_PROF">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">CLOCK_PROF</span></span><a class="headerlink" href="#time.CLOCK_PROF" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Timer de alta resolução por processo no CPU.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: FreeBSD, NetBSD &gt;= 7, OpenBSD.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="time.CLOCK_TAI">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">CLOCK_TAI</span></span><a class="headerlink" href="#time.CLOCK_TAI" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><a class="reference external" href="https://www.nist.gov/pml/time-and-frequency-division/how-utcnist-related-coordinated-universal-time-utc-international">Tempo Atômico Internacional</a></p>
+<p class="translated">O sistema deve ter uma tabela de segundos bissextos para que possa fornecer a resposta correta. Softwares PTP ou NTP podem manter uma tabela de segundos bissextos.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Linux.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.9.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="time.CLOCK_THREAD_CPUTIME_ID">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">CLOCK_THREAD_CPUTIME_ID</span></span><a class="headerlink" href="#time.CLOCK_THREAD_CPUTIME_ID" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Relógio de tempo de CPU específico a thread.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Unix.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="time.CLOCK_UPTIME">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">CLOCK_UPTIME</span></span><a class="headerlink" href="#time.CLOCK_UPTIME" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Tempo cujo valor absoluto é o tempo que o sistema está sendo executado e não suspenso, fornecendo medidas de tempo de atividade precisas, tanto em valor absoluto quanto intervalo.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: FreeBSD, OpenBSD &gt;= 5.5.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="time.CLOCK_UPTIME_RAW">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">CLOCK_UPTIME_RAW</span></span><a class="headerlink" href="#time.CLOCK_UPTIME_RAW" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Relógio que incrementa de forma monotônica, contando o tempo desde um ponto arbitrário, não afetado pela frequência ou ajustes de tempo e não incrementado enquanto o sistema está dormindo.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: macOS &gt;= 10.12.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="time.CLOCK_UPTIME_RAW_APPROX">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">CLOCK_UPTIME_RAW_APPROX</span></span><a class="headerlink" href="#time.CLOCK_UPTIME_RAW_APPROX" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Semelhante a <a class="reference internal" href="#time.CLOCK_UPTIME_RAW" title="time.CLOCK_UPTIME_RAW"><code class="xref py py-data docutils literal notranslate"><span class="pre">CLOCK_UPTIME_RAW</span></code></a>, mas o valor é armazenado pelo sistema no gerenciador de contexto e, portanto, tem menor precisão.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: macOS &gt;= 10.12.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.13.</span></p>
+</div>
+</dd></dl>
+
+<p class="translated">A constante a seguir é o único parâmetro que pode ser enviado para <a class="reference internal" href="#time.clock_settime" title="time.clock_settime"><code class="xref py py-func docutils literal notranslate"><span class="pre">clock_settime()</span></code></a>.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="time.CLOCK_REALTIME">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">CLOCK_REALTIME</span></span><a class="headerlink" href="#time.CLOCK_REALTIME" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Relógio em tempo real. Configurar este relógio requer privilégios apropriados. O relógio é o mesmo para todos os processos.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Unix.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="timezone-constants">
+<span id="time-timezone-constants"></span><h2 class="translated">Constantes de Fuso Horário<a class="headerlink" href="#timezone-constants" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="time.altzone">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">altzone</span></span><a class="headerlink" href="#time.altzone" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O deslocamento do fuso horário DST local, em segundos a oeste de UTC, se algum for fornecido. É negativo se o fuso horário DST local está a leste de UTC (como na Europa Ocidental, incluindo o Reino Unido). Somente utilize se <code class="docutils literal notranslate"><span class="pre">daylight</span></code> for diferente de zero. Veja a nota abaixo.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="time.daylight">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">daylight</span></span><a class="headerlink" href="#time.daylight" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Diferente de zero se um fuso horário DST é definido. Veja nota abaixo.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="time.timezone">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">timezone</span></span><a class="headerlink" href="#time.timezone" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O deslocamento para o fuso horário local (não DST), em segundos a oeste de UTC (negativo na maior parte da Europa Ocidental, positivo nos Estados Unidos e Brasil, zero no Reino Unido). Ver nota abaixo.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="time.tzname">
+<span class="sig-prename descclassname"><span class="pre">time.</span></span><span class="sig-name descname"><span class="pre">tzname</span></span><a class="headerlink" href="#time.tzname" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A tupla de duas strings: A primeira é o nome do fuso horário local não DST, a segunda é o nome do fuso horário local DST. Se nenhum fuso horário DST for definido, a segunda string é usada. Veja nota abaixo.</p>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Para as constantes de Fuso Horário acima (<a class="reference internal" href="#time.altzone" title="time.altzone"><code class="xref py py-data docutils literal notranslate"><span class="pre">altzone</span></code></a>, <a class="reference internal" href="#time.daylight" title="time.daylight"><code class="xref py py-data docutils literal notranslate"><span class="pre">daylight</span></code></a>, <a class="reference internal" href="#time.timezone" title="time.timezone"><code class="xref py py-data docutils literal notranslate"><span class="pre">timezone</span></code></a>, e <a class="reference internal" href="#time.tzname" title="time.tzname"><code class="xref py py-data docutils literal notranslate"><span class="pre">tzname</span></code></a>), o valor é determinado pelas regras de fuso horário em efeito no módulo de carregamento de tempo ou a última vez que <a class="reference internal" href="#time.tzset" title="time.tzset"><code class="xref py py-func docutils literal notranslate"><span class="pre">tzset()</span></code></a> é chamada e pode estar incorreto para tempos no passado. É recomendado utilizar os resultados <a class="reference internal" href="#time.struct_time.tm_gmtoff" title="time.struct_time.tm_gmtoff"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tm_gmtoff</span></code></a> e <a class="reference internal" href="#time.struct_time.tm_zone" title="time.struct_time.tm_zone"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tm_zone</span></code></a> da <a class="reference internal" href="#time.localtime" title="time.localtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">localtime()</span></code></a> para obter informação de fuso horário.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<dl class="simple">
+<dt class="translated">Módulo <a class="reference internal" href="datetime.html#module-datetime" title="datetime: Basic date and time types."><code class="xref py py-mod docutils literal notranslate"><span class="pre">datetime</span></code></a></dt><dd><p class="translated">Mais interfaces orientada a objetos para datas e tempos.</p>
+</dd>
+<dt class="translated">Módulo <a class="reference internal" href="locale.html#module-locale" title="locale: Internationalization services."><code class="xref py py-mod docutils literal notranslate"><span class="pre">locale</span></code></a></dt><dd><p class="translated">Serviços de internacionalização. A configuração de localidade afeta a interpretação de muitos especificadores de formato em <a class="reference internal" href="#time.strftime" title="time.strftime"><code class="xref py py-func docutils literal notranslate"><span class="pre">strftime()</span></code></a> e <a class="reference internal" href="#time.strptime" title="time.strptime"><code class="xref py py-func docutils literal notranslate"><span class="pre">strptime()</span></code></a>.</p>
+</dd>
+<dt class="translated">Módulo <a class="reference internal" href="calendar.html#module-calendar" title="calendar: Functions for working with calendars, including some emulation of the Unix cal program."><code class="xref py py-mod docutils literal notranslate"><span class="pre">calendar</span></code></a></dt><dd><p class="translated">Funções gerais relacionadas a calendários. <a class="reference internal" href="calendar.html#calendar.timegm" title="calendar.timegm"><code class="xref py py-func docutils literal notranslate"><span class="pre">timegm()</span></code></a> é a função inversa de <a class="reference internal" href="#time.gmtime" title="time.gmtime"><code class="xref py py-func docutils literal notranslate"><span class="pre">gmtime()</span></code></a> deste módulo.</p>
+</dd>
+</dl>
+</div>
+<p class="translated rubric">Notas de rodapé</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>,<a role="doc-backlink" href="#id3">3</a>)</span>
+<p class="translated">A utilização de <code class="docutils literal notranslate"><span class="pre">%Z</span></code> está descontinuada, mas o escape <code class="docutils literal notranslate"><span class="pre">%z</span></code> que expande para um deslocamento hora/minuto preferido não é suportado por todas as bibliotecas ANSI C. Além disso, a leitura do padrão original <span class="target" id="index-43"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc822.html"><strong>RFC 822</strong></a> de 1982 mostra que este pede um ano com dois dígitos (<code class="docutils literal notranslate"><span class="pre">%y</span></code> em vez de <code class="docutils literal notranslate"><span class="pre">%Y</span></code>), mas a prática consolidou a utilização de anos com 4 dígitos mesmo antes dos anos 2000. Após isso, o <span class="target" id="index-44"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc822.html"><strong>RFC 822</strong></a> tornou-se obsoleto e o ano de 4 dígitos foi primeiro recomendado por <span class="target" id="index-45"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc1123.html"><strong>RFC 1123</strong></a> e depois obrigatório por <span class="target" id="index-46"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc2822.html"><strong>RFC 2822</strong></a>, com <span class="target" id="index-47"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5322.html"><strong>RFC 5322</strong></a> continuando este requisito.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">time</span></code> — Acesso e conversões de tempo</a><ul>
+<li><a class="reference internal" href="#functions">Funções</a></li>
+<li><a class="reference internal" href="#clock-id-constants">Constantes de ID de Relógio</a></li>
+<li><a class="reference internal" href="#timezone-constants">Constantes de Fuso Horário</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="io.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">io</span></code> — Ferramentas essenciais para trabalhar com fluxos</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="logging.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging</span></code> — Recursos de registro de eventos para Python</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/time.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/time.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/time.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="logging.html" title="logging — Recursos de registro de eventos para Python"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="io.html" title="io — Ferramentas essenciais para trabalhar com fluxos"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="allos.html" >Serviços Genéricos do Sistema Operacional</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">time</span></code> — Acesso e conversões de tempo</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

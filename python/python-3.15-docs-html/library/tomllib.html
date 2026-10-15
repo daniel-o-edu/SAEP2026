@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="tomllib — Analisa arquivos TOML" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/tomllib.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/tomllib Este módulo fornece uma interface para analisar TOML 1.1.0 (Tom’s Obvious Minimal Language, https://toml.io). Este módulo não oferece suporte para escrever TOML. Este módu..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_tomllib_83de3405.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/tomllib Este módulo fornece uma interface para analisar TOML 1.1.0 (Tom’s Obvious Minimal Language, https://toml.io). Este módulo não oferece suporte para escrever TOML. Este módu..." />
+<meta name="description" content="Código-fonte: Lib/tomllib Este módulo fornece uma interface para analisar TOML 1.1.0 (Tom’s Obvious Minimal Language, https://toml.io). Este módulo não oferece suporte para escrever TOML. Este módu..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>tomllib — Analisa arquivos TOML &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="netrc — Arquivo de processamento netrc" href="netrc.html" />
+    <link rel="prev" title="configparser — Analisador sintático de arquivo de configuração" href="configparser.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/tomllib.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tomllib</span></code> — Analisa arquivos TOML</a><ul>
+<li><a class="reference internal" href="#examples">Exemplos</a></li>
+<li><a class="reference internal" href="#conversion-table">Tabela de conversão</a></li>
+<li><a class="reference internal" href="#limits-and-interoperability-considerations">Considerações sobre limites e interoperabilidade</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="configparser.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">configparser</span></code> — Analisador sintático de arquivo de configuração</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="netrc.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">netrc</span></code> — Arquivo de processamento netrc</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/tomllib.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/tomllib.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/tomllib.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="netrc.html" title="netrc — Arquivo de processamento netrc"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="configparser.html" title="configparser — Analisador sintático de arquivo de configuração"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="fileformats.html" accesskey="U">Formatos de Arquivo</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">tomllib</span></code> — Analisa arquivos TOML</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-tomllib">
+<span id="tomllib-parse-toml-files"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tomllib</span></code> — Analisa arquivos TOML<a class="headerlink" href="#module-tomllib" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/tomllib">Lib/tomllib</a></p>
+<hr class="docutils" />
+<p class="translated">Este módulo fornece uma interface para analisar TOML 1.1.0 (Tom’s Obvious Minimal Language, <a class="reference external" href="https://toml.io/pt/">https://toml.io</a>). Este módulo não oferece suporte para escrever TOML.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.11: </span>O módulo foi adicionado com suporte ao TOML 1.0.0.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.15: </span>Adicionado suporte ao TOML 1.1.0. Veja <a class="reference internal" href="../whatsnew/3.15.html#whatsnew315-tomllib-1-1-0"><span class="std std-ref">O que há de novo</span></a> para detalhes.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Aviso</p>
+<p class="translated">Tenha cuidado quando estiver analisando dados de fontes não-confiáveis. Uma string TOML maliciosa pode fazer o decodificador consumir recursos consideráveis de CPU e memória. É recomendado limitar o tamanho do dado a ser analisado.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<p class="translated">O <a class="extlink-pypi reference external" href="https://pypi.org/project/tomli-w/">pacote Tomli-W</a> é um editor de TOML que pode ser usado em conjunto com este módulo, fornecendo uma API de escrita familiar aos usuários da biblioteca padrão: módulos <a class="reference internal" href="marshal.html#module-marshal" title="marshal: Convert Python objects to streams of bytes and back (with different constraints)."><code class="xref py py-mod docutils literal notranslate"><span class="pre">marshal</span></code></a> e <a class="reference internal" href="pickle.html#module-pickle" title="pickle: Convert Python objects to streams of bytes and back."><code class="xref py py-mod docutils literal notranslate"><span class="pre">pickle</span></code></a>.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<p class="translated">O <a class="extlink-pypi reference external" href="https://pypi.org/project/tomlkit/">pacote TOML Kit</a> é uma biblioteca TOML de preservação de estilo com capacidade de leitura e escrita. É uma substituição recomendada para este módulo para edição de arquivos TOML já existentes.</p>
+</div>
+<p class="translated">Este módulo define as seguintes funções:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="tomllib.load">
+<span class="sig-prename descclassname"><span class="pre">tomllib.</span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">parse_float</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tomllib.load" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Lê um arquivo TOML. O primeiro argumento deve ser um objeto arquivo binário e legível. Retorna um <a class="reference internal" href="../builtins/stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>. Converte tipos TOML para Python usando esta <a class="reference internal" href="#toml-to-py-table"><span class="std std-ref">tabela de conversão</span></a>.</p>
+<p class="translated"><em>parse_float</em> será chamado com a string de cada ponto flutuante (float) do TOML a ser decodificado. Por padrão, isso é equivalente a <code class="docutils literal notranslate"><span class="pre">float(num_str)</span></code>. Isso pode ser usado para usar outro tipo de dados ou analisador sintático para pontos flutuantes do TOML (por exemplo, <a class="reference internal" href="decimal.html#decimal.Decimal" title="decimal.Decimal"><code class="xref py py-class docutils literal notranslate"><span class="pre">decimal.Decimal</span></code></a>). O chamável não deve retornar um <a class="reference internal" href="../builtins/stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> ou um <a class="reference internal" href="../builtins/stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, senão uma exceção <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> é levantada.</p>
+<p class="translated">Uma exceção <a class="reference internal" href="#tomllib.TOMLDecodeError" title="tomllib.TOMLDecodeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TOMLDecodeError</span></code></a> será levantada no caso de um documento TOML inválido.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tomllib.loads">
+<span class="sig-prename descclassname"><span class="pre">tomllib.</span></span><span class="sig-name descname"><span class="pre">loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">parse_float</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tomllib.loads" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Carrega TOML de um objeto <a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>. Retorna um <a class="reference internal" href="../builtins/stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>. Converte tipos TOML para Python usando esta <a class="reference internal" href="#toml-to-py-table"><span class="std std-ref">tabela de conversão</span></a>. O argumento <em>parse_float</em> tem o mesmo significado que em <a class="reference internal" href="#tomllib.load" title="tomllib.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">load()</span></code></a>.</p>
+<p class="translated">Uma exceção <a class="reference internal" href="#tomllib.TOMLDecodeError" title="tomllib.TOMLDecodeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TOMLDecodeError</span></code></a> será levantada no caso de um documento TOML inválido.</p>
+</dd></dl>
+
+<p class="translated">As seguintes exceções estão disponíveis:</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="tomllib.TOMLDecodeError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tomllib.</span></span><span class="sig-name descname"><span class="pre">TOMLDecodeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tomllib.TOMLDecodeError" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Subclasse de <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> com os seguintes atributos adicionais:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tomllib.TOMLDecodeError.msg">
+<span class="sig-name descname"><span class="pre">msg</span></span><a class="headerlink" href="#tomllib.TOMLDecodeError.msg" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A mensagem de erro não formatada.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tomllib.TOMLDecodeError.doc">
+<span class="sig-name descname"><span class="pre">doc</span></span><a class="headerlink" href="#tomllib.TOMLDecodeError.doc" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O documento TOML sendo analisado.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tomllib.TOMLDecodeError.pos">
+<span class="sig-name descname"><span class="pre">pos</span></span><a class="headerlink" href="#tomllib.TOMLDecodeError.pos" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O índice de <em>doc</em> onde a análise falhou.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tomllib.TOMLDecodeError.lineno">
+<span class="sig-name descname"><span class="pre">lineno</span></span><a class="headerlink" href="#tomllib.TOMLDecodeError.lineno" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A linha correspondente a <em>pos</em>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tomllib.TOMLDecodeError.colno">
+<span class="sig-name descname"><span class="pre">colno</span></span><a class="headerlink" href="#tomllib.TOMLDecodeError.colno" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A coluna correspondente a <em>pos</em>.</p>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.14: </span>Adicionados os parâmetros <em>msg</em>, <em>doc</em> e <em>pos</em>. Adicionados os atributos <a class="reference internal" href="#tomllib.TOMLDecodeError.msg" title="tomllib.TOMLDecodeError.msg"><code class="xref py py-attr docutils literal notranslate"><span class="pre">msg</span></code></a>, <a class="reference internal" href="#tomllib.TOMLDecodeError.doc" title="tomllib.TOMLDecodeError.doc"><code class="xref py py-attr docutils literal notranslate"><span class="pre">doc</span></code></a>, <a class="reference internal" href="#tomllib.TOMLDecodeError.pos" title="tomllib.TOMLDecodeError.pos"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pos</span></code></a>, <a class="reference internal" href="#tomllib.TOMLDecodeError.lineno" title="tomllib.TOMLDecodeError.lineno"><code class="xref py py-attr docutils literal notranslate"><span class="pre">lineno</span></code></a> e <a class="reference internal" href="#tomllib.TOMLDecodeError.colno" title="tomllib.TOMLDecodeError.colno"><code class="xref py py-attr docutils literal notranslate"><span class="pre">colno</span></code></a>.</p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Descontinuado desde a versão 3.14: </span>A passagem de argumentos posicionais de forma livre está descontinuada.</p>
+</div>
+</dd></dl>
+
+<section id="examples">
+<h2 class="translated">Exemplos<a class="headerlink" href="#examples" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Analisando um arquivo TOML:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tomllib</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"pyproject.toml"</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">tomllib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Analisando uma string TOML:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tomllib</span>
+
+<span class="n">toml_str</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">python-version = "3.11.0"</span>
+<span class="s2">python-implementation = "CPython"</span>
+<span class="s2">"""</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">tomllib</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">toml_str</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="conversion-table">
+<h2 class="translated">Tabela de conversão<a class="headerlink" href="#conversion-table" title="Link para este cabeçalho">¶</a></h2>
+<table class="docutils align-default" id="toml-to-py-table">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">TOML</p></th>
+<th class="head"><p class="translated">Python</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated">documento TOML</p></td>
+<td><p class="translated">dict</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">string</p></td>
+<td><p class="translated">str</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">inteiro</p></td>
+<td><p class="translated">int</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">ponto flutuante</p></td>
+<td><p class="translated">ponto flutuante (configurável com <em>parse_float</em>)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">booleano</p></td>
+<td><p class="translated">bool</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">deslocamento de data-hora</p></td>
+<td><p class="translated">datetime.datetime (atributo de <code class="docutils literal notranslate"><span class="pre">tzinfo</span></code> definido com uma instância de <code class="docutils literal notranslate"><span class="pre">datetime.timezone</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">data-hora local</p></td>
+<td><p class="translated">datetime.datetime (atributo de <code class="docutils literal notranslate"><span class="pre">tzinfo</span></code> definido com <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">data local</p></td>
+<td><p class="translated">datetime.date</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">hora local</p></td>
+<td><p class="translated">datetime.time</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">array</p></td>
+<td><p class="translated">lista</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">tabela</p></td>
+<td><p class="translated">dict</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">tabela inline</p></td>
+<td><p class="translated">dict</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">array de tabelas</p></td>
+<td><p class="translated">lista de dicionários</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="limits-and-interoperability-considerations">
+<h2 class="translated">Considerações sobre limites e interoperabilidade<a class="headerlink" href="#limits-and-interoperability-considerations" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tomllib</span></code> impõe alguns limites aos documentos que consegue processar e preserva detalhes que outros analisadores de TOML têm permissão para ignorar. Ao criar arquivos TOML portáteis, utilize apenas recursos garantidos ou recomendados pelo padrão.</p>
+<p class="translated">Os detalhes de implementação listados aqui podem mudar em versões futuras do Python.</p>
+<dl>
+<dt class="translated">Tabelas/dicionários</dt><dd><p class="translated">A especificação TOML não garante que os pares chave-valor em documentos e tabelas TOML estejam em qualquer ordem específica.</p>
+<div class="impl-detail compound">
+<p class="translated">O <code class="xref py py-mod docutils literal notranslate"><span class="pre">tomllib</span></code> carrega as entradas de dicionário na ordem em que aparecem na fonte.</p>
+</div>
+</dd>
+<dt class="translated">Inteiros</dt><dd><p class="translated">O TOML recomenda oferecer suporte a números inteiros no intervalo <code class="docutils literal notranslate"><span class="pre">range(−2**63,</span> <span class="pre">2**63)</span></code>.</p>
+<div class="impl-detail compound">
+<p class="translated">O <code class="xref py py-mod docutils literal notranslate"><span class="pre">tomllib</span></code> utiliza o <a class="reference internal" href="../builtins/stdtypes.html#int-max-str-digits"><span class="std std-ref">limite do Python para a conversão de strings em inteiros</span></a> (4300 dígitos por padrão).</p>
+</div>
+</dd>
+<dt class="translated">Pontos flutuantes</dt><dd><p class="translated">O TOML recomenda oferecer suporte a, pelo menos, valores IEEE 754 binary64, o que significa que números com mais de 15 dígitos decimais significativos provavelmente serão arredondados.</p>
+<div class="impl-detail compound">
+<p class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tomllib</span></code> usa o <a class="reference internal" href="../builtins/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> do Python por padrão; em muitas plataformas comuns, esse é o formato binary64 recomendado. Consulte <a class="reference internal" href="sys.html#sys.float_info" title="sys.float_info"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.float_info</span></code></a> para obter detalhes.</p>
+</div>
+</dd>
+<dt class="translated">Limite aninhado</dt><dd><p class="translated">O TOML 1.1.0 não recomenda um limite para a profundidade de aninhamento entre vetores e tabelas. (Um limite de 100 foi proposto para uma versão futura do TOML.)</p>
+<div class="impl-detail compound">
+<p class="translated">Na <code class="xref py py-mod docutils literal notranslate"><span class="pre">tomllib</span></code>, o nível de aninhamento é limitado principalmente pelo <a class="reference internal" href="sys.html#sys.getrecursionlimit" title="sys.getrecursionlimit"><code class="xref py py-func docutils literal notranslate"><span class="pre">limite</span> <span class="pre">de</span> <span class="pre">recursão</span></code></a> do Python. Observe que o código que chama <code class="xref py py-mod docutils literal notranslate"><span class="pre">tomllib</span></code> pode contribuir para esse limite.</p>
+</div>
+</dd>
+</dl>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tomllib</span></code> — Analisa arquivos TOML</a><ul>
+<li><a class="reference internal" href="#examples">Exemplos</a></li>
+<li><a class="reference internal" href="#conversion-table">Tabela de conversão</a></li>
+<li><a class="reference internal" href="#limits-and-interoperability-considerations">Considerações sobre limites e interoperabilidade</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="configparser.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">configparser</span></code> — Analisador sintático de arquivo de configuração</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="netrc.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">netrc</span></code> — Arquivo de processamento netrc</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/tomllib.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/tomllib.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/tomllib.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="netrc.html" title="netrc — Arquivo de processamento netrc"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="configparser.html" title="configparser — Analisador sintático de arquivo de configuração"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="fileformats.html" >Formatos de Arquivo</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">tomllib</span></code> — Analisa arquivos TOML</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

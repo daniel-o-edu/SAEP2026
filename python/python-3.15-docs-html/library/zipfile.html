@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="zipfile — Trabalha com arquivos ZIP" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/zipfile.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/zipfile/ O formato de arquivo ZIP é um padrão de compactação e arquivamento. Este módulo fornece ferramentas para criar, ler, escrever, adicionar, e listar um arquivo ZIP. Qualque..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_zipfile_cfe31f4e.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/zipfile/ O formato de arquivo ZIP é um padrão de compactação e arquivamento. Este módulo fornece ferramentas para criar, ler, escrever, adicionar, e listar um arquivo ZIP. Qualque..." />
+<meta name="description" content="Código-fonte: Lib/zipfile/ O formato de arquivo ZIP é um padrão de compactação e arquivamento. Este módulo fornece ferramentas para criar, ler, escrever, adicionar, e listar um arquivo ZIP. Qualque..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>zipfile — Trabalha com arquivos ZIP &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="tarfile — Ler e gravar arquivos do tipo tar" href="tarfile.html" />
+    <link rel="prev" title="lzma — Compressão usando o algoritmo LZMA" href="lzma.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/zipfile.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code> — Trabalha com arquivos ZIP</a><ul>
+<li><a class="reference internal" href="#zipfile-objects">Objetos ZipFile</a></li>
+<li><a class="reference internal" href="#path-objects">Objetos Path</a></li>
+<li><a class="reference internal" href="#pyzipfile-objects">Objetos PyZipFile</a></li>
+<li><a class="reference internal" href="#zipinfo-objects">Objetos ZipInfo</a></li>
+<li><a class="reference internal" href="#command-line-interface">Interface de linha de comando</a><ul>
+<li><a class="reference internal" href="#command-line-options">Opções de linha de comando</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#decompression-pitfalls">Armadilhas de descompressão</a><ul>
+<li><a class="reference internal" href="#from-file-itself">Do próprio arquivo</a></li>
+<li><a class="reference internal" href="#file-system-limitations">Limitações do sistema de arquivos</a></li>
+<li><a class="reference internal" href="#resources-limitations">Limitações de recursos</a></li>
+<li><a class="reference internal" href="#interruption">Interrupção</a></li>
+<li><a class="reference internal" href="#default-behaviors-of-extraction">Comportamentos padrão da extração</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="lzma.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lzma</span></code> — Compressão usando o algoritmo LZMA</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="tarfile.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tarfile</span></code> — Ler e gravar arquivos do tipo tar</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/zipfile.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/zipfile.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/zipfile.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="tarfile.html" title="tarfile — Ler e gravar arquivos do tipo tar"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="lzma.html" title="lzma — Compressão usando o algoritmo LZMA"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="archiving.html" accesskey="U">Compressão de Dados e Arquivamento</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code> — Trabalha com arquivos ZIP</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-zipfile">
+<span id="zipfile-work-with-zip-archives"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code> — Trabalha com arquivos ZIP<a class="headerlink" href="#module-zipfile" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/zipfile/">Lib/zipfile/</a></p>
+<hr class="docutils" />
+<p class="translated">O formato de arquivo ZIP é um padrão de compactação e arquivamento. Este módulo fornece ferramentas para criar, ler, escrever, adicionar, e listar um arquivo ZIP. Qualquer uso avançado deste módulo vai exigir um entendimento do formato, como definido nas <a class="reference external" href="https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT">Notas de Aplicação do PKZIP</a>.</p>
+<p class="translated">Esse módulo não trata arquivos ZIP multiparte. Ele pode manipular arquivos ZIP que usam as extensões ZIP64 (ou seja arquivos ZIP com tamanho maior do que 4 Gb). Ele suporta descriptografia de arquivos criptografados dentro do ZIP, mas atualmente não pode criar um arquivo criptografado. A descriptografia é extremamente lenta pois é implementada em Python nativo ao invés de C.</p>
+<p class="translated">Lidar com arquivos compactados requer <a class="reference internal" href="../glossary.html#term-optional-module"><span class="xref std std-term">módulos opcionais</span></a>. tal como <a class="reference internal" href="zlib.html#module-zlib" title="zlib: Low-level interface to compression and decompression routines compatible with gzip."><code class="xref py py-mod docutils literal notranslate"><span class="pre">zlib</span></code></a>, <a class="reference internal" href="bz2.html#module-bz2" title="bz2: Interfaces for bzip2 compression and decompression."><code class="xref py py-mod docutils literal notranslate"><span class="pre">bz2</span></code></a>, <a class="reference internal" href="lzma.html#module-lzma" title="lzma: A Python wrapper for the liblzma compression library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">lzma</span></code></a> e <a class="reference internal" href="compression.zstd.html#module-compression.zstd" title="compression.zstd: Low-level interface to compression and decompression routines in the zstd library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">compression.zstd</span></code></a>. Se algumo desses estiver faltando na sua cópia do CPython, procure a documentação do seu distribuidor (ou seja, quem lhe forneceu o Python). Se você for o distribuidor, consulte <a class="reference internal" href="../using/configure.html#optional-module-requirements"><span class="std std-ref">Requisitos para módulos opcionais</span></a>.</p>
+<p class="translated">Este módulo define os seguintes itens:</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="zipfile.BadZipFile">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">BadZipFile</span></span><a class="headerlink" href="#zipfile.BadZipFile" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Este erro é levantado para arquivos ZIP corrompidos.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="zipfile.BadZipfile">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">BadZipfile</span></span><a class="headerlink" href="#zipfile.BadZipfile" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Alias para <a class="reference internal" href="#zipfile.BadZipFile" title="zipfile.BadZipFile"><code class="xref py py-exc docutils literal notranslate"><span class="pre">BadZipFile</span></code></a>, para compatibilidade com versões mais antigas de Python.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Descontinuado desde a versão 3.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="zipfile.LargeZipFile">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">LargeZipFile</span></span><a class="headerlink" href="#zipfile.LargeZipFile" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Este erro é levantado quando um arquivo ZIP precisa da funcionalidade ZIP64 que não está habilitada.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">ZipFile</span></span></dt>
+<dd><p class="translated">A classe para ler e escrever arquivos ZIP. Veja a seção <a class="reference internal" href="#zipfile-objects"><span class="std std-ref">Objetos ZipFile</span></a> para detalhes do construtor.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">Path</span></span></dt>
+<dd><p class="translated">Classe que implementa um subconjunto da interface fornecida por <a class="reference internal" href="pathlib.html#pathlib.Path" title="pathlib.Path"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a>, incluindo a interface completa <a class="reference internal" href="importlib.resources.abc.html#importlib.resources.abc.Traversable" title="importlib.resources.abc.Traversable"><code class="xref py py-class docutils literal notranslate"><span class="pre">importlib.resources.abc.Traversable</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">PyZipFile</span></span></dt>
+<dd><p class="translated">Classe para criar arquivos ZIP contendo bibliotecas Python.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="zipfile.ZipInfo">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">ZipInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NoName'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1980,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipInfo" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Class used to represent information about a member of an archive. Instances
+of this class are returned by the <a class="reference internal" href="#zipfile.ZipFile.getinfo" title="zipfile.ZipFile.getinfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getinfo()</span></code></a> and <a class="reference internal" href="#zipfile.ZipFile.infolist" title="zipfile.ZipFile.infolist"><code class="xref py py-meth docutils literal notranslate"><span class="pre">infolist()</span></code></a>
+methods of <a class="reference internal" href="#zipfile.ZipFile" title="zipfile.ZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipFile</span></code></a> objects.  Most users of the <code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code> module
+will not need to create these, but only use those created by this
+module. <em>filename</em> should be the full name of the archive member, and
+<em>date_time</em> should be a tuple containing six fields which describe the time
+of the last modification to the file; the fields are described in section
+<a class="reference internal" href="#zipinfo-objects"><span class="std std-ref">Objetos ZipInfo</span></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>Um atributo público <code class="xref py py-attr docutils literal notranslate"><span class="pre">compress_level</span></code> foi adicionado para expor o <code class="xref py py-attr docutils literal notranslate"><span class="pre">_compresslevel</span></code> anteriormente protegido. O nome protegido mais antigo continua a funcionar como uma propriedade para compatibilidade com versões anteriores.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipInfo._for_archive">
+<span class="sig-name descname"><span class="pre">_for_archive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">archive</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipInfo._for_archive" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Resolve os atributos date_time, compression e external para padrões adequados, conforme usado por <a class="reference internal" href="#zipfile.ZipFile.writestr" title="zipfile.ZipFile.writestr"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ZipFile.writestr()</span></code></a>.</p>
+<p class="translated">Retorna self para encadeamento.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="zipfile.is_zipfile">
+<span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">is_zipfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.is_zipfile" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se <em>filename</em> é um arquivo ZIP válido baseado no seu “magic number”, caso contrário retorna <code class="docutils literal notranslate"><span class="pre">False</span></code>. <em>filename</em> pode ser um arquivo ou um objeto arquivo ou similar também.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.1: </span>Suporte para arquivo e objetos arquivo ou similares.</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zipfile.ZIP_STORED">
+<span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">ZIP_STORED</span></span><a class="headerlink" href="#zipfile.ZIP_STORED" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Código numérico para um membro de um arquivo descompactado</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zipfile.ZIP_DEFLATED">
+<span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">ZIP_DEFLATED</span></span><a class="headerlink" href="#zipfile.ZIP_DEFLATED" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Código numérico para o método de compactação usual. Requer o módulo <a class="reference internal" href="zlib.html#module-zlib" title="zlib: Low-level interface to compression and decompression routines compatible with gzip."><code class="xref py py-mod docutils literal notranslate"><span class="pre">zlib</span></code></a> .</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zipfile.ZIP_BZIP2">
+<span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">ZIP_BZIP2</span></span><a class="headerlink" href="#zipfile.ZIP_BZIP2" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Código numérico para o método de compactação BZIP2. Requer o módulo <a class="reference internal" href="bz2.html#module-bz2" title="bz2: Interfaces for bzip2 compression and decompression."><code class="xref py py-mod docutils literal notranslate"><span class="pre">bz2</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zipfile.ZIP_LZMA">
+<span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">ZIP_LZMA</span></span><a class="headerlink" href="#zipfile.ZIP_LZMA" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Código numérico para o método de compactação LZMA. Requer o módulo <a class="reference internal" href="lzma.html#module-lzma" title="lzma: A Python wrapper for the liblzma compression library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">lzma</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zipfile.ZIP_ZSTANDARD">
+<span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">ZIP_ZSTANDARD</span></span><a class="headerlink" href="#zipfile.ZIP_ZSTANDARD" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Código numérico para a compactação com Zstandard. Requer o módulo <a class="reference internal" href="compression.zstd.html#module-compression.zstd" title="compression.zstd: Low-level interface to compression and decompression routines in the zstd library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">compression.zstd</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">No APPNOTE 6.3.7, o ID do método <code class="docutils literal notranslate"><span class="pre">20</span></code> foi atribuído à compactação Zstandard. No APPNOTE 6.3.8, esse ID foi alterado para o ID do método <code class="docutils literal notranslate"><span class="pre">93</span></code> para evitar conflitos, com o ID do método <code class="docutils literal notranslate"><span class="pre">20</span></code> sendo descontinuado. Para compatibilidade, o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code> lê ambos os IDs de método, mas gravará apenas dados com o ID do método <code class="docutils literal notranslate"><span class="pre">93</span></code>.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">A especificação do formato ZIP incluiu suporte para compactação bzip2 desde 2001, para compactação LZMA desde 2006 e para compactação Zstandard desde 2020. Porém, algumas ferramentas (incluindo versões mais antigas de Python) não suportam esses métodos de compactação, e podem recusar processar o arquivo ZIP como um todo, ou falhar em extrair arquivos individuais.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<dl class="simple">
+<dt class="translated"><a class="reference external" href="https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT">Notas da Aplicação do PKZIP</a></dt><dd><p class="translated">Documentação do formato de arquivo ZIP feita por Phil Katz, criador do formato e dos algoritmos usados.</p>
+</dd>
+<dt class="translated"><a class="reference external" href="https://infozip.sourceforge.net/">Site do Info-ZIP</a></dt><dd><p class="translated">Informações sobre o programas de arquivamento e desenvolvimento de bibliotecas do projeto Info-ZIP.</p>
+</dd>
+</dl>
+</div>
+<section id="zipfile-objects">
+<span id="id1"></span><h2 class="translated">Objetos ZipFile<a class="headerlink" href="#zipfile-objects" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="zipfile.ZipFile">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">ZipFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'r'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ZIP_STORED</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowZip64</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compresslevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_timestamps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Abre um arquivo ZIP, onde <em>file</em> pode ser um caminho para um arquivo (uma string), um objeto arquivo ou similar, ou um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+<p class="translated">O parâmetro <em>mode</em> deve ser <code class="docutils literal notranslate"><span class="pre">'r'</span></code> para ler um arquivo existente, <code class="docutils literal notranslate"><span class="pre">'w'</span></code> para truncar e gravar um novo arquivo, <code class="docutils literal notranslate"><span class="pre">'a'</span></code> para adicionar a um arquivo existente, ou <code class="docutils literal notranslate"><span class="pre">'x'</span></code> exclusivamente para criar e gravar um novo arquivo. Se o <em>mode</em> é <code class="docutils literal notranslate"><span class="pre">'x'</span></code> e <em>file</em> se refere a um arquivo existente, um <a class="reference internal" href="../builtins/exceptions.html#FileExistsError" title="FileExistsError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">FileExistsError</span></code></a> vai ser levantado. Se o <em>mode</em> é <code class="docutils literal notranslate"><span class="pre">'a'</span></code> e <em>file</em> se refere a um arquivo ZIP existente, então arquivos adicionais são adicionados ao mesmo. Se <em>file</em> não se refere a um arquivo ZIP, então um novo arquivo ZIP é adicionado ao arquivo. Isso diz respeito a adicionar um arquivo ZIP a um outro arquivo (como por exemplo <code class="file docutils literal notranslate"><span class="pre">python.exe</span></code>). Se o <em>mode</em> é <code class="docutils literal notranslate"><span class="pre">'a'</span></code> e o arquivo não existe, ele será criado. Se o <em>mode</em> é <code class="docutils literal notranslate"><span class="pre">'r'</span></code> ou <code class="docutils literal notranslate"><span class="pre">'a'</span></code>, o arquivo deve ser percorrível.</p>
+<p class="translated"><em>compression</em> é o método de compactação ZIP para usar ao escrever o arquivo, e deve ser <a class="reference internal" href="#zipfile.ZIP_STORED" title="zipfile.ZIP_STORED"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_STORED</span></code></a>, <a class="reference internal" href="#zipfile.ZIP_DEFLATED" title="zipfile.ZIP_DEFLATED"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_DEFLATED</span></code></a>, <a class="reference internal" href="#zipfile.ZIP_BZIP2" title="zipfile.ZIP_BZIP2"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_BZIP2</span></code></a>, <a class="reference internal" href="#zipfile.ZIP_LZMA" title="zipfile.ZIP_LZMA"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_LZMA</span></code></a> e <a class="reference internal" href="#zipfile.ZIP_ZSTANDARD" title="zipfile.ZIP_ZSTANDARD"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_ZSTANDARD</span></code></a>; valores desconhecidos devem causar <a class="reference internal" href="../builtins/exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a> ser levantada. Se <code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_DEFLATED</span></code>, <code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_BZIP2</span></code>, <code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_LZMA</span></code> ou <code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_ZSTANDARD</span></code> for especificado mas o módulo correspondente (<a class="reference internal" href="zlib.html#module-zlib" title="zlib: Low-level interface to compression and decompression routines compatible with gzip."><code class="xref py py-mod docutils literal notranslate"><span class="pre">zlib</span></code></a>, <a class="reference internal" href="bz2.html#module-bz2" title="bz2: Interfaces for bzip2 compression and decompression."><code class="xref py py-mod docutils literal notranslate"><span class="pre">bz2</span></code></a>, <a class="reference internal" href="lzma.html#module-lzma" title="lzma: A Python wrapper for the liblzma compression library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">lzma</span></code></a> e <a class="reference internal" href="compression.zstd.html#module-compression.zstd" title="compression.zstd: Low-level interface to compression and decompression routines in the zstd library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">compression.zstd</span></code></a>) não estiver disponível, é levantada uma exceção <a class="reference internal" href="../builtins/exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>. O valor padrão é <code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_STORED</span></code>.</p>
+<p class="untranslated">If <em>allowZip64</em> is <code class="docutils literal notranslate"><span class="pre">True</span></code> (the default) zipfile will create ZIP files that
+use the ZIP64 extensions when the zipfile is larger than 4 GiB. If it is
+<code class="docutils literal notranslate"><span class="pre">false</span></code> <code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code> will raise an exception when the ZIP file would
+require ZIP64 extensions.</p>
+<p class="translated">O parâmetro <em>compresslevel</em> controla o nível de compactação para usar ao gravar no arquivo ZIP. Quando usado <a class="reference internal" href="#zipfile.ZIP_STORED" title="zipfile.ZIP_STORED"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_STORED</span></code></a> ou <a class="reference internal" href="#zipfile.ZIP_LZMA" title="zipfile.ZIP_LZMA"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_LZMA</span></code></a> não tem efeito. Quando usado <a class="reference internal" href="#zipfile.ZIP_DEFLATED" title="zipfile.ZIP_DEFLATED"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_DEFLATED</span></code></a> inteiros de <code class="docutils literal notranslate"><span class="pre">0</span></code> a <code class="docutils literal notranslate"><span class="pre">9</span></code> são aceitos (veja <a class="reference internal" href="zlib.html#zlib.compressobj" title="zlib.compressobj"><code class="xref py py-class docutils literal notranslate"><span class="pre">zlib</span></code></a> para mais informações). Quando usado <a class="reference internal" href="#zipfile.ZIP_BZIP2" title="zipfile.ZIP_BZIP2"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_BZIP2</span></code></a> inteiros de <code class="docutils literal notranslate"><span class="pre">1</span></code> a <code class="docutils literal notranslate"><span class="pre">9</span></code> são aceitos (veja <a class="reference internal" href="bz2.html#bz2.BZ2File" title="bz2.BZ2File"><code class="xref py py-class docutils literal notranslate"><span class="pre">bz2</span></code></a> para mais informações). Ao usar <a class="reference internal" href="#zipfile.ZIP_ZSTANDARD" title="zipfile.ZIP_ZSTANDARD"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_ZSTANDARD</span></code></a>, os inteiros <code class="docutils literal notranslate"><span class="pre">-131072</span></code> a <code class="docutils literal notranslate"><span class="pre">22</span></code> são comumente aceitos (consulte <a class="reference internal" href="compression.zstd.html#compression.zstd.CompressionParameter.compression_level" title="compression.zstd.CompressionParameter.compression_level"><code class="xref py py-attr docutils literal notranslate"><span class="pre">CompressionParameter.compression_level</span></code></a> para obter mais informações sobre como recuperar valores válidos e seus significados).</p>
+<p class="translated">O argumento <em>strict_timestamps</em>, quando definido como <code class="docutils literal notranslate"><span class="pre">False</span></code>, permite compactar arquivos anteriores a 1980-01-01 com o custo de definir o carimbo de data/hora para 1980-01-01. Comportamento semelhante ocorre com arquivos mais recentes que 2107-12-31, o carimbo de data/hora também é definido como o limite.</p>
+<p class="translated">Quando o modo é <code class="docutils literal notranslate"><span class="pre">'r'</span></code>, <em>metadata_encoding</em> pode ser definido como o nome de um codec, que será usado para decodificar metadados, como os nomes dos membros e comentários ZIP.</p>
+<p class="translated">Se o arquivo é criado com modo <code class="docutils literal notranslate"><span class="pre">'w'</span></code>, <code class="docutils literal notranslate"><span class="pre">'x'</span></code> ou <code class="docutils literal notranslate"><span class="pre">'a'</span></code> e então <code class="xref py py-meth docutils literal notranslate"><span class="pre">closed()</span></code> sem adicionar nada ao arquivo, a estrutura própria para um arquivo vazio será escrita no arquivo.</p>
+<p class="translated">ZipFile também é um gerenciador de contexto e portanto suporta a instrução <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a>. Neste exemplo, <em>myzip</em> é fechado ao final da execução da instrução <code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code> – mesmo que ocorra uma exceção:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ZipFile</span><span class="p">(</span><span class="s1">'spam.zip'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">myzip</span><span class="p">:</span>
+    <span class="n">myzip</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'eggs.txt'</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated"><em>metadata_encoding</em> é uma configuração em toda a instância para o ZipFile. Não é possível definir isso em uma base por membro.</p>
+<p class="translated">Este atributo é uma solução alternativa para implementações legadas que produzem arquivos com nomes na codificação da localidade atual ou página de código (principalmente no Windows). De acordo com o padrão .ZIP, a codificação dos metadados pode ser especificada como página de código IBM (padrão) ou UTF-8 por meio de um sinalizador no cabeçalho do arquivo. Esse sinalizador tem precedência sobre <em>metadata_encoding</em>, que é uma extensão específica do Python.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.2: </span>Adicionado o uso de <a class="reference internal" href="#zipfile.ZipFile" title="zipfile.ZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipFile</span></code></a> como um gerenciador de contexto.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>Adicionado suporte para compactação <a class="reference internal" href="bz2.html#module-bz2" title="bz2: Interfaces for bzip2 compression and decompression."><code class="xref py py-mod docutils literal notranslate"><span class="pre">bzip2</span></code></a> e <a class="reference internal" href="lzma.html#module-lzma" title="lzma: A Python wrapper for the liblzma compression library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">lzma</span></code></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.4: </span>Extensões ZIP64 são habilitadas por padrão.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.5: </span>Adicionado suporte para escrever em streams não percorríveis. Adicionado suporte ao modo <code class="docutils literal notranslate"><span class="pre">'x'</span></code>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Anteriormente, um simples <a class="reference internal" href="../builtins/exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a> era levantado para valores de compactação desconhecidos.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6.2: </span>O parâmetro <em>file</em> aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.7: </span>Adicionado o parâmetro <em>compresslevel</em>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.8: </span>O parâmetro somente-nomeado <em>strict_timestamps</em>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.11: </span>Adicionado suporte para especificar a codificação do nome do membro ao ler metadados no diretório e cabeçalhos de arquivo do arquivo zip.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.close">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.close" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Fecha o arquivo. Você deve chamar <a class="reference internal" href="#zipfile.ZipFile.close" title="zipfile.ZipFile.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code></a> antes de sair do seu programa ou registros essenciais não serão gravados.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.getinfo">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">getinfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.getinfo" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um objeto <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> com informações sobre o <em>name</em> do membro do arquivo. Chamar <a class="reference internal" href="#zipfile.ZipFile.getinfo" title="zipfile.ZipFile.getinfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getinfo()</span></code></a> para um nome não encontrado no arquivo levanta um <a class="reference internal" href="../builtins/exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.infolist">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">infolist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.infolist" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma lista contendo um objeto <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> para cada membro do arquivo. Os objetos estão na mesma ordem das entradas no arquivo ZIP em disco se um arquivo existente foi aberto.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.namelist">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">namelist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.namelist" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma lista de membros do arquivo por nome.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.open">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'r'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pwd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_zip64</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.open" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Acessa um membro do arquivo como um objeto binário arquivo ou similar. <em>name</em> pode ser o nome de um arquivo membro ou um objeto <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a>. O parâmetro <em>mode</em>, se informado, deve ser <code class="docutils literal notranslate"><span class="pre">'r'</span></code> (valor padrão) or <code class="docutils literal notranslate"><span class="pre">'w'</span></code>. <em>pwd</em> é a senha usada para descriptografar arquivos ZIP criptografados como um objeto <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>.</p>
+<p class="translated"><a class="reference internal" href="#zipfile.ZipFile.open" title="zipfile.ZipFile.open"><code class="xref py py-meth docutils literal notranslate"><span class="pre">open()</span></code></a> também é um gerenciador de contexto e, portanto, suporta a instrução <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ZipFile</span><span class="p">(</span><span class="s1">'spam.zip'</span><span class="p">)</span> <span class="k">as</span> <span class="n">myzip</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">myzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">'eggs.txt'</span><span class="p">)</span> <span class="k">as</span> <span class="n">myfile</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">myfile</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+</div>
+<p class="translated">Com <em>mode</em> <code class="docutils literal notranslate"><span class="pre">'r'</span></code> o objeto arquivo ou similar (<code class="docutils literal notranslate"><span class="pre">ZipExtFile</span></code>) é somente leitura e fornece os seguintes métodos: <a class="reference internal" href="io.html#io.BufferedIOBase.read" title="io.BufferedIOBase.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a>, <a class="reference internal" href="io.html#io.IOBase.readline" title="io.IOBase.readline"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readline()</span></code></a>, <a class="reference internal" href="io.html#io.IOBase.readlines" title="io.IOBase.readlines"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readlines()</span></code></a>, <a class="reference internal" href="io.html#io.IOBase.seek" title="io.IOBase.seek"><code class="xref py py-meth docutils literal notranslate"><span class="pre">seek()</span></code></a>, <a class="reference internal" href="io.html#io.IOBase.tell" title="io.IOBase.tell"><code class="xref py py-meth docutils literal notranslate"><span class="pre">tell()</span></code></a>, <a class="reference internal" href="../builtins/stdtypes.html#container.__iter__" title="container.__iter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></a>, <a class="reference internal" href="../builtins/stdtypes.html#iterator.__next__" title="iterator.__next__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__next__()</span></code></a>. Esses objetos podem operar independentemente do ZipFile.</p>
+<p class="translated">Com <code class="docutils literal notranslate"><span class="pre">mode='w'</span></code>, é retornado um manipulador de arquivo, que suporta o método <a class="reference internal" href="io.html#io.BufferedIOBase.write" title="io.BufferedIOBase.write"><code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code></a>. Quando um manipulador de arquivo modificável é aberto, tentativas de ler ou gravar outros arquivos no arquivo ZIP levanta um <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
+<p class="translated">Em ambos os casos o objeto arquivo ou similar também possui atributos <code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code>, que é equivalente ao nome de um arquivo dentro do arquivo, e <code class="xref py py-attr docutils literal notranslate"><span class="pre">mode</span></code>, que é <code class="docutils literal notranslate"><span class="pre">'rb'</span></code> ou <code class="docutils literal notranslate"><span class="pre">'wb'</span></code> dependendo do modo de entrada.</p>
+<p class="translated">Ao gravar um arquivo, se o tamanho do arquivo não é conhecido mas pode exceder 2 GiB, passe <code class="docutils literal notranslate"><span class="pre">force_zip64=True</span></code> para assegurar que o formato do header é capaz de suportar arquivos grandes. Se o tamanho do arquivo é conhecido, construa um objeto <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> com <a class="reference internal" href="#zipfile.ZipInfo.file_size" title="zipfile.ZipInfo.file_size"><code class="xref py py-attr docutils literal notranslate"><span class="pre">file_size</span></code></a> informado, então use-o como parâmetro <em>name</em>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Os métodos <a class="reference internal" href="#zipfile.ZipFile.open" title="zipfile.ZipFile.open"><code class="xref py py-meth docutils literal notranslate"><span class="pre">open()</span></code></a>, <a class="reference internal" href="#zipfile.ZipFile.read" title="zipfile.ZipFile.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a> e <a class="reference internal" href="#zipfile.ZipFile.extract" title="zipfile.ZipFile.extract"><code class="xref py py-meth docutils literal notranslate"><span class="pre">extract()</span></code></a> podem receber um nome de arquivo ou um objeto <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a>. Você vai gostar disso quando tentar ler um arquivo ZIP que contém membros com nomes duplicados.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Removido suporte ao <code class="docutils literal notranslate"><span class="pre">mode='U'</span></code>. Uso de <a class="reference internal" href="io.html#io.TextIOWrapper" title="io.TextIOWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.TextIOWrapper</span></code></a> para leitura de arquivos texto compactados em modo de <a class="reference internal" href="../glossary.html#term-universal-newlines"><span class="xref std std-term">novas linhas universais</span></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span><a class="reference internal" href="#zipfile.ZipFile.open" title="zipfile.ZipFile.open"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ZipFile.open()</span></code></a> agora pode ser usado para escrever arquivos no aquivo compactado com a opção <code class="docutils literal notranslate"><span class="pre">mode='w'</span></code>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Chama <a class="reference internal" href="#zipfile.ZipFile.open" title="zipfile.ZipFile.open"><code class="xref py py-meth docutils literal notranslate"><span class="pre">open()</span></code></a> em um ZipFile fechado levanta um <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>. Anteriormente, um <a class="reference internal" href="../builtins/exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a> era levantado.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>Adicionados atributos <code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code> e <code class="xref py py-attr docutils literal notranslate"><span class="pre">mode</span></code> para o objeto arquivo ou similar gravável. O valor do atributo <code class="xref py py-attr docutils literal notranslate"><span class="pre">mode</span></code> para o objeto arquivo ou similar legível foi alterado de <code class="docutils literal notranslate"><span class="pre">'r'</span></code> para <code class="docutils literal notranslate"><span class="pre">'rb'</span></code>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.extract">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">member</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pwd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.extract" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Extrai um membro do arquivo para o diretório atual; <em>member</em> deve ser o nome completo ou um objeto <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a>. A informação do arquivo é extraída com maior precisão possível. <em>path</em> especifica um outro diretório em que deve ser gravado. <em>member</em> pode ser um nome de arquivo ou um objeto <code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code>. <em>pwd</em> é a senha usada para criptografar arquivos como um objeto <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>.</p>
+<p class="translated">Retorna o caminho normalizado criado (um diretório ou novo arquivo).</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Se um nome de arquivo membro é um caminho absoluto, o drive/UNC e (contra)barras no início serão removidos, por exemplo: <code class="docutils literal notranslate"><span class="pre">///foo/bar</span></code> se torna <code class="docutils literal notranslate"><span class="pre">foo/bar</span></code> no Unix, e <code class="docutils literal notranslate"><span class="pre">C:\foo\bar</span></code> vira <code class="docutils literal notranslate"><span class="pre">foo\bar</span></code> no Windows. E todos os componentes <code class="docutils literal notranslate"><span class="pre">&quot;..&quot;</span></code> no nome de um arquivo membro serão removidos, por exemplo: <code class="docutils literal notranslate"><span class="pre">../../foo../../ba..r</span></code> vira <code class="docutils literal notranslate"><span class="pre">foo../ba..r</span></code>. No Windows caracteres ilegais (<code class="docutils literal notranslate"><span class="pre">:</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">|</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">?</span></code>, and <code class="docutils literal notranslate"><span class="pre">*</span></code>) são substituídos por underscore (<code class="docutils literal notranslate"><span class="pre">_</span></code>).</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Chama <a class="reference internal" href="#zipfile.ZipFile.extract" title="zipfile.ZipFile.extract"><code class="xref py py-meth docutils literal notranslate"><span class="pre">extract()</span></code></a> em um ZipFile fechado levanto um <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>. Anteriormente, um <a class="reference internal" href="../builtins/exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a> era levantado.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6.2: </span>O parâmetro <em>path</em> aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.extractall">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">extractall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">members</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pwd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.extractall" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Extrai todos os membros de um arquivo para o diretório atual. <em>path</em> especifica um diretório diferente para gravar os arquivos extraídos. <em>members</em> é opcional e deve ser um sub-conjunto da lista retornada por <a class="reference internal" href="#zipfile.ZipFile.namelist" title="zipfile.ZipFile.namelist"><code class="xref py py-meth docutils literal notranslate"><span class="pre">namelist()</span></code></a>. <em>pwd</em> é uma senha usada para criptografar arquivos como um objeto <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Aviso</p>
+<p class="untranslated">Never extract archives from untrusted sources without prior inspection.
+It is possible that files are created outside of <em>path</em>, for example, members
+that have absolute filenames or filenames with “..” components.
+This module attempts to prevent that.
+See <a class="reference internal" href="#zipfile.ZipFile.extract" title="zipfile.ZipFile.extract"><code class="xref py py-meth docutils literal notranslate"><span class="pre">extract()</span></code></a> note.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Chama <a class="reference internal" href="#zipfile.ZipFile.extractall" title="zipfile.ZipFile.extractall"><code class="xref py py-meth docutils literal notranslate"><span class="pre">extractall()</span></code></a> em um ZipFile fechado levanta um <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>. Anteriormente, um <a class="reference internal" href="../builtins/exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a> era levantado.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6.2: </span>O parâmetro <em>path</em> aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.printdir">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">printdir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.printdir" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Imprime a tabela de conteúdos de um arquivo para <code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.setpassword">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">setpassword</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pwd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.setpassword" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Define <em>pwd</em> (um objeto <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>) como senha padrão para extrair arquivos criptografados.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.read">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pwd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.read" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna os bytes do arquivo <em>name</em> no arquivo compactado. <em>name</em> é o nome do arquivo no arquivo compactado, ou um objeto <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a>. O arquivo compactado deve estar aberto para leitura ou acréscimo. <em>pwd</em> é a senha usada para arquivos criptografados como um objeto <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> e, se especificada, substitui a senha padrão configurada com <a class="reference internal" href="#zipfile.ZipFile.setpassword" title="zipfile.ZipFile.setpassword"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setpassword()</span></code></a>. Chamar <a class="reference internal" href="#zipfile.ZipFile.read" title="zipfile.ZipFile.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a> em um ZipFile que use um método de compactação diferente de <a class="reference internal" href="#zipfile.ZIP_STORED" title="zipfile.ZIP_STORED"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_STORED</span></code></a>, <a class="reference internal" href="#zipfile.ZIP_DEFLATED" title="zipfile.ZIP_DEFLATED"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_DEFLATED</span></code></a>, <a class="reference internal" href="#zipfile.ZIP_BZIP2" title="zipfile.ZIP_BZIP2"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_BZIP2</span></code></a>, <a class="reference internal" href="#zipfile.ZIP_LZMA" title="zipfile.ZIP_LZMA"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_LZMA</span></code></a> e <a class="reference internal" href="#zipfile.ZIP_ZSTANDARD" title="zipfile.ZIP_ZSTANDARD"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_ZSTANDARD</span></code></a> levanta um <a class="reference internal" href="../builtins/exceptions.html#NotImplementedError" title="NotImplementedError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a>. Um erro também é levantado se o módulo de compactação correspondente não está disponível.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Chama <a class="reference internal" href="#zipfile.ZipFile.read" title="zipfile.ZipFile.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a> em um ZipFile fechado levanta um <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>. Anteriormente, um <a class="reference internal" href="../builtins/exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a> era levantado.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.testzip">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">testzip</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.testzip" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Lê todos os arquivos no arquivo compactado e verifica seus CRC’s e cabeçalhos de arquivo. Retorna o nome do primeiro arquivo corrompido, or então retorna <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Chama <a class="reference internal" href="#zipfile.ZipFile.testzip" title="zipfile.ZipFile.testzip"><code class="xref py py-meth docutils literal notranslate"><span class="pre">testzip()</span></code></a> em um ZipFile fechado levanta um <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>. Anteriormente, um <a class="reference internal" href="../builtins/exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a> era levantado.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.write">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arcname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compresslevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.write" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Grava o arquivo chamado <em>filename</em> no arquivo compactado, dando ao arquivo compactado o nome <em>arcname</em> (por padrão, este é o mesmo de <em>filename</em>, mas sem a letra do drive e com separadores removidos do início do nome). Se informado, <em>compress_type</em> sobrescreve o valor dado ao parâmetro <em>compression</em> do construtor para a nova entrada. Da mesma forma, <em>compresslevel</em> vai sobrescrever o construtor se informado. O arquivo compactado deve ser aberto em modo <code class="docutils literal notranslate"><span class="pre">'w'</span></code>, <code class="docutils literal notranslate"><span class="pre">'x'</span></code> ou <code class="docutils literal notranslate"><span class="pre">'a'</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">O padrão de arquivo ZIP historicamente não especificava uma codificação de metadados, mas recomendava fortemente o CP437 (a codificação original do PC da IBM) para interoperabilidade. Versões recentes permitem o uso de (somente) UTF-8. Neste módulo, o UTF-8 será automaticamente usado para escrever os nomes dos membros se eles contiverem caracteres não ASCII. Não é possível escrever nomes de membros em qualquer codificação que não seja ASCII ou UTF-8.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Nomes de arquivo compactado devem ser relativos a raiz do mesmo, isto é, não devem começar com um separador de caminho.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Se <code class="docutils literal notranslate"><span class="pre">arcname</span></code> (ou <code class="docutils literal notranslate"><span class="pre">filename</span></code>, se <code class="docutils literal notranslate"><span class="pre">arcname</span></code> não for informado) contém um byte nulo, o nome do arquivo no arquivo compactado será truncado no byte nulo.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Uma barra inicial no nome do arquivo pode fazer com que o arquivo seja impossível de abrir em alguns programas zip em sistemas Windows.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Chama <a class="reference internal" href="#zipfile.ZipFile.write" title="zipfile.ZipFile.write"><code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code></a> em um ZipFile criado com modo <code class="docutils literal notranslate"><span class="pre">'r'</span></code> ou em um ZipFile fechado levanta um <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>. Anteriormente, um <a class="reference internal" href="../builtins/exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a> era levantado</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.writestr">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">writestr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zinfo_or_arcname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compresslevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.writestr" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Grava um arquivo no arquivo compactado. O conteúdo é <em>data</em>, que pode ser uma instância de <a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> ou de <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>; Se é uma <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, ela é encodada como UTF-8 primeiro. <em>zinfo_or_arcname</em> é o nome que será dado ao arquivo no arquivo compactado, ou uma instância de <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a>. Se é uma instância, pelo menos o nome do arquivo, a data, e a hora devem ser informados. Se é um nome, a data e hora recebem a data e hora atual. O arquivo compactado deve ser aberto em modo <code class="docutils literal notranslate"><span class="pre">'w'</span></code>, <code class="docutils literal notranslate"><span class="pre">'x'</span></code> ou <code class="docutils literal notranslate"><span class="pre">'a'</span></code>.</p>
+<p class="translated">Se informado, <em>compress_type</em> sobrescreve o valor do parâmetro <em>compression</em> do construtor para a nova entrada, ou no <em>zinfo_or_arcname</em> (se é uma instância de <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a>). Da mesma forma, <em>compresslevel</em> vai sobrescrever o construtor se informado.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Quando é passada uma instância de <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> ou o parâmetro <em>zinfo_or_arcname</em>, o método de compactação usado será aquele especificado no <em>compress_type</em> da instância de <code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code>. Por padrão, o construtor da classe <code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code> seta este membro para <a class="reference internal" href="#zipfile.ZIP_STORED" title="zipfile.ZIP_STORED"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZIP_STORED</span></code></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.2: </span>O argumento <em>compress_type</em>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Chama <a class="reference internal" href="#zipfile.ZipFile.writestr" title="zipfile.ZipFile.writestr"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writestr()</span></code></a> em um ZipFile criado com modo <code class="docutils literal notranslate"><span class="pre">'r'</span></code> ou em um ZipFile fechado levanta um <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>. Anteriormente, um <a class="reference internal" href="../builtins/exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a> era levantado.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.14: </span>Now respects the <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">SOURCE_DATE_EPOCH</span></code> environment variable.
+If set, it uses this value as the modification timestamp for the file
+written into the ZIP archive, instead of using the current time.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipFile.mkdir">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">mkdir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zinfo_or_directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">511</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipFile.mkdir" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cria um diretório dentro do arquivo. Se <em>zinfo_or_directory</em> for uma string, um diretório é criado dentro do arquivo com o modo especificado no argumento <em>mode</em>. No entanto, se <em>zinfo_or_directory</em> for uma instância <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a>, o argumento <em>mode</em> é ignorado.</p>
+<p class="translated">O arquivo deve ser aberto com o modo <code class="docutils literal notranslate"><span class="pre">'w'</span></code>, <code class="docutils literal notranslate"><span class="pre">'x'</span></code> ou <code class="docutils literal notranslate"><span class="pre">'a'</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.11.</span></p>
+</div>
+</dd></dl>
+
+<p class="translated">Os seguintes atributos de dados também estão disponíveis:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipFile.filename">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#zipfile.ZipFile.filename" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Nome do arquivo ZIP.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipFile.debug">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">debug</span></span><a class="headerlink" href="#zipfile.ZipFile.debug" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O nível de saída de debug para usar. Pode ser setado de <code class="docutils literal notranslate"><span class="pre">0</span></code> (valor padrão, sem nenhuma saída) a <code class="docutils literal notranslate"><span class="pre">3</span></code> (com mais saída). A informação de debug é escrita em <code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipFile.comment">
+<span class="sig-prename descclassname"><span class="pre">ZipFile.</span></span><span class="sig-name descname"><span class="pre">comment</span></span><a class="headerlink" href="#zipfile.ZipFile.comment" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O comentário associado ao arquivo ZIP como um objeto <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>. Se atribuir um comentário a uma instância <a class="reference internal" href="#zipfile.ZipFile" title="zipfile.ZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipFile</span></code></a> criada com o modo <code class="docutils literal notranslate"><span class="pre">'w'</span></code>, <code class="docutils literal notranslate"><span class="pre">'x'</span></code> ou <code class="docutils literal notranslate"><span class="pre">'a'</span></code>, não deve ser maior que 65535 bytes. Comentários mais longos do que isso serão truncados.</p>
+</dd></dl>
+
+</section>
+<section id="path-objects">
+<span id="id2"></span><h2 class="translated">Objetos Path<a class="headerlink" href="#path-objects" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="zipfile.Path">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">Path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">at</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Construir um objeto Path a partir de um arquivo zip <code class="docutils literal notranslate"><span class="pre">root</span></code> (que pode ser uma instância <a class="reference internal" href="#zipfile.ZipFile" title="zipfile.ZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipFile</span></code></a> ou <code class="docutils literal notranslate"><span class="pre">file</span></code> adequado para passar para o construtor <code class="xref py py-class docutils literal notranslate"><span class="pre">ZipFile</span></code>).</p>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">at</span></code> especifica a localização deste caminho dentro do arquivo zip, por exemplo, “dir/arquivo.txt”, “dir/” ou “”. O padrão é a string vazia, indicando a raiz.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="untranslated">The <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code> class does not sanitize filenames within the ZIP archive. Unlike
+the <a class="reference internal" href="#zipfile.ZipFile.extract" title="zipfile.ZipFile.extract"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ZipFile.extract()</span></code></a> and <a class="reference internal" href="#zipfile.ZipFile.extractall" title="zipfile.ZipFile.extractall"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ZipFile.extractall()</span></code></a> methods, it is the
+caller’s responsibility to validate or sanitize filenames to prevent path traversal
+vulnerabilities (for example, absolute paths or paths with “..” components). When handling
+untrusted archives, consider resolving filenames using <a class="reference internal" href="os.path.html#os.path.abspath" title="os.path.abspath"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.path.abspath()</span></code></a>
+and checking against the target directory with <a class="reference internal" href="os.path.html#os.path.commonpath" title="os.path.commonpath"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.path.commonpath()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<p class="translated">Objetos Path expõem os seguintes recursos de objetos <a class="reference internal" href="pathlib.html#pathlib.Path" title="pathlib.Path"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a>:</p>
+<p class="translated">Objetos Path podem ser percorridos usando o operador <code class="docutils literal notranslate"><span class="pre">/</span></code> ou <code class="docutils literal notranslate"><span class="pre">joinpath</span></code>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.Path.name">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#zipfile.Path.name" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O componente final do caminho.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.open">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode='r'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pwd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.open" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Invoca <a class="reference internal" href="#zipfile.ZipFile.open" title="zipfile.ZipFile.open"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ZipFile.open()</span></code></a> no caminho atual. Permite a abertura para leitura ou escrita, texto ou binário através dos modos suportados: “r”, “w”, “rb”, “wb”. Argumentos posicionais e argumentos nomeados são passados para <a class="reference internal" href="io.html#io.TextIOWrapper" title="io.TextIOWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.TextIOWrapper</span></code></a> quando abertos como texto e ignorados caso contrário. <code class="docutils literal notranslate"><span class="pre">pwd</span></code> é o parâmetro <code class="docutils literal notranslate"><span class="pre">pwd</span></code> para <code class="xref py py-meth docutils literal notranslate"><span class="pre">ZipFile.open()</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.9: </span>Adicionado suporte para modos de texto e binários para aberto. O modo padrão agora é texto.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.11.2: </span>O parâmetro <code class="docutils literal notranslate"><span class="pre">encoding</span></code> pode ser fornecido como um argumento posicional sem causar um <a class="reference internal" href="../builtins/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>. Como poderia em 3.9. O código que precisa ser compatível com as versões 3.10 e 3.11 não corrigidas deve passar todos os argumentos de <a class="reference internal" href="io.html#io.TextIOWrapper" title="io.TextIOWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.TextIOWrapper</span></code></a>, incluindo <code class="docutils literal notranslate"><span class="pre">encoding</span></code>, como palavras reservadas.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.iterdir">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">iterdir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.iterdir" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Enumera os filhos do diretório atual.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.is_dir">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">is_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.is_dir" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se o contexto atual fizer referência a um diretório.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.is_file">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">is_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.is_file" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se o contexto atual fizer referência a um arquivo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.is_symlink">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">is_symlink</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.is_symlink" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se o contexto atual fizer referência a um link simbólico.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.12.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>Anteriormente, <code class="docutils literal notranslate"><span class="pre">is_symlink</span></code> retornava <code class="docutils literal notranslate"><span class="pre">False</span></code> incondicionalmente.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.exists">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">exists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.exists" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se o contexto atual fizer referência a um arquivo ou diretório no arquivo zip.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zipfile.Path.suffix">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">suffix</span></span><a class="headerlink" href="#zipfile.Path.suffix" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A última parte separada por pontos do componente final, se houver. Isso é comumente chamado de extensão de arquivo.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.11: </span>Adicionada a propriedade <a class="reference internal" href="#zipfile.Path.suffix" title="zipfile.Path.suffix"><code class="xref py py-data docutils literal notranslate"><span class="pre">Path.suffix</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zipfile.Path.stem">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">stem</span></span><a class="headerlink" href="#zipfile.Path.stem" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O componente final do caminho, sem seu sufixo.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.11: </span>Adicionada a propriedade <a class="reference internal" href="#zipfile.Path.stem" title="zipfile.Path.stem"><code class="xref py py-data docutils literal notranslate"><span class="pre">Path.stem</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zipfile.Path.suffixes">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">suffixes</span></span><a class="headerlink" href="#zipfile.Path.suffixes" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma lista dos sufixos do caminho, comumente chamados de extensões de arquivo.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.11: </span>Adicionada a propriedade <a class="reference internal" href="#zipfile.Path.suffixes" title="zipfile.Path.suffixes"><code class="xref py py-data docutils literal notranslate"><span class="pre">Path.suffixes</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.read_text">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">read_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.read_text" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Leia o arquivo atual como texto Unicode. Argumentos posicionais e argumentos nomeados são passados para <a class="reference internal" href="io.html#io.TextIOWrapper" title="io.TextIOWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.TextIOWrapper</span></code></a> (exceto <code class="docutils literal notranslate"><span class="pre">buffer</span></code>, que está implícito no contexto).</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.11.2: </span>O parâmetro <code class="docutils literal notranslate"><span class="pre">encoding</span></code> pode ser fornecido como um argumento posicional sem causar um <a class="reference internal" href="../builtins/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>. Como poderia em 3.9. O código que precisa ser compatível com as versões 3.10 e 3.11 não corrigidas deve passar todos os argumentos de <a class="reference internal" href="io.html#io.TextIOWrapper" title="io.TextIOWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.TextIOWrapper</span></code></a>, incluindo <code class="docutils literal notranslate"><span class="pre">encoding</span></code>, como palavras reservadas.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.read_bytes">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">read_bytes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.read_bytes" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Lê o arquivo atual como bytes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.Path.joinpath">
+<span class="sig-prename descclassname"><span class="pre">Path.</span></span><span class="sig-name descname"><span class="pre">joinpath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.Path.joinpath" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um novo objeto Path com cada um dos <em>outros</em> argumentos unidos. Os seguintes são equivalentes:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">'child'</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">'grandchild'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">'child'</span><span class="p">,</span> <span class="s1">'grandchild'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="o">/</span> <span class="s1">'child'</span> <span class="o">/</span> <span class="s1">'grandchild'</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.10: </span>Antes de 3.10, <code class="docutils literal notranslate"><span class="pre">joinpath</span></code> não estava documentado e aceitava exatamente um parâmetro.</p>
+</div>
+</dd></dl>
+
+<p class="translated">O projeto <a class="extlink-pypi reference external" href="https://pypi.org/project/zipp/">zipp</a> fornece backports da funcionalidade mais recente de objeto caminho para versões mais antigas do Pythons. Use <code class="docutils literal notranslate"><span class="pre">zipp.Path</span></code> internamente de <code class="docutils literal notranslate"><span class="pre">zipfile.Path</span></code> para acesso antecipado às alterações.</p>
+</section>
+<section id="pyzipfile-objects">
+<span id="id3"></span><h2 class="translated">Objetos PyZipFile<a class="headerlink" href="#pyzipfile-objects" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O construtor <a class="reference internal" href="#zipfile.PyZipFile" title="zipfile.PyZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyZipFile</span></code></a> usa os mesmos parâmetros que o construtor <a class="reference internal" href="#zipfile.ZipFile" title="zipfile.ZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipFile</span></code></a>, e um parâmetro adicional, <em>otimize</em>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="zipfile.PyZipFile">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zipfile.</span></span><span class="sig-name descname"><span class="pre">PyZipFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'r'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ZIP_STORED</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowZip64</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.PyZipFile" title="Link para esta definição">¶</a></dt>
+<dd><div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.2: </span>Adicionado o parâmetro <em>optimize</em>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.4: </span>Extensões ZIP64 são habilitadas por padrão.</p>
+</div>
+<p class="translated">As instâncias têm um método além daqueles dos objetos <a class="reference internal" href="#zipfile.ZipFile" title="zipfile.ZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipFile</span></code></a>:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.PyZipFile.writepy">
+<span class="sig-name descname"><span class="pre">writepy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pathname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filterfunc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.PyZipFile.writepy" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Pesquisa por arquivos <code class="file docutils literal notranslate"><span class="pre">*.py</span></code> e adiciona o arquivo correspondente ao arquivo.</p>
+<p class="translated">Se o parâmetro <em>optimize</em> para <a class="reference internal" href="#zipfile.PyZipFile" title="zipfile.PyZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyZipFile</span></code></a> não foi fornecido ou <code class="docutils literal notranslate"><span class="pre">-1</span></code>, o arquivo correspondente é um arquivo <code class="file docutils literal notranslate"><span class="pre">*.pyc</span></code>, compilando se necessário.</p>
+<p class="translated">Se o parâmetro <em>Optimize</em> para <a class="reference internal" href="#zipfile.PyZipFile" title="zipfile.PyZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyZipFile</span></code></a> era <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code> ou <code class="docutils literal notranslate"><span class="pre">2</span></code>, apenas arquivos com esse nível de otimização (ver <a class="reference internal" href="../builtins/functions.html#compile" title="compile"><code class="xref py py-func docutils literal notranslate"><span class="pre">compile()</span></code></a>) são adicionados ao o arquivo, compilando se necessário.</p>
+<p class="translated">Se <em>pathname</em> for um arquivo, o nome do arquivo deverá terminar com <code class="file docutils literal notranslate"><span class="pre">.py</span></code>, e apenas o arquivo (<code class="file docutils literal notranslate"><span class="pre">*.pyc</span></code> correspondente) será adicionado no nível superior (sem informações do caminho). Se <em>pathname</em> for um arquivo que não termine com <code class="file docutils literal notranslate"><span class="pre">.py</span></code>, um <a class="reference internal" href="../builtins/exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a> será levantado. Se for um diretório, e o diretório não for um diretório de pacotes, todos os arquivos <code class="file docutils literal notranslate"><span class="pre">*.pyc</span></code> serão adicionados no nível superior. Se o diretório for um diretório de pacotes, todos <code class="file docutils literal notranslate"><span class="pre">*.pyc</span></code> serão adicionados sob o nome do pacote como um caminho de arquivo e, se algum subdiretório for um diretório de pacotes, todos serão adicionados recursivamente na ordem de classificação.</p>
+<p class="translated"><em>basename</em> destina-se apenas a uso interno.</p>
+<p class="translated"><em>filterfunc</em>, se fornecido, deve ser uma função que recebe um único argumento de string. Cada caminho será passado (incluindo cada caminho de arquivo completo individual) antes de ser adicionado ao arquivo. Se <em>filterfunc</em> retornar um valor falso, o caminho não será adicionado e, se for um diretório, seu conteúdo será ignorado. Por exemplo, se nossos arquivos de teste estão todos nos diretórios <code class="docutils literal notranslate"><span class="pre">test</span></code> ou começam com a string <code class="docutils literal notranslate"><span class="pre">test_</span></code>, podemos usar um <em>filterfunc</em> para excluí-los:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">zf</span> <span class="o">=</span> <span class="n">PyZipFile</span><span class="p">(</span><span class="s1">'myprog.zip'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">notests</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">fn</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="p">(</span><span class="ow">not</span> <span class="p">(</span><span class="n">fn</span> <span class="o">==</span> <span class="s1">'test'</span> <span class="ow">or</span> <span class="n">fn</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'test_'</span><span class="p">)))</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zf</span><span class="o">.</span><span class="n">writepy</span><span class="p">(</span><span class="s1">'myprog'</span><span class="p">,</span> <span class="n">filterfunc</span><span class="o">=</span><span class="n">notests</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">O método <a class="reference internal" href="#zipfile.PyZipFile.writepy" title="zipfile.PyZipFile.writepy"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writepy()</span></code></a> faz arquivos com nomes de arquivo como este:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">string</span><span class="o">.</span><span class="n">pyc</span>                   <span class="c1"># Nome de nível superior</span>
+<span class="n">test</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">pyc</span>            <span class="c1"># Diretório do pacote</span>
+<span class="n">test</span><span class="o">/</span><span class="n">testall</span><span class="o">.</span><span class="n">pyc</span>             <span class="c1"># Módulo test.testall</span>
+<span class="n">test</span><span class="o">/</span><span class="n">bogus</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">pyc</span>      <span class="c1"># Diretório do subpacote</span>
+<span class="n">test</span><span class="o">/</span><span class="n">bogus</span><span class="o">/</span><span class="n">myfile</span><span class="o">.</span><span class="n">pyc</span>        <span class="c1"># Submódulo test.bogus.myfile</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.4: </span>Adicionado o parâmetro <em>filterfunc</em>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6.2: </span>O parâmetro <em>pathname</em> aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.7: </span>A recursão classifica as entradas de diretório.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="zipinfo-objects">
+<span id="id4"></span><h2 class="translated">Objetos ZipInfo<a class="headerlink" href="#zipinfo-objects" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Instâncias da classe <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> são retornadas pelos métodos <a class="reference internal" href="#zipfile.ZipFile.getinfo" title="zipfile.ZipFile.getinfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getinfo()</span></code></a> e <a class="reference internal" href="#zipfile.ZipFile.infolist" title="zipfile.ZipFile.infolist"><code class="xref py py-meth docutils literal notranslate"><span class="pre">infolist()</span></code></a> dos objetos <a class="reference internal" href="#zipfile.ZipFile" title="zipfile.ZipFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipFile</span></code></a>. Cada objeto armazena informações sobre um único membro do arquivo ZIP.</p>
+<p class="translated">Existe um método de classe para fazer uma instância <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> para um arquivo de sistema de arquivos:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.from_file">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arcname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_timestamps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipInfo.from_file" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Constrói uma instância <a class="reference internal" href="#zipfile.ZipInfo" title="zipfile.ZipInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZipInfo</span></code></a> para um arquivo no sistema de arquivos, em preparação para adicioná-lo a um arquivo zip.</p>
+<p class="translated"><em>filename</em> deve ser o caminho para um arquivo ou diretório no sistema de arquivos.</p>
+<p class="translated">Se <em>arcname</em> for especificado, ele será usado como o nome dentro do arquivo. Se <em>arcname</em> não for especificado, o nome será igual a <em>filename</em>, mas com qualquer letra de unidade e separadores de caminho removidos.</p>
+<p class="translated">O argumento <em>strict_timestamps</em>, quando definido como <code class="docutils literal notranslate"><span class="pre">False</span></code>, permite compactar arquivos anteriores a 1980-01-01 com o custo de definir o carimbo de data/hora para 1980-01-01. Comportamento semelhante ocorre com arquivos mais recentes que 2107-12-31, o carimbo de data/hora também é definido como o limite.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.6.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6.2: </span>O parâmetro <em>filename</em> aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.8: </span>Adicionado o parâmetro somente-nomeado <em>strict_timestamps</em>.</p>
+</div>
+</dd></dl>
+
+<p class="translated">As instâncias têm os seguintes métodos e atributos:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.is_dir">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">is_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipfile.ZipInfo.is_dir" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se este membro do arquivo for um diretório.</p>
+<p class="translated">Isso usa o nome da entrada: os diretórios devem sempre terminar com <code class="docutils literal notranslate"><span class="pre">/</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.filename">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#zipfile.ZipInfo.filename" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Nome do arquivo no pacote.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.date_time">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">date_time</span></span><a class="headerlink" href="#zipfile.ZipInfo.date_time" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A hora e a data da última modificação no membro do arquivo. Esta é uma tupla de seis valores que representam os campos “last [modified] file time” (última hora [de modificado] do arquivo) e “last [modified] file date” (última data [de modificação] do arquivo) do diretório central do arquivo ZIP.</p>
+<p class="translated">A tupla contém:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Índice</p></th>
+<th class="head"><p class="translated">Valor</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p class="translated">Ano (&gt;= 1980)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p class="translated">Mês (iniciado em 1)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">2</span></code></p></td>
+<td><p class="translated">Dia do mês (iniciado em 1)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">3</span></code></p></td>
+<td><p class="translated">Horas (iniciado em 0)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">4</span></code></p></td>
+<td><p class="translated">Minutos (base zero)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">5</span></code></p></td>
+<td><p class="translated">Segundos (iniciado em 0)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">O formato ZIP oferece suporte a vários campos de registro de data e hora em diferentes locais (diretório central, campos extras para sistemas NTFS/UNIX, etc.). Este atributo retorna especificamente o registro de data e hora do diretório central. O formato de registro de data e hora do diretório central em arquivos ZIP não oferece suporte a registros de data e hora anteriores a 1980. Embora alguns formatos de campos extras (como registros de data e hora do UNIX) possam representar datas anteriores, este atributo retorna apenas o registro de data e hora do diretório central.</p>
+<p class="translated">O registro de data e hora do diretório central é interpretado como representando a hora local, em vez da hora UTC, para corresponder ao comportamento de outras ferramentas zip.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.compress_type">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">compress_type</span></span><a class="headerlink" href="#zipfile.ZipInfo.compress_type" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Tipo de compressão do membro do pacote.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.comment">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">comment</span></span><a class="headerlink" href="#zipfile.ZipInfo.comment" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Comentário para o membro individual do pacote como um objeto <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.extra">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">extra</span></span><a class="headerlink" href="#zipfile.ZipInfo.extra" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Dados do campo de expansão. O <a class="reference external" href="https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT">PKZIP Application Note</a> contém alguns comentários sobre a estrutura interna dos dados contidos neste objeto <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.create_system">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">create_system</span></span><a class="headerlink" href="#zipfile.ZipInfo.create_system" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O sistema que criou o pacote ZIP.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.create_version">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">create_version</span></span><a class="headerlink" href="#zipfile.ZipInfo.create_version" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A versão do PKZIP que criou o pacote ZIP.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.extract_version">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">extract_version</span></span><a class="headerlink" href="#zipfile.ZipInfo.extract_version" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A versão do PKZIP necessária para extrair o pacote.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.reserved">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">reserved</span></span><a class="headerlink" href="#zipfile.ZipInfo.reserved" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Deve ser zero</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.flag_bits">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">flag_bits</span></span><a class="headerlink" href="#zipfile.ZipInfo.flag_bits" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Bits de sinalizador do ZIP.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.volume">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">volume</span></span><a class="headerlink" href="#zipfile.ZipInfo.volume" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Número de volume do cabeçalho do arquivo.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.internal_attr">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">internal_attr</span></span><a class="headerlink" href="#zipfile.ZipInfo.internal_attr" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Atributos internos.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.external_attr">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">external_attr</span></span><a class="headerlink" href="#zipfile.ZipInfo.external_attr" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Atributos de arquivo externo.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.header_offset">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">header_offset</span></span><a class="headerlink" href="#zipfile.ZipInfo.header_offset" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Deslocamento de byte para o cabeçalho do arquivo.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.CRC">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">CRC</span></span><a class="headerlink" href="#zipfile.ZipInfo.CRC" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">CRC-32 do arquivo não comprimido.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.compress_size">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">compress_size</span></span><a class="headerlink" href="#zipfile.ZipInfo.compress_size" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Tamanho dos dados comprimidos.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zipfile.ZipInfo.file_size">
+<span class="sig-prename descclassname"><span class="pre">ZipInfo.</span></span><span class="sig-name descname"><span class="pre">file_size</span></span><a class="headerlink" href="#zipfile.ZipInfo.file_size" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Tamanho do arquivo não comprimido.</p>
+</dd></dl>
+
+</section>
+<section id="command-line-interface">
+<span id="zipfile-commandline"></span><h2 class="translated">Interface de linha de comando<a class="headerlink" href="#command-line-interface" title="Link para este cabeçalho">¶</a></h2>
+<p class="untranslated">The <code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code> module provides a simple command-line interface to interact
+with ZIP archives.</p>
+<p class="translated">Se você deseja criar um novo arquivo ZIP, especifique seu nome após a opção <a class="reference internal" href="#cmdoption-zipfile-c"><code class="xref std std-option docutils literal notranslate"><span class="pre">-c</span></code></a> e, em seguida, liste os nomes dos arquivos que devem ser incluídos:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>zipfile<span class="w"> </span>-c<span class="w"> </span>monty.zip<span class="w"> </span>spam.txt<span class="w"> </span>eggs.txt
+</pre></div>
+</div>
+<p class="translated">Passar um diretório também é aceitável:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>zipfile<span class="w"> </span>-c<span class="w"> </span>monty.zip<span class="w"> </span>life-of-brian_1979/
+</pre></div>
+</div>
+<p class="translated">Se você deseja extrair um arquivo ZIP para o diretório especificado, use a opção <a class="reference internal" href="#cmdoption-zipfile-e"><code class="xref std std-option docutils literal notranslate"><span class="pre">-e</span></code></a>:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>zipfile<span class="w"> </span>-e<span class="w"> </span>monty.zip<span class="w"> </span>target-dir/
+</pre></div>
+</div>
+<p class="translated">Para obter uma lista dos arquivos em um arquivo ZIP, use a opção <a class="reference internal" href="#cmdoption-zipfile-l"><code class="xref std std-option docutils literal notranslate"><span class="pre">-l</span></code></a>:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>zipfile<span class="w"> </span>-l<span class="w"> </span>monty.zip
+</pre></div>
+</div>
+<section id="command-line-options">
+<h3 class="translated">Opções de linha de comando<a class="headerlink" href="#command-line-options" title="Link para este cabeçalho">¶</a></h3>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-zipfile-l">
+<span class="sig-name descname"><span class="pre">-l</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;zipfile&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-l" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object std" id="cmdoption-zipfile-list">
+<span class="sig-name descname"><span class="pre">--list</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;zipfile&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-list" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Lista arquivos em um arquivo zip.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-zipfile-c">
+<span class="sig-name descname"><span class="pre">-c</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;zipfile&gt;</span> <span class="pre">&lt;source1&gt;</span> <span class="pre">...</span> <span class="pre">&lt;sourceN&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-c" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object std" id="cmdoption-zipfile-create">
+<span class="sig-name descname"><span class="pre">--create</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;zipfile&gt;</span> <span class="pre">&lt;source1&gt;</span> <span class="pre">...</span> <span class="pre">&lt;sourceN&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-create" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cria um arquivo zip a partir dos arquivos fonte.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-zipfile-e">
+<span class="sig-name descname"><span class="pre">-e</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;zipfile&gt;</span> <span class="pre">&lt;output_dir&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-e" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object std" id="cmdoption-zipfile-extract">
+<span class="sig-name descname"><span class="pre">--extract</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;zipfile&gt;</span> <span class="pre">&lt;output_dir&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-extract" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Extrai um arquivo zip para um diretório de destino.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-zipfile-t">
+<span class="sig-name descname"><span class="pre">-t</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;zipfile&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-t" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object std" id="cmdoption-zipfile-test">
+<span class="sig-name descname"><span class="pre">--test</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;zipfile&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-test" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Testa se o arquivo zip é válido ou não.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-zipfile-metadata-encoding">
+<span class="sig-name descname"><span class="pre">--metadata-encoding</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;encoding&gt;</span></span><a class="headerlink" href="#cmdoption-zipfile-metadata-encoding" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Especifica a codificação dos nomes dos membros para <a class="reference internal" href="#cmdoption-zipfile-l"><code class="xref std std-option docutils literal notranslate"><span class="pre">-l</span></code></a>, <a class="reference internal" href="#cmdoption-zipfile-e"><code class="xref std std-option docutils literal notranslate"><span class="pre">-e</span></code></a> e <a class="reference internal" href="#cmdoption-zipfile-t"><code class="xref std std-option docutils literal notranslate"><span class="pre">-t</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.11.</span></p>
+</div>
+</dd></dl>
+
+</section>
+</section>
+<section id="decompression-pitfalls">
+<h2 class="translated">Armadilhas de descompressão<a class="headerlink" href="#decompression-pitfalls" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">A extração no módulo zipfile pode falhar devido a algumas armadilhas listadas abaixo.</p>
+<section id="from-file-itself">
+<h3 class="translated">Do próprio arquivo<a class="headerlink" href="#from-file-itself" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">A descompactação pode falhar devido a senha / soma de verificação CRC / formato ZIP incorretos ou método de compactação / descriptografia não compatível.</p>
+</section>
+<section id="file-system-limitations">
+<h3 class="translated">Limitações do sistema de arquivos<a class="headerlink" href="#file-system-limitations" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Exceder as limitações em sistemas de arquivos diferentes pode causar falha na descompactação. Como caracteres permitidos nas entradas do diretório, comprimento do nome do arquivo, comprimento do caminho, tamanho de um único arquivo e número de arquivos, etc.</p>
+</section>
+<section id="resources-limitations">
+<span id="zipfile-resources-limitations"></span><h3 class="translated">Limitações de recursos<a class="headerlink" href="#resources-limitations" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">A falta de memória ou volume de disco levaria a uma falha de descompactação. Por exemplo, bombas de descompressão (também conhecidas como <a class="reference external" href="https://en.wikipedia.org/wiki/Zip_bomb">ZIP bomb</a>) aplicam-se à biblioteca de arquivos zip que podem causar o esgotamento do volume do disco.</p>
+</section>
+<section id="interruption">
+<h3 class="translated">Interrupção<a class="headerlink" href="#interruption" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">A interrupção durante a descompressão, como pressionar Control-C ou interromper o processo de descompressão pode resultar na descompressão incompleta do arquivo.</p>
+</section>
+<section id="default-behaviors-of-extraction">
+<h3 class="translated">Comportamentos padrão da extração<a class="headerlink" href="#default-behaviors-of-extraction" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Não saber os comportamentos de extração padrão pode causar resultados de descompressão inesperados. Por exemplo, ao extrair o mesmo arquivo duas vezes, ele sobrescreve os arquivos sem perguntar.</p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code> — Trabalha com arquivos ZIP</a><ul>
+<li><a class="reference internal" href="#zipfile-objects">Objetos ZipFile</a></li>
+<li><a class="reference internal" href="#path-objects">Objetos Path</a></li>
+<li><a class="reference internal" href="#pyzipfile-objects">Objetos PyZipFile</a></li>
+<li><a class="reference internal" href="#zipinfo-objects">Objetos ZipInfo</a></li>
+<li><a class="reference internal" href="#command-line-interface">Interface de linha de comando</a><ul>
+<li><a class="reference internal" href="#command-line-options">Opções de linha de comando</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#decompression-pitfalls">Armadilhas de descompressão</a><ul>
+<li><a class="reference internal" href="#from-file-itself">Do próprio arquivo</a></li>
+<li><a class="reference internal" href="#file-system-limitations">Limitações do sistema de arquivos</a></li>
+<li><a class="reference internal" href="#resources-limitations">Limitações de recursos</a></li>
+<li><a class="reference internal" href="#interruption">Interrupção</a></li>
+<li><a class="reference internal" href="#default-behaviors-of-extraction">Comportamentos padrão da extração</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="lzma.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lzma</span></code> — Compressão usando o algoritmo LZMA</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="tarfile.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tarfile</span></code> — Ler e gravar arquivos do tipo tar</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/zipfile.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/zipfile.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/zipfile.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="tarfile.html" title="tarfile — Ler e gravar arquivos do tipo tar"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="lzma.html" title="lzma — Compressão usando o algoritmo LZMA"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="archiving.html" >Compressão de Dados e Arquivamento</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code> — Trabalha com arquivos ZIP</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

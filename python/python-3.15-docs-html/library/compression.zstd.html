@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="compression.zstd — Compactação compatível com o formato Zstandard" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/compression.zstd.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/compression/zstd/__init__.py Este módulo fornece classes e funções para compactar e descompactar dados usando o algoritmo de compactação Zstandard (ou zstd). O manual do zstd desc..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_compression.zstd_3cf8a930.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/compression/zstd/__init__.py Este módulo fornece classes e funções para compactar e descompactar dados usando o algoritmo de compactação Zstandard (ou zstd). O manual do zstd desc..." />
+<meta name="description" content="Código-fonte: Lib/compression/zstd/__init__.py Este módulo fornece classes e funções para compactar e descompactar dados usando o algoritmo de compactação Zstandard (ou zstd). O manual do zstd desc..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>compression.zstd — Compactação compatível com o formato Zstandard &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="zlib — Compactação compatível com gzip" href="zlib.html" />
+    <link rel="prev" title="O pacote compression" href="compression.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/compression.zstd.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">compression.zstd</span></code> — Compactação compatível com o formato Zstandard</a><ul>
+<li><a class="reference internal" href="#exceptions">Exceções</a></li>
+<li><a class="reference internal" href="#reading-and-writing-compressed-files">Lendo e escrevendo arquivos compactados</a></li>
+<li><a class="reference internal" href="#compressing-and-decompressing-data-in-memory">Compactando e descompactando dados na memória</a></li>
+<li><a class="reference internal" href="#zstandard-dictionaries">Dicionários de Zstandard</a></li>
+<li><a class="reference internal" href="#advanced-parameter-control">Controle avançado de parâmetros</a></li>
+<li><a class="reference internal" href="#miscellaneous">Diversos</a></li>
+<li><a class="reference internal" href="#examples">Exemplos</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="compression.html"
+                          title="capítulo anterior">O pacote <code class="xref py py-mod docutils literal notranslate"><span class="pre">compression</span></code></a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="zlib.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zlib</span></code> — Compactação compatível com <strong class="program">gzip</strong></a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/compression.zstd.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/compression.zstd.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/compression.zstd.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="zlib.html" title="zlib — Compactação compatível com gzip"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="compression.html" title="O pacote compression"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="archiving.html" accesskey="U">Compressão de Dados e Arquivamento</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">compression.zstd</span></code> — Compactação compatível com o formato Zstandard</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-compression.zstd">
+<span id="compression-zstd-compression-compatible-with-the-zstandard-format"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">compression.zstd</span></code> — Compactação compatível com o formato Zstandard<a class="headerlink" href="#module-compression.zstd" title="Link para este cabeçalho">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/compression/zstd/__init__.py">Lib/compression/zstd/__init__.py</a></p>
+<hr class="docutils" />
+<p class="translated">Este módulo fornece classes e funções para compactar e descompactar dados usando o algoritmo de compactação Zstandard (ou <em>zstd</em>). O <a class="reference external" href="https://facebook.github.io/zstd/doc/api_manual_latest.html">manual do zstd</a> descreve o Zstandard como “um algoritmo de compactação rápido e sem perdas, voltado para cenários de compactação em tempo real, no nível de zlib, com taxas de compactação melhores”. Também está incluída uma interface de arquivo que oferece suporte à leitura e à gravação do conteúdo de arquivos <code class="docutils literal notranslate"><span class="pre">.zst</span></code> criados pelo utilitário <strong class="program">zstd</strong>, bem como de fluxos compactados zstd brutos.</p>
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">compression.zstd</span></code> contém:</p>
+<ul class="simple">
+<li><p class="translated">A função <a class="reference internal" href="#compression.zstd.open" title="compression.zstd.open"><code class="xref py py-func docutils literal notranslate"><span class="pre">open()</span></code></a> e a classe <a class="reference internal" href="#compression.zstd.ZstdFile" title="compression.zstd.ZstdFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdFile</span></code></a> para leitura e escrita de arquivos compactados.</p></li>
+<li><p class="translated">As classes <a class="reference internal" href="#compression.zstd.ZstdCompressor" title="compression.zstd.ZstdCompressor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdCompressor</span></code></a> e <a class="reference internal" href="#compression.zstd.ZstdDecompressor" title="compression.zstd.ZstdDecompressor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDecompressor</span></code></a> para (des)compactação incremental.</p></li>
+<li><p class="translated">As funções <a class="reference internal" href="#compression.zstd.compress" title="compression.zstd.compress"><code class="xref py py-func docutils literal notranslate"><span class="pre">compress()</span></code></a> e <a class="reference internal" href="#compression.zstd.decompress" title="compression.zstd.decompress"><code class="xref py py-func docutils literal notranslate"><span class="pre">decompress()</span></code></a> para (des)compactação de uma só vez.</p></li>
+<li><p class="translated">As funções <a class="reference internal" href="#compression.zstd.train_dict" title="compression.zstd.train_dict"><code class="xref py py-func docutils literal notranslate"><span class="pre">train_dict()</span></code></a> e <a class="reference internal" href="#compression.zstd.finalize_dict" title="compression.zstd.finalize_dict"><code class="xref py py-func docutils literal notranslate"><span class="pre">finalize_dict()</span></code></a> e a classe <a class="reference internal" href="#compression.zstd.ZstdDict" title="compression.zstd.ZstdDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDict</span></code></a> para treinar e gerenciar dicionários Zstandard.</p></li>
+<li><p class="translated">As classes <a class="reference internal" href="#compression.zstd.CompressionParameter" title="compression.zstd.CompressionParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompressionParameter</span></code></a>, <a class="reference internal" href="#compression.zstd.DecompressionParameter" title="compression.zstd.DecompressionParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecompressionParameter</span></code></a> e <a class="reference internal" href="#compression.zstd.Strategy" title="compression.zstd.Strategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">Strategy</span></code></a> para definir parâmetros avançados de (des)compactação.</p></li>
+</ul>
+<p class="translated">Este é um <a class="reference internal" href="../glossary.html#term-optional-module"><span class="xref std std-term">módulo opcional</span></a>. Se ele estiver faltando na sua cópia do CPython, procure a documentação do seu distribuidor (ou seja, quem lhe forneceu o Python). Se você for o distribuidor, consulte <a class="reference internal" href="../using/configure.html#optional-module-requirements"><span class="std std-ref">Requisitos para módulos opcionais</span></a>.</p>
+<section id="exceptions">
+<h2 class="translated">Exceções<a class="headerlink" href="#exceptions" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="compression.zstd.ZstdError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">ZstdError</span></span><a class="headerlink" href="#compression.zstd.ZstdError" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Essa exceção é levantada quando ocorre um erro durante a compactação ou descompactação ou durante a inicialização do estado (des)compactador.</p>
+</dd></dl>
+
+</section>
+<section id="reading-and-writing-compressed-files">
+<h2 class="translated">Lendo e escrevendo arquivos compactados<a class="headerlink" href="#reading-and-writing-compressed-files" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="compression.zstd.open">
+<span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rb'</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zstd_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.open" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Abre um arquivo compactado com Zstandard em modo binário ou texto, retornando <a class="reference internal" href="../glossary.html#term-file-object"><span class="xref std std-term">objeto arquivo</span></a>.</p>
+<p class="translated">O argumento <em>file</em> pode ser um nome de arquivo (dado como um objeto <a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> ou <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">caminho ou similar</span></a>), neste caso o arquivo nomeado é aberto , ou pode ser um objeto arquivo existente para leitura ou escrita.</p>
+<p class="translated">O argumento mode pode ser <code class="docutils literal notranslate"><span class="pre">'rb'</span></code> para leitura (padrão), <code class="docutils literal notranslate"><span class="pre">'wb'</span></code> para sobrescrever, <code class="docutils literal notranslate"><span class="pre">'ab'</span></code> para anexar ou <code class="docutils literal notranslate"><span class="pre">'xb'</span></code> para criação exclusiva. Estes podem ser fornecidos como <code class="docutils literal notranslate"><span class="pre">'r'</span></code>, <code class="docutils literal notranslate"><span class="pre">'w'</span></code>, <code class="docutils literal notranslate"><span class="pre">'a'</span></code> e <code class="docutils literal notranslate"><span class="pre">'x'</span></code>, respectivamente. Você também pode abrir em modo texto com <code class="docutils literal notranslate"><span class="pre">'rt'</span></code>, <code class="docutils literal notranslate"><span class="pre">'wt'</span></code>, <code class="docutils literal notranslate"><span class="pre">'at'</span></code> e <code class="docutils literal notranslate"><span class="pre">'xt'</span></code>, respectivamente.</p>
+<p class="translated">Durante a leitura, o argumento <em>options</em> pode ser um dicionário que fornece parâmetros avançados de descompactação; consulte <a class="reference internal" href="#compression.zstd.DecompressionParameter" title="compression.zstd.DecompressionParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecompressionParameter</span></code></a> para obter informações detalhadas sobre os parâmetros suportados. O argumento <em>zstd_dict</em> é uma instância de <a class="reference internal" href="#compression.zstd.ZstdDict" title="compression.zstd.ZstdDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDict</span></code></a> a ser usada durante a descompactação. Durante a leitura, se o argumento <em>level</em> não for None, uma exceção <code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code> será levantada.</p>
+<p class="untranslated">When writing, the <em>options</em> argument can be a dictionary
+providing advanced compression parameters; see
+<a class="reference internal" href="#compression.zstd.CompressionParameter" title="compression.zstd.CompressionParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompressionParameter</span></code></a> for detailed information about supported
+parameters. The <em>level</em> argument is the compression level to use when
+writing compressed data. Only one of <em>level</em> or <em>options</em> may be non-None.
+The <em>zstd_dict</em> argument is a <a class="reference internal" href="#compression.zstd.ZstdDict" title="compression.zstd.ZstdDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDict</span></code></a> instance to be used during
+compression.</p>
+<p class="translated">Em modo binário, esta função equivale ao construtor <a class="reference internal" href="#compression.zstd.ZstdFile" title="compression.zstd.ZstdFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdFile</span></code></a>: <code class="docutils literal notranslate"><span class="pre">ZstdFile(file,</span> <span class="pre">mode,</span> <span class="pre">...)</span></code>. Nesse caso, os parâmetros <em>encoding</em>, <em>errors</em> e <em>newline</em> não devem ser fornecidos.</p>
+<p class="translated">Em modo texto, um objeto <a class="reference internal" href="#compression.zstd.ZstdFile" title="compression.zstd.ZstdFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdFile</span></code></a> é criado e encapsulado em uma instância <a class="reference internal" href="io.html#io.TextIOWrapper" title="io.TextIOWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.TextIOWrapper</span></code></a> com a codificação especificada, comportamento de tratamento de erros e fins de linha.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="compression.zstd.ZstdFile">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">ZstdFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rb'</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zstd_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.ZstdFile" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Abre um arquivo compactado com Zstandard no modo binário.</p>
+<p class="translated">Um <a class="reference internal" href="#compression.zstd.ZstdFile" title="compression.zstd.ZstdFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdFile</span></code></a> pode envolver um <a class="reference internal" href="../glossary.html#term-file-object"><span class="xref std std-term">objeto arquivo</span></a> já aberto, ou operar diretamente em um arquivo nomeado. O argumento <em>file</em> especifica o objeto arquivo a ser envolvido ou o nome do arquivo a ser aberto (como um objeto <a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> ou <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>). Se estiver envolvendo um objeto arquivo existente, o arquivo envolvido não será fechado quando o <code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdFile</span></code> for fechado.</p>
+<p class="translated">O argumento <em>mode</em> pode ser <code class="docutils literal notranslate"><span class="pre">'rb'</span></code> para leitura (padrão), <code class="docutils literal notranslate"><span class="pre">'wb'</span></code> para substituição, <code class="docutils literal notranslate"><span class="pre">'xb'</span></code> para criação exclusiva ou <code class="docutils literal notranslate"><span class="pre">'ab'</span></code> para anexar. Estes podem ser equivalentemente dados como <code class="docutils literal notranslate"><span class="pre">'r'</span></code>, <code class="docutils literal notranslate"><span class="pre">'w'</span></code>, <code class="docutils literal notranslate"><span class="pre">'x'</span></code> e <code class="docutils literal notranslate"><span class="pre">'a'</span></code> respectivamente.</p>
+<p class="translated">Se <em>file</em> for um objeto arquivo (ao invés de um nome de arquivo real), um modo de <code class="docutils literal notranslate"><span class="pre">'w'</span></code> não truncará o arquivo e será equivalente a <code class="docutils literal notranslate"><span class="pre">'a'</span></code>.</p>
+<p class="translated">Durante a leitura, o argumento <em>options</em> pode ser um dicionário que fornece parâmetros avançados de descompactação; consulte <a class="reference internal" href="#compression.zstd.DecompressionParameter" title="compression.zstd.DecompressionParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecompressionParameter</span></code></a> para obter informações detalhadas sobre os parâmetros suportados. O argumento <em>zstd_dict</em> é uma instância de <a class="reference internal" href="#compression.zstd.ZstdDict" title="compression.zstd.ZstdDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDict</span></code></a> a ser usada durante a descompactação. Durante a leitura, se o argumento <em>level</em> não for None, uma exceção <code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code> será levantada.</p>
+<p class="untranslated">When writing, the <em>options</em> argument can be a dictionary
+providing advanced compression parameters; see
+<a class="reference internal" href="#compression.zstd.CompressionParameter" title="compression.zstd.CompressionParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompressionParameter</span></code></a> for detailed information about supported
+parameters. The <em>level</em> argument is the compression level to use when
+writing compressed data. Only one of <em>level</em> or <em>options</em> may be passed. The
+<em>zstd_dict</em> argument is a <a class="reference internal" href="#compression.zstd.ZstdDict" title="compression.zstd.ZstdDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDict</span></code></a> instance to be used during
+compression.</p>
+<p class="translated"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdFile</span></code> oferece suporte a todos os membros especificados por <a class="reference internal" href="io.html#io.BufferedIOBase" title="io.BufferedIOBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.BufferedIOBase</span></code></a>, exceto <a class="reference internal" href="io.html#io.BufferedIOBase.detach" title="io.BufferedIOBase.detach"><code class="xref py py-meth docutils literal notranslate"><span class="pre">detach()</span></code></a> e <a class="reference internal" href="io.html#io.IOBase.truncate" title="io.IOBase.truncate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">truncate()</span></code></a>. Iteração e a instrução <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> são suportadas.</p>
+<p class="translated">O método e os atributos a seguir também são fornecidos:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="compression.zstd.ZstdFile.peek">
+<span class="sig-name descname"><span class="pre">peek</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.ZstdFile.peek" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna dados armazenados em buffer sem avançar a posição do arquivo. Pelo menos um byte de dados será retornado, a menos que o EOF tenha sido atingido. O número exato de bytes retornados não é especificado (o argumento <em>size</em> é ignorado).</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Enquanto chamar <a class="reference internal" href="#compression.zstd.ZstdFile.peek" title="compression.zstd.ZstdFile.peek"><code class="xref py py-meth docutils literal notranslate"><span class="pre">peek()</span></code></a> não altera a posição do arquivo de <a class="reference internal" href="#compression.zstd.ZstdFile" title="compression.zstd.ZstdFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdFile</span></code></a>, pode alterar a posição do objeto arquivo subjacente (por exemplo, se o <code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdFile</span></code> foi construído passando um objeto arquivo para <em>file</em>).</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.ZstdFile.mode">
+<span class="sig-name descname"><span class="pre">mode</span></span><a class="headerlink" href="#compression.zstd.ZstdFile.mode" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">'rb'</span></code> para leitura e <code class="docutils literal notranslate"><span class="pre">'wb'</span></code> para escrita.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.ZstdFile.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#compression.zstd.ZstdFile.name" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O nome do arquivo Zstandard. Equivalente ao atributo <a class="reference internal" href="io.html#io.FileIO.name" title="io.FileIO.name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code></a> do <a class="reference internal" href="../glossary.html#term-file-object"><span class="xref std std-term">objeto arquivo</span></a> subjacente.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="compressing-and-decompressing-data-in-memory">
+<h2 class="translated">Compactando e descompactando dados na memória<a class="headerlink" href="#compressing-and-decompressing-data-in-memory" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="compression.zstd.compress">
+<span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">compress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zstd_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.compress" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Compacta <em>data</em> (um <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">objeto bytes ou similar</span></a>), retornando os dados compactados como um objeto <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>.</p>
+<p class="translated">O argumento <em>level</em> é um inteiro que controla o nível de compactação. <em>level</em> é uma alternativa à configuração <a class="reference internal" href="#compression.zstd.CompressionParameter.compression_level" title="compression.zstd.CompressionParameter.compression_level"><code class="xref py py-attr docutils literal notranslate"><span class="pre">CompressionParameter.compression_level</span></code></a> em <em>options</em>. Use <a class="reference internal" href="#compression.zstd.CompressionParameter.bounds" title="compression.zstd.CompressionParameter.bounds"><code class="xref py py-meth docutils literal notranslate"><span class="pre">bounds()</span></code></a> em <code class="xref py py-attr docutils literal notranslate"><span class="pre">compression_level</span></code> para obter os valores que podem ser passados para <em>level</em>. Se opções avançadas de compactação forem necessárias, o argumento <em>level</em> deve ser omitido e, no dicionário <em>options</em>, o parâmetro <code class="xref py py-attr docutils literal notranslate"><span class="pre">CompressionParameter.compression_level</span></code> deve ser definido.</p>
+<p class="translated">O argumento <em>options</em> é um dicionário Python que contém parâmetros de compactação avançados. As chaves e valores válidos para parâmetros de compactação estão documentados na documentação <a class="reference internal" href="#compression.zstd.CompressionParameter" title="compression.zstd.CompressionParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompressionParameter</span></code></a>.</p>
+<p class="translated">O argumento <em>zstd_dict</em> é uma instância de <a class="reference internal" href="#compression.zstd.ZstdDict" title="compression.zstd.ZstdDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDict</span></code></a> contendo dados treinados para melhorar a eficiência da compactação. A função <a class="reference internal" href="#compression.zstd.train_dict" title="compression.zstd.train_dict"><code class="xref py py-func docutils literal notranslate"><span class="pre">train_dict()</span></code></a> pode ser usada para gerar um dicionário Zstandard.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="compression.zstd.decompress">
+<span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">decompress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zstd_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.decompress" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Descompacta <em>data</em> (um <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">objeto bytes ou similar</span></a>), retornando os dados descompactados como um objeto <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>.</p>
+<p class="translated">O argumento <em>options</em> é um dicionário Python que contém parâmetros de descompactação avançados. As chaves e valores válidos para parâmetros de compactação estão documentados na documentação <a class="reference internal" href="#compression.zstd.DecompressionParameter" title="compression.zstd.DecompressionParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecompressionParameter</span></code></a>.</p>
+<p class="translated">O argumento <em>zstd_dict</em> é uma instância de <a class="reference internal" href="#compression.zstd.ZstdDict" title="compression.zstd.ZstdDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDict</span></code></a> contendo dados treinados usados durante a compactação. Este deve ser o mesmo dicionário Zstandard usado durante a compactação.</p>
+<p class="translated">Se <em>data</em> forem a concatenação de vários quadros compactados distintos, descompacta todos esses quadros e retorna a concatenação dos resultados.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="compression.zstd.ZstdCompressor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">ZstdCompressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zstd_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.ZstdCompressor" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cria um objeto compactação, que pode ser usado para compactar dados de forma incremental.</p>
+<p class="translated">Para uma maneira mais conveniente de compactar um único bloco de dados, consulte a função a nível de módulo <a class="reference internal" href="#compression.zstd.compress" title="compression.zstd.compress"><code class="xref py py-func docutils literal notranslate"><span class="pre">compress()</span></code></a>.</p>
+<p class="translated">O argumento <em>level</em> é um inteiro que controla o nível de compactação. <em>level</em> é uma alternativa à configuração <a class="reference internal" href="#compression.zstd.CompressionParameter.compression_level" title="compression.zstd.CompressionParameter.compression_level"><code class="xref py py-attr docutils literal notranslate"><span class="pre">CompressionParameter.compression_level</span></code></a> em <em>options</em>. Use <a class="reference internal" href="#compression.zstd.CompressionParameter.bounds" title="compression.zstd.CompressionParameter.bounds"><code class="xref py py-meth docutils literal notranslate"><span class="pre">bounds()</span></code></a> em <code class="xref py py-attr docutils literal notranslate"><span class="pre">compression_level</span></code> para obter os valores que podem ser passados para <em>level</em>. Se opções avançadas de compactação forem necessárias, o argumento <em>level</em> deve ser omitido e, no dicionário <em>options</em>, o parâmetro <code class="xref py py-attr docutils literal notranslate"><span class="pre">CompressionParameter.compression_level</span></code> deve ser definido.</p>
+<p class="translated">O argumento <em>options</em> é um dicionário Python que contém parâmetros de compactação avançados. As chaves e valores válidos para parâmetros de compactação estão documentados na documentação <a class="reference internal" href="#compression.zstd.CompressionParameter" title="compression.zstd.CompressionParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompressionParameter</span></code></a>.</p>
+<p class="translated">O argumento <em>zstd_dict</em> é uma instância opcional de <a class="reference internal" href="#compression.zstd.ZstdDict" title="compression.zstd.ZstdDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDict</span></code></a> contendo dados treinados para melhorar a eficiência da compactação. A função <a class="reference internal" href="#compression.zstd.train_dict" title="compression.zstd.train_dict"><code class="xref py py-func docutils literal notranslate"><span class="pre">train_dict()</span></code></a> pode ser usada para gerar um dicionário Zstandard.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="compression.zstd.ZstdCompressor.compress">
+<span class="sig-name descname"><span class="pre">compress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ZstdCompressor.CONTINUE</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.ZstdCompressor.compress" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Compacte <em>data</em> (um <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">objeto bytes ou similar</span></a>), retornando um objeto <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> com dados compactados, se possível, ou, caso contrário, um objeto <code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code> vazio. Alguns dos <em>data</em> podem ser armazenados internamente em buffer, para uso em chamadas posteriores a <code class="xref py py-meth docutils literal notranslate"><span class="pre">compress()</span></code> e <a class="reference internal" href="#compression.zstd.ZstdCompressor.flush" title="compression.zstd.ZstdCompressor.flush"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code></a>. Os dados retornados devem ser concatenados com a saída de quaisquer chamadas anteriores a <a class="reference internal" href="#compression.zstd.ZstdCompressor.compress" title="compression.zstd.ZstdCompressor.compress"><code class="xref py py-meth docutils literal notranslate"><span class="pre">compress()</span></code></a>.</p>
+<p class="translated">O argumento <em>mode</em> é um atributo <a class="reference internal" href="#compression.zstd.ZstdCompressor" title="compression.zstd.ZstdCompressor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdCompressor</span></code></a>, podendo ser definido com <a class="reference internal" href="#compression.zstd.ZstdCompressor.CONTINUE" title="compression.zstd.ZstdCompressor.CONTINUE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">CONTINUE</span></code></a>, <a class="reference internal" href="#compression.zstd.ZstdCompressor.FLUSH_BLOCK" title="compression.zstd.ZstdCompressor.FLUSH_BLOCK"><code class="xref py py-attr docutils literal notranslate"><span class="pre">FLUSH_BLOCK</span></code></a> ou <a class="reference internal" href="#compression.zstd.ZstdCompressor.FLUSH_FRAME" title="compression.zstd.ZstdCompressor.FLUSH_FRAME"><code class="xref py py-attr docutils literal notranslate"><span class="pre">FLUSH_FRAME</span></code></a>.</p>
+<p class="translated">Quando todos os dados forem fornecidos ao compactador, chama o método <a class="reference internal" href="#compression.zstd.ZstdCompressor.flush" title="compression.zstd.ZstdCompressor.flush"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code></a> para finalizar o processo de compactação. Se <a class="reference internal" href="#compression.zstd.ZstdCompressor.compress" title="compression.zstd.ZstdCompressor.compress"><code class="xref py py-meth docutils literal notranslate"><span class="pre">compress()</span></code></a> for chamado com <em>mode</em> definido como <a class="reference internal" href="#compression.zstd.ZstdCompressor.FLUSH_FRAME" title="compression.zstd.ZstdCompressor.FLUSH_FRAME"><code class="xref py py-attr docutils literal notranslate"><span class="pre">FLUSH_FRAME</span></code></a>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code> não deve ser chamado, pois gravaria um novo quadro vazio.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="compression.zstd.ZstdCompressor.flush">
+<span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ZstdCompressor.FLUSH_FRAME</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.ZstdCompressor.flush" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Conclui o processo de compactação, retornando um objeto <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> contendo todos os dados armazenados nos buffers internos do compressor.</p>
+<p class="translated">O argumento <em>mode</em> é um atributo <a class="reference internal" href="#compression.zstd.ZstdCompressor" title="compression.zstd.ZstdCompressor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdCompressor</span></code></a>, podendo ser definido com <a class="reference internal" href="#compression.zstd.ZstdCompressor.FLUSH_BLOCK" title="compression.zstd.ZstdCompressor.FLUSH_BLOCK"><code class="xref py py-attr docutils literal notranslate"><span class="pre">FLUSH_BLOCK</span></code></a> ou <a class="reference internal" href="#compression.zstd.ZstdCompressor.FLUSH_FRAME" title="compression.zstd.ZstdCompressor.FLUSH_FRAME"><code class="xref py py-attr docutils literal notranslate"><span class="pre">FLUSH_FRAME</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="compression.zstd.ZstdCompressor.set_pledged_input_size">
+<span class="sig-name descname"><span class="pre">set_pledged_input_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.ZstdCompressor.set_pledged_input_size" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Especifica a quantidade de <em>size</em> dados descompactados que será fornecida para o próximo quadro. <em>size</em> será gravado no cabeçalho do quadro do próximo quadro, a menos que <a class="reference internal" href="#compression.zstd.CompressionParameter.content_size_flag" title="compression.zstd.CompressionParameter.content_size_flag"><code class="xref py py-attr docutils literal notranslate"><span class="pre">CompressionParameter.content_size_flag</span></code></a> seja <code class="docutils literal notranslate"><span class="pre">False</span></code> ou <code class="docutils literal notranslate"><span class="pre">0</span></code>. Um tamanho <code class="docutils literal notranslate"><span class="pre">0</span></code> significa que o quadro está vazio. Se <em>size</em> for <code class="docutils literal notranslate"><span class="pre">None</span></code>, o cabeçalho do quadro omitirá o tamanho do quadro. Quadros que incluem o tamanho dos dados descompactados requerem menos memória para descompactação, especialmente em níveis de compactação mais altos.</p>
+<p class="translated">Se <a class="reference internal" href="#compression.zstd.ZstdCompressor.last_mode" title="compression.zstd.ZstdCompressor.last_mode"><code class="xref py py-attr docutils literal notranslate"><span class="pre">last_mode</span></code></a> não for <a class="reference internal" href="#compression.zstd.ZstdCompressor.FLUSH_FRAME" title="compression.zstd.ZstdCompressor.FLUSH_FRAME"><code class="xref py py-attr docutils literal notranslate"><span class="pre">FLUSH_FRAME</span></code></a>, uma <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> será levantada, pois o compactador não está no início de um quadro. Se o tamanho prometido não corresponder ao tamanho real dos dados fornecidos para <a class="reference internal" href="#compression.zstd.ZstdCompressor.compress" title="compression.zstd.ZstdCompressor.compress"><code class="xref py py-meth docutils literal notranslate"><span class="pre">compress()</span></code></a>, chamadas futuras para <code class="xref py py-meth docutils literal notranslate"><span class="pre">compress()</span></code> ou <a class="reference internal" href="#compression.zstd.ZstdCompressor.flush" title="compression.zstd.ZstdCompressor.flush"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code></a> poderão levantar <a class="reference internal" href="#compression.zstd.ZstdError" title="compression.zstd.ZstdError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ZstdError</span></code></a> e o último bloco de dados poderá ser perdido.</p>
+<p class="translated">Depois que <a class="reference internal" href="#compression.zstd.ZstdCompressor.flush" title="compression.zstd.ZstdCompressor.flush"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code></a> ou <a class="reference internal" href="#compression.zstd.ZstdCompressor.compress" title="compression.zstd.ZstdCompressor.compress"><code class="xref py py-meth docutils literal notranslate"><span class="pre">compress()</span></code></a> são chamados com o modo <a class="reference internal" href="#compression.zstd.ZstdCompressor.FLUSH_FRAME" title="compression.zstd.ZstdCompressor.FLUSH_FRAME"><code class="xref py py-attr docutils literal notranslate"><span class="pre">FLUSH_FRAME</span></code></a>, o próximo quadro não incluirá o tamanho do quadro no cabeçalho, a menos que <code class="xref py py-meth docutils literal notranslate"><span class="pre">set_pledged_input_size()</span></code> seja chamado novamente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.ZstdCompressor.CONTINUE">
+<span class="sig-name descname"><span class="pre">CONTINUE</span></span><a class="headerlink" href="#compression.zstd.ZstdCompressor.CONTINUE" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Coleta mais dados para compactação, o que pode ou não gerar saída imediata. Este modo otimiza a taxa de compactação maximizando a quantidade de dados por bloco e quadro.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.ZstdCompressor.FLUSH_BLOCK">
+<span class="sig-name descname"><span class="pre">FLUSH_BLOCK</span></span><a class="headerlink" href="#compression.zstd.ZstdCompressor.FLUSH_BLOCK" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Conclui e grava um bloco no fluxo de dados. Os dados retornados até o momento podem ser descompactados imediatamente. Dados anteriores ainda podem ser referenciados em blocos futuros gerados por chamadas a <a class="reference internal" href="#compression.zstd.ZstdCompressor.compress" title="compression.zstd.ZstdCompressor.compress"><code class="xref py py-meth docutils literal notranslate"><span class="pre">compress()</span></code></a>, melhorando a compactação.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.ZstdCompressor.FLUSH_FRAME">
+<span class="sig-name descname"><span class="pre">FLUSH_FRAME</span></span><a class="headerlink" href="#compression.zstd.ZstdCompressor.FLUSH_FRAME" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Conclui e escreve um quadro. Dados futuros fornecidos a <a class="reference internal" href="#compression.zstd.ZstdCompressor.compress" title="compression.zstd.ZstdCompressor.compress"><code class="xref py py-meth docutils literal notranslate"><span class="pre">compress()</span></code></a> serão gravados em um novo quadro e <em>não poderão</em> fazer referência a dados passados.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.ZstdCompressor.last_mode">
+<span class="sig-name descname"><span class="pre">last_mode</span></span><a class="headerlink" href="#compression.zstd.ZstdCompressor.last_mode" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O último modo passado para <a class="reference internal" href="#compression.zstd.ZstdCompressor.compress" title="compression.zstd.ZstdCompressor.compress"><code class="xref py py-meth docutils literal notranslate"><span class="pre">compress()</span></code></a> ou <a class="reference internal" href="#compression.zstd.ZstdCompressor.flush" title="compression.zstd.ZstdCompressor.flush"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code></a>. O valor pode ser <a class="reference internal" href="#compression.zstd.ZstdCompressor.CONTINUE" title="compression.zstd.ZstdCompressor.CONTINUE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">CONTINUE</span></code></a>, <a class="reference internal" href="#compression.zstd.ZstdCompressor.FLUSH_BLOCK" title="compression.zstd.ZstdCompressor.FLUSH_BLOCK"><code class="xref py py-attr docutils literal notranslate"><span class="pre">FLUSH_BLOCK</span></code></a> ou <a class="reference internal" href="#compression.zstd.ZstdCompressor.FLUSH_FRAME" title="compression.zstd.ZstdCompressor.FLUSH_FRAME"><code class="xref py py-attr docutils literal notranslate"><span class="pre">FLUSH_FRAME</span></code></a>. O valor inicial é <code class="xref py py-attr docutils literal notranslate"><span class="pre">FLUSH_FRAME</span></code>, significando que o compactador está no início de um novo quadro.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="compression.zstd.ZstdDecompressor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">ZstdDecompressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zstd_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.ZstdDecompressor" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cria um objeto descompactador, que pode ser usado para descompactar dados de forma incremental.</p>
+<p class="translated">Para uma maneira mais conveniente de descompactar todo um fluxo compactado de uma só vez, consulte a função a nível de módulo <a class="reference internal" href="#compression.zstd.decompress" title="compression.zstd.decompress"><code class="xref py py-func docutils literal notranslate"><span class="pre">decompress()</span></code></a>.</p>
+<p class="translated">O argumento <em>options</em> é um dicionário Python que contém parâmetros de descompactação avançados. As chaves e valores válidos para parâmetros de compactação estão documentados na documentação <a class="reference internal" href="#compression.zstd.DecompressionParameter" title="compression.zstd.DecompressionParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecompressionParameter</span></code></a>.</p>
+<p class="translated">O argumento <em>zstd_dict</em> é uma instância de <a class="reference internal" href="#compression.zstd.ZstdDict" title="compression.zstd.ZstdDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDict</span></code></a> contendo dados treinados usados durante a compactação. Este deve ser o mesmo dicionário Zstandard usado durante a compactação.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Esta classe não lidam de forma transparente entradas contendo múltiplos quadros compactados, ao contrário da função <a class="reference internal" href="#compression.zstd.decompress" title="compression.zstd.decompress"><code class="xref py py-func docutils literal notranslate"><span class="pre">decompress()</span></code></a> e da classe <a class="reference internal" href="#compression.zstd.ZstdFile" title="compression.zstd.ZstdFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdFile</span></code></a>. Para descompactar uma entrada com múltiplos quadros, você deve usar <code class="xref py py-func docutils literal notranslate"><span class="pre">decompress()</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdFile</span></code> se estiver trabalhando com um <a class="reference internal" href="../glossary.html#term-file-object"><span class="xref std std-term">objeto arquivo</span></a> ou múltiplas instâncias de <code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDecompressor</span></code>.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="compression.zstd.ZstdDecompressor.decompress">
+<span class="sig-name descname"><span class="pre">decompress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.ZstdDecompressor.decompress" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Descompacta dados <em>data</em> (um <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">objeto bytes ou similar</span></a>), retornando dados não compactados como bytes. Alguns dos <em>data</em> podem ser armazenados em buffer internamente, para uso em chamadas posteriores para <code class="xref py py-meth docutils literal notranslate"><span class="pre">decompress()</span></code>. Os dados retornados devem ser concatenados com a saída de qualquer chamada anterior para <code class="xref py py-meth docutils literal notranslate"><span class="pre">decompress()</span></code>.</p>
+<p class="untranslated">If <em>max_length</em> is non-negative, the method returns at most <em>max_length</em>
+bytes of decompressed data. If this limit is reached and further
+output can be produced (or EOF is reached), the <a class="reference internal" href="#compression.zstd.ZstdDecompressor.needs_input" title="compression.zstd.ZstdDecompressor.needs_input"><code class="xref py py-attr docutils literal notranslate"><span class="pre">needs_input</span></code></a>
+attribute will be set to <code class="docutils literal notranslate"><span class="pre">False</span></code>. In this case, the next call to
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">decompress()</span></code> may provide <em>data</em> as <code class="docutils literal notranslate"><span class="pre">b''</span></code> to obtain
+more of the output. The full content can thus be read like:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">process_output</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">max_length</span><span class="p">))</span>
+<span class="k">while</span> <span class="ow">not</span> <span class="n">d</span><span class="o">.</span><span class="n">eof</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="o">.</span><span class="n">needs_input</span><span class="p">:</span>
+    <span class="n">process_output</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="sa">b</span><span class="s2">""</span><span class="p">,</span> <span class="n">max_length</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="translated">Se todos os dados de entrada foram descompactados e retornados (seja porque era menor que <em>max_length</em> bytes, ou porque <em>max_length</em> era negativo), o atributo <a class="reference internal" href="#compression.zstd.ZstdDecompressor.needs_input" title="compression.zstd.ZstdDecompressor.needs_input"><code class="xref py py-attr docutils literal notranslate"><span class="pre">needs_input</span></code></a> será definido como <code class="docutils literal notranslate"><span class="pre">True</span></code> .</p>
+<p class="untranslated">Attempting to decompress data after the end of a frame will raise a
+<a class="reference internal" href="../builtins/exceptions.html#EOFError" title="EOFError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">EOFError</span></code></a>. Any data found after the end of the frame is ignored
+and saved in the <a class="reference internal" href="#compression.zstd.ZstdDecompressor.unused_data" title="compression.zstd.ZstdDecompressor.unused_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">unused_data</span></code></a> attribute.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.ZstdDecompressor.eof">
+<span class="sig-name descname"><span class="pre">eof</span></span><a class="headerlink" href="#compression.zstd.ZstdDecompressor.eof" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">True</span></code> se o marcador de fim de fluxo foi atingido.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.ZstdDecompressor.unused_data">
+<span class="sig-name descname"><span class="pre">unused_data</span></span><a class="headerlink" href="#compression.zstd.ZstdDecompressor.unused_data" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Dados encontrados após o término do fluxo compactado.</p>
+<p class="translated">Antes do final do fluxo ser alcançado, isso será <code class="docutils literal notranslate"><span class="pre">b''</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.ZstdDecompressor.needs_input">
+<span class="sig-name descname"><span class="pre">needs_input</span></span><a class="headerlink" href="#compression.zstd.ZstdDecompressor.needs_input" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">False</span></code> se o método <a class="reference internal" href="#compression.zstd.ZstdDecompressor.decompress" title="compression.zstd.ZstdDecompressor.decompress"><code class="xref py py-meth docutils literal notranslate"><span class="pre">decompress()</span></code></a> puder fornecer mais dados descompactados antes de exigir uma nova entrada compactada.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="zstandard-dictionaries">
+<h2 class="translated">Dicionários de Zstandard<a class="headerlink" href="#zstandard-dictionaries" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="compression.zstd.train_dict">
+<span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">train_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dict_size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.train_dict" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Treina um dicionário Zstandard, retornando uma instância <a class="reference internal" href="#compression.zstd.ZstdDict" title="compression.zstd.ZstdDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDict</span></code></a>. Os dicionários Zstandard permitem uma compactação mais eficiente de dados menores, que tradicionalmente são difíceis de compactar devido à menor repetição. Se você estiver compactando vários grupos de dados semelhantes (como arquivos semelhantes), os dicionários Zstandard podem melhorar significativamente as taxas de compactação e a velocidade.</p>
+<p class="translated">O argumento <em>samples</em> (um iterável de objetos <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>) é a população de amostras usada para treinar o dicionário Zstandard.</p>
+<p class="translated">O argumento <em>dict_size</em>, um inteiro, é o tamanho máximo (em bytes) que o dicionário Zstandard deve ter. A documentação do Zstandard sugere um máximo absoluto de no máximo 100 KB, mas o máximo pode ser menor dependendo dos dados. Dicionários maiores geralmente reduzem a compactação, mas melhoram as taxas de compactação. Dicionários menores levam a uma compactação mais rápida, mas reduzem a taxa de compactação.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="compression.zstd.finalize_dict">
+<span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">finalize_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zstd_dict</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dict_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.finalize_dict" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma função avançada para converter um dicionário Zstandard de “conteúdo bruto” em um dicionário Zstandard comum. Dicionários de “conteúdo bruto” são uma sequência de bytes que não precisa seguir a estrutura de um dicionário Zstandard comum.</p>
+<p class="translated">O argumento <em>zstd_dict</em> é uma instância <a class="reference internal" href="#compression.zstd.ZstdDict" title="compression.zstd.ZstdDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDict</span></code></a> com <a class="reference internal" href="#compression.zstd.ZstdDict.dict_content" title="compression.zstd.ZstdDict.dict_content"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dict_content</span></code></a> contendo o conteúdo bruto do dicionário.</p>
+<p class="translated">O argumento <em>samples</em> (um iterável de objetos <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>) contém dados de amostra para gerar o dicionário Zstandard.</p>
+<p class="translated">O argumento <em>dict_size</em>, um inteiro, é o tamanho máximo (em bytes) que o dicionário Zstandard deve ter. Consulte <a class="reference internal" href="#compression.zstd.train_dict" title="compression.zstd.train_dict"><code class="xref py py-func docutils literal notranslate"><span class="pre">train_dict()</span></code></a> para sugestões sobre o tamanho máximo do dicionário.</p>
+<p class="translated">O argumento <em>level</em> (um inteiro) é o nível de compactação que se espera que seja passado aos compactadores usando este dicionário. As informações do dicionário variam para cada nível de compactação, portanto, ajustar o nível de compactação adequado pode tornar a compactação mais eficiente.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="compression.zstd.ZstdDict">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">ZstdDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dict_content</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_raw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.ZstdDict" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um invólucro para dicionários Zstandard. Dicionários podem ser usados para melhorar a compactação de muitos pequenos blocos de dados. Use <a class="reference internal" href="#compression.zstd.train_dict" title="compression.zstd.train_dict"><code class="xref py py-func docutils literal notranslate"><span class="pre">train_dict()</span></code></a> se precisar treinar um novo dicionário a partir de dados de amostra.</p>
+<p class="translated">O argumento <em>dict_content</em> (um <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">objeto bytes ou similar</span></a>) é a informação do dicionário já treinada.</p>
+<p class="translated">O argumento <em>is_raw</em>, um booleano, é um parâmetro avançado que controla o significado de <em>dict_content</em>. <code class="docutils literal notranslate"><span class="pre">True</span></code> significa que <em>dict_content</em> é um dicionário de “conteúdo bruto”, sem nenhuma restrição de formato. <code class="docutils literal notranslate"><span class="pre">False</span></code> significa que <em>dict_content</em> é um dicionário Zstandard comum, criado a partir de funções Zstandard, por exemplo, <a class="reference internal" href="#compression.zstd.train_dict" title="compression.zstd.train_dict"><code class="xref py py-func docutils literal notranslate"><span class="pre">train_dict()</span></code></a> ou a CLI externa <strong class="program">zstd</strong>.</p>
+<p class="translated">Ao passar um <code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDict</span></code> para uma função, os atributos <code class="xref py py-attr docutils literal notranslate"><span class="pre">as_digested_dict</span></code> e <code class="xref py py-attr docutils literal notranslate"><span class="pre">as_undigested_dict</span></code> podem controlar como o dicionário é carregado, passando-os como o argumento <code class="docutils literal notranslate"><span class="pre">zstd_dict</span></code>, por exemplo, <code class="docutils literal notranslate"><span class="pre">compress(data,</span> <span class="pre">zstd_dict=zd.as_digested_dict)</span></code>. A digestão de um dicionário é uma operação custosa que ocorre ao carregar um dicionário Zstandard. Ao fazer várias chamadas para compactação ou descompactação, passar um dicionário digerido reduzirá a sobrecarga de carregamento do dicionário.</p>
+<blockquote>
+<div><table class="docutils align-default" id="id1">
+<caption class="translated"><span class="caption-text">Diferença para compactação</span><a class="headerlink" href="#id1" title="Link para esta tabela">¶</a></caption>
+<colgroup>
+<col style="width: 29.4%" />
+<col style="width: 41.2%" />
+<col style="width: 29.4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p class="translated">Dicionário resumido</p></th>
+<th class="head"><p class="translated">Dicionário não resumido</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated">Parâmetros avançados do compactador que podem ser substituídos pelos parâmetros do dicionário</p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">window_log</span></code>, <code class="docutils literal notranslate"><span class="pre">hash_log</span></code>, <code class="docutils literal notranslate"><span class="pre">chain_log</span></code>, <code class="docutils literal notranslate"><span class="pre">search_log</span></code>, <code class="docutils literal notranslate"><span class="pre">min_match</span></code>, <code class="docutils literal notranslate"><span class="pre">target_length</span></code>, <code class="docutils literal notranslate"><span class="pre">strategy</span></code>, <code class="docutils literal notranslate"><span class="pre">enable_long_distance_matching</span></code>, <code class="docutils literal notranslate"><span class="pre">ldm_hash_log</span></code>, <code class="docutils literal notranslate"><span class="pre">ldm_min_match</span></code>, <code class="docutils literal notranslate"><span class="pre">ldm_bucket_size_log</span></code>, <code class="docutils literal notranslate"><span class="pre">ldm_hash_rate_log</span></code> e alguns parâmetros não-públicos.</p></td>
+<td><p class="translated">None</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDict</span></code> armazena em cache internamente o dicionário</p></td>
+<td><p class="translated">Sim. É mais rápido carregar um dicionário resumido novamente com o mesmo nível de compactação.</p></td>
+<td><p class="translated">Não. Se você deseja carregar um dicionário não digerido várias vezes, considere reutilizar um objeto compressor.</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p class="translated">Se passar um <code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDict</span></code> sem nenhum atributo, um dicionário não digerido será passado por padrão ao compactar e um dicionário digerido será gerado, se necessário, e passado por padrão ao descompactar.</p>
+<blockquote>
+<div><dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.ZstdDict.dict_content">
+<span class="sig-name descname"><span class="pre">dict_content</span></span><a class="headerlink" href="#compression.zstd.ZstdDict.dict_content" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O conteúdo do dicionário Zstandard, um objeto <code class="docutils literal notranslate"><span class="pre">bytes</span></code>. É o mesmo que o argumento <em>dict_content</em> no método <code class="docutils literal notranslate"><span class="pre">__init__</span></code>. Pode ser usado com outros programas, como o programa de linha de comando <code class="docutils literal notranslate"><span class="pre">zstd</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.ZstdDict.dict_id">
+<span class="sig-name descname"><span class="pre">dict_id</span></span><a class="headerlink" href="#compression.zstd.ZstdDict.dict_id" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Identificador do dicionário Zstandard, um valor inteiro não negativo.</p>
+<p class="translated">Um valor diferente de zero significa que o dicionário é comum, criado por funções Zstandard e seguindo o formato Zstandard.</p>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">0</span></code> significa um dicionário de “conteúdo bruto”, livre de qualquer restrição de formato, usado para usuários avançados.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">O significado de <code class="docutils literal notranslate"><span class="pre">0</span></code> para <code class="xref py py-attr docutils literal notranslate"><span class="pre">ZstdDict.dict_id</span></code> é diferente do atributo <code class="docutils literal notranslate"><span class="pre">dictionary_id</span></code> da função <a class="reference internal" href="#compression.zstd.get_frame_info" title="compression.zstd.get_frame_info"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_frame_info()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.ZstdDict.as_digested_dict">
+<span class="sig-name descname"><span class="pre">as_digested_dict</span></span><a class="headerlink" href="#compression.zstd.ZstdDict.as_digested_dict" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Carrega como um dicionário resumido.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.ZstdDict.as_undigested_dict">
+<span class="sig-name descname"><span class="pre">as_undigested_dict</span></span><a class="headerlink" href="#compression.zstd.ZstdDict.as_undigested_dict" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Carrega como um dicionário não digerido.</p>
+</dd></dl>
+
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="advanced-parameter-control">
+<h2 class="translated">Controle avançado de parâmetros<a class="headerlink" href="#advanced-parameter-control" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">CompressionParameter</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma <a class="reference internal" href="enum.html#enum.IntEnum" title="enum.IntEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></a> contendo as chaves de parâmetros de compactação avançada que podem ser usadas ao compactar dados.</p>
+<p class="translated">O método <a class="reference internal" href="#compression.zstd.CompressionParameter.bounds" title="compression.zstd.CompressionParameter.bounds"><code class="xref py py-meth docutils literal notranslate"><span class="pre">bounds()</span></code></a> pode ser usado em qualquer atributo para obter os valores válidos para esse parâmetro.</p>
+<p class="untranslated">Parameters are optional; any omitted parameter will have its value selected
+automatically.</p>
+<p class="translated">Exemplo de obtenção da delimitação inferior e superior de <a class="reference internal" href="#compression.zstd.CompressionParameter.compression_level" title="compression.zstd.CompressionParameter.compression_level"><code class="xref py py-attr docutils literal notranslate"><span class="pre">compression_level</span></code></a>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">CompressionParameter</span><span class="o">.</span><span class="n">compression_level</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="translated">Exemplo de configuração do atributo <a class="reference internal" href="#compression.zstd.CompressionParameter.window_log" title="compression.zstd.CompressionParameter.window_log"><code class="xref py py-attr docutils literal notranslate"><span class="pre">window_log</span></code></a> para o tamanho máximo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">_lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">CompressionParameter</span><span class="o">.</span><span class="n">window_log</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="n">CompressionParameter</span><span class="o">.</span><span class="n">window_log</span><span class="p">:</span> <span class="n">upper</span><span class="p">}</span>
+<span class="n">compress</span><span class="p">(</span><span class="sa">b</span><span class="s1">'venezuelan beaver cheese'</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.bounds">
+<span class="sig-name descname"><span class="pre">bounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.CompressionParameter.bounds" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna a tupla de limites int, <code class="docutils literal notranslate"><span class="pre">(lower,</span> <span class="pre">upper)</span></code>, de um parâmetro de compactação. Este método deve ser chamado no atributo cujos limites você deseja recuperar. Por exemplo, para obter os valores válidos para <a class="reference internal" href="#compression.zstd.CompressionParameter.compression_level" title="compression.zstd.CompressionParameter.compression_level"><code class="xref py py-attr docutils literal notranslate"><span class="pre">compression_level</span></code></a>, pode-se verificar o resultado de <code class="docutils literal notranslate"><span class="pre">CompressionParameter.compression_level.bounds()</span></code>.</p>
+<p class="translated">Tanto o limite inferior quanto o superior são inclusivos.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.compression_level">
+<span class="sig-name descname"><span class="pre">compression_level</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.compression_level" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um meio de alto nível para definir outros parâmetros de compactação que afetam a velocidade e a taxa de compactação de dados.</p>
+<p class="translated">Os níveis de compactação regulares são maiores que <code class="docutils literal notranslate"><span class="pre">0</span></code>. Valores maiores que <code class="docutils literal notranslate"><span class="pre">20</span></code> são considerados compactação “ultra” e requerem mais memória do que outros níveis. Valores negativos podem ser usados para compensar uma compactação mais rápida por taxas de compactação piores.</p>
+<p class="translated">Define o nível como zero usa <a class="reference internal" href="#compression.zstd.COMPRESSION_LEVEL_DEFAULT" title="compression.zstd.COMPRESSION_LEVEL_DEFAULT"><code class="xref py py-attr docutils literal notranslate"><span class="pre">COMPRESSION_LEVEL_DEFAULT</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.window_log">
+<span class="sig-name descname"><span class="pre">window_log</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.window_log" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Distância máxima de referência reversa permitida que o compactador pode usar ao compactar dados, expressa como potência de dois, <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">&lt;&lt;</span> <span class="pre">window_log</span></code> bytes. Este parâmetro influencia bastante o uso de memória da compactação. Valores mais altos requerem mais memória, mas geram melhores valores de compactação.</p>
+<p class="translated">Um valor zero faz com que o valor seja selecionado automaticamente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.hash_log">
+<span class="sig-name descname"><span class="pre">hash_log</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.hash_log" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Tamanho da tabela de sondagem inicial, como uma potência de dois. O uso de memória resultante é <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">&lt;&lt;</span> <span class="pre">(hash_log+2)</span></code> bytes. Tabelas maiores melhoram a taxa de compactação de estratégias &lt;= <a class="reference internal" href="#compression.zstd.Strategy.dfast" title="compression.zstd.Strategy.dfast"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dfast</span></code></a> e melhoram a velocidade de compactação de estratégias &gt; <code class="xref py py-attr docutils literal notranslate"><span class="pre">dfast</span></code>.</p>
+<p class="translated">Um valor zero faz com que o valor seja selecionado automaticamente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.chain_log">
+<span class="sig-name descname"><span class="pre">chain_log</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.chain_log" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Tamanho da tabela de busca multiprobe, como uma potência de dois. O uso de memória resultante é <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">&lt;&lt;</span> <span class="pre">(chain_log+2)</span></code> bytes. Tabelas maiores resultam em uma compactação melhor e mais lenta. Este parâmetro não tem efeito para a estratégia <a class="reference internal" href="#compression.zstd.Strategy.fast" title="compression.zstd.Strategy.fast"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fast</span></code></a>. Ele ainda é útil ao usar a estratégia <a class="reference internal" href="#compression.zstd.Strategy.dfast" title="compression.zstd.Strategy.dfast"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dfast</span></code></a>, caso em que define uma tabela de sondagem secundária.</p>
+<p class="translated">Um valor zero faz com que o valor seja selecionado automaticamente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.search_log">
+<span class="sig-name descname"><span class="pre">search_log</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.search_log" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Número de tentativas de busca, como uma potência de dois. Mais tentativas resultam em uma compactação melhor e mais lenta. Este parâmetro é inútil para as estratégias <a class="reference internal" href="#compression.zstd.Strategy.fast" title="compression.zstd.Strategy.fast"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fast</span></code></a> e <a class="reference internal" href="#compression.zstd.Strategy.dfast" title="compression.zstd.Strategy.dfast"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dfast</span></code></a>.</p>
+<p class="translated">Um valor zero faz com que o valor seja selecionado automaticamente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.min_match">
+<span class="sig-name descname"><span class="pre">min_match</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.min_match" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Tamanho mínimo das correspondências pesquisadas. Valores maiores aumentam a velocidade de compactação e descompactação, mas diminuem a taxa. Observe que o Zstandard ainda consegue encontrar correspondências de tamanho menor; ele apenas ajusta seu algoritmo de busca para procurar por esse tamanho e por tamanhos maiores. Para todas as estratégias &lt; <a class="reference internal" href="#compression.zstd.Strategy.btopt" title="compression.zstd.Strategy.btopt"><code class="xref py py-attr docutils literal notranslate"><span class="pre">btopt</span></code></a>, o mínimo efetivo é <code class="docutils literal notranslate"><span class="pre">4</span></code>; para todas as estratégias &gt; <a class="reference internal" href="#compression.zstd.Strategy.fast" title="compression.zstd.Strategy.fast"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fast</span></code></a>, o máximo efetivo é <code class="docutils literal notranslate"><span class="pre">6</span></code>.</p>
+<p class="translated">Um valor zero faz com que o valor seja selecionado automaticamente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.target_length">
+<span class="sig-name descname"><span class="pre">target_length</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.target_length" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O impacto deste campo depende da <a class="reference internal" href="#compression.zstd.Strategy" title="compression.zstd.Strategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">Strategy</span></code></a> selecionada.</p>
+<p class="translated">Para as estratégias <a class="reference internal" href="#compression.zstd.Strategy.btopt" title="compression.zstd.Strategy.btopt"><code class="xref py py-attr docutils literal notranslate"><span class="pre">btopt</span></code></a>, <a class="reference internal" href="#compression.zstd.Strategy.btultra" title="compression.zstd.Strategy.btultra"><code class="xref py py-attr docutils literal notranslate"><span class="pre">btultra</span></code></a> e <a class="reference internal" href="#compression.zstd.Strategy.btultra2" title="compression.zstd.Strategy.btultra2"><code class="xref py py-attr docutils literal notranslate"><span class="pre">btultra2</span></code></a>, o valor é o comprimento de uma correspondência considerada “boa o suficiente” para interromper a busca. Valores maiores melhoram as taxas de compactação, mas a compactação é mais lenta.</p>
+<p class="translated">Para a estratégia <a class="reference internal" href="#compression.zstd.Strategy.fast" title="compression.zstd.Strategy.fast"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fast</span></code></a>, é a distância entre as amostragens de correspondência. Valores maiores tornam a compactação mais rápida, mas com uma taxa de compactação pior.</p>
+<p class="translated">Um valor zero faz com que o valor seja selecionado automaticamente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.strategy">
+<span class="sig-name descname"><span class="pre">strategy</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.strategy" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Quanto maior o valor da estratégia selecionada, mais complexa será a técnica de compactação usada pelo zstd, resultando em taxas de compactação mais altas, mas em compactação mais lenta.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<p class="translated"><a class="reference internal" href="#compression.zstd.Strategy" title="compression.zstd.Strategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">Strategy</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.enable_long_distance_matching">
+<span class="sig-name descname"><span class="pre">enable_long_distance_matching</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.enable_long_distance_matching" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A correspondência de longa distância pode ser usada para melhorar a compactação de entradas grandes, encontrando correspondências maiores em distâncias maiores. Ela aumenta o uso de memória e o tamanho da janela.</p>
+<p class="translated">Os valores <code class="docutils literal notranslate"><span class="pre">True</span></code> ou <code class="docutils literal notranslate"><span class="pre">1</span></code> habilitam a correspondência a longa distância, enquanto os valores <code class="docutils literal notranslate"><span class="pre">False</span></code> ou <code class="docutils literal notranslate"><span class="pre">0</span></code> a desabilitam.</p>
+<p class="translated">Habilitar este parâmetro aumenta o tamanho padrão de <a class="reference internal" href="#compression.zstd.CompressionParameter.window_log" title="compression.zstd.CompressionParameter.window_log"><code class="xref py py-attr docutils literal notranslate"><span class="pre">window_log</span></code></a> para 128 MiB, exceto quando expressamente definido com um valor diferente. Esta configuração é habilitada por padrão se <code class="xref py py-attr docutils literal notranslate"><span class="pre">window_log</span></code> &gt;= 128 MiB e a estratégia de compactação &gt;= <a class="reference internal" href="#compression.zstd.Strategy.btopt" title="compression.zstd.Strategy.btopt"><code class="xref py py-attr docutils literal notranslate"><span class="pre">btopt</span></code></a> (nível de compactação 16+).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.ldm_hash_log">
+<span class="sig-name descname"><span class="pre">ldm_hash_log</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.ldm_hash_log" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Tamanho da tabela para correspondência de longa distância, como uma potência de dois. Valores maiores aumentam o uso de memória e a taxa de compactação, mas diminuem a velocidade de compactação.</p>
+<p class="translated">Um valor zero faz com que o valor seja selecionado automaticamente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.ldm_min_match">
+<span class="sig-name descname"><span class="pre">ldm_min_match</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.ldm_min_match" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Tamanho mínimo de correspondência para correspondência de longa distância. Valores maiores ou muito pequenos podem frequentemente diminuir a taxa de compactação.</p>
+<p class="translated">Um valor zero faz com que o valor seja selecionado automaticamente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.ldm_bucket_size_log">
+<span class="sig-name descname"><span class="pre">ldm_bucket_size_log</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.ldm_bucket_size_log" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Tamanho do log de cada bucket na tabela hash do comparador de longa distância para resolução de colisões. Valores maiores melhoram a resolução de colisões, mas diminuem a velocidade de compactação.</p>
+<p class="translated">Um valor zero faz com que o valor seja selecionado automaticamente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.ldm_hash_rate_log">
+<span class="sig-name descname"><span class="pre">ldm_hash_rate_log</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.ldm_hash_rate_log" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Frequência de inserção/pesquisa de entradas na tabela hash do comparador de longa distância. Valores maiores melhoram a velocidade de compactação. Desvios muito grandes em relação ao valor padrão provavelmente resultarão em uma redução na taxa de compactação.</p>
+<p class="translated">Um valor zero faz com que o valor seja selecionado automaticamente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.content_size_flag">
+<span class="sig-name descname"><span class="pre">content_size_flag</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.content_size_flag" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Escreve o tamanho dos dados a serem compactados no cabeçalho do quadro Zstandard quando conhecido antes da compactação.</p>
+<p class="translated">Este sinalizador só entra em vigor nos seguintes cenários:</p>
+<ul class="simple">
+<li><p class="translated">Chamando <a class="reference internal" href="#compression.zstd.compress" title="compression.zstd.compress"><code class="xref py py-func docutils literal notranslate"><span class="pre">compress()</span></code></a> para compactação única</p></li>
+<li><p class="translated">Fornecendo todos os dados a serem compactados no quadro em uma única chamada <a class="reference internal" href="#compression.zstd.ZstdCompressor.compress" title="compression.zstd.ZstdCompressor.compress"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ZstdCompressor.compress()</span></code></a>, com o modo <a class="reference internal" href="#compression.zstd.ZstdCompressor.FLUSH_FRAME" title="compression.zstd.ZstdCompressor.FLUSH_FRAME"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ZstdCompressor.FLUSH_FRAME</span></code></a>.</p></li>
+<li><p class="translated">Chamando <a class="reference internal" href="#compression.zstd.ZstdCompressor.set_pledged_input_size" title="compression.zstd.ZstdCompressor.set_pledged_input_size"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ZstdCompressor.set_pledged_input_size()</span></code></a> com a quantidade exata de dados que serão fornecidos ao compactador antes de qualquer chamada para <a class="reference internal" href="#compression.zstd.ZstdCompressor.compress" title="compression.zstd.ZstdCompressor.compress"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ZstdCompressor.compress()</span></code></a> para o quadro atual. <code class="xref py py-meth docutils literal notranslate"><span class="pre">ZstdCompressor.set_pledged_input_size()</span></code> deve ser chamado para cada novo quadro.</p></li>
+</ul>
+<p class="translated">Todas as outras chamadas de compactação podem não escrever as informações de tamanho no cabeçalho do quadro.</p>
+<p class="translated">Os valores <code class="docutils literal notranslate"><span class="pre">True</span></code> ou <code class="docutils literal notranslate"><span class="pre">1</span></code> habilitam o sinalizador de tamanho de conteúdo, enquanto os valores <code class="docutils literal notranslate"><span class="pre">False</span></code> ou <code class="docutils literal notranslate"><span class="pre">0</span></code> o desabilitam.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.checksum_flag">
+<span class="sig-name descname"><span class="pre">checksum_flag</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.checksum_flag" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma soma de verificação de quatro bytes usando XXHash64 do conteúdo descompactado é estrita ao final de cada quadro. O código de descompactação do Zstandard verifica a soma de verificação. Se houver uma incompatibilidade, uma exceção <a class="reference internal" href="#compression.zstd.ZstdError" title="compression.zstd.ZstdError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdError</span></code></a> é levantada.</p>
+<p class="translated">Os valores <code class="docutils literal notranslate"><span class="pre">True</span></code> ou <code class="docutils literal notranslate"><span class="pre">1</span></code> habilitam a geração da soma de integridade, enquanto os valores <code class="docutils literal notranslate"><span class="pre">False</span></code> ou <code class="docutils literal notranslate"><span class="pre">0</span></code> a desabilitam.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.dict_id_flag">
+<span class="sig-name descname"><span class="pre">dict_id_flag</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.dict_id_flag" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Ao compactar com um <a class="reference internal" href="#compression.zstd.ZstdDict" title="compression.zstd.ZstdDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZstdDict</span></code></a>, o ID do dicionário é escrito no cabeçalho do quadro.</p>
+<p class="translated">Os valores <code class="docutils literal notranslate"><span class="pre">True</span></code> ou <code class="docutils literal notranslate"><span class="pre">1</span></code> habilitam o armazenamento do ID de dicionário, enquanto os valores <code class="docutils literal notranslate"><span class="pre">False</span></code> ou <code class="docutils literal notranslate"><span class="pre">0</span></code> o desabilitam.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.nb_workers">
+<span class="sig-name descname"><span class="pre">nb_workers</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.nb_workers" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Seleciona quantas threads serão geradas para compactação em paralelo. Quando <code class="xref py py-attr docutils literal notranslate"><span class="pre">nb_workers</span></code> &gt; 0, habilita a compactação multithread, um valor <code class="docutils literal notranslate"><span class="pre">1</span></code> significa “modo multithread de uma thread”. Mais workers melhoram a velocidade, mas também aumentam o uso de memória e reduzem ligeiramente a taxa de compactação.</p>
+<p class="translated">Um valor zero desabilita multithreading.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.job_size">
+<span class="sig-name descname"><span class="pre">job_size</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.job_size" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Tamanho de um trabalho de compactação, em bytes. Este valor é aplicado somente quando <a class="reference internal" href="#compression.zstd.CompressionParameter.nb_workers" title="compression.zstd.CompressionParameter.nb_workers"><code class="xref py py-attr docutils literal notranslate"><span class="pre">nb_workers</span></code></a> &gt;= 1. Cada trabalho de compactação é concluído em paralelo, portanto, este valor pode impactar indiretamente o número de threads ativas.</p>
+<p class="translated">Um valor zero faz com que o valor seja selecionado automaticamente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.CompressionParameter.overlap_log">
+<span class="sig-name descname"><span class="pre">overlap_log</span></span><a class="headerlink" href="#compression.zstd.CompressionParameter.overlap_log" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Define a quantidade de dados recarregados de trabalhos anteriores (threads) para novos trabalhos a serem usados pela janela “Look Behind” durante a compactação. Este valor só é usado quando <a class="reference internal" href="#compression.zstd.CompressionParameter.nb_workers" title="compression.zstd.CompressionParameter.nb_workers"><code class="xref py py-attr docutils literal notranslate"><span class="pre">nb_workers</span></code></a> &gt;= 1. Os valores aceitáveis variam de 0 a 9.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="translated">0 significa definir dinamicamente a quantidade de sobreposição</p></li>
+<li><p class="translated">1 significa nenhuma sobreposição</p></li>
+<li><p class="translated">9 significa usar o tamanho total da janela do trabalho anterior</p></li>
+</ul>
+</div></blockquote>
+<p class="translated">Cada incremento reduz pela metade/dobra o tamanho da sobreposição. “8” significa uma sobreposição de <code class="docutils literal notranslate"><span class="pre">window_size/2</span></code>, “7” significa uma sobreposição de <code class="docutils literal notranslate"><span class="pre">window_size/4</span></code>, etc.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="compression.zstd.DecompressionParameter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">DecompressionParameter</span></span><a class="headerlink" href="#compression.zstd.DecompressionParameter" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">An <a class="reference internal" href="enum.html#enum.IntEnum" title="enum.IntEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></a> containing the advanced decompression parameter
+keys that can be used when decompressing data. Parameters are optional; any
+omitted parameter will have its value selected automatically.</p>
+<p class="translated">O método <a class="reference internal" href="#compression.zstd.DecompressionParameter.bounds" title="compression.zstd.DecompressionParameter.bounds"><code class="xref py py-meth docutils literal notranslate"><span class="pre">bounds()</span></code></a> pode ser usado em qualquer atributo para obter os valores válidos para esse parâmetro.</p>
+<p class="translated">Exemplo de configuração do atributo <a class="reference internal" href="#compression.zstd.DecompressionParameter.window_log_max" title="compression.zstd.DecompressionParameter.window_log_max"><code class="xref py py-attr docutils literal notranslate"><span class="pre">window_log_max</span></code></a> para o tamanho máximo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">compress</span><span class="p">(</span><span class="sa">b</span><span class="s1">'Some very long buffer of bytes...'</span><span class="p">)</span>
+
+<span class="n">_lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">DecompressionParameter</span><span class="o">.</span><span class="n">window_log_max</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="n">DecompressionParameter</span><span class="o">.</span><span class="n">window_log_max</span><span class="p">:</span> <span class="n">upper</span><span class="p">}</span>
+<span class="n">decompress</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="compression.zstd.DecompressionParameter.bounds">
+<span class="sig-name descname"><span class="pre">bounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.DecompressionParameter.bounds" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna a tupla de limites int, <code class="docutils literal notranslate"><span class="pre">(lower,</span> <span class="pre">upper)</span></code>, de um parâmetro de descompactação. Este método deve ser chamado no atributo cujos limites você deseja recuperar.</p>
+<p class="translated">Tanto o limite inferior quanto o superior são inclusivos.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.DecompressionParameter.window_log_max">
+<span class="sig-name descname"><span class="pre">window_log_max</span></span><a class="headerlink" href="#compression.zstd.DecompressionParameter.window_log_max" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O logaritmo na base dois do tamanho máximo da janela usada durante a descompactação. Isso pode ser útil para limitar a quantidade de memória usada ao descompactar. Um tamanho máximo de janela maior resulta em uma descompactação mais rápida.</p>
+<p class="translated">Um valor zero faz com que o valor seja selecionado automaticamente.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="compression.zstd.Strategy">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">Strategy</span></span><a class="headerlink" href="#compression.zstd.Strategy" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um <a class="reference internal" href="enum.html#enum.IntEnum" title="enum.IntEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></a> contendo estratégias de compactação. Estratégias com números mais altos correspondem a compactações mais complexas e lentas.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Os valores dos atributos de <code class="xref py py-class docutils literal notranslate"><span class="pre">Strategy</span></code> não são necessariamente estáveis entre as versões do zstd. Apenas a ordem dos atributos é confiável. Os atributos estão listados abaixo em ordem.</p>
+</div>
+<p class="translated">As seguintes estratégias estão disponíveis:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.Strategy.fast">
+<span class="sig-name descname"><span class="pre">fast</span></span><a class="headerlink" href="#compression.zstd.Strategy.fast" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.Strategy.dfast">
+<span class="sig-name descname"><span class="pre">dfast</span></span><a class="headerlink" href="#compression.zstd.Strategy.dfast" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.Strategy.greedy">
+<span class="sig-name descname"><span class="pre">greedy</span></span><a class="headerlink" href="#compression.zstd.Strategy.greedy" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.Strategy.lazy">
+<span class="sig-name descname"><span class="pre">lazy</span></span><a class="headerlink" href="#compression.zstd.Strategy.lazy" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.Strategy.lazy2">
+<span class="sig-name descname"><span class="pre">lazy2</span></span><a class="headerlink" href="#compression.zstd.Strategy.lazy2" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.Strategy.btlazy2">
+<span class="sig-name descname"><span class="pre">btlazy2</span></span><a class="headerlink" href="#compression.zstd.Strategy.btlazy2" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.Strategy.btopt">
+<span class="sig-name descname"><span class="pre">btopt</span></span><a class="headerlink" href="#compression.zstd.Strategy.btopt" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.Strategy.btultra">
+<span class="sig-name descname"><span class="pre">btultra</span></span><a class="headerlink" href="#compression.zstd.Strategy.btultra" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.Strategy.btultra2">
+<span class="sig-name descname"><span class="pre">btultra2</span></span><a class="headerlink" href="#compression.zstd.Strategy.btultra2" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="miscellaneous">
+<h2 class="translated">Diversos<a class="headerlink" href="#miscellaneous" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="compression.zstd.get_frame_info">
+<span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">get_frame_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_buffer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#compression.zstd.get_frame_info" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Recupera um objeto <a class="reference internal" href="#compression.zstd.FrameInfo" title="compression.zstd.FrameInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameInfo</span></code></a> contendo metadados sobre um quadro Zstandard. Os quadros contêm metadados relacionados aos dados compactados que eles armazenam.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="compression.zstd.FrameInfo">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">FrameInfo</span></span><a class="headerlink" href="#compression.zstd.FrameInfo" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Metadados relatados a um quadro Zstandard.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.FrameInfo.decompressed_size">
+<span class="sig-name descname"><span class="pre">decompressed_size</span></span><a class="headerlink" href="#compression.zstd.FrameInfo.decompressed_size" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O tamanho do conteúdo descompactado do quadro.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.FrameInfo.dictionary_id">
+<span class="sig-name descname"><span class="pre">dictionary_id</span></span><a class="headerlink" href="#compression.zstd.FrameInfo.dictionary_id" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um número inteiro que representa o ID do dicionário Zstandard necessário para descompactar o quadro. <code class="docutils literal notranslate"><span class="pre">0</span></code> significa que o ID do dicionário não foi registrado no cabeçalho do quadro. Isso pode significar que um dicionário Zstandard não é necessário ou que o ID de um dicionário necessário não foi registrado.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.COMPRESSION_LEVEL_DEFAULT">
+<span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">COMPRESSION_LEVEL_DEFAULT</span></span><a class="headerlink" href="#compression.zstd.COMPRESSION_LEVEL_DEFAULT" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O nível de compactação padrão para Zstandard é: <code class="docutils literal notranslate"><span class="pre">3</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="compression.zstd.zstd_version_info">
+<span class="sig-prename descclassname"><span class="pre">compression.zstd.</span></span><span class="sig-name descname"><span class="pre">zstd_version_info</span></span><a class="headerlink" href="#compression.zstd.zstd_version_info" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Número da versão da biblioteca zstd em tempo de execução, representada por uma tupla de inteiros (principal, secundária, lançamento).</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2 class="translated">Exemplos<a class="headerlink" href="#examples" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Lendo em um arquivo compactado:</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compression</span><span class="w"> </span><span class="kn">import</span> <span class="n">zstd</span>
+
+<span class="k">with</span> <span class="n">zstd</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">"file.zst"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">file_content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="translated">Criando um arquivo compactado:</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compression</span><span class="w"> </span><span class="kn">import</span> <span class="n">zstd</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">"Inserir dados arquivo"</span>
+<span class="k">with</span> <span class="n">zstd</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">"file.zst"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Compactando dados em memória:</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compression</span><span class="w"> </span><span class="kn">import</span> <span class="n">zstd</span>
+
+<span class="n">data_in</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">"Insert Data Here"</span>
+<span class="n">data_out</span> <span class="o">=</span> <span class="n">zstd</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">data_in</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Compactação incremental:</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compression</span><span class="w"> </span><span class="kn">import</span> <span class="n">zstd</span>
+
+<span class="n">comp</span> <span class="o">=</span> <span class="n">zstd</span><span class="o">.</span><span class="n">ZstdCompressor</span><span class="p">()</span>
+<span class="n">out1</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="sa">b</span><span class="s2">"Alguns dados</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">out2</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="sa">b</span><span class="s2">"Outro pedaço de dados</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">out3</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="sa">b</span><span class="s2">"Ainda mais dados</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">out4</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+<span class="c1"># Concatena todos os resultados parciais:</span>
+<span class="n">result</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">out1</span><span class="p">,</span> <span class="n">out2</span><span class="p">,</span> <span class="n">out3</span><span class="p">,</span> <span class="n">out4</span><span class="p">])</span>
+</pre></div>
+</div>
+<p class="translated">Escrevendo dados compactados para um arquivo já aberto:</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compression</span><span class="w"> </span><span class="kn">import</span> <span class="n">zstd</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"myfile"</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s2">"Estes dados não serão compactados</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">zstd</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">zstf</span><span class="p">:</span>
+        <span class="n">zstf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s2">"Isso *vai* ser compactado</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s2">"Não compactado</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Criando um arquivo compactado usando parâmetros de compactação:</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compression</span><span class="w"> </span><span class="kn">import</span> <span class="n">zstd</span>
+
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="n">zstd</span><span class="o">.</span><span class="n">CompressionParameter</span><span class="o">.</span><span class="n">checksum_flag</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span>
+<span class="k">with</span> <span class="n">zstd</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">"file.zst"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s2">"Se importa se eu me juntar?"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">compression.zstd</span></code> — Compactação compatível com o formato Zstandard</a><ul>
+<li><a class="reference internal" href="#exceptions">Exceções</a></li>
+<li><a class="reference internal" href="#reading-and-writing-compressed-files">Lendo e escrevendo arquivos compactados</a></li>
+<li><a class="reference internal" href="#compressing-and-decompressing-data-in-memory">Compactando e descompactando dados na memória</a></li>
+<li><a class="reference internal" href="#zstandard-dictionaries">Dicionários de Zstandard</a></li>
+<li><a class="reference internal" href="#advanced-parameter-control">Controle avançado de parâmetros</a></li>
+<li><a class="reference internal" href="#miscellaneous">Diversos</a></li>
+<li><a class="reference internal" href="#examples">Exemplos</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="compression.html"
+                          title="capítulo anterior">O pacote <code class="xref py py-mod docutils literal notranslate"><span class="pre">compression</span></code></a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="zlib.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zlib</span></code> — Compactação compatível com <strong class="program">gzip</strong></a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/compression.zstd.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/compression.zstd.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/compression.zstd.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="zlib.html" title="zlib — Compactação compatível com gzip"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="compression.html" title="O pacote compression"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="archiving.html" >Compressão de Dados e Arquivamento</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">compression.zstd</span></code> — Compactação compatível com o formato Zstandard</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

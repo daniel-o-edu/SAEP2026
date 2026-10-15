@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="gettext — Serviços de internacionalização multilíngues" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/gettext.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/gettext.py O módulo gettext fornece serviços de internacionalização (I18N) e localização (L10N) para seus módulos e aplicativos Python. Ele suporta a API do catálogo de mensagens ..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_gettext_9d1d113f.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/gettext.py O módulo gettext fornece serviços de internacionalização (I18N) e localização (L10N) para seus módulos e aplicativos Python. Ele suporta a API do catálogo de mensagens ..." />
+<meta name="description" content="Código-fonte: Lib/gettext.py O módulo gettext fornece serviços de internacionalização (I18N) e localização (L10N) para seus módulos e aplicativos Python. Ele suporta a API do catálogo de mensagens ..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>gettext — Serviços de internacionalização multilíngues &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="locale — Serviços de internacionalização" href="locale.html" />
+    <link rel="prev" title="Internacionalização" href="i18n.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/gettext.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">gettext</span></code> — Serviços de internacionalização multilíngues</a><ul>
+<li><a class="reference internal" href="#gnu-gettext-api">API do GNU <strong class="program">gettext</strong></a></li>
+<li><a class="reference internal" href="#class-based-api">API baseada em classe</a><ul>
+<li><a class="reference internal" href="#the-nulltranslations-class">A classe <code class="xref py py-class docutils literal notranslate"><span class="pre">NullTranslations</span></code></a></li>
+<li><a class="reference internal" href="#the-gnutranslations-class">A classe <code class="xref py py-class docutils literal notranslate"><span class="pre">GNUTranslations</span></code></a></li>
+<li><a class="reference internal" href="#solaris-message-catalog-support">Suporte a catálogo de mensagens do Solaris</a></li>
+<li><a class="reference internal" href="#the-catalog-constructor">O construtor Catalog</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#internationalizing-your-programs-and-modules">Internacionalizando seus programas e módulos</a><ul>
+<li><a class="reference internal" href="#localizing-your-module">Localizando seu módulo</a></li>
+<li><a class="reference internal" href="#localizing-your-application">Localizando sua aplicação</a></li>
+<li><a class="reference internal" href="#changing-languages-on-the-fly">Alterando os idiomas durante o uso</a></li>
+<li><a class="reference internal" href="#deferred-translations">Traduções adiadas</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#acknowledgements">Reconhecimentos</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="i18n.html"
+                          title="capítulo anterior">Internacionalização</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="locale.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">locale</span></code> — Serviços de internacionalização</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/gettext.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/gettext.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/gettext.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="locale.html" title="locale — Serviços de internacionalização"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="i18n.html" title="Internacionalização"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="i18n.html" accesskey="U">Internacionalização</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">gettext</span></code> — Serviços de internacionalização multilíngues</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-gettext">
+<span id="gettext-multilingual-internationalization-services"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">gettext</span></code> — Serviços de internacionalização multilíngues<a class="headerlink" href="#module-gettext" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/gettext.py">Lib/gettext.py</a></p>
+<hr class="docutils" />
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">gettext</span></code> fornece serviços de internacionalização (I18N) e localização (L10N) para seus módulos e aplicativos Python. Ele suporta a API do catálogo de mensagens GNU <strong class="program">gettext</strong> e uma API baseada em classes de nível mais alto que podem ser mais apropriadas para arquivos Python. A interface descrita abaixo permite gravar o módulo e as mensagens do aplicativo em um idioma natural e fornecer um catálogo de mensagens traduzidas para execução em diferentes idiomas naturais.</p>
+<p class="translated">Algumas dicas sobre localização de seus módulos e aplicativos Python também são fornecidas.</p>
+<section id="gnu-gettext-api">
+<h2 class="translated">API do GNU <strong class="program">gettext</strong><a class="headerlink" href="#gnu-gettext-api" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">gettext</span></code> define a API a seguir, que é muito semelhante à API do GNU <strong class="program">gettext</strong>. Se você usar esta API, você afetará a tradução de todo o seu aplicativo globalmente. Geralmente, é isso que você deseja se o seu aplicativo for monolíngue, com a escolha do idioma dependente da localidade do seu usuário. Se você estiver localizando um módulo Python, ou se seu aplicativo precisar alternar idiomas rapidamente, provavelmente desejará usar a API baseada em classe.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="gettext.bindtextdomain">
+<span class="sig-prename descclassname"><span class="pre">gettext.</span></span><span class="sig-name descname"><span class="pre">bindtextdomain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">localedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.bindtextdomain" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Liga o <em>domain</em> ao diretório de localidade <em>localedir</em>. Mais concretamente, <code class="xref py py-mod docutils literal notranslate"><span class="pre">gettext</span></code> procurará arquivos binários <code class="file docutils literal notranslate"><span class="pre">.mo</span></code> para o domínio especificado usando o caminho (no Unix): <code class="file docutils literal notranslate"><em><span class="pre">localedir</span></em><span class="pre">/</span><em><span class="pre">language</span></em><span class="pre">/LC_MESSAGES/</span><em><span class="pre">domain</span></em><span class="pre">.mo</span></code>, sendo <em>language</em> pesquisado nas variáveis de ambiente <span class="target" id="index-20"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">LANGUAGE</span></code>, <span class="target" id="index-21"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">LC_ALL</span></code>, <span class="target" id="index-22"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">LC_MESSAGES</span></code> e <span class="target" id="index-23"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">LANG</span></code> respectivamente.</p>
+<p class="translated">Se <em>localedir</em> for omitido ou <code class="docutils literal notranslate"><span class="pre">None</span></code>, a ligação atual para <em>domain</em> será retornada. <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gettext.textdomain">
+<span class="sig-prename descclassname"><span class="pre">gettext.</span></span><span class="sig-name descname"><span class="pre">textdomain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.textdomain" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Altera ou consulta o domínio global atual. Se <em>domain</em> for <code class="docutils literal notranslate"><span class="pre">None</span></code>, o domínio global atual será retornado; caso contrário, o domínio global será definido como <em>domain</em>, o qual será retornado.</p>
+</dd></dl>
+
+<dl class="py function" id="index-4">
+<dt class="sig sig-object py" id="gettext.gettext">
+<span class="sig-prename descclassname"><span class="pre">gettext.</span></span><span class="sig-name descname"><span class="pre">gettext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.gettext" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna a tradução localizada de <em>message</em>, com base no diretório global atual de domínio, idioma e localidade. Essa função geralmente é apelidada como <code class="xref py py-func docutils literal notranslate"><span class="pre">_()</span></code> no espaço de nomes local (veja exemplos abaixo).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gettext.dgettext">
+<span class="sig-prename descclassname"><span class="pre">gettext.</span></span><span class="sig-name descname"><span class="pre">dgettext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.dgettext" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Semelhante a <a class="reference internal" href="#gettext.gettext" title="gettext.gettext"><code class="xref py py-func docutils literal notranslate"><span class="pre">gettext()</span></code></a>, mas procura a mensagem no <em>domain</em> especificado.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gettext.ngettext">
+<span class="sig-prename descclassname"><span class="pre">gettext.</span></span><span class="sig-name descname"><span class="pre">ngettext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">singular</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plural</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.ngettext" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Semelhante a <a class="reference internal" href="#gettext.gettext" title="gettext.gettext"><code class="xref py py-func docutils literal notranslate"><span class="pre">gettext()</span></code></a>, mas considera formas plurais. Se uma tradução for encontrada, aplica a fórmula do plural a <em>n</em> e retorne a mensagem resultante (alguns idiomas têm mais de duas formas no plural). Se nenhuma tradução for encontrada, retorna <em>singular</em> se <em>n</em> for 1; retorna <em>plural</em> caso contrário.</p>
+<p class="translated">A fórmula de Plural é retirada do cabeçalho do catálogo. É uma expressão C ou Python que possui uma variável livre <em>n</em>; a expressão é avaliada para o índice do plural no catálogo. Veja <a class="reference external" href="https://www.gnu.org/software/gettext/manual/gettext.html">a documentação do gettext GNU</a> para obter a sintaxe precisa a ser usada em arquivos <code class="file docutils literal notranslate"><span class="pre">.po</span></code> e as fórmulas para um variedade de idiomas.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gettext.dngettext">
+<span class="sig-prename descclassname"><span class="pre">gettext.</span></span><span class="sig-name descname"><span class="pre">dngettext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">singular</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plural</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.dngettext" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Semelhante a <a class="reference internal" href="#gettext.ngettext" title="gettext.ngettext"><code class="xref py py-func docutils literal notranslate"><span class="pre">ngettext()</span></code></a>, mas procura a mensagem no <em>domain</em> especificado.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gettext.pgettext">
+<span class="sig-prename descclassname"><span class="pre">gettext.</span></span><span class="sig-name descname"><span class="pre">pgettext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.pgettext" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gettext.dpgettext">
+<span class="sig-prename descclassname"><span class="pre">gettext.</span></span><span class="sig-name descname"><span class="pre">dpgettext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.dpgettext" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gettext.npgettext">
+<span class="sig-prename descclassname"><span class="pre">gettext.</span></span><span class="sig-name descname"><span class="pre">npgettext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">singular</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plural</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.npgettext" title="Link para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gettext.dnpgettext">
+<span class="sig-prename descclassname"><span class="pre">gettext.</span></span><span class="sig-name descname"><span class="pre">dnpgettext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">singular</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plural</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.dnpgettext" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Semelhante às funções correspondentes sem o <code class="docutils literal notranslate"><span class="pre">p</span></code> no prefixo (ou seja, <a class="reference internal" href="#module-gettext" title="gettext: Multilingual internationalization services."><code class="xref py py-func docutils literal notranslate"><span class="pre">gettext()</span></code></a>, <a class="reference internal" href="#gettext.dgettext" title="gettext.dgettext"><code class="xref py py-func docutils literal notranslate"><span class="pre">dgettext()</span></code></a>, <a class="reference internal" href="#gettext.ngettext" title="gettext.ngettext"><code class="xref py py-func docutils literal notranslate"><span class="pre">ngettext()</span></code></a>, <a class="reference internal" href="#gettext.dngettext" title="gettext.dngettext"><code class="xref py py-func docutils literal notranslate"><span class="pre">dngettext()</span></code></a>), mas a tradução é restrita ao <em>context</em> de mensagem fornecido.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.8.</span></p>
+</div>
+</dd></dl>
+
+<p class="translated">Note que GNU <strong class="program">gettext</strong> também define um método <code class="xref py py-func docutils literal notranslate"><span class="pre">dcgettext()</span></code>, mas isso não foi considerado útil e, portanto, atualmente não está implementado.</p>
+<p class="translated">Aqui está um exemplo de uso típico para esta API:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gettext</span>
+<span class="n">gettext</span><span class="o">.</span><span class="n">bindtextdomain</span><span class="p">(</span><span class="s1">'minhaaplicacao'</span><span class="p">,</span> <span class="s1">'/caminho/para/diretório/do/meu/idioma'</span><span class="p">)</span>
+<span class="n">gettext</span><span class="o">.</span><span class="n">textdomain</span><span class="p">(</span><span class="s1">'minhaaplicacao'</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">gettext</span><span class="o">.</span><span class="n">gettext</span>
+<span class="c1"># ...</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">'Esta é uma string traduzível.'</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="class-based-api">
+<h2 class="translated">API baseada em classe<a class="headerlink" href="#class-based-api" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">A API baseada em classe do módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">gettext</span></code> oferece mais flexibilidade e maior conveniência do que a API do GNU <strong class="program">gettext</strong>. É a maneira recomendada de localizar suas aplicações e módulos Python. <code class="xref py py-mod docutils literal notranslate"><span class="pre">gettext</span></code> define uma classe <a class="reference internal" href="#gettext.GNUTranslations" title="gettext.GNUTranslations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GNUTranslations</span></code></a> que implementa a análise de arquivos no formato GNU <code class="file docutils literal notranslate"><span class="pre">.mo</span></code> e possui métodos para retornar strings. Instâncias dessa classe também podem se instalar no espaço de nomes embutido como a função <code class="xref py py-func docutils literal notranslate"><span class="pre">_()</span></code>.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="gettext.find">
+<span class="sig-prename descclassname"><span class="pre">gettext.</span></span><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">localedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">languages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.find" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Esta função implementa o algoritmo de busca de arquivos <code class="file docutils literal notranslate"><span class="pre">.mo</span></code> padrão. É necessário um <em>domain</em>, idêntico ao que <a class="reference internal" href="#gettext.textdomain" title="gettext.textdomain"><code class="xref py py-func docutils literal notranslate"><span class="pre">textdomain()</span></code></a> leva. <em>localedir</em> opcional é como em <a class="reference internal" href="#gettext.bindtextdomain" title="gettext.bindtextdomain"><code class="xref py py-func docutils literal notranslate"><span class="pre">bindtextdomain()</span></code></a>. <em>languages</em> opcional é uma lista de strings, em que cada string é um código de idioma.</p>
+<p class="translated">Se <em>localedir</em> não for fornecido, o diretório local do sistema padrão será usado. <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> Se <em>languages</em> não for fornecido, as seguintes variáveis de ambiente serão pesquisadas: <span class="target" id="index-24"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">LANGUAGE</span></code>, <span class="target" id="index-25"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">LC_ALL</span></code>, <span class="target" id="index-26"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">LC_MESSAGES</span></code> e <span class="target" id="index-27"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">LANG</span></code>. O primeiro retornando um valor não vazio é usado para a variável <em>languages</em>. As variáveis de ambiente devem conter uma lista de idiomas separada por dois pontos, que será dividida nos dois pontos para produzir a lista esperada de strings de código de idioma.</p>
+<p class="translated"><a class="reference internal" href="#gettext.find" title="gettext.find"><code class="xref py py-func docutils literal notranslate"><span class="pre">find()</span></code></a> expande e normaliza os idiomas e itera através deles, procurando por um arquivo existente construído com esses componentes:</p>
+<p class="translated"><code class="file docutils literal notranslate"><em><span class="pre">localedir</span></em><span class="pre">/</span><em><span class="pre">language</span></em><span class="pre">/LC_MESSAGES/</span><em><span class="pre">domain</span></em><span class="pre">.mo</span></code></p>
+<p class="translated">O primeiro nome de arquivo existente é retornado por <a class="reference internal" href="#gettext.find" title="gettext.find"><code class="xref py py-func docutils literal notranslate"><span class="pre">find()</span></code></a>. Se nenhum desses arquivos for encontrado, será retornado <code class="docutils literal notranslate"><span class="pre">None</span></code>. Se <em>all</em> for fornecido, ele retornará uma lista de todos os nomes de arquivos, na ordem em que aparecem na lista de idiomas ou nas variáveis de ambiente.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gettext.translation">
+<span class="sig-prename descclassname"><span class="pre">gettext.</span></span><span class="sig-name descname"><span class="pre">translation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">localedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">languages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fallback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.translation" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma instância de <code class="docutils literal notranslate"><span class="pre">*Translations</span></code> com base nos <em>domain</em>, <em>localedir</em> e <em>languages</em>, que são passados primeiro para <a class="reference internal" href="#gettext.find" title="gettext.find"><code class="xref py py-func docutils literal notranslate"><span class="pre">find()</span></code></a> para obter uma lista dos caminhos de arquivos <code class="file docutils literal notranslate"><span class="pre">.mo</span></code> associados. Instâncias com nomes de arquivo idênticos <code class="file docutils literal notranslate"><span class="pre">.mo</span></code> são armazenados em cache. A classe atual instanciada é <em>class_</em> se fornecida, caso contrário <a class="reference internal" href="#gettext.GNUTranslations" title="gettext.GNUTranslations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GNUTranslations</span></code></a>. O construtor da classe deve usar um único argumento <a class="reference internal" href="../glossary.html#term-file-object"><span class="xref std std-term">objeto arquivo</span></a>.</p>
+<p class="translated">Se vários arquivos forem encontrados, os arquivos posteriores serão usados como fallbacks para os anteriores. Para permitir a configuração do fallback, <a class="reference internal" href="copy.html#copy.copy" title="copy.copy"><code class="xref py py-func docutils literal notranslate"><span class="pre">copy.copy()</span></code></a> é usado para clonar cada objeto de conversão do cache; os dados reais da instância ainda são compartilhados com o cache.</p>
+<p class="translated">Se nenhum arquivo <code class="file docutils literal notranslate"><span class="pre">.mo</span></code> for encontrado, essa função levanta <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> se <em>fallback</em> for falso (que é o padrão) e retorna uma instância <a class="reference internal" href="#gettext.NullTranslations" title="gettext.NullTranslations"><code class="xref py py-class docutils literal notranslate"><span class="pre">NullTranslations</span></code></a> se <em>fallback</em> for verdadeiro.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span><a class="reference internal" href="../builtins/exceptions.html#IOError" title="IOError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">IOError</span></code></a> costumava ser levantada, agora ele é um apelido para <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.11: </span>O parâmetro <em>codeset</em> foi removido.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gettext.install">
+<span class="sig-prename descclassname"><span class="pre">gettext.</span></span><span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">localedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.install" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Isso instala a função <code class="xref py py-func docutils literal notranslate"><span class="pre">_()</span></code> no espaço de nomes interno do Python, com base em <em>domain</em> e <em>localedir</em> que são passados para a função <a class="reference internal" href="#gettext.translation" title="gettext.translation"><code class="xref py py-func docutils literal notranslate"><span class="pre">translation()</span></code></a>.</p>
+<p class="translated">Para o parâmetro <em>names</em>, por favor, veja a descrição do método <a class="reference internal" href="#gettext.NullTranslations.install" title="gettext.NullTranslations.install"><code class="xref py py-meth docutils literal notranslate"><span class="pre">install()</span></code></a> do objeto de tradução.</p>
+<p class="translated">Como visto abaixo, você normalmente marca as strings candidatas à tradução em sua aplicação, envolvendo-as em uma chamada para a função <code class="xref py py-func docutils literal notranslate"><span class="pre">_()</span></code>, assim:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">'Esta string será traduzida.'</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="translated">Por conveniência, você deseja que a função <code class="xref py py-func docutils literal notranslate"><span class="pre">_()</span></code> seja instalada no espaço de nomes interno do Python, para que seja facilmente acessível em todos os módulos do sua aplicação.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.11: </span><em>names</em> é agora um parâmetro somente-nomeado.</p>
+</div>
+</dd></dl>
+
+<section id="the-nulltranslations-class">
+<h3 class="translated">A classe <a class="reference internal" href="#gettext.NullTranslations" title="gettext.NullTranslations"><code class="xref py py-class docutils literal notranslate"><span class="pre">NullTranslations</span></code></a><a class="headerlink" href="#the-nulltranslations-class" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">As classes de tradução são o que realmente implementa a tradução de strings de mensagens do arquivo-fonte original para strings de mensagens traduzidas. A classe base usada por todas as classes de tradução é <a class="reference internal" href="#gettext.NullTranslations" title="gettext.NullTranslations"><code class="xref py py-class docutils literal notranslate"><span class="pre">NullTranslations</span></code></a>; isso fornece a interface básica que você pode usar para escrever suas próprias classes de tradução especializadas. Aqui estão os métodos de <code class="xref py py-class docutils literal notranslate"><span class="pre">NullTranslations</span></code>:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="gettext.NullTranslations">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gettext.</span></span><span class="sig-name descname"><span class="pre">NullTranslations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.NullTranslations" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Recebe um <a class="reference internal" href="../glossary.html#term-file-object"><span class="xref std std-term">objeto arquivo</span></a> opcional <em>fp</em>, que é ignorado pela classe base. Inicializa as variáveis de instância “protegidas” <em>_info</em> e <em>_charset</em>, que são definidas por classes derivadas, bem como <em>_fallback</em>, que é definido através de <a class="reference internal" href="#gettext.NullTranslations.add_fallback" title="gettext.NullTranslations.add_fallback"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_fallback()</span></code></a>. Ele então chama <code class="docutils literal notranslate"><span class="pre">self._parse(fp)</span></code> se <em>fp</em> não for <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="gettext.NullTranslations._parse">
+<span class="sig-name descname"><span class="pre">_parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.NullTranslations._parse" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">No-op na classe base, esse método pega o objeto arquivo <em>fp</em> e lê os dados do arquivo, inicializando seu catálogo de mensagens. Se você tiver um formato de arquivo de catálogo de mensagens não suportado, substitua esse método para analisar seu formato.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gettext.NullTranslations.add_fallback">
+<span class="sig-name descname"><span class="pre">add_fallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fallback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.NullTranslations.add_fallback" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Adiciona <em>fallback</em> como o objeto reserva para o objeto de tradução atual. Um objeto de tradução deve consultar o fallback se não puder fornecer uma tradução para uma determinada mensagem.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gettext.NullTranslations.gettext">
+<span class="sig-name descname"><span class="pre">gettext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.NullTranslations.gettext" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Se um fallback tiver sido definido, encaminha <code class="xref py py-meth docutils literal notranslate"><span class="pre">gettext()</span></code> para o fallback. Caso contrário, retorna <em>message</em>. Substituído em classes derivadas.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gettext.NullTranslations.ngettext">
+<span class="sig-name descname"><span class="pre">ngettext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">singular</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plural</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.NullTranslations.ngettext" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Se um fallback tiver sido definido, encaminha <code class="xref py py-meth docutils literal notranslate"><span class="pre">ngettext()</span></code> para o fallback. Caso contrário, retorna <em>singular</em> se <em>n</em> for 1; do contrário, retorna <em>plural</em>. Substituído em classes derivadas.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gettext.NullTranslations.pgettext">
+<span class="sig-name descname"><span class="pre">pgettext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.NullTranslations.pgettext" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Se um fallback tiver sido definido, encaminha <a class="reference internal" href="#gettext.pgettext" title="gettext.pgettext"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pgettext()</span></code></a> para o fallback. Caso contrário, retorna a mensagem traduzida. Substituído em classes derivadas.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gettext.NullTranslations.npgettext">
+<span class="sig-name descname"><span class="pre">npgettext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">singular</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plural</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.NullTranslations.npgettext" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Se um fallback tiver sido definido, encaminha <a class="reference internal" href="#gettext.npgettext" title="gettext.npgettext"><code class="xref py py-meth docutils literal notranslate"><span class="pre">npgettext()</span></code></a> para o fallback. Caso contrário, retorna a mensagem traduzida. Substituído em classes derivadas.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gettext.NullTranslations.info">
+<span class="sig-name descname"><span class="pre">info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gettext.NullTranslations.info" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um dicionário que contém os metadados encontrados no arquivo de catálogo de mensagens.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gettext.NullTranslations.charset">
+<span class="sig-name descname"><span class="pre">charset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gettext.NullTranslations.charset" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna a codificação do arquivo de catálogo de mensagens.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gettext.NullTranslations.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.NullTranslations.install" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Este método instala <a class="reference internal" href="#gettext.NullTranslations.gettext" title="gettext.NullTranslations.gettext"><code class="xref py py-meth docutils literal notranslate"><span class="pre">gettext()</span></code></a> no espaço de nomes embutido, ligando-o a <code class="docutils literal notranslate"><span class="pre">_</span></code>.</p>
+<p class="translated">Se o parâmetro <em>names</em> for fornecido, deve ser uma sequência contendo os nomes das funções que você deseja instalar no espaço de nomes embutidos, além de <code class="xref py py-func docutils literal notranslate"><span class="pre">_()</span></code>. Há suporte aos nomes <code class="docutils literal notranslate"><span class="pre">'gettext'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ngettext'</span></code>, <code class="docutils literal notranslate"><span class="pre">'pgettext'</span></code> e <code class="docutils literal notranslate"><span class="pre">'npgettext'</span></code></p>
+<p class="translated">Observe que esta é apenas uma maneira, embora a maneira mais conveniente, de disponibilizar a função <code class="xref py py-func docutils literal notranslate"><span class="pre">_()</span></code> para sua aplicação. Como afeta a aplicação inteira globalmente, e especificamente o espaço de nomes embutido, os módulos localizados nunca devem instalar <code class="xref py py-func docutils literal notranslate"><span class="pre">_()</span></code>. Em vez disso, eles devem usar este código para disponibilizar <code class="xref py py-func docutils literal notranslate"><span class="pre">_()</span></code> para seu módulo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gettext</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">gettext</span><span class="o">.</span><span class="n">translation</span><span class="p">(</span><span class="s1">'meumódulo'</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">gettext</span>
+</pre></div>
+</div>
+<p class="translated">Isso coloca <code class="xref py py-func docutils literal notranslate"><span class="pre">_()</span></code> apenas no espaço de nomes global do módulo e, portanto, afeta apenas as chamadas dentro deste módulo.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.8: </span>Adicionado <code class="docutils literal notranslate"><span class="pre">'pgettext'</span></code> e <code class="docutils literal notranslate"><span class="pre">'npgettext'</span></code>.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="the-gnutranslations-class">
+<h3 class="translated">A classe <a class="reference internal" href="#gettext.GNUTranslations" title="gettext.GNUTranslations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GNUTranslations</span></code></a><a class="headerlink" href="#the-gnutranslations-class" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">gettext</span></code> fornece uma classe adicional derivada de <a class="reference internal" href="#gettext.NullTranslations" title="gettext.NullTranslations"><code class="xref py py-class docutils literal notranslate"><span class="pre">NullTranslations</span></code></a>: <a class="reference internal" href="#gettext.GNUTranslations" title="gettext.GNUTranslations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GNUTranslations</span></code></a>. Esta classe substitui <code class="xref py py-meth docutils literal notranslate"><span class="pre">_parse()</span></code> para permitir a leitura de arquivos <code class="file docutils literal notranslate"><span class="pre">.mo</span></code> do formato GNU <strong class="program">gettext</strong> nos formatos big-endian e little-endian.</p>
+<p class="translated"><a class="reference internal" href="#gettext.GNUTranslations" title="gettext.GNUTranslations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GNUTranslations</span></code></a> analisa metadados opcionais do catálogo de tradução. É uma convenção com o GNU <strong class="program">gettext</strong> incluir metadados como tradução para a string vazia. Esses metadados estão nos pares <code class="docutils literal notranslate"><span class="pre">key:</span> <span class="pre">value</span></code> no estilo <span class="target" id="index-28"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc822.html"><strong>RFC 822</strong></a> e devem conter a chave <code class="docutils literal notranslate"><span class="pre">Project-Id-Version</span></code>. Se a chave <code class="docutils literal notranslate"><span class="pre">Content-Type</span></code> for encontrada, a propriedade <code class="docutils literal notranslate"><span class="pre">charset</span></code> será usada para inicializar a variável de instância <code class="xref py py-attr docutils literal notranslate"><span class="pre">_charset</span></code> “protegida”, com o padrão <code class="docutils literal notranslate"><span class="pre">None</span></code> se não for encontrada. Se a codificação de “charset” for especificada, todos os IDs e strings de mensagens lidos no catálogo serão convertidos em Unicode usando essa codificação, caso contrário, o ASCII será presumido.</p>
+<p class="translated">Como os IDs de mensagens também são lidos como strings Unicode, todos os métodos <code class="docutils literal notranslate"><span class="pre">*gettext()</span></code> presumem os IDs de mensagens como sendo strings Unicode, não como strings de bytes.</p>
+<p class="translated">Todo o conjunto de pares chave/valor é colocado em um dicionário e definido como a variável de instância <code class="xref py py-attr docutils literal notranslate"><span class="pre">_info</span></code> “protegida”.</p>
+<p class="translated">Se o número mágico do arquivo <code class="file docutils literal notranslate"><span class="pre">.mo</span></code> for inválido, o número principal da versão é inesperado ou se ocorrerem outros problemas durante a leitura do arquivo, instanciando uma classe <a class="reference internal" href="#gettext.GNUTranslations" title="gettext.GNUTranslations"><code class="xref py py-class docutils literal notranslate"><span class="pre">GNUTranslations</span></code></a> pode levantar <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="gettext.GNUTranslations">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gettext.</span></span><span class="sig-name descname"><span class="pre">GNUTranslations</span></span><a class="headerlink" href="#gettext.GNUTranslations" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Os seguintes métodos são substituídos a partir da implementação da classe base:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="gettext.GNUTranslations.gettext">
+<span class="sig-name descname"><span class="pre">gettext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.GNUTranslations.gettext" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Procura o ID da <em>message</em> no catálogo e retorna a string de mensagens correspondente, como uma string Unicode. Se não houver entrada no catálogo para o ID da <em>message</em> e um fallback tiver sido definido, a pesquisa será encaminhada para o método <a class="reference internal" href="#gettext.NullTranslations.gettext" title="gettext.NullTranslations.gettext"><code class="xref py py-meth docutils literal notranslate"><span class="pre">gettext()</span></code></a> do fallback. Caso contrário, o ID da <em>message</em> é retornado.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gettext.GNUTranslations.ngettext">
+<span class="sig-name descname"><span class="pre">ngettext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">singular</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plural</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.GNUTranslations.ngettext" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Faz uma pesquisa de plural-forms de um ID de mensagem. <em>singular</em> é usado como o ID da mensagem para fins de pesquisa no catálogo, enquanto <em>n</em> é usado para determinar qual forma plural usar. A string de mensagens retornada é uma string Unicode.</p>
+<p class="translated">Se o ID da mensagem não for encontrado no catálogo e um fallback for especificado, a solicitação será encaminhada para o método do fallback <a class="reference internal" href="#gettext.NullTranslations.ngettext" title="gettext.NullTranslations.ngettext"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ngettext()</span></code></a>. Caso contrário, quando <em>n</em> for 1, <em>singular</em> será retornado e <em>plural</em> será retornado em todos os outros casos.</p>
+<p class="translated">Aqui está um exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">'.'</span><span class="p">))</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="n">GNUTranslations</span><span class="p">(</span><span class="n">somefile</span><span class="p">)</span>
+<span class="n">message</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">ngettext</span><span class="p">(</span>
+    <span class="s1">'There is </span><span class="si">%(num)d</span><span class="s1"> file in this directory'</span><span class="p">,</span>
+    <span class="s1">'There are </span><span class="si">%(num)d</span><span class="s1"> files in this directory'</span><span class="p">,</span>
+    <span class="n">n</span><span class="p">)</span> <span class="o">%</span> <span class="p">{</span><span class="s1">'num'</span><span class="p">:</span> <span class="n">n</span><span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gettext.GNUTranslations.pgettext">
+<span class="sig-name descname"><span class="pre">pgettext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.GNUTranslations.pgettext" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Procura o ID do <em>context</em> e da <em>message</em> no catálogo e retorna a string de mensagens correspondente, como uma string Unicode. Se não houver entrada no catálogo para o ID do <em>context</em> e da <em>message</em>, e um fallback tiver sido definido, a pesquisa será encaminhada para o método <a class="reference internal" href="#gettext.pgettext" title="gettext.pgettext"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pgettext()</span></code></a> do fallback. Caso contrário, o ID da <em>message</em> é retornado.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gettext.GNUTranslations.npgettext">
+<span class="sig-name descname"><span class="pre">npgettext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">singular</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plural</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gettext.GNUTranslations.npgettext" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Faz uma pesquisa de plural-forms de um ID de mensagem. <em>singular</em> é usado como o ID da mensagem para fins de pesquisa no catálogo, enquanto <em>n</em> é usado para determinar qual forma plural usar.</p>
+<p class="translated">Se o ID da mensagem para <em>context</em> não for encontrado no catálogo e um fallback for especificado, a solicitação será encaminhada para o método <a class="reference internal" href="#gettext.npgettext" title="gettext.npgettext"><code class="xref py py-meth docutils literal notranslate"><span class="pre">npgettext()</span></code></a> do fallback. Caso contrário, quando <em>n</em> for 1, <em>singular</em> será retornado e <em>plural</em> será retornado em todos os outros casos.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.8.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="solaris-message-catalog-support">
+<h3 class="translated">Suporte a catálogo de mensagens do Solaris<a class="headerlink" href="#solaris-message-catalog-support" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">O sistema operacional Solaris define seu próprio formato de arquivo binário <code class="file docutils literal notranslate"><span class="pre">.mo</span></code>, mas como nenhuma documentação pode ser encontrada nesse formato, ela não é suportada no momento.</p>
+</section>
+<section id="the-catalog-constructor">
+<h3 class="translated">O construtor Catalog<a class="headerlink" href="#the-catalog-constructor" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated" id="index-10">O GNOME usa uma versão do módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">gettext</span></code> de James Henstridge, mas esta versão tem uma API um pouco diferente. Seu uso documentado foi:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gettext</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="n">gettext</span><span class="o">.</span><span class="n">Catalog</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">localedir</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">gettext</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">'hello world'</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="translated">Para compatibilidade com este módulo mais antigo, a função <code class="xref py py-func docutils literal notranslate"><span class="pre">Catalog()</span></code> é um apelido para a função <a class="reference internal" href="#gettext.translation" title="gettext.translation"><code class="xref py py-func docutils literal notranslate"><span class="pre">translation()</span></code></a> descrita acima.</p>
+<p class="translated">Uma diferença entre este módulo e o de Henstridge: seus objetos de catálogo suportavam o acesso por meio de uma API de mapeamento, mas isso parece não ser utilizado e, portanto, não é atualmente suportado.</p>
+</section>
+</section>
+<section id="internationalizing-your-programs-and-modules">
+<span id="i18n-howto"></span><h2 class="translated">Internacionalizando seus programas e módulos<a class="headerlink" href="#internationalizing-your-programs-and-modules" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Internationalization (I18N), ou internacionalização (I17O) em português, refere-se à operação pela qual um programa é informado sobre vários idiomas. Localization (L10N), ou localização em português, refere-se à adaptação do seu programa, uma vez internacionalizado, aos hábitos culturais e de idioma local. Para fornecer mensagens multilíngues para seus programas Python, você precisa executar as seguintes etapas:</p>
+<ol class="arabic simple">
+<li><p class="translated">preparar seu programa ou módulo especialmente marcando strings traduzíveis</p></li>
+<li><p class="translated">executar um conjunto de ferramentas nos arquivos marcados para gerar catálogos de mensagens não tratadas</p></li>
+<li><p class="translated">criar traduções específicas do idioma dos catálogos de mensagens</p></li>
+<li><p class="translated">usar o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">gettext</span></code> para que as strings das mensagens sejam traduzidas corretamente</p></li>
+</ol>
+<p class="translated">Para preparar seu código para I18N, você precisa examinar todas as strings em seus arquivos. Qualquer string que precise ser traduzida deve ser marcada envolvendo-a em <code class="docutils literal notranslate"><span class="pre">_('...')</span></code> — isto é, uma chamada para a função <a class="reference internal" href="#module-gettext" title="gettext: Multilingual internationalization services."><code class="xref py py-func docutils literal notranslate"><span class="pre">_</span></code></a>. Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">'meulog.txt'</span>
+<span class="n">message</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">'escrevendo uma mensagem de log'</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Neste exemplo, a string <code class="docutils literal notranslate"><span class="pre">'escrevendo</span> <span class="pre">uma</span> <span class="pre">mensagem</span> <span class="pre">de</span> <span class="pre">log'</span></code> está marcada como um candidato para tradução, enquanto as strings <code class="docutils literal notranslate"><span class="pre">'meulog.txt'</span></code> e <code class="docutils literal notranslate"><span class="pre">'w'</span></code> não estão.</p>
+<p class="translated">Existem algumas ferramentas para extrair as strings destinadas à tradução. O GNU <strong class="program">gettext</strong> original tem suporte apenas ao código-fonte C ou C++, mas sua versão estendida <strong class="program">xgettext</strong> varre o código escrito em várias linguagens, incluindo Python, para encontrar strings marcadas como traduzíveis. <a class="reference external" href="https://babel.pocoo.org/">Babel</a> é uma biblioteca de internacionalização do Python que inclui um script <code class="file docutils literal notranslate"><span class="pre">pybabel</span></code> para extrair e compilar catálogos de mensagens. O programa de François Pinard chamado <strong class="program">xpot</strong> faz um trabalho semelhante e está disponível como parte de seu pacote <a class="reference external" href="https://github.com/pinard/po-utils">po-utils</a>.</p>
+<p class="translated">(O Python também inclui versões em Python puro desses programas, chamadas <strong class="program">pygettext.py</strong> e <strong class="program">msgfmt.py</strong>; algumas distribuições do Python as instalam para você. O <strong class="program">pygettext.py</strong> é semelhante ao <strong class="program">xgettext</strong>, mas apenas entende o código-fonte do Python e não consegue lidar com outras linguagens de programação como C ou C++. O <strong class="program">pygettext.py</strong> possui suporte a uma interface de linha de comando semelhante à do <strong class="program">xgettext</strong>; para detalhes sobre seu uso, execute <code class="docutils literal notranslate"><span class="pre">pygettext.py</span> <span class="pre">--help</span></code>. O <strong class="program">msgfmt.py</strong> é compatível com binários com GNU <strong class="program">msgfmt</strong>. Com esses dois programas, você pode não precisar do pacote GNU <strong class="program">gettext</strong> para internacionalizar suas aplicações Python.)</p>
+<p class="translated"><strong class="program">xgettext</strong>, <strong class="program">pygettext</strong> e ferramentas similares geram <code class="file docutils literal notranslate"><span class="pre">.po</span></code> que são catálogos de mensagens. Eles são arquivos legíveis por humanos estruturados que contêm todas as strings marcadas no código-fonte, junto com um espaço reservado para as versões traduzidas dessas strings.</p>
+<p class="translated">Cópias destes arquivos <code class="file docutils literal notranslate"><span class="pre">.po</span></code> são entregues aos tradutores humanos individuais que escrevem traduções para todos os idiomas naturais suportados. Eles enviam de volta as versões completas específicas do idioma como um arquivo <code class="file docutils literal notranslate"><span class="pre">&lt;nome-do-idioma&gt;.po</span></code> que é compilado em um arquivo de catálogo binário legível por máquina <code class="file docutils literal notranslate"><span class="pre">.mo</span></code> usando o programa <strong class="program">msgfmt</strong>. Os arquivos <code class="file docutils literal notranslate"><span class="pre">.mo</span></code> são usados pelo módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">gettext</span></code> para o processamento de tradução real em tempo de execução.</p>
+<p class="translated">Como você usa o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">gettext</span></code> no seu código depende se você está internacionalizando um único módulo ou sua aplicação inteira. As próximas duas seções discutirão cada caso.</p>
+<section id="localizing-your-module">
+<h3 class="translated">Localizando seu módulo<a class="headerlink" href="#localizing-your-module" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Se você estiver localizando seu módulo, tome cuidado para não fazer alterações globais, por exemplo para o espaço de nomes embutidos. Você não deve usar a API GNU <strong class="program">gettext</strong>, mas a API baseada em classe.</p>
+<p class="translated">Digamos que seu módulo seja chamado “spam” e as várias traduções do idioma natural do arquivo <code class="file docutils literal notranslate"><span class="pre">.mo</span></code> residam em <code class="file docutils literal notranslate"><span class="pre">/usr/share/locale</span></code> no formato GNU <strong class="program">gettext</strong>. Aqui está o que você colocaria sobre o seu módulo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gettext</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">gettext</span><span class="o">.</span><span class="n">translation</span><span class="p">(</span><span class="s1">'spam'</span><span class="p">,</span> <span class="s1">'/usr/share/locale'</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">gettext</span>
+</pre></div>
+</div>
+</section>
+<section id="localizing-your-application">
+<h3 class="translated">Localizando sua aplicação<a class="headerlink" href="#localizing-your-application" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Se você estiver localizando sua aplicação, poderá instalar a função <code class="xref py py-func docutils literal notranslate"><span class="pre">_()</span></code> globalmente no espaço de nomes embutidos, geralmente no arquivo principal do driver do sua aplicação. Isso permitirá que todos os arquivos específicos de sua aplicação usem <code class="docutils literal notranslate"><span class="pre">_('...')</span></code> sem precisar instalá-la explicitamente em cada arquivo.</p>
+<p class="translated">No caso simples, você precisa adicionar apenas o seguinte código ao arquivo do driver principal da sua aplicação:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gettext</span>
+<span class="n">gettext</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s1">'minhaaplicacao'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Se você precisar definir o diretório da localidade, poderá passá-lo para a função <a class="reference internal" href="#gettext.install" title="gettext.install"><code class="xref py py-func docutils literal notranslate"><span class="pre">install()</span></code></a>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gettext</span>
+<span class="n">gettext</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s1">'minhaaplicacao'</span><span class="p">,</span> <span class="s1">'/usr/share/locale'</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="changing-languages-on-the-fly">
+<h3 class="translated">Alterando os idiomas durante o uso<a class="headerlink" href="#changing-languages-on-the-fly" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Se o seu programa precisar oferecer suporte a vários idiomas ao mesmo tempo, convém criar várias instâncias de tradução e alternar entre elas explicitamente, assim:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gettext</span>
+
+<span class="n">lang1</span> <span class="o">=</span> <span class="n">gettext</span><span class="o">.</span><span class="n">translation</span><span class="p">(</span><span class="s1">'minhaaplicacao'</span><span class="p">,</span> <span class="n">languages</span><span class="o">=</span><span class="p">[</span><span class="s1">'en'</span><span class="p">])</span>
+<span class="n">lang2</span> <span class="o">=</span> <span class="n">gettext</span><span class="o">.</span><span class="n">translation</span><span class="p">(</span><span class="s1">'minhaaplicacao'</span><span class="p">,</span> <span class="n">languages</span><span class="o">=</span><span class="p">[</span><span class="s1">'fr'</span><span class="p">])</span>
+<span class="n">lang3</span> <span class="o">=</span> <span class="n">gettext</span><span class="o">.</span><span class="n">translation</span><span class="p">(</span><span class="s1">'minhaaplicacao'</span><span class="p">,</span> <span class="n">languages</span><span class="o">=</span><span class="p">[</span><span class="s1">'de'</span><span class="p">])</span>
+
+<span class="c1"># começa usando o idioma 1</span>
+<span class="n">lang1</span><span class="o">.</span><span class="n">install</span><span class="p">()</span>
+
+<span class="c1"># ... o tempo passa, o usuário seleciona o idioma 2</span>
+<span class="n">lang2</span><span class="o">.</span><span class="n">install</span><span class="p">()</span>
+
+<span class="c1"># ... mais tempo passa, o usuário seleciona o idioma 3</span>
+<span class="n">lang3</span><span class="o">.</span><span class="n">install</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="deferred-translations">
+<h3 class="translated">Traduções adiadas<a class="headerlink" href="#deferred-translations" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Na maioria das situações de codificação, as strings são traduzidas onde são codificadas. Ocasionalmente, no entanto, é necessário marcar strings para tradução, mas adiar a tradução real até mais tarde. Um exemplo clássico é:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">animals</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'mollusk'</span><span class="p">,</span>
+           <span class="s1">'albatross'</span><span class="p">,</span>
+           <span class="s1">'rat'</span><span class="p">,</span>
+           <span class="s1">'penguin'</span><span class="p">,</span>
+           <span class="s1">'python'</span><span class="p">,</span> <span class="p">]</span>
+<span class="c1"># ...</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">animals</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Aqui, você deseja marcar as strings na lista <code class="docutils literal notranslate"><span class="pre">animals</span></code> como traduzíveis, mas na verdade não deseja traduzi-las até que sejam impressas.</p>
+<p class="translated">Aqui está uma maneira de lidar com esta situação:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">_</span><span class="p">(</span><span class="n">message</span><span class="p">):</span> <span class="k">return</span> <span class="n">message</span>
+
+<span class="n">animals</span> <span class="o">=</span> <span class="p">[</span><span class="n">_</span><span class="p">(</span><span class="s1">'mollusk'</span><span class="p">),</span>
+           <span class="n">_</span><span class="p">(</span><span class="s1">'albatross'</span><span class="p">),</span>
+           <span class="n">_</span><span class="p">(</span><span class="s1">'rat'</span><span class="p">),</span>
+           <span class="n">_</span><span class="p">(</span><span class="s1">'penguin'</span><span class="p">),</span>
+           <span class="n">_</span><span class="p">(</span><span class="s1">'python'</span><span class="p">),</span> <span class="p">]</span>
+
+<span class="k">del</span> <span class="n">_</span>
+
+<span class="c1"># ...</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">animals</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="translated">Isso funciona porque a definição fictícia de <code class="xref py py-func docutils literal notranslate"><span class="pre">_()</span></code> simplesmente retorna a string inalterada. E essa definição fictícia vai substituir temporariamente qualquer definição de <code class="xref py py-func docutils literal notranslate"><span class="pre">_()</span></code> no espaço de nomes embutido (até o comando <a class="reference internal" href="../reference/simple_stmts.html#del"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">del</span></code></a>). Tome cuidado, se você tiver uma definição anterior de <code class="xref py py-func docutils literal notranslate"><span class="pre">_()</span></code> no espaço de nomes local.</p>
+<p class="translated">Observe que o segundo uso de <code class="xref py py-func docutils literal notranslate"><span class="pre">_()</span></code> não identificará “a” como traduzível para o programa <strong class="program">gettext</strong>, porque o parâmetro não é uma string literal.</p>
+<p class="translated">Outra maneira de lidar com isso é com o seguinte exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">N_</span><span class="p">(</span><span class="n">message</span><span class="p">):</span> <span class="k">return</span> <span class="n">message</span>
+
+<span class="n">animals</span> <span class="o">=</span> <span class="p">[</span><span class="n">N_</span><span class="p">(</span><span class="s1">'mollusk'</span><span class="p">),</span>
+           <span class="n">N_</span><span class="p">(</span><span class="s1">'albatross'</span><span class="p">),</span>
+           <span class="n">N_</span><span class="p">(</span><span class="s1">'rat'</span><span class="p">),</span>
+           <span class="n">N_</span><span class="p">(</span><span class="s1">'penguin'</span><span class="p">),</span>
+           <span class="n">N_</span><span class="p">(</span><span class="s1">'python'</span><span class="p">),</span> <span class="p">]</span>
+
+<span class="c1"># ...</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">animals</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="translated">Nesse caso, você está marcando strings traduzíveis com a função <code class="xref py py-func docutils literal notranslate"><span class="pre">N_()</span></code>, que não entra em conflito com nenhuma definição de <code class="xref py py-func docutils literal notranslate"><span class="pre">_()</span></code>. No entanto, você precisará ensinar seu programa de extração de mensagens a procurar strings traduzíveis marcadas com <code class="xref py py-func docutils literal notranslate"><span class="pre">N_()</span></code>. <strong class="program">xgettext</strong>, <strong class="program">pygettext</strong>, <code class="docutils literal notranslate"><span class="pre">pybabel</span> <span class="pre">extract</span></code> e <strong class="program">xpot</strong> possuem suporte a isso através do uso da opção de linha de comando <code class="xref std std-option docutils literal notranslate"><span class="pre">-k</span></code>. A escolha de <code class="xref py py-func docutils literal notranslate"><span class="pre">N_()</span></code> aqui é totalmente arbitrária; poderia facilmente ter sido <code class="xref py py-func docutils literal notranslate"><span class="pre">MarkThisStringForTranslation()</span></code>.</p>
+</section>
+</section>
+<section id="acknowledgements">
+<h2 class="translated">Reconhecimentos<a class="headerlink" href="#acknowledgements" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">As seguintes pessoas contribuíram com código, feedback, sugestões de design, implementações anteriores e experiência valiosa para a criação deste módulo:</p>
+<ul class="simple">
+<li><p class="translated">Peter Funk</p></li>
+<li><p class="translated">James Henstridge</p></li>
+<li><p class="translated">Juan David Ibáñez Palomar</p></li>
+<li><p class="translated">Marc-André Lemburg</p></li>
+<li><p class="translated">Martin von Löwis</p></li>
+<li><p class="translated">François Pinard</p></li>
+<li><p class="translated">Barry Warsaw</p></li>
+<li><p class="translated">Gustavo Niemeyer</p></li>
+</ul>
+<p class="translated rubric">Notas de rodapé</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p class="translated">O diretório de localidade padrão depende do sistema; por exemplo, no Red Hat Linux é <code class="file docutils literal notranslate"><span class="pre">/usr/share/locale</span></code>, mas no Solaris é <code class="file docutils literal notranslate"><span class="pre">/usr/lib/locale</span></code>. O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">gettext</span></code> não tenta dar suporte a esses padrões dependentes do sistema; em vez disso, seu padrão é <code class="file docutils literal notranslate"><em><span class="pre">sys.base_prefix</span></em><span class="pre">/share/locale</span></code> (consulte <a class="reference internal" href="sys.html#sys.base_prefix" title="sys.base_prefix"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.base_prefix</span></code></a>). Por esse motivo, é sempre melhor chamar <a class="reference internal" href="#gettext.bindtextdomain" title="gettext.bindtextdomain"><code class="xref py py-func docutils literal notranslate"><span class="pre">bindtextdomain()</span></code></a> com um caminho absoluto explícito no início da sua aplicação.</p>
+</aside>
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p class="translated">Consulte a nota de rodapé para a <a class="reference internal" href="#gettext.bindtextdomain" title="gettext.bindtextdomain"><code class="xref py py-func docutils literal notranslate"><span class="pre">bindtextdomain()</span></code></a> acima.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">gettext</span></code> — Serviços de internacionalização multilíngues</a><ul>
+<li><a class="reference internal" href="#gnu-gettext-api">API do GNU <strong class="program">gettext</strong></a></li>
+<li><a class="reference internal" href="#class-based-api">API baseada em classe</a><ul>
+<li><a class="reference internal" href="#the-nulltranslations-class">A classe <code class="xref py py-class docutils literal notranslate"><span class="pre">NullTranslations</span></code></a></li>
+<li><a class="reference internal" href="#the-gnutranslations-class">A classe <code class="xref py py-class docutils literal notranslate"><span class="pre">GNUTranslations</span></code></a></li>
+<li><a class="reference internal" href="#solaris-message-catalog-support">Suporte a catálogo de mensagens do Solaris</a></li>
+<li><a class="reference internal" href="#the-catalog-constructor">O construtor Catalog</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#internationalizing-your-programs-and-modules">Internacionalizando seus programas e módulos</a><ul>
+<li><a class="reference internal" href="#localizing-your-module">Localizando seu módulo</a></li>
+<li><a class="reference internal" href="#localizing-your-application">Localizando sua aplicação</a></li>
+<li><a class="reference internal" href="#changing-languages-on-the-fly">Alterando os idiomas durante o uso</a></li>
+<li><a class="reference internal" href="#deferred-translations">Traduções adiadas</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#acknowledgements">Reconhecimentos</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="i18n.html"
+                          title="capítulo anterior">Internacionalização</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="locale.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">locale</span></code> — Serviços de internacionalização</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/gettext.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/gettext.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/gettext.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="locale.html" title="locale — Serviços de internacionalização"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="i18n.html" title="Internacionalização"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="i18n.html" >Internacionalização</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">gettext</span></code> — Serviços de internacionalização multilíngues</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

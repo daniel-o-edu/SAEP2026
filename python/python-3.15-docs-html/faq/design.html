@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="FAQ sobre design e histórico" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/faq/design.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Sumário: FAQ sobre design e histórico- Por que o Python usa indentação para agrupamento de instruções?, Por que eu estou recebendo resultados estranhos com simples operações aritméticas?, Por que o..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_faq_design_cf5915a9.png" />
+<meta property="og:image:alt" content="Sumário: FAQ sobre design e histórico- Por que o Python usa indentação para agrupamento de instruções?, Por que eu estou recebendo resultados estranhos com simples operações aritméticas?, Por que o..." />
+<meta name="description" content="Sumário: FAQ sobre design e histórico- Por que o Python usa indentação para agrupamento de instruções?, Por que eu estou recebendo resultados estranhos com simples operações aritméticas?, Por que o..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>FAQ sobre design e histórico &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="FAQ de Bibliotecas e Extensões" href="library.html" />
+    <link rel="prev" title="FAQ sobre programação" href="programming.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/faq/design.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">FAQ sobre design e histórico</a><ul>
+<li><a class="reference internal" href="#why-does-python-use-indentation-for-grouping-of-statements">Por que o Python usa indentação para agrupamento de instruções?</a></li>
+<li><a class="reference internal" href="#why-am-i-getting-strange-results-with-simple-arithmetic-operations">Por que eu estou recebendo resultados estranhos com simples operações aritméticas?</a></li>
+<li><a class="reference internal" href="#why-are-floating-point-calculations-so-inaccurate">Por que o cálculo de pontos flutuantes são tão imprecisos?</a></li>
+<li><a class="reference internal" href="#why-are-python-strings-immutable">Por que strings do Python são imutáveis?</a></li>
+<li><a class="reference internal" href="#why-must-self-be-used-explicitly-in-method-definitions-and-calls">Por que o ‘self’ deve ser usado explicitamente em definições de método e chamadas?</a></li>
+<li><a class="reference internal" href="#why-can-t-i-use-an-assignment-in-an-expression">Por que não posso usar uma atribuição em uma expressão?</a></li>
+<li><a class="reference internal" href="#why-does-python-use-methods-for-some-functionality-e-g-list-index-but-functions-for-other-e-g-len-list">Por que o Python usa métodos para algumas funcionalidades (ex: lista.index()) mas funções para outras (ex: len(lista))?</a></li>
+<li><a class="reference internal" href="#why-is-join-a-string-method-instead-of-a-list-or-tuple-method">Por que o join() é um método de string em vez de ser um método de lista ou tupla?</a></li>
+<li><a class="reference internal" href="#how-fast-are-exceptions">Quão rápidas são as exceções?</a></li>
+<li><a class="reference internal" href="#why-isn-t-there-a-switch-or-case-statement-in-python">Por que não existe uma instrução de switch ou case no Python?</a></li>
+<li><a class="reference internal" href="#can-t-you-emulate-threads-in-the-interpreter-instead-of-relying-on-an-os-specific-thread-implementation">Você não pode emular threads no interpretador em vez de confiar em uma implementação de thread específica do sistema operacional?</a></li>
+<li><a class="reference internal" href="#why-can-t-lambda-expressions-contain-statements">Por que expressões lambda não podem conter instruções?</a></li>
+<li><a class="reference internal" href="#can-python-be-compiled-to-machine-code-c-or-some-other-language">O Python pode ser compilado para linguagem de máquina, C ou alguma outra linguagem?</a></li>
+<li><a class="reference internal" href="#how-does-python-manage-memory">Como o Python gerencia memória?</a></li>
+<li><a class="reference internal" href="#why-doesn-t-cpython-use-a-more-traditional-garbage-collection-scheme">Por que o CPython não usa uma forma mais tradicional de esquema de coleta de lixo?</a></li>
+<li><a class="reference internal" href="#why-isn-t-all-memory-freed-when-cpython-exits">Por que toda memória não é liberada quando o CPython fecha?</a></li>
+<li><a class="reference internal" href="#why-are-there-separate-tuple-and-list-data-types">Por que existem tipos de dados separados para tuplas e listas?</a></li>
+<li><a class="reference internal" href="#how-are-lists-implemented-in-cpython">Como as listas são implementadas no CPython?</a></li>
+<li><a class="reference internal" href="#how-are-dictionaries-implemented-in-cpython">Como são os dicionários implementados no CPython?</a></li>
+<li><a class="reference internal" href="#why-must-dictionary-keys-be-immutable">Por que chaves de dicionário devem ser imutáveis?</a></li>
+<li><a class="reference internal" href="#why-doesn-t-list-sort-return-the-sorted-list">Por que lista.sort() não retorna a lista ordenada?</a></li>
+<li><a class="reference internal" href="#how-do-you-specify-and-enforce-an-interface-spec-in-python">Como você especifica e aplica um spec de interface no Python?</a></li>
+<li><a class="reference internal" href="#why-is-there-no-goto">Por que não há goto?</a></li>
+<li><a class="reference internal" href="#why-can-t-raw-strings-r-strings-end-with-a-backslash">Por que strings brutas (r-strings) não podem terminar com uma contrabarra?</a></li>
+<li><a class="reference internal" href="#why-doesn-t-python-have-a-with-statement-for-attribute-assignments">Por que o Python não tem uma instrução “with” para atribuição de atributos?</a></li>
+<li><a class="reference internal" href="#why-don-t-generators-support-the-with-statement">Por que os geradores não suportam a instrução with?</a></li>
+<li><a class="reference internal" href="#why-are-colons-required-for-the-if-while-def-class-statements">Por que dois pontos são necessários para as instruções de if/while/def/class?</a></li>
+<li><a class="reference internal" href="#why-does-python-allow-commas-at-the-end-of-lists-and-tuples">Por que o Python permite vírgulas ao final de listas e tuplas?</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="programming.html"
+                          title="capítulo anterior">FAQ sobre programação</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="library.html"
+                          title="próximo capítulo">FAQ de Bibliotecas e Extensões</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "faq/design.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/faq/design.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/faq/design.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="library.html" title="FAQ de Bibliotecas e Extensões"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="programming.html" title="FAQ sobre programação"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Perguntas Frequentes Sobre Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FAQ sobre design e histórico</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="design-and-history-faq">
+<h1 class="translated"><a class="toc-backref" href="#id2" role="doc-backlink">FAQ sobre design e histórico</a><a class="headerlink" href="#design-and-history-faq" title="Link para este cabeçalho">¶</a></h1>
+<nav class="contents" id="sumario">
+<p class="untranslated topic-title">Sumário</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#design-and-history-faq" id="id2">FAQ sobre design e histórico</a></p>
+<ul>
+<li><p><a class="reference internal" href="#why-does-python-use-indentation-for-grouping-of-statements" id="id3">Por que o Python usa indentação para agrupamento de instruções?</a></p></li>
+<li><p><a class="reference internal" href="#why-am-i-getting-strange-results-with-simple-arithmetic-operations" id="id4">Por que eu estou recebendo resultados estranhos com simples operações aritméticas?</a></p></li>
+<li><p><a class="reference internal" href="#why-are-floating-point-calculations-so-inaccurate" id="id5">Por que o cálculo de pontos flutuantes são tão imprecisos?</a></p></li>
+<li><p><a class="reference internal" href="#why-are-python-strings-immutable" id="id6">Por que strings do Python são imutáveis?</a></p></li>
+<li><p><a class="reference internal" href="#why-must-self-be-used-explicitly-in-method-definitions-and-calls" id="id7">Por que o ‘self’ deve ser usado explicitamente em definições de método e chamadas?</a></p></li>
+<li><p><a class="reference internal" href="#why-can-t-i-use-an-assignment-in-an-expression" id="id8">Por que não posso usar uma atribuição em uma expressão?</a></p></li>
+<li><p><a class="reference internal" href="#why-does-python-use-methods-for-some-functionality-e-g-list-index-but-functions-for-other-e-g-len-list" id="id9">Por que o Python usa métodos para algumas funcionalidades (ex: lista.index()) mas funções para outras (ex: len(lista))?</a></p></li>
+<li><p><a class="reference internal" href="#why-is-join-a-string-method-instead-of-a-list-or-tuple-method" id="id10">Por que o join() é um método de string em vez de ser um método de lista ou tupla?</a></p></li>
+<li><p><a class="reference internal" href="#how-fast-are-exceptions" id="id11">Quão rápidas são as exceções?</a></p></li>
+<li><p><a class="reference internal" href="#why-isn-t-there-a-switch-or-case-statement-in-python" id="id12">Por que não existe uma instrução de switch ou case no Python?</a></p></li>
+<li><p><a class="reference internal" href="#can-t-you-emulate-threads-in-the-interpreter-instead-of-relying-on-an-os-specific-thread-implementation" id="id13">Você não pode emular threads no interpretador em vez de confiar em uma implementação de thread específica do sistema operacional?</a></p></li>
+<li><p><a class="reference internal" href="#why-can-t-lambda-expressions-contain-statements" id="id14">Por que expressões lambda não podem conter instruções?</a></p></li>
+<li><p><a class="reference internal" href="#can-python-be-compiled-to-machine-code-c-or-some-other-language" id="id15">O Python pode ser compilado para linguagem de máquina, C ou alguma outra linguagem?</a></p></li>
+<li><p><a class="reference internal" href="#how-does-python-manage-memory" id="id16">Como o Python gerencia memória?</a></p></li>
+<li><p><a class="reference internal" href="#why-doesn-t-cpython-use-a-more-traditional-garbage-collection-scheme" id="id17">Por que o CPython não usa uma forma mais tradicional de esquema de coleta de lixo?</a></p></li>
+<li><p><a class="reference internal" href="#why-isn-t-all-memory-freed-when-cpython-exits" id="id18">Por que toda memória não é liberada quando o CPython fecha?</a></p></li>
+<li><p><a class="reference internal" href="#why-are-there-separate-tuple-and-list-data-types" id="id19">Por que existem tipos de dados separados para tuplas e listas?</a></p></li>
+<li><p><a class="reference internal" href="#how-are-lists-implemented-in-cpython" id="id20">Como as listas são implementadas no CPython?</a></p></li>
+<li><p><a class="reference internal" href="#how-are-dictionaries-implemented-in-cpython" id="id21">Como são os dicionários implementados no CPython?</a></p></li>
+<li><p><a class="reference internal" href="#why-must-dictionary-keys-be-immutable" id="id22">Por que chaves de dicionário devem ser imutáveis?</a></p></li>
+<li><p><a class="reference internal" href="#why-doesn-t-list-sort-return-the-sorted-list" id="id23">Por que lista.sort() não retorna a lista ordenada?</a></p></li>
+<li><p><a class="reference internal" href="#how-do-you-specify-and-enforce-an-interface-spec-in-python" id="id24">Como você especifica e aplica um spec de interface no Python?</a></p></li>
+<li><p><a class="reference internal" href="#why-is-there-no-goto" id="id25">Por que não há goto?</a></p></li>
+<li><p><a class="reference internal" href="#why-can-t-raw-strings-r-strings-end-with-a-backslash" id="id26">Por que strings brutas (r-strings) não podem terminar com uma contrabarra?</a></p></li>
+<li><p><a class="reference internal" href="#why-doesn-t-python-have-a-with-statement-for-attribute-assignments" id="id27">Por que o Python não tem uma instrução “with” para atribuição de atributos?</a></p></li>
+<li><p><a class="reference internal" href="#why-don-t-generators-support-the-with-statement" id="id28">Por que os geradores não suportam a instrução with?</a></p></li>
+<li><p><a class="reference internal" href="#why-are-colons-required-for-the-if-while-def-class-statements" id="id29">Por que dois pontos são necessários para as instruções de if/while/def/class?</a></p></li>
+<li><p><a class="reference internal" href="#why-does-python-allow-commas-at-the-end-of-lists-and-tuples" id="id30">Por que o Python permite vírgulas ao final de listas e tuplas?</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="why-does-python-use-indentation-for-grouping-of-statements">
+<h2 class="translated"><a class="toc-backref" href="#id3" role="doc-backlink">Por que o Python usa indentação para agrupamento de instruções?</a><a class="headerlink" href="#why-does-python-use-indentation-for-grouping-of-statements" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Guido van Rossum acredita que usar indentação para agrupamento é extremamente elegante e contribui muito para a clareza de programa Python mediano. Muitas pessoas aprendem a amar esta ferramenta depois de um tempo.</p>
+<p class="translated">Uma vez que não há colchetes de início / fim, não pode haver um desacordo entre o agrupamento percebido pelo analisador sintático e pelo leitor humano. Ocasionalmente, programadores C irão encontrar um fragmento de código como este:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">x</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">y</span><span class="o">--</span><span class="p">;</span>
+<span class="n">z</span><span class="o">++</span><span class="p">;</span>
+</pre></div>
+</div>
+<p class="translated">Somente a instrução <code class="docutils literal notranslate"><span class="pre">x++</span></code> é executada se a condição for verdadeira, mas a indentação leva muitos a acreditarem no contrário. Com frequência, até programadores C experientes a observam fixamente por um longo tempo, perguntando-se por que <code class="docutils literal notranslate"><span class="pre">y</span></code> está sendo decrementada até mesmo para <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&gt;</span> <span class="pre">y</span></code>.</p>
+<p class="translated">Como não há chaves de início / fim, o Python é muito menos propenso a conflitos no estilo de codificação. Em C, existem muitas maneiras diferentes de colocar as chaves. Depois de se tornar habitual a leitura e escrita de código usando um estilo específico, é normal sentir-se um pouco receoso ao ler (ou precisar escrever) em um estilo diferente.</p>
+<p class="translated">Muitos estilos de codificação colocam chaves de início / fim em uma linha sozinhos. Isto torna os programas consideravelmente mais longos e desperdiça espaço valioso na tela, dificultando a obtenção de uma boa visão geral de um programa. Idealmente, uma função deve caber em uma tela (digamos, 20 a 30 linhas). 20 linhas de Python podem fazer muito mais trabalho do que 20 linhas de C. Isso não se deve apenas à falta de colchetes de início/fim – a falta de declarações e os tipos de dados de alto nível também são responsáveis – mas a sintaxe baseada em indentação certamente ajuda.</p>
+</section>
+<section id="why-am-i-getting-strange-results-with-simple-arithmetic-operations">
+<h2 class="translated"><a class="toc-backref" href="#id4" role="doc-backlink">Por que eu estou recebendo resultados estranhos com simples operações aritméticas?</a><a class="headerlink" href="#why-am-i-getting-strange-results-with-simple-arithmetic-operations" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Veja a próxima questão.</p>
+</section>
+<section id="why-are-floating-point-calculations-so-inaccurate">
+<h2 class="translated"><a class="toc-backref" href="#id5" role="doc-backlink">Por que o cálculo de pontos flutuantes são tão imprecisos?</a><a class="headerlink" href="#why-are-floating-point-calculations-so-inaccurate" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Usuários são frequentemente surpreendidos por resultados como este:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mf">1.2</span> <span class="o">-</span> <span class="mf">1.0</span>
+<span class="go">0.19999999999999996</span>
+</pre></div>
+</div>
+<p class="translated">e pensam que isto é um bug do Python. Não é não. Isto tem pouco a ver com o Python, e muito mais a ver com como a estrutura da plataforma lida com números em ponto flutuante.</p>
+<p class="translated">O tipo <a class="reference internal" href="../builtins/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> no CPython usa um <code class="docutils literal notranslate"><span class="pre">double</span></code> do C para armazenamento. O valor de um objeto <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> é armazenado em ponto flutuante binário com uma precisão fixa (normalmente 53 bits) e Python usa operações C, que por sua vez dependem da implementação de hardware no processador, para realizar operações de ponto flutuante. Isso significa que, no que diz respeito às operações de ponto flutuante, Python se comporta como muitas linguagens populares, incluindo C e Java.</p>
+<p class="translated">Muitos números podem ser escritos facilmente em notação decimal, mas não podem ser expressados exatamente em ponto flutuante binário. Por exemplo, após:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="mf">1.2</span>
+</pre></div>
+</div>
+<p class="translated">o valor armazenado para <code class="docutils literal notranslate"><span class="pre">x</span></code> é uma (ótima) aproximação para o valor decimal <code class="docutils literal notranslate"><span class="pre">1.2</span></code>, mas não é exatamente igual. Em uma máquina típica, o valor real armazenado é:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="mf">1.0011001100110011001100110011001100110011001100110011</span> <span class="p">(</span><span class="n">binário</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">que é exatamente:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="mf">1.1999999999999999555910790149937383830547332763671875</span> <span class="p">(</span><span class="n">decimal</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">A precisão típica de 53 bits fornece floats do Python com precisão de 15 a 16 dígitos decimais.</p>
+<p class="translated">Para uma explicação mais completa, consulte o capítulo de <a class="reference internal" href="../tutorial/floatingpoint.html#tut-fp-issues"><span class="std std-ref">aritmética de ponto flutuante</span></a> no tutorial Python.</p>
+</section>
+<section id="why-are-python-strings-immutable">
+<h2 class="translated"><a class="toc-backref" href="#id6" role="doc-backlink">Por que strings do Python são imutáveis?</a><a class="headerlink" href="#why-are-python-strings-immutable" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Existem várias vantagens.</p>
+<p class="translated">Uma delas é o desempenho: saber que uma string é imutável significa que podemos alocar espaço para ela no momento da criação, e os requisitos de armazenamento são fixos e imutáveis. Esta é também uma das razões para a distinção entre tuplas e listas.</p>
+<p class="translated">Outra vantagem é que strings em Python são consideradas tão “elementares” quanto números. Nenhuma atividade alterará o valor 8 para qualquer outra coisa e, em Python, nenhuma atividade alterará a string “oito” para qualquer outra coisa.</p>
+</section>
+<section id="why-must-self-be-used-explicitly-in-method-definitions-and-calls">
+<span id="why-self"></span><h2 class="translated"><a class="toc-backref" href="#id7" role="doc-backlink">Por que o ‘self’ deve ser usado explicitamente em definições de método e chamadas?</a><a class="headerlink" href="#why-must-self-be-used-explicitly-in-method-definitions-and-calls" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">A ideia foi emprestada do Modula-3. Acontece dela ser muito útil, por vários motivos.</p>
+<p class="translated">Primeiro, é mais óbvio que você está usando um método ou atributo de instância em vez de uma variável local. Ler <code class="docutils literal notranslate"><span class="pre">self.x</span></code> ou <code class="docutils literal notranslate"><span class="pre">self.meth()</span></code> deixa absolutamente claro que uma variável de instância ou método é usado mesmo se você não souber a definição da classe de cor. Em C++, você pode perceber pela falta de uma declaração de variável local (presumindo que globais são raras ou facilmente reconhecíveis) – mas no Python não há declarações de variáveis locais, então você teria que procurar a definição de classe para tenha certeza. Alguns padrões de codificação C++ e Java exigem que atributos de instância tenham um prefixo <code class="docutils literal notranslate"><span class="pre">m_</span></code>, portanto, essa explicitação ainda é útil nessas linguagens também.</p>
+<p class="translated">Segundo, significa que nenhuma sintaxe especial é necessária se você quiser referenciar ou chamar explicitamente o método de uma classe específica. Em C++, se você quiser usar um método de uma classe base que é substituído em uma classe derivada, você deve usar o operador <code class="docutils literal notranslate"><span class="pre">::</span></code> – no Python, você pode escrever <code class="docutils literal notranslate"><span class="pre">baseclass.methodname(self,</span> <span class="pre">&lt;lista</span> <span class="pre">de</span> <span class="pre">argumentos&gt;)</span></code>. Isto é particularmente útil para métodos <a class="reference internal" href="../reference/datamodel.html#object.__init__" title="object.__init__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code></a> e, em geral, em casos onde um método de classe derivada deseja estender o método da classe base de mesmo nome e, portanto, precisa chamar o método da classe base de alguma forma.</p>
+<p class="translated">Finalmente, por exemplo, variáveis, ele resolve um problema sintático com atribuição: uma vez que variáveis locais em Python são (por definição!) aquelas variáveis às quais um valor é atribuído em um corpo de função (e que não são explicitamente declaradas globais), é necessário deve haver alguma forma de dizer ao interpretador que uma atribuição deveria ser atribuída a uma variável de instância em vez de a uma variável local, e deve ser preferencialmente sintática (por razões de eficiência). C++ faz isso através de declarações, mas Python não possui declarações e seria uma pena ter que introduzi-las apenas para esse fim. Usar o <code class="docutils literal notranslate"><span class="pre">self.var</span></code> explícito resolve isso muito bem. Da mesma forma, para usar variáveis de instância, ter que escrever <code class="docutils literal notranslate"><span class="pre">self.var</span></code> significa que referências a nomes não qualificados dentro de um método não precisam pesquisar nos diretórios da instância. Em outras palavras, variáveis locais e variáveis de instância residem em dois espaço de nomes diferentes, e você precisa informar ao Python qual espaço de nomes usar.</p>
+</section>
+<section id="why-can-t-i-use-an-assignment-in-an-expression">
+<span id="id1"></span><h2 class="translated"><a class="toc-backref" href="#id8" role="doc-backlink">Por que não posso usar uma atribuição em uma expressão?</a><a class="headerlink" href="#why-can-t-i-use-an-assignment-in-an-expression" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">A partir do Python 3.8, você pode!</p>
+<p class="translated">Expressões de atribuição usando o operador morsa <code class="docutils literal notranslate"><span class="pre">:=</span></code> atribuem uma variável em uma expressão:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">chunk</span> <span class="o">:=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">200</span><span class="p">):</span>
+   <span class="nb">print</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Veja <span class="target" id="index-2"></span><a class="pep reference external" href="https://peps.python.org/pep-0572/"><strong>PEP 572</strong></a> para mais informações.</p>
+</section>
+<section id="why-does-python-use-methods-for-some-functionality-e-g-list-index-but-functions-for-other-e-g-len-list">
+<h2 class="translated"><a class="toc-backref" href="#id9" role="doc-backlink">Por que o Python usa métodos para algumas funcionalidades (ex: lista.index()) mas funções para outras (ex: len(lista))?</a><a class="headerlink" href="#why-does-python-use-methods-for-some-functionality-e-g-list-index-but-functions-for-other-e-g-len-list" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Como Guido disse:</p>
+<blockquote>
+<div><p class="untranslated">(a) For some operations, prefix notation just reads better than
+postfix – prefix (and infix!) operations have a long tradition in
+mathematics which likes notations where the visuals help the
+mathematician thinking about a problem. Compare the easy with which we
+rewrite a formula like x*(a+b) into x*a + x*b to the clumsiness of
+doing the same thing using a raw OO notation.</p>
+<p class="untranslated">(b) When I read code that says len(x) I <em>know</em> that it is asking for
+the length of something. This tells me two things: the result is an
+integer, and the argument is some kind of container. To the contrary,
+when I read x.len(), I have to already know that x is some kind of
+container implementing an interface or inheriting from a class that
+has a standard len(). Witness the confusion we occasionally have when
+a class that is not implementing a mapping has a get() or keys()
+method, or something that isn’t a file has a write() method.</p>
+<p class="translated attribution">—<a class="reference external" href="https://mail.python.org/pipermail/python-3000/2006-November/004643.html">https://mail.python.org/pipermail/python-3000/2006-November/004643.html</a></p>
+</div></blockquote>
+</section>
+<section id="why-is-join-a-string-method-instead-of-a-list-or-tuple-method">
+<h2 class="translated"><a class="toc-backref" href="#id10" role="doc-backlink">Por que o join() é um método de string em vez de ser um método de lista ou tupla?</a><a class="headerlink" href="#why-is-join-a-string-method-instead-of-a-list-or-tuple-method" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Strings se tornaram muito parecidas com outros tipos padrão a partir do Python 1.6, quando métodos que dão a mesma funcionalidade que sempre esteve disponível utilizando as funções do módulo de string foram adicionados. A maior parte desses novos métodos foram amplamente aceitos, mas o que parece deixar alguns programadores desconfortáveis é:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">'1'</span><span class="p">,</span> <span class="s1">'2'</span><span class="p">,</span> <span class="s1">'4'</span><span class="p">,</span> <span class="s1">'8'</span><span class="p">,</span> <span class="s1">'16'</span><span class="p">])</span>
+</pre></div>
+</div>
+<p class="translated">que dá o resultado:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="s2">"1, 2, 4, 8, 16"</span>
+</pre></div>
+</div>
+<p class="translated">Existem dois argumentos comuns contra esse uso.</p>
+<p class="translated">O primeiro segue as linhas de: “Parece muito feio usar um método de uma string literal (constante de string)”, para o qual a resposta é que pode, mas uma string literal é apenas um valor fixo. Se os métodos devem ser permitidos em nomes vinculados a strings, não há razão lógica para torná-los indisponíveis em literais.</p>
+<p class="translated">A segunda objeção é normalmente formulada como: “Na verdade, estou dizendo a uma sequência para unir seus membros com uma constante de string”. Infelizmente, você não está. Por alguma razão parece haver muito menos dificuldade em ter <a class="reference internal" href="../builtins/stdtypes.html#str.split" title="str.split"><code class="xref py py-meth docutils literal notranslate"><span class="pre">split()</span></code></a> como um método string, já que nesse caso é fácil ver que</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="s2">"1, 2, 4, 8, 16"</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">", "</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">é uma instrução para uma string literal para retornar as substrings delimitadas pelo separador fornecido (ou, por padrão, execuções arbitrárias de espaço em branco).</p>
+<p class="translated"><a class="reference internal" href="../builtins/stdtypes.html#str.join" title="str.join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">join()</span></code></a> é um método de string porque ao usá-lo você está dizendo à string separadora para iterar sobre uma sequência de strings e se inserir entre elementos adjacentes. Este método pode ser usado com qualquer argumento que obedeça às regras para objetos sequência, incluindo quaisquer novas classes que você mesmo possa definir. Existem métodos semelhantes para bytes e objetos bytearray.</p>
+</section>
+<section id="how-fast-are-exceptions">
+<h2 class="translated"><a class="toc-backref" href="#id11" role="doc-backlink">Quão rápidas são as exceções?</a><a class="headerlink" href="#how-fast-are-exceptions" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Um bloco <a class="reference internal" href="../reference/compound_stmts.html#try"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code></a>/<a class="reference internal" href="../reference/compound_stmts.html#except"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code></a> é extremamente eficiente se nenhuma exceção for levantada. Na verdade, capturar uma exceção é caro. Nas versões do Python anteriores à 2.0 era comum usar esta expressão:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">mydict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+<span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="n">mydict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">getvalue</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">mydict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+</pre></div>
+</div>
+<p class="translated">Isso somente fazia sentido quando você esperava que o dicionário tivesse uma chave quase que toda vez. Se esse não fosse o caso, você escrevia desta maneira:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">mydict</span><span class="p">:</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">mydict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">mydict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">getvalue</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Para este caso específico, você também pode usar <code class="docutils literal notranslate"><span class="pre">value</span> <span class="pre">=</span> <span class="pre">dict.setdefault(key,</span> <span class="pre">getvalue(key))</span></code>, mas apenas se a chamada <code class="docutils literal notranslate"><span class="pre">getvalue()</span></code> tiver pouco custosa o suficiente porque é avaliada em todos os casos.</p>
+</section>
+<section id="why-isn-t-there-a-switch-or-case-statement-in-python">
+<h2 class="translated"><a class="toc-backref" href="#id12" role="doc-backlink">Por que não existe uma instrução de switch ou case no Python?</a><a class="headerlink" href="#why-isn-t-there-a-switch-or-case-statement-in-python" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Em geral, as instruções switch estruturadas executam um bloco de código quando uma expressão possui um valor ou conjunto de valores específico. Desde o Python 3.10 é possível combinar facilmente valores literais, ou constantes dentro de um espaço de nomes, com uma instrução <code class="docutils literal notranslate"><span class="pre">match</span> <span class="pre">...</span> <span class="pre">case</span></code>. Veja <a class="reference internal" href="../reference/compound_stmts.html#match"><span class="std std-ref">a especificação</span></a> e <a class="reference internal" href="../tutorial/controlflow.html#tut-match"><span class="std std-ref">o tutorial</span></a> para mais informações sobre instruções <a class="reference internal" href="../reference/compound_stmts.html#match"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">match</span></code></a>. Uma alternativa mais antiga é uma sequência de <code class="docutils literal notranslate"><span class="pre">if...</span> <span class="pre">elif...</span> <span class="pre">elif...</span> <span class="pre">else</span></code>.</p>
+<p class="translated">Para casos em que você precisa escolher entre um grande número de possibilidades, você pode criar um dicionário mapeando valores de caso para funções a serem chamadas. Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">functions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'a'</span><span class="p">:</span> <span class="n">function_1</span><span class="p">,</span>
+             <span class="s1">'b'</span><span class="p">:</span> <span class="n">function_2</span><span class="p">,</span>
+             <span class="s1">'c'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_1</span><span class="p">}</span>
+
+<span class="n">func</span> <span class="o">=</span> <span class="n">functions</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
+<span class="n">func</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="translated">Para chamar métodos em objetos, você pode simplificar ainda mais usando olá função embutida <a class="reference internal" href="../builtins/functions.html#getattr" title="getattr"><code class="xref py py-func docutils literal notranslate"><span class="pre">getattr()</span></code></a> para recuperar métodos com um nome específico:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyVisitor</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_a</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">method_name</span> <span class="o">=</span> <span class="s1">'visit_'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method_name</span><span class="p">)</span>
+        <span class="n">method</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="translated">É sugerido que você use um prefixo para os nomes dos métodos, como <code class="docutils literal notranslate"><span class="pre">visit_</span></code> neste exemplo. Sem esse prefixo, se os valores vierem de uma fonte não confiável, um invasor poderá chamar qualquer método no seu objeto.</p>
+<p class="translated">Imitar o comportamento do switch no C, em que a execução atravessa as instruções de um case para outro caso não seja interrompida, é possível, mais difícil, e menos necessário.</p>
+</section>
+<section id="can-t-you-emulate-threads-in-the-interpreter-instead-of-relying-on-an-os-specific-thread-implementation">
+<h2 class="translated"><a class="toc-backref" href="#id13" role="doc-backlink">Você não pode emular threads no interpretador em vez de confiar em uma implementação de thread específica do sistema operacional?</a><a class="headerlink" href="#can-t-you-emulate-threads-in-the-interpreter-instead-of-relying-on-an-os-specific-thread-implementation" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Resposta 1: Infelizmente, o interpretador envia pelo menos um quadro de pilha C para cada quadro de pilha Python. Além disso, as extensões podem retornar ao Python em momentos quase aleatórios. Portanto, uma implementação completa de threads requer suporte de thread para C.</p>
+<p class="translated">Resposta 2: Felizmente, existe o <a class="reference external" href="https://github.com/stackless-dev/stackless/wiki">Stackless Python</a>, que tem um laço de interpretador completamente redesenhado que evita a pilha C.</p>
+</section>
+<section id="why-can-t-lambda-expressions-contain-statements">
+<h2 class="translated"><a class="toc-backref" href="#id14" role="doc-backlink">Por que expressões lambda não podem conter instruções?</a><a class="headerlink" href="#why-can-t-lambda-expressions-contain-statements" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Expressões lambda no Python não podem conter instruções porque o framework sintático do Python não consegue manipular instruções aninhadas dentro de expressões. No entanto, no Python, isso não é um problema sério. Diferentemente das formas de lambda em outras linguagens, onde elas adicionam funcionalidade, lambdas de Python são apenas notações simplificadas se você tiver muita preguiça de definir uma função.</p>
+<p class="translated">Funções já são objetos de primeira classe em Python, e podem ser declaradas em um escopo local. Portanto a única vantagem de usar um lambda em vez de uma função definida localmente é que você não precisa inventar um nome para a função – mas esta só é uma variável local para a qual o objeto da função (que é exatamente do mesmo tipo de um objeto que uma expressão lambda carrega) é atribuído!</p>
+</section>
+<section id="can-python-be-compiled-to-machine-code-c-or-some-other-language">
+<h2 class="translated"><a class="toc-backref" href="#id15" role="doc-backlink">O Python pode ser compilado para linguagem de máquina, C ou alguma outra linguagem?</a><a class="headerlink" href="#can-python-be-compiled-to-machine-code-c-or-some-other-language" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O <a class="reference external" href="https://cython.org/">Cython</a> compila uma versão modificada do Python com anotações opcionais em extensões C. <a class="reference external" href="https://nuitka.net/">Nuitka</a> é um compilador emergente de Python em código C++, com o objetivo de oferecer suporte à linguagem Python completa.</p>
+</section>
+<section id="how-does-python-manage-memory">
+<h2 class="translated"><a class="toc-backref" href="#id16" role="doc-backlink">Como o Python gerencia memória?</a><a class="headerlink" href="#how-does-python-manage-memory" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Os detalhes do gerenciamento de memória Python dependem da implementação. A implementação padrão do Python, <a class="reference internal" href="../glossary.html#term-CPython"><span class="xref std std-term">CPython</span></a>, usa contagem de referências para detectar objetos inacessíveis, e outro mecanismo para coletar ciclos de referência, executando periodicamente um algoritmo de detecção de ciclo que procura por ciclos inacessíveis e exclui os objetos envolvidos. O módulo <a class="reference internal" href="../library/gc.html#module-gc" title="gc: Interface to the cycle-detecting garbage collector."><code class="xref py py-mod docutils literal notranslate"><span class="pre">gc</span></code></a> fornece funções para realizar uma coleta de lixo, obter estatísticas de depuração e ajustar os parâmetros do coletor.</p>
+<p class="translated">Outras implementações (como <a class="reference external" href="https://www.jython.org">Jython</a> ou <a class="reference external" href="https://pypy.org">PyPy</a>), no entanto, podem contar com um mecanismo diferente, como um coletor de lixo maduro. Essa diferença pode causar alguns problemas sutis de portabilidade se o seu código Python depender do comportamento da implementação de contagem de referências.</p>
+<p class="translated">Em algumas implementações do Python, o código a seguir (que funciona bem no CPython) provavelmente ficará sem descritores de arquivo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">very_long_list_of_files</span><span class="p">:</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Na verdade, usando o esquema de contagem de referências e destrutor de referências do CPython, cada nova atribuição a <code class="docutils literal notranslate"><span class="pre">f</span></code> fecha o arquivo anterior. Com um GC tradicional, entretanto, esses objetos arquivo só serão coletados (e fechados) em intervalos variados e possivelmente longos.</p>
+<p class="translated">Se você quiser escrever um código que funcione com qualquer implementação Python, você deve fechar explicitamente o arquivo ou usar a instrução <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a>; isso funcionará independentemente do esquema de gerenciamento de memória:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">very_long_list_of_files</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="why-doesn-t-cpython-use-a-more-traditional-garbage-collection-scheme">
+<h2 class="translated"><a class="toc-backref" href="#id17" role="doc-backlink">Por que o CPython não usa uma forma mais tradicional de esquema de coleta de lixo?</a><a class="headerlink" href="#why-doesn-t-cpython-use-a-more-traditional-garbage-collection-scheme" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Por um lado, este não é um recurso padrão C e, portanto, não é portátil. (Sim, sabemos sobre a biblioteca Boehm GC. Ela possui pedaços de código assembler para a <em>maioria</em> das plataformas comuns, não para todas elas, e embora seja em sua maioria transparente, não é completamente transparente; são necessários patches para obter Python para trabalhar com isso.)</p>
+<p class="translated">O GC tradicional também se torna um problema quando o Python é incorporado em outros aplicativos. Embora em um Python independente seja bom substituir o padrão <code class="docutils literal notranslate"><span class="pre">malloc()</span></code> e <code class="docutils literal notranslate"><span class="pre">free()</span></code> por versões fornecidas pela biblioteca GC, uma aplicação que incorpora Python pode querer ter seu <em>próprio</em> substituto para <code class="docutils literal notranslate"><span class="pre">malloc()</span></code> e <code class="docutils literal notranslate"><span class="pre">free()</span></code>, e podem não querer Python. No momento, CPython funciona com qualquer coisa que implemente <code class="docutils literal notranslate"><span class="pre">malloc()</span></code> e <code class="docutils literal notranslate"><span class="pre">free()</span></code> corretamente.</p>
+</section>
+<section id="why-isn-t-all-memory-freed-when-cpython-exits">
+<h2 class="translated"><a class="toc-backref" href="#id18" role="doc-backlink">Por que toda memória não é liberada quando o CPython fecha?</a><a class="headerlink" href="#why-isn-t-all-memory-freed-when-cpython-exits" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Os objetos referenciados nos espaço de nomes globais dos módulos Python nem sempre são desalocados quando o Python é encerrado. Isso pode acontecer se houver referências circulares. Existem também certos bits de memória alocados pela biblioteca C que são impossíveis de liberar (por exemplo, uma ferramenta como o Purify reclamará disso). Python é, no entanto, agressivo quanto à limpeza de memória na saída e tenta destruir todos os objetos.</p>
+<p class="translated">Se você quiser forçar o Python a excluir certas coisas na desalocação, use o módulo <a class="reference internal" href="../library/atexit.html#module-atexit" title="atexit: Register and execute cleanup functions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">atexit</span></code></a> para executar uma função que forçará essas exclusões.</p>
+</section>
+<section id="why-are-there-separate-tuple-and-list-data-types">
+<h2 class="translated"><a class="toc-backref" href="#id19" role="doc-backlink">Por que existem tipos de dados separados para tuplas e listas?</a><a class="headerlink" href="#why-are-there-separate-tuple-and-list-data-types" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Listas e tuplas, embora semelhantes em muitos aspectos, geralmente são usadas de maneiras fundamentalmente diferentes. Tuplas podem ser consideradas semelhantes a <code class="docutils literal notranslate"><span class="pre">records</span></code> de Pascal ou <code class="docutils literal notranslate"><span class="pre">structs</span></code> de C; são pequenas coleções de dados relacionados que podem ser de diferentes tipos e operados como um grupo. Por exemplo, uma coordenada cartesiana é representada apropriadamente como uma tupla de dois ou três números.</p>
+<p class="translated">As listas, por outro lado, são mais parecidas com arrays em outras linguagens. Eles tendem a conter um número variável de objetos, todos do mesmo tipo e operados um por um. Por exemplo, <a class="reference internal" href="../library/os.html#os.listdir" title="os.listdir"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.listdir('.')</span></code></a> retorna uma lista de strings representando os arquivos no diretório atual. Funções que operam nesta saída geralmente não seriam interrompidas se você adicionasse outro arquivo ou dois ao diretório.</p>
+<p class="translated">Tuplas são <a class="reference internal" href="../glossary.html#term-immutable"><span class="xref std std-term">imutáveis</span></a>, o que significa que, uma vez criada uma tupla, não é possível substituir nenhum de seus elementos por um novo valor. Listas são <a class="reference internal" href="../glossary.html#term-mutable"><span class="xref std std-term">mutáveis</span></a>, o que significa que você pode sempre alterar os elementos de uma lista. Apenas objetos <a class="reference internal" href="../glossary.html#term-hashable"><span class="xref std std-term">hasheáveis</span></a> (que permitem o cálculo de um <em>hash</em>) podem ser usados como chaves de dicionário. A maioria dos tipos imutáveis é hasheável; por isso, tuplas — mas não listas — podem ser usadas como chaves. Observe, no entanto, que uma tupla só é hasheável se todos os seus elementos também o forem.</p>
+</section>
+<section id="how-are-lists-implemented-in-cpython">
+<span id="how-are-lists-implemented"></span><h2 class="translated"><a class="toc-backref" href="#id20" role="doc-backlink">Como as listas são implementadas no CPython?</a><a class="headerlink" href="#how-are-lists-implemented-in-cpython" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">As listas do CPython são, na verdade, vetores de comprimento variável, listas vinculadas não no estilo Lisp. A implementação usa um vetor contíguo de referências a outros objetos e mantém um ponteiro para esse vetor e o comprimento de vetor em uma estrutura de cabeçalho de lista.</p>
+<p class="translated">Isso torna a indexação de uma lista <code class="docutils literal notranslate"><span class="pre">a[i]</span></code> uma operação cujo custo é independente do tamanho da lista ou do valor do índice.</p>
+<p class="translated">Quando itens são anexados ou inseridos, o vetor de referências é redimensionado. Alguma inteligência é aplicada para melhorar o desempenho de anexar itens repetidamente; quando o vetor precisa ser aumentado, algum espaço extra é alocado para que as próximas vezes não exijam um redimensionamento real.</p>
+<p class="translated">Consulte <a class="reference internal" href="../builtins/time-complexity.html#time-complexity"><span class="std std-ref">Complexidade de tempo de operações em tipos embutidos</span></a> para os custos das várias operações de lista.</p>
+</section>
+<section id="how-are-dictionaries-implemented-in-cpython">
+<span id="how-are-dictionaries-implemented"></span><h2 class="translated"><a class="toc-backref" href="#id21" role="doc-backlink">Como são os dicionários implementados no CPython?</a><a class="headerlink" href="#how-are-dictionaries-implemented-in-cpython" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Os dicionários do CPython são implementados como tabelas hash redimensionáveis. Em comparação com árvores B, isso oferece melhor desempenho para pesquisa (de longe a operação mais comum) na maioria das circunstâncias, e a implementação é mais simples.</p>
+<p class="translated">Os dicionários funcionam calculando um código hash para cada chave armazenada no dicionário usando a função embutida <a class="reference internal" href="../builtins/functions.html#hash" title="hash"><code class="xref py py-func docutils literal notranslate"><span class="pre">hash()</span></code></a>. O código hash varia amplamente dependendo da chave e da semente por processo; por exemplo, <code class="docutils literal notranslate"><span class="pre">'Python'</span></code> poderia fazer hash para <code class="docutils literal notranslate"><span class="pre">-539294296</span></code> enquanto <code class="docutils literal notranslate"><span class="pre">'python'</span></code>, uma string que difere por um único bit, poderia fazer hash para <code class="docutils literal notranslate"><span class="pre">1142331976</span></code>. O código hash é então usado para calcular um local em um vetor interno onde o valor será armazenado. Supondo que você esteja armazenando chaves com valores de hash diferentes, isso significa que os dicionários levam um tempo constante – <em>O</em>(1), na notação Big-O – para recuperar uma chave.</p>
+<p class="translated">Consulte <a class="reference internal" href="../builtins/time-complexity.html#time-complexity"><span class="std std-ref">Complexidade de tempo de operações em tipos embutidos</span></a> para os custos das várias operações de dicionário.</p>
+</section>
+<section id="why-must-dictionary-keys-be-immutable">
+<h2 class="translated"><a class="toc-backref" href="#id22" role="doc-backlink">Por que chaves de dicionário devem ser imutáveis?</a><a class="headerlink" href="#why-must-dictionary-keys-be-immutable" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">A implementação da tabela hash de dicionários usa um valor hash calculado a partir do valor da chave para encontrar a chave. Se a chave fosse um objeto mutável, seu valor poderia mudar e, portanto, seu hash também poderia mudar. Mas como quem altera o objeto-chave não pode saber que ele estava sendo usado como chave de dicionário, ele não pode mover a entrada no dicionário. Então, quando você tentar procurar o mesmo objeto no dicionário, ele não será encontrado porque seu valor de hash é diferente. Se você tentasse procurar o valor antigo, ele também não seria encontrado, porque o valor do objeto encontrado naquele hash seria diferente.</p>
+<p class="translated">Se você deseja que um dicionário seja indexado com uma lista, simplesmente converta primeiro a lista em uma tupla; a função <code class="docutils literal notranslate"><span class="pre">tuple(L)</span></code> cria uma tupla com as mesmas entradas da lista <code class="docutils literal notranslate"><span class="pre">L</span></code>. As tuplas são imutáveis e, portanto, podem ser usadas como chaves de dicionário.</p>
+<p class="translated">Algumas soluções inaceitáveis que foram propostas:</p>
+<ul>
+<li><p class="translated">Listas de hash por endereço (ID do objeto). Isto não funciona porque se você construir uma nova lista com o mesmo valor ela não será encontrada; por exemplo.:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">mydict</span> <span class="o">=</span> <span class="p">{[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span> <span class="s1">'12'</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mydict</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p class="translated">levantaria uma exceção <a class="reference internal" href="../builtins/exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> porque o id do <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2]</span></code> usado na segunda linha difere daquele da primeira linha. Em outras palavras, as chaves de dicionário devem ser comparadas usando <code class="docutils literal notranslate"><span class="pre">==</span></code>, não usando <a class="reference internal" href="../reference/expressions.html#is"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">is</span></code></a>.</p>
+</li>
+<li><p class="translated">Fazer uma cópia ao usar uma lista como chave. Isso não funciona porque a lista, sendo um objeto mutável, poderia conter uma referência a si mesma e então o código copiado entraria em um laço infinito.</p></li>
+<li><p class="translated">Permitir listas como chaves, mas dizer ao usuário para não modificá-las. Isso permitiria uma classe de bugs difíceis de rastrear em programas quando você esquecesse ou modificasse uma lista por acidente. Também invalida uma importante invariante dos dicionários: todo valor em <code class="docutils literal notranslate"><span class="pre">d.keys()</span></code> pode ser usado como chave do dicionário.</p></li>
+<li><p class="translated">Marcar listas como somente leitura quando forem usadas como chave de dicionário. O problema é que não é apenas o objeto de nível superior que pode alterar seu valor; você poderia usar uma tupla contendo uma lista como chave. Inserir qualquer coisa como chave em um dicionário exigiria marcar todos os objetos acessíveis a partir daí como somente leitura – e, novamente, objetos autorreferenciais poderiam causar um laço infinito.</p></li>
+</ul>
+<p class="translated">Existe um truque para contornar isso se você precisar, mas use-o por sua própria conta e risco: você pode agrupar uma estrutura mutável dentro de uma instância de classe que tenha um método <a class="reference internal" href="../reference/datamodel.html#object.__eq__" title="object.__eq__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__eq__()</span></code></a> e um método <a class="reference internal" href="../reference/datamodel.html#object.__hash__" title="object.__hash__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__hash__()</span></code></a>. Você deve então certificar-se de que o valor de hash para todos os objetos invólucros que residem em um dicionário (ou outra estrutura baseada em hash) permaneça fixo enquanto o objeto estiver no dicionário (ou outra estrutura).</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ListWrapper</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">the_list</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">the_list</span> <span class="o">=</span> <span class="n">the_list</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">the_list</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">the_list</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">the_list</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="mi">98767</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="mi">555</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">el</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="p">(</span><span class="nb">hash</span><span class="p">(</span><span class="n">el</span><span class="p">)</span> <span class="o">%</span> <span class="mi">9999999</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1001</span> <span class="o">+</span> <span class="n">i</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">result</span> <span class="o">%</span> <span class="mi">7777777</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">333</span>
+        <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+<p class="translated">Observe que o cálculo do hash é complicado pela possibilidade de que alguns membros da lista possam ser não não-hasheável e também pela possibilidade de estouro aritmético.</p>
+<p class="translated">Além disso, deve ser sempre o caso que se <code class="docutils literal notranslate"><span class="pre">o1</span> <span class="pre">==</span> <span class="pre">o2</span></code> (ou seja, <code class="docutils literal notranslate"><span class="pre">o1.__eq__(o2)</span> <span class="pre">is</span> <span class="pre">True</span></code>) então <code class="docutils literal notranslate"><span class="pre">hash(o1)</span> <span class="pre">==</span> <span class="pre">hash(o2)</span></code> (ou seja, <code class="docutils literal notranslate"><span class="pre">o1.__hash__()</span> <span class="pre">==</span> <span class="pre">o2.__hash__()</span></code>), independentemente de o objeto estar em um dicionário ou não. Se você não cumprir essas restrições, os dicionários e outras estruturas baseadas em hash se comportarão mal.</p>
+<p class="translated">No caso de <code class="xref py py-class docutils literal notranslate"><span class="pre">ListWrapper</span></code>, sempre que o objeto invólucro estiver em um dicionário, a lista agrupada não deve ser alterada para evitar anomalias. Não faça isso a menos que esteja preparado para pensar muito sobre os requisitos e as consequências de não atendê-los corretamente. Considere-se avisado.</p>
+</section>
+<section id="why-doesn-t-list-sort-return-the-sorted-list">
+<h2 class="translated"><a class="toc-backref" href="#id23" role="doc-backlink">Por que lista.sort() não retorna a lista ordenada?</a><a class="headerlink" href="#why-doesn-t-list-sort-return-the-sorted-list" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Em situações nas quais desempenho importa, fazer uma cópia da lista só para ordenar seria desperdício. Portanto, <code class="xref py py-meth docutils literal notranslate"><span class="pre">lista.sort()</span></code> ordena a lista. De forma a lembrá-lo desse fato, isso não retorna a lista ordenada. Desta forma, você não vai ser confundido a acidentalmente sobrescrever uma lista quando você precisar de uma cópia ordenada mas também precisar manter a versão não ordenada.</p>
+<p class="translated">Se você quiser retornar uma nova lista, use a função embutida <a class="reference internal" href="../builtins/functions.html#sorted" title="sorted"><code class="xref py py-func docutils literal notranslate"><span class="pre">sorted()</span></code></a> ao invés. Essa função cria uma nova lista a partir de um iterável provido, o ordena e retorna. Por exemplo, aqui é como se itera em cima das chaves de um dicionário de maneira ordenada:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">mydict</span><span class="p">):</span>
+    <span class="o">...</span>  <span class="c1"># use mydict[key] conforme quiser...</span>
+</pre></div>
+</div>
+</section>
+<section id="how-do-you-specify-and-enforce-an-interface-spec-in-python">
+<h2 class="translated"><a class="toc-backref" href="#id24" role="doc-backlink">Como você especifica e aplica um spec de interface no Python?</a><a class="headerlink" href="#how-do-you-specify-and-enforce-an-interface-spec-in-python" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Uma especificação de interface para um módulo fornecida por linguagens como C++ e Java descreve os protótipos para os métodos e funções do módulo. Muitos acham que a aplicação de especificações de interface em tempo de compilação ajuda na construção de programas grandes.</p>
+<p class="translated">Python 2.6 adiciona um módulo <a class="reference internal" href="../library/abc.html#module-abc" title="abc: Abstract base classes according to :pep:`3119`."><code class="xref py py-mod docutils literal notranslate"><span class="pre">abc</span></code></a> que permite definir Classes Base Abstratas (ABCs). Você pode então usar <a class="reference internal" href="../builtins/functions.html#isinstance" title="isinstance"><code class="xref py py-func docutils literal notranslate"><span class="pre">isinstance()</span></code></a> e <a class="reference internal" href="../builtins/functions.html#issubclass" title="issubclass"><code class="xref py py-func docutils literal notranslate"><span class="pre">issubclass()</span></code></a> para verificar se uma instância ou classe implementa um ABC específico. O módulo <a class="reference internal" href="../library/collections.abc.html#module-collections.abc" title="collections.abc: Abstract base classes for containers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">collections.abc</span></code></a> define um conjunto de ABCs úteis como <a class="reference internal" href="../library/collections.abc.html#collections.abc.Iterable" title="collections.abc.Iterable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code></a>, <a class="reference internal" href="../library/collections.abc.html#collections.abc.Container" title="collections.abc.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">Container</span></code></a> e <a class="reference internal" href="../library/collections.abc.html#collections.abc.MutableMapping" title="collections.abc.MutableMapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">MutableMapping</span></code></a></p>
+<p class="translated">Para Python, muitas das vantagens das especificações de interface podem ser obtidas por uma disciplina de teste apropriada para componentes.</p>
+<p class="translated">Um bom conjunto de testes para um módulo pode fornecer um teste de regressão e servir como uma especificação de interface do módulo e um conjunto de exemplos. Muitos módulos Python podem ser executados como um script para fornecer um simples “autoteste”. Mesmo módulos que usam interfaces externas complexas muitas vezes podem ser testados isoladamente usando emulações triviais da interface externa. Os módulos <a class="reference internal" href="../library/doctest.html#module-doctest" title="doctest: Test pieces of code within docstrings."><code class="xref py py-mod docutils literal notranslate"><span class="pre">doctest</span></code></a> e <a class="reference internal" href="../library/unittest.html#module-unittest" title="unittest: Unit testing framework for Python."><code class="xref py py-mod docutils literal notranslate"><span class="pre">unittest</span></code></a> ou estruturas de teste de terceiros podem ser usados para construir conjuntos de testes exaustivos que exercitam cada linha de código em um módulo.</p>
+<p class="translated">Uma disciplina de teste apropriada pode ajudar a construir aplicações grandes e complexas no Python, assim como ter especificações de interface. Na verdade, pode ser melhor porque uma especificação de interface não pode testar certas propriedades de um programa. Por exemplo, espera-se que o método <a class="reference internal" href="../builtins/stdtypes.html#list.append" title="list.append"><code class="xref py py-meth docutils literal notranslate"><span class="pre">list.append()</span></code></a> adicione novos elementos ao final de alguma lista interna; uma especificação de interface não pode testar se sua implementação <code class="xref py py-meth docutils literal notranslate"><span class="pre">list.append()</span></code> realmente fará isso corretamente, mas é trivial verificar esta propriedade em um conjunto de testes.</p>
+<p class="translated">Escrever conjuntos de testes é muito útil e você pode querer projetar seu código para torná-lo facilmente testável. Uma técnica cada vez mais popular, o desenvolvimento orientado a testes, exige a escrita de partes do conjunto de testes primeiro, antes de escrever qualquer parte do código real. É claro que o Python permite que você seja desleixado e nem escreva casos de teste.</p>
+</section>
+<section id="why-is-there-no-goto">
+<h2 class="translated"><a class="toc-backref" href="#id25" role="doc-backlink">Por que não há goto?</a><a class="headerlink" href="#why-is-there-no-goto" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Na década de 1970, as pessoas perceberam que o goto irrestrito poderia levar a um código “espaguete” confuso, difícil de entender e revisar. Em uma linguagem de alto nível, também é desnecessário, desde que existam maneiras de ramificar (em Python, com instruções <a class="reference internal" href="../reference/compound_stmts.html#if"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">if</span></code></a> e <a class="reference internal" href="../reference/expressions.html#or"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">or</span></code></a>, <a class="reference internal" href="../reference/expressions.html#and"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">and</span></code></a> e expressões <code class="xref std std-keyword docutils literal notranslate"><span class="pre">if</span></code>/<a class="reference internal" href="../reference/compound_stmts.html#else"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">else</span></code></a>) e iterar (com instruções <a class="reference internal" href="../reference/compound_stmts.html#while"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">while</span></code></a> e <a class="reference internal" href="../reference/compound_stmts.html#for"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">for</span></code></a>, possivelmente contendo <a class="reference internal" href="../reference/simple_stmts.html#continue"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">continue</span></code></a> e <a class="reference internal" href="../reference/simple_stmts.html#break"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">break</span></code></a>).</p>
+<p class="translated">Também é possível usar exceções para fornecer um “goto estruturado” que funcione mesmo em chamadas de função. Muitos acham que as exceções podem convenientemente emular todos os usos razoáveis das construções <code class="docutils literal notranslate"><span class="pre">go</span></code> ou <code class="docutils literal notranslate"><span class="pre">goto</span></code> de C, Fortran e outras linguagens. Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">label</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span>  <span class="c1"># declara um label</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">if</span> <span class="n">condition</span><span class="p">:</span> <span class="k">raise</span> <span class="n">label</span><span class="p">()</span>  <span class="c1"># goto label</span>
+    <span class="o">...</span>
+<span class="k">except</span> <span class="n">label</span><span class="p">:</span>  <span class="c1"># destino do goto</span>
+    <span class="k">pass</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p class="translated">Isso não permite que você pule para o meio de um laço, mas isso geralmente é considerado um abuso de <code class="docutils literal notranslate"><span class="pre">goto</span></code> de qualquer maneira. Use com moderação.</p>
+</section>
+<section id="why-can-t-raw-strings-r-strings-end-with-a-backslash">
+<h2 class="translated"><a class="toc-backref" href="#id26" role="doc-backlink">Por que strings brutas (r-strings) não podem terminar com uma contrabarra?</a><a class="headerlink" href="#why-can-t-raw-strings-r-strings-end-with-a-backslash" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Mais precisamente, eles não podem terminar com um número ímpar de contrabarras: a contrabarra não pareada no final escapa do caractere de aspa de fechamento, deixando uma string não terminada.</p>
+<p class="translated">Strings brutas foram projetadas para facilitar a criação de entrada para processadores (principalmente mecanismos de expressão regular) que desejam fazer seu próprio processamento de escape de contrabarra. De qualquer forma, esses processadores consideram uma contrabarra incomparável como um erro, portanto, as strings brutas não permitem isso. Em troca, eles permitem que você transmita o caractere de aspas da string escapando dele com uma contrabarra. Essas regras funcionam bem quando r-strings são usadas para a finalidade pretendida.</p>
+<p class="translated">Se você estiver tentando criar nomes de caminho do Windows, observe que todas as chamadas do sistema do Windows também aceitam barras:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"/mydir/file.txt"</span><span class="p">)</span>  <span class="c1"># funciona normalmente!</span>
+</pre></div>
+</div>
+<p class="translated">Se você estiver tentando construir um nome de caminho para um comando DOS, tente, por exemplo, algum desses</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="nb">dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"\this\is\my\dos\dir"</span> <span class="s2">"</span><span class="se">\\</span><span class="s2">"</span>
+<span class="nb">dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"\this\is\my\dos\dir\ "</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">dir</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\\</span><span class="s2">this</span><span class="se">\\</span><span class="s2">is</span><span class="se">\\</span><span class="s2">my</span><span class="se">\\</span><span class="s2">dos</span><span class="se">\\</span><span class="s2">dir</span><span class="se">\\</span><span class="s2">"</span>
+</pre></div>
+</div>
+</section>
+<section id="why-doesn-t-python-have-a-with-statement-for-attribute-assignments">
+<h2 class="translated"><a class="toc-backref" href="#id27" role="doc-backlink">Por que o Python não tem uma instrução “with” para atribuição de atributos?</a><a class="headerlink" href="#why-doesn-t-python-have-a-with-statement-for-attribute-assignments" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Python tem uma instrução <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> que envolve a execução de um bloco, chamando o código na entrada e na saída do bloco. Algumas linguagens têm uma construção desta forma:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">obj</span><span class="p">:</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>               <span class="c1"># equivalente a obj.a = 1</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="mi">1</span>   <span class="c1"># obj.total = obj.total + 1</span>
+</pre></div>
+</div>
+<p class="translated">Em Python, tal construção seria ambígua.</p>
+<p class="translated">Outras linguagens, como Object Pascal, Delphi, e C++, usam tipos estáticos, então é possível saber, de maneira não ambígua, que membro está sendo atribuído. Esse é o principal ponto da tipagem estática – o compilador <em>sempre</em> sabe o escopo de toda variável em tempo de compilação.</p>
+<p class="translated">O Python usa tipos dinâmicos. É impossível saber com antecedência que atributo vai ser referenciado em tempo de execução. Atributos membro podem ser adicionados ou removidos de objetos dinamicamente. Isso torna impossível saber, de uma leitura simples, que atributo está sendo referenciado: um atributo local, um atributo global ou um atributo membro?</p>
+<p class="translated">Por exemplo, pegue o seguinte trecho incompleto:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">a</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">O trecho presume que <code class="docutils literal notranslate"><span class="pre">a</span></code> deve ter um atributo de membro chamado <code class="docutils literal notranslate"><span class="pre">x</span></code>. No entanto, não há nada em Python que diga isso ao interpretador. O que deveria acontecer se <code class="docutils literal notranslate"><span class="pre">a</span></code> for, digamos, um número inteiro? Se houver uma variável global chamada <code class="docutils literal notranslate"><span class="pre">x</span></code>, ela será usada dentro do bloco <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a>? Como você pode ver, a natureza dinâmica do Python torna essas escolhas muito mais difíceis.</p>
+<p class="translated">O principal benefício de <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a> e recursos de linguagem semelhantes (redução do volume de código) pode, no entanto, ser facilmente alcançado em Python por atribuição. Em vez de:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">function</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">.</span><span class="n">mydict</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mi">21</span>
+<span class="n">function</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">.</span><span class="n">mydict</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">function</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">.</span><span class="n">mydict</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="mi">63</span>
+</pre></div>
+</div>
+<p class="translated">escreva isso:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">ref</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">.</span><span class="n">mydict</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+<span class="n">ref</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mi">21</span>
+<span class="n">ref</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">ref</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="mi">63</span>
+</pre></div>
+</div>
+<p class="translated">Isso também tem o efeito colateral de aumentar a velocidade de execução porque as ligações de nome são resolvidas a tempo de execução em Python, e a segunda versão só precisa performar a resolução uma vez.</p>
+<p class="translated">Propostas semelhantes que introduziriam sintaxe para reduzir ainda mais o volume do código, como o uso de um ‘ponto inicial’, foram rejeitadas em favor da explicitação (consulte <a class="reference external" href="https://mail.python.org/pipermail/python-ideas/2016-May/040070.html">https://mail.python.org/pipermail/python-ideas/2016-May/040070.html</a>).</p>
+</section>
+<section id="why-don-t-generators-support-the-with-statement">
+<h2 class="translated"><a class="toc-backref" href="#id28" role="doc-backlink">Por que os geradores não suportam a instrução with?</a><a class="headerlink" href="#why-don-t-generators-support-the-with-statement" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Por razões técnicas, um gerador usado diretamente como gerenciador de contexto não funcionaria corretamente. Quando, como é mais comum, um gerador é usado como um iterador executado até a conclusão, nenhum fechamento é necessário. Quando estiver, envolva-o como <a class="reference internal" href="../library/contextlib.html#contextlib.closing" title="contextlib.closing"><code class="xref py py-func docutils literal notranslate"><span class="pre">contextlib.closing(generator)</span></code></a> na instrução <a class="reference internal" href="../reference/compound_stmts.html#with"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code></a>.</p>
+</section>
+<section id="why-are-colons-required-for-the-if-while-def-class-statements">
+<h2 class="translated"><a class="toc-backref" href="#id29" role="doc-backlink">Por que dois pontos são necessários para as instruções de if/while/def/class?</a><a class="headerlink" href="#why-are-colons-required-for-the-if-while-def-class-statements" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Os dois pontos são obrigatórios primeiramente para melhorar a leitura (um dos resultados da linguagem experimental ABC). Considere isso:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">versus</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Note como a segunda é ligeiramente mais fácil de ler. Note com mais atenção como os dois pontos iniciam o exemplo nessa resposta de FAQ; é um uso padrão em inglês.</p>
+<p class="translated">Outro motivo menor é que os dois pontos deixam mais fácil para os editores com realce de sintaxe; eles podem procurar por dois pontos para decidir quando a recuo precisa ser aumentada em vez de precisarem fazer uma análise mais elaborada do texto do programa.</p>
+</section>
+<section id="why-does-python-allow-commas-at-the-end-of-lists-and-tuples">
+<h2 class="translated"><a class="toc-backref" href="#id30" role="doc-backlink">Por que o Python permite vírgulas ao final de listas e tuplas?</a><a class="headerlink" href="#why-does-python-allow-commas-at-the-end-of-lists-and-tuples" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O Python deixa você adicionar uma vírgula ao final de listas, tuplas e dicionários:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,]</span>
+<span class="p">(</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">,)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"A"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="s2">"B"</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>  <span class="c1"># a vírgula ao final é opcional, mas é bom estilo</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p class="translated">Existem várias razões para permitir isso.</p>
+<p class="translated">Quando você possui um valor literal para uma lista, tupla, ou dicionário disposta através de múltiplas linhas, é mais fácil adicionar mais elementos porque você não precisa lembrar de adicionar uma vírgula na linha anterior. As linhas também podem ser reordenadas sem criar um erro de sintaxe.</p>
+<p class="translated">Acidentalmente omitir a vírgula pode levar a erros que são difíceis de diagnosticar. Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s2">"fee"</span><span class="p">,</span>
+  <span class="s2">"fie"</span>
+  <span class="s2">"foo"</span><span class="p">,</span>
+  <span class="s2">"fum"</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p class="translated">Essa lista parece ter quatro elementos, mas na verdade contém três: “fee”, “fiefoo” e “fum”. Sempre adicionar a vírgula evita essa fonte de erro.</p>
+<p class="translated">Permitir a vírgula no final também pode deixar a geração de código programático mais fácil.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">FAQ sobre design e histórico</a><ul>
+<li><a class="reference internal" href="#why-does-python-use-indentation-for-grouping-of-statements">Por que o Python usa indentação para agrupamento de instruções?</a></li>
+<li><a class="reference internal" href="#why-am-i-getting-strange-results-with-simple-arithmetic-operations">Por que eu estou recebendo resultados estranhos com simples operações aritméticas?</a></li>
+<li><a class="reference internal" href="#why-are-floating-point-calculations-so-inaccurate">Por que o cálculo de pontos flutuantes são tão imprecisos?</a></li>
+<li><a class="reference internal" href="#why-are-python-strings-immutable">Por que strings do Python são imutáveis?</a></li>
+<li><a class="reference internal" href="#why-must-self-be-used-explicitly-in-method-definitions-and-calls">Por que o ‘self’ deve ser usado explicitamente em definições de método e chamadas?</a></li>
+<li><a class="reference internal" href="#why-can-t-i-use-an-assignment-in-an-expression">Por que não posso usar uma atribuição em uma expressão?</a></li>
+<li><a class="reference internal" href="#why-does-python-use-methods-for-some-functionality-e-g-list-index-but-functions-for-other-e-g-len-list">Por que o Python usa métodos para algumas funcionalidades (ex: lista.index()) mas funções para outras (ex: len(lista))?</a></li>
+<li><a class="reference internal" href="#why-is-join-a-string-method-instead-of-a-list-or-tuple-method">Por que o join() é um método de string em vez de ser um método de lista ou tupla?</a></li>
+<li><a class="reference internal" href="#how-fast-are-exceptions">Quão rápidas são as exceções?</a></li>
+<li><a class="reference internal" href="#why-isn-t-there-a-switch-or-case-statement-in-python">Por que não existe uma instrução de switch ou case no Python?</a></li>
+<li><a class="reference internal" href="#can-t-you-emulate-threads-in-the-interpreter-instead-of-relying-on-an-os-specific-thread-implementation">Você não pode emular threads no interpretador em vez de confiar em uma implementação de thread específica do sistema operacional?</a></li>
+<li><a class="reference internal" href="#why-can-t-lambda-expressions-contain-statements">Por que expressões lambda não podem conter instruções?</a></li>
+<li><a class="reference internal" href="#can-python-be-compiled-to-machine-code-c-or-some-other-language">O Python pode ser compilado para linguagem de máquina, C ou alguma outra linguagem?</a></li>
+<li><a class="reference internal" href="#how-does-python-manage-memory">Como o Python gerencia memória?</a></li>
+<li><a class="reference internal" href="#why-doesn-t-cpython-use-a-more-traditional-garbage-collection-scheme">Por que o CPython não usa uma forma mais tradicional de esquema de coleta de lixo?</a></li>
+<li><a class="reference internal" href="#why-isn-t-all-memory-freed-when-cpython-exits">Por que toda memória não é liberada quando o CPython fecha?</a></li>
+<li><a class="reference internal" href="#why-are-there-separate-tuple-and-list-data-types">Por que existem tipos de dados separados para tuplas e listas?</a></li>
+<li><a class="reference internal" href="#how-are-lists-implemented-in-cpython">Como as listas são implementadas no CPython?</a></li>
+<li><a class="reference internal" href="#how-are-dictionaries-implemented-in-cpython">Como são os dicionários implementados no CPython?</a></li>
+<li><a class="reference internal" href="#why-must-dictionary-keys-be-immutable">Por que chaves de dicionário devem ser imutáveis?</a></li>
+<li><a class="reference internal" href="#why-doesn-t-list-sort-return-the-sorted-list">Por que lista.sort() não retorna a lista ordenada?</a></li>
+<li><a class="reference internal" href="#how-do-you-specify-and-enforce-an-interface-spec-in-python">Como você especifica e aplica um spec de interface no Python?</a></li>
+<li><a class="reference internal" href="#why-is-there-no-goto">Por que não há goto?</a></li>
+<li><a class="reference internal" href="#why-can-t-raw-strings-r-strings-end-with-a-backslash">Por que strings brutas (r-strings) não podem terminar com uma contrabarra?</a></li>
+<li><a class="reference internal" href="#why-doesn-t-python-have-a-with-statement-for-attribute-assignments">Por que o Python não tem uma instrução “with” para atribuição de atributos?</a></li>
+<li><a class="reference internal" href="#why-don-t-generators-support-the-with-statement">Por que os geradores não suportam a instrução with?</a></li>
+<li><a class="reference internal" href="#why-are-colons-required-for-the-if-while-def-class-statements">Por que dois pontos são necessários para as instruções de if/while/def/class?</a></li>
+<li><a class="reference internal" href="#why-does-python-allow-commas-at-the-end-of-lists-and-tuples">Por que o Python permite vírgulas ao final de listas e tuplas?</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="programming.html"
+                          title="capítulo anterior">FAQ sobre programação</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="library.html"
+                          title="próximo capítulo">FAQ de Bibliotecas e Extensões</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "faq/design.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/faq/design.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/faq/design.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="library.html" title="FAQ de Bibliotecas e Extensões"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="programming.html" title="FAQ sobre programação"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Perguntas Frequentes Sobre Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FAQ sobre design e histórico</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

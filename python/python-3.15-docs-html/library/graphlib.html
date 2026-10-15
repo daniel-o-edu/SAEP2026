@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="graphlib — Funcionalidade para operar com estruturas do tipo grafo" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/graphlib.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/graphlib.py Exceções: O módulo graphlib define as seguintes classes de exceção:" />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_graphlib_4cbc599a.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/graphlib.py Exceções: O módulo graphlib define as seguintes classes de exceção:" />
+<meta name="description" content="Código-fonte: Lib/graphlib.py Exceções: O módulo graphlib define as seguintes classes de exceção:" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>graphlib — Funcionalidade para operar com estruturas do tipo grafo &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Módulos Matemáticos e Numéricos" href="numeric.html" />
+    <link rel="prev" title="enum — Suporte a enumerações" href="enum.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/graphlib.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">graphlib</span></code> — Funcionalidade para operar com estruturas do tipo grafo</a><ul>
+<li><a class="reference internal" href="#exceptions">Exceções</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="enum.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">enum</span></code> — Suporte a enumerações</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="numeric.html"
+                          title="próximo capítulo">Módulos Matemáticos e Numéricos</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/graphlib.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/graphlib.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/graphlib.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="numeric.html" title="Módulos Matemáticos e Numéricos"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="enum.html" title="enum — Suporte a enumerações"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="datatypes.html" accesskey="U">Tipos de Dados</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">graphlib</span></code> — Funcionalidade para operar com estruturas do tipo grafo</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-graphlib">
+<span id="graphlib-functionality-to-operate-with-graph-like-structures"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">graphlib</span></code> — Funcionalidade para operar com estruturas do tipo grafo<a class="headerlink" href="#module-graphlib" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/graphlib.py">Lib/graphlib.py</a></p>
+<hr class="docutils" />
+<dl class="py class">
+<dt class="sig sig-object py" id="graphlib.TopologicalSorter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphlib.</span></span><span class="sig-name descname"><span class="pre">TopologicalSorter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#graphlib.TopologicalSorter" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Fornece funcionalidade para classificar topologicamente um grafo de nós <a class="reference internal" href="../glossary.html#term-hashable"><span class="xref std std-term">hasheáveis</span></a>.</p>
+<p class="translated">Uma ordem topológica é uma ordenação linear dos vértices em um grafo, de modo que para cada aresta direcionada u -&gt; v do vértice u ao vértice v, o vértice u vem antes do vértice v na ordenação. Por exemplo, os vértices do grafo podem representar tarefas a serem executadas e as arestas podem representar restrições de que uma tarefa deve ser executada antes de outra; neste exemplo, uma ordem topológica é apenas uma sequência válida para as tarefas. Uma ordenação topológica completa é possível se e somente se o grafo não tiver ciclos direcionados, ou seja, se for um grafo acíclico direcionado.</p>
+<p class="translated">Se o argumento opcional <em>graph</em> for fornecido, ele deverá ser um dicionário que represente um grafo acíclico direcionado no qual as chaves sejam nós e os valores sejam iteráveis de todos os predecessores desse nó no grafo (os nós que possuem bordas que apontam para o valor na chave). Nós adicionais podem ser adicionados ao grafo usando o método <a class="reference internal" href="#graphlib.TopologicalSorter.add" title="graphlib.TopologicalSorter.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add()</span></code></a>.</p>
+<p class="translated">No caso geral, as etapas necessárias para executar a classificação de um determinado grafo são as seguintes:</p>
+<ul class="simple">
+<li><p class="translated">Cria uma instância da classe <a class="reference internal" href="#graphlib.TopologicalSorter" title="graphlib.TopologicalSorter"><code class="xref py py-class docutils literal notranslate"><span class="pre">TopologicalSorter</span></code></a> com um grafo inicial opcional.</p></li>
+<li><p class="translated">Adiciona nós adicionais ao grafo.</p></li>
+<li><p class="translated">Chama o método <a class="reference internal" href="#graphlib.TopologicalSorter.prepare" title="graphlib.TopologicalSorter.prepare"><code class="xref py py-meth docutils literal notranslate"><span class="pre">prepare()</span></code></a> no grafo.</p></li>
+<li><p class="translated">Enquanto <a class="reference internal" href="#graphlib.TopologicalSorter.is_active" title="graphlib.TopologicalSorter.is_active"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_active()</span></code></a> é <code class="docutils literal notranslate"><span class="pre">True</span></code>, itera pelos nós retornados por <a class="reference internal" href="#graphlib.TopologicalSorter.get_ready" title="graphlib.TopologicalSorter.get_ready"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_ready()</span></code></a> e os processa. Chama <a class="reference internal" href="#graphlib.TopologicalSorter.done" title="graphlib.TopologicalSorter.done"><code class="xref py py-meth docutils literal notranslate"><span class="pre">done()</span></code></a> em cada nó na medida em que finaliza o processamento.</p></li>
+</ul>
+<p class="translated">Caso apenas uma classificação imediata dos nós no grafo seja necessária e nenhum paralelismo esteja envolvido, o método de conveniência <a class="reference internal" href="#graphlib.TopologicalSorter.static_order" title="graphlib.TopologicalSorter.static_order"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TopologicalSorter.static_order()</span></code></a> pode ser usado diretamente:</p>
+<div class="translated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"D"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"B"</span><span class="p">,</span> <span class="s2">"C"</span><span class="p">},</span> <span class="s2">"C"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"A"</span><span class="p">},</span> <span class="s2">"B"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"A"</span><span class="p">}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ts</span> <span class="o">=</span> <span class="n">TopologicalSorter</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">static_order</span><span class="p">())</span>
+<span class="go">('A', 'C', 'B', 'D')</span>
+</pre></div>
+</div>
+<p class="translated">A classe foi projetada para suportar facilmente o processamento paralelo dos nós à medida que eles se tornam prontos. Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">topological_sorter</span> <span class="o">=</span> <span class="n">TopologicalSorter</span><span class="p">()</span>
+
+<span class="c1"># Adiciona nodos para 'topological_sorter'...</span>
+
+<span class="n">topological_sorter</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+<span class="k">while</span> <span class="n">topological_sorter</span><span class="o">.</span><span class="n">is_active</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">topological_sorter</span><span class="o">.</span><span class="n">get_ready</span><span class="p">():</span>
+        <span class="c1"># Processos ou threads de workers obtém nós para</span>
+        <span class="c1"># trabalhar na fila 'task_queue'.</span>
+        <span class="n">task_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="c1"># Quando o trabalho para um nó é feito, os workers colocam o</span>
+    <span class="c1"># nó em 'finalized_tasks_queue' para que possamos obter mais</span>
+    <span class="c1"># nós para trabalhar. A definição de 'is_active()' garante que,</span>
+    <span class="c1"># neste ponto, pelo menos um nó foi colocado em 'task_queue'</span>
+    <span class="c1"># que ainda não foi passado para 'done()', então este 'get()' de</span>
+    <span class="c1"># bloqueio deve (eventualmente) ter sucesso. Depois de chamar</span>
+    <span class="c1"># 'done()', fazemos um laço de volta para chamar 'get_ready()'</span>
+    <span class="c1"># novamente, então colocamos nós recém-liberados em</span>
+    <span class="c1"># 'task_queue' o mais rápido possível.</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">finalized_tasks_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="n">topological_sorter</span><span class="o">.</span><span class="n">done</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="graphlib.TopologicalSorter.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">predecessors</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#graphlib.TopologicalSorter.add" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Adiciona um novo nó e seus predecessores ao grafo. O <em>node</em> e todos os elementos em <em>predecessors</em> devem ser <a class="reference internal" href="../glossary.html#term-hashable"><span class="xref std std-term">hasheáveis</span></a>.</p>
+<p class="translated">Se chamado várias vezes com o mesmo argumento do nó, o conjunto de dependências será a união de todas as dependências transmitidas.</p>
+<p class="translated">É possível adicionar um nó sem dependências (<em>predecessors</em> não são fornecidos) ou fornecer uma dependência duas vezes. Se um nó que não foi fornecido anteriormente for incluído entre os <em>predecessors</em>, ele será automaticamente adicionado ao grafo sem predecessores próprios.</p>
+<p class="translated">Levanta <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> se chamado após <a class="reference internal" href="#graphlib.TopologicalSorter.prepare" title="graphlib.TopologicalSorter.prepare"><code class="xref py py-meth docutils literal notranslate"><span class="pre">prepare()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="graphlib.TopologicalSorter.prepare">
+<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#graphlib.TopologicalSorter.prepare" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Marca o grafo como concluído e verifica os ciclos no grafo. Se qualquer ciclo for detectado, <a class="reference internal" href="#graphlib.CycleError" title="graphlib.CycleError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">CycleError</span></code></a> será gerado, mas <a class="reference internal" href="#graphlib.TopologicalSorter.get_ready" title="graphlib.TopologicalSorter.get_ready"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_ready()</span></code></a> ainda poderá ser usado para obter o maior número possível de nós até que os ciclos bloqueiem mais progressos. Após uma chamada para esta função, o grafo não pode ser modificado e, portanto, nenhum nó pode ser adicionado usando <a class="reference internal" href="#graphlib.TopologicalSorter.add" title="graphlib.TopologicalSorter.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add()</span></code></a>.</p>
+<p class="translated">Uma <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> será levantada se a classificação tiver sido iniciada por <a class="reference internal" href="#graphlib.TopologicalSorter.static_order" title="graphlib.TopologicalSorter.static_order"><code class="xref py py-meth docutils literal notranslate"><span class="pre">static_order()</span></code></a> ou <a class="reference internal" href="#graphlib.TopologicalSorter.get_ready" title="graphlib.TopologicalSorter.get_ready"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_ready()</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.14: </span><code class="docutils literal notranslate"><span class="pre">prepare()</span></code> agora pode ser chamado mais de uma vez, desde que a classificação não tenha sido iniciada. Anteriormente, isso levantava <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="graphlib.TopologicalSorter.is_active">
+<span class="sig-name descname"><span class="pre">is_active</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#graphlib.TopologicalSorter.is_active" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se mais progresso puder ser feito e <code class="docutils literal notranslate"><span class="pre">False</span></code> caso contrário. É possível progredir se os ciclos não bloquearem a resolução e ainda houver nós prontos que ainda não foram retornados por <a class="reference internal" href="#graphlib.TopologicalSorter.get_ready" title="graphlib.TopologicalSorter.get_ready"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TopologicalSorter.get_ready()</span></code></a> ou o número de nós marcados <a class="reference internal" href="#graphlib.TopologicalSorter.done" title="graphlib.TopologicalSorter.done"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TopologicalSorter.done()</span></code></a> é menor que o número retornado por <code class="xref py py-meth docutils literal notranslate"><span class="pre">TopologicalSorter.get_ready()</span></code>.</p>
+<p class="translated">O método <a class="reference internal" href="../reference/datamodel.html#object.__bool__" title="object.__bool__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__bool__()</span></code></a> desta classe adia para essa função, então, em vez de:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">ts</span><span class="o">.</span><span class="n">is_active</span><span class="p">():</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p class="translated">é possível simplesmente fazer:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">ts</span><span class="p">:</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p class="translated">Levanta <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> se chamado sem chamar <a class="reference internal" href="#graphlib.TopologicalSorter.prepare" title="graphlib.TopologicalSorter.prepare"><code class="xref py py-meth docutils literal notranslate"><span class="pre">prepare()</span></code></a> anteriormente.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="graphlib.TopologicalSorter.done">
+<span class="sig-name descname"><span class="pre">done</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#graphlib.TopologicalSorter.done" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Marca um conjunto de nós retornados por <a class="reference internal" href="#graphlib.TopologicalSorter.get_ready" title="graphlib.TopologicalSorter.get_ready"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TopologicalSorter.get_ready()</span></code></a> como processado, desbloqueando qualquer sucessor de cada nó em <em>nodes</em> para ser retornado no futuro por uma chamada para <code class="xref py py-meth docutils literal notranslate"><span class="pre">TopologicalSorter.get_ready()</span></code>.</p>
+<p class="translated">Levanta <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> se algum nó em <em>nodes</em> já foi marcado como processado por uma chamada anterior a este método ou se um nó não foi adicionado ao grafo usando <a class="reference internal" href="#graphlib.TopologicalSorter.add" title="graphlib.TopologicalSorter.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TopologicalSorter.add()</span></code></a>, se chamado sem chamar <code class="xref py py-meth docutils literal notranslate"><span class="pre">prepare()</span></code> ou se o nó ainda não foi retornado por <a class="reference internal" href="#graphlib.TopologicalSorter.get_ready" title="graphlib.TopologicalSorter.get_ready"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_ready()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="graphlib.TopologicalSorter.get_ready">
+<span class="sig-name descname"><span class="pre">get_ready</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#graphlib.TopologicalSorter.get_ready" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma <code class="docutils literal notranslate"><span class="pre">tupla</span></code> com todos os nós que estão prontos. Inicialmente, ele retorna todos os nós sem predecessores e, uma vez marcados como processados, chamando <a class="reference internal" href="#graphlib.TopologicalSorter.done" title="graphlib.TopologicalSorter.done"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TopologicalSorter.done()</span></code></a>, novas chamadas retornarão todos os novos nós que já tenham seus antecessores já processados. Quando não for possível fazer mais progresso, as tuplas vazias serão retornadas.</p>
+<p class="translated">Levanta <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> se chamado sem chamar <a class="reference internal" href="#graphlib.TopologicalSorter.prepare" title="graphlib.TopologicalSorter.prepare"><code class="xref py py-meth docutils literal notranslate"><span class="pre">prepare()</span></code></a> anteriormente.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="graphlib.TopologicalSorter.static_order">
+<span class="sig-name descname"><span class="pre">static_order</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#graphlib.TopologicalSorter.static_order" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um objeto iterador que irá iterar sobre os nós em uma ordem topológica. Ao usar este método, <a class="reference internal" href="#graphlib.TopologicalSorter.prepare" title="graphlib.TopologicalSorter.prepare"><code class="xref py py-meth docutils literal notranslate"><span class="pre">prepare()</span></code></a> e <a class="reference internal" href="#graphlib.TopologicalSorter.done" title="graphlib.TopologicalSorter.done"><code class="xref py py-meth docutils literal notranslate"><span class="pre">done()</span></code></a> não devem ser chamados. Este método é equivalente a:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">static_order</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+    <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_active</span><span class="p">():</span>
+        <span class="n">node_group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ready</span><span class="p">()</span>
+        <span class="k">yield from</span> <span class="n">node_group</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">done</span><span class="p">(</span><span class="o">*</span><span class="n">node_group</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">A ordem específica retornada pode depender da ordem específica em que os itens foram inseridos no grafo. Por exemplo:</p>
+<div class="translated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ts</span> <span class="o">=</span> <span class="n">TopologicalSorter</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ts</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ts</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="o">*</span><span class="n">ts</span><span class="o">.</span><span class="n">static_order</span><span class="p">()])</span>
+<span class="go">[2, 0, 1, 3]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ts2</span> <span class="o">=</span> <span class="n">TopologicalSorter</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ts2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ts2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="o">*</span><span class="n">ts2</span><span class="o">.</span><span class="n">static_order</span><span class="p">()])</span>
+<span class="go">[0, 2, 1, 3]</span>
+</pre></div>
+</div>
+<p class="translated">Isso se deve ao fato de que “0” e “2” estão no mesmo nível no grafo (eles teriam sido retornados na mesma chamada para <a class="reference internal" href="#graphlib.TopologicalSorter.get_ready" title="graphlib.TopologicalSorter.get_ready"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_ready()</span></code></a>) e a ordem entre eles é determinada pela ordem de inserção.</p>
+<p class="translated">Se qualquer ciclo for detectado, <a class="reference internal" href="#graphlib.CycleError" title="graphlib.CycleError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">CycleError</span></code></a> será levantada.</p>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.9.</span></p>
+</div>
+</dd></dl>
+
+<section id="exceptions">
+<h2 class="translated">Exceções<a class="headerlink" href="#exceptions" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">graphlib</span></code> define as seguintes classes de exceção:</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="graphlib.CycleError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">graphlib.</span></span><span class="sig-name descname"><span class="pre">CycleError</span></span><a class="headerlink" href="#graphlib.CycleError" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Subclasse de <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> levantada por <a class="reference internal" href="#graphlib.TopologicalSorter.prepare" title="graphlib.TopologicalSorter.prepare"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TopologicalSorter.prepare()</span></code></a> se houver ciclos no grafo de trabalho. Se existirem vários ciclos, apenas uma opção indefinida entre eles será relatada e incluída na exceção.</p>
+<p class="translated">O ciclo detectado pode ser acessado através do segundo elemento no atributo <a class="reference internal" href="../builtins/exceptions.html#BaseException.args" title="BaseException.args"><code class="xref py py-attr docutils literal notranslate"><span class="pre">args</span></code></a> da instância de exceção e consiste em uma lista de nós, de modo que cada nó seja, no grafo, um predecessor imediato do próximo nó na lista. Na lista relatada, o primeiro e o último nó serão os mesmos, para deixar claro que é cíclico.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">graphlib</span></code> — Funcionalidade para operar com estruturas do tipo grafo</a><ul>
+<li><a class="reference internal" href="#exceptions">Exceções</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="enum.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">enum</span></code> — Suporte a enumerações</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="numeric.html"
+                          title="próximo capítulo">Módulos Matemáticos e Numéricos</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/graphlib.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/graphlib.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/graphlib.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="numeric.html" title="Módulos Matemáticos e Numéricos"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="enum.html" title="enum — Suporte a enumerações"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="datatypes.html" >Tipos de Dados</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">graphlib</span></code> — Funcionalidade para operar com estruturas do tipo grafo</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

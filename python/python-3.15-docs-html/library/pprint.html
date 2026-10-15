@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="pprint — Impressão bonita de dados" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/pprint.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/pprint.py O módulo pprint fornece a capacidade de “imprimir de forma bonita” estruturas de dados Python arbitrárias em um formato que pode ser usado como entrada para o interpreta..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_pprint_82ce263d.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/pprint.py O módulo pprint fornece a capacidade de “imprimir de forma bonita” estruturas de dados Python arbitrárias em um formato que pode ser usado como entrada para o interpreta..." />
+<meta name="description" content="Código-fonte: Lib/pprint.py O módulo pprint fornece a capacidade de “imprimir de forma bonita” estruturas de dados Python arbitrárias em um formato que pode ser usado como entrada para o interpreta..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>pprint — Impressão bonita de dados &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="reprlib — Implementação alternativa à repr()" href="reprlib.html" />
+    <link rel="prev" title="copy — Operações de cópia profunda e cópia rasa" href="copy.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/pprint.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pprint</span></code> — Impressão bonita de dados</a><ul>
+<li><a class="reference internal" href="#functions">Funções</a></li>
+<li><a class="reference internal" href="#prettyprinter-objects">Objetos PrettyPrinter</a></li>
+<li><a class="reference internal" href="#example">Exemplo</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="copy.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">copy</span></code> — Operações de cópia profunda e cópia rasa</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="reprlib.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">reprlib</span></code> — Implementação alternativa à <code class="xref py py-func docutils literal notranslate"><span class="pre">repr()</span></code></a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/pprint.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/pprint.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/pprint.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="reprlib.html" title="reprlib — Implementação alternativa à repr()"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="copy.html" title="copy — Operações de cópia profunda e cópia rasa"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="datatypes.html" accesskey="U">Tipos de Dados</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">pprint</span></code> — Impressão bonita de dados</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-pprint">
+<span id="pprint-data-pretty-printer"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pprint</span></code> — Impressão bonita de dados<a class="headerlink" href="#module-pprint" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/pprint.py">Lib/pprint.py</a></p>
+<hr class="docutils" />
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">pprint</span></code> fornece a capacidade de “imprimir de forma bonita” estruturas de dados Python arbitrárias em um formato que pode ser usado como entrada para o interpretador. Se as estruturas formatadas incluírem objetos que não sejam tipos fundamentais do Python, a representação poderá não ser carregável. Este pode ser o caso se objetos como arquivos, soquetes ou classes forem incluídos, bem como muitos outros objetos que não são representáveis como literais do Python.</p>
+<p class="translated">A representação formatada mantém os objetos em uma única linha, se possível, e os divide em múltiplas linhas se eles não couberem na largura permitida, ajustável pelo parâmetro <em>width</em> padrão para 80 caracteres.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.9: </span>Adicionado suporte para impressão bonita de <a class="reference internal" href="types.html#types.SimpleNamespace" title="types.SimpleNamespace"><code class="xref py py-class docutils literal notranslate"><span class="pre">types.SimpleNamespace</span></code></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.10: </span>Adicionado suporte para impressão bonita de <a class="reference internal" href="dataclasses.html#dataclasses.dataclass" title="dataclasses.dataclass"><code class="xref py py-class docutils literal notranslate"><span class="pre">dataclasses.dataclass</span></code></a>.</p>
+</div>
+<section id="functions">
+<span id="pprint-functions"></span><h2 class="translated">Funções<a class="headerlink" href="#functions" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pprint.pp">
+<span class="sig-prename descclassname"><span class="pre">pprint.</span></span><span class="sig-name descname"><span class="pre">pp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">compact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expand</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_dicts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">underscore_numbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pprint.pp" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Imprime a representação formatada de <em>object</em>, seguida por uma nova linha. Esta função pode ser usado no interpretador interativo em vez da função <a class="reference internal" href="../builtins/functions.html#print" title="print"><code class="xref py py-func docutils literal notranslate"><span class="pre">print()</span></code></a> para inspecionar valores. Dica: você pode reatribuir <code class="docutils literal notranslate"><span class="pre">print</span> <span class="pre">=</span> <span class="pre">pprint.pp</span></code> para uso dentro de um escopo.</p>
+<dl class="field-list simple">
+<dt class="field-odd untranslated">Parâmetros<span class="colon">:</span></dt>
+<dd class="field-odd untranslated"><ul class="simple">
+<li><p><strong>object</strong> – O objeto a ser impresso.</p></li>
+<li><p><strong>stream</strong> (<a class="reference internal" href="../glossary.html#term-file-like-object"><span class="xref std std-term">file-like object</span></a> | None) – Um objeto arquivo ou similar no qual a saída será gravada chamando seu método <code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code>. Se <code class="docutils literal notranslate"><span class="pre">None</span></code> (o padrão), <a class="reference internal" href="sys.html#sys.stdout" title="sys.stdout"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stdout</span></code></a> será usado.</p></li>
+<li><p><strong>indent</strong> (<a class="reference internal" href="../builtins/functions.html#int" title="int"><em>int</em></a>) – A quantidade de indentação adicionado para cada nível de aninhamento.</p></li>
+<li><p><strong>width</strong> (<a class="reference internal" href="../builtins/functions.html#int" title="int"><em>int</em></a>) – O número máximo desejado de caracteres por linha na saída. Se uma estrutura não puder ser formatada dentro da restrição de largura, será feito o melhor esforço.</p></li>
+<li><p><strong>depth</strong> (<a class="reference internal" href="../builtins/functions.html#int" title="int"><em>int</em></a><em> | </em><em>None</em>) – O número de níveis de aninhamento que podem ser impressos. Se a estrutura de dados que está sendo impressa for muito profunda, o próximo nível contido será substituído por <code class="docutils literal notranslate"><span class="pre">...</span></code>. Se <code class="docutils literal notranslate"><span class="pre">None</span></code> (o padrão), não há restrição na profundidade dos objetos que estão sendo formatados.</p></li>
+<li><p><strong>compact</strong> (<a class="reference internal" href="../builtins/functions.html#bool" title="bool"><em>bool</em></a>) – Control the way long <a class="reference internal" href="../glossary.html#term-sequence"><span class="xref std std-term">sequences</span></a> are formatted.
+If <code class="docutils literal notranslate"><span class="pre">False</span></code> (the default),
+each item of a sequence will be formatted on a separate line,
+otherwise as many items as will fit within the <em>width</em>
+will be formatted on each output line.
+Incompatible with <em>expand</em>.</p></li>
+<li><p><strong>expand</strong> (<a class="reference internal" href="../builtins/functions.html#bool" title="bool"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>,
+opening parentheses and brackets will be followed by a newline and the
+following content will be indented by one level, similar to
+pretty-printed JSON. Incompatible with <em>compact</em>.</p></li>
+<li><p><strong>sort_dicts</strong> (<a class="reference internal" href="../builtins/functions.html#bool" title="bool"><em>bool</em></a>) – Se <code class="docutils literal notranslate"><span class="pre">True</span></code>, os dicionários serão formatados com suas chaves classificadas, caso contrário, serão exibidos na ordem de inserção (o padrão).</p></li>
+<li><p><strong>underscore_numbers</strong> (<a class="reference internal" href="../builtins/functions.html#bool" title="bool"><em>bool</em></a>) – Se <code class="docutils literal notranslate"><span class="pre">True</span></code>, os números inteiros serão formatados com o caractere <code class="docutils literal notranslate"><span class="pre">_</span></code> para um separador de milhares, caso contrário, os sublinhados não serão exibidos (o padrão).</p></li>
+</ul>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pprint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stuff</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'spam'</span><span class="p">,</span> <span class="s1">'eggs'</span><span class="p">,</span> <span class="s1">'lumberjack'</span><span class="p">,</span> <span class="s1">'knights'</span><span class="p">,</span> <span class="s1">'ni'</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stuff</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">stuff</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="o">.</span><span class="n">pp</span><span class="p">(</span><span class="n">stuff</span><span class="p">)</span>
+<span class="go">[&lt;Recursion on list with id=...&gt;,</span>
+<span class="go"> 'spam',</span>
+<span class="go"> 'eggs',</span>
+<span class="go"> 'lumberjack',</span>
+<span class="go"> 'knights',</span>
+<span class="go"> 'ni']</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pprint.pprint">
+<span class="sig-prename descclassname"><span class="pre">pprint.</span></span><span class="sig-name descname"><span class="pre">pprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">compact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expand</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_dicts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">underscore_numbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pprint.pprint" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Apelido para <a class="reference internal" href="#pprint.pp" title="pprint.pp"><code class="xref py py-func docutils literal notranslate"><span class="pre">pp()</span></code></a> com <em>sort_dicts</em> definido como <code class="docutils literal notranslate"><span class="pre">True</span></code> por padrão, o que classificaria automaticamente as chaves dos dicionários, você pode querer usar <code class="xref py py-func docutils literal notranslate"><span class="pre">pp()</span></code> em vez disso, onde é <code class="docutils literal notranslate"><span class="pre">False</span></code> por padrão.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pprint.pformat">
+<span class="sig-prename descclassname"><span class="pre">pprint.</span></span><span class="sig-name descname"><span class="pre">pformat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">compact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expand</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_dicts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">underscore_numbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pprint.pformat" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Return the formatted representation of <em>object</em> as a string.  <em>indent</em>,
+<em>width</em>, <em>depth</em>, <em>compact</em>, <em>expand</em>, <em>sort_dicts</em> and <em>underscore_numbers</em> are
+passed to the <a class="reference internal" href="#pprint.PrettyPrinter" title="pprint.PrettyPrinter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PrettyPrinter</span></code></a> constructor as formatting parameters
+and their meanings are as described in the documentation above.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pprint.isreadable">
+<span class="sig-prename descclassname"><span class="pre">pprint.</span></span><span class="sig-name descname"><span class="pre">isreadable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pprint.isreadable" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated" id="index-0">Determina se a representação formatada de <em>object</em> é “legível” ou pode ser usada para reconstruir o valor usando <a class="reference internal" href="../builtins/functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a>. Isso sempre retorna <code class="docutils literal notranslate"><span class="pre">False</span></code> para objetos recursivos.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="o">.</span><span class="n">isreadable</span><span class="p">(</span><span class="n">stuff</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pprint.isrecursive">
+<span class="sig-prename descclassname"><span class="pre">pprint.</span></span><span class="sig-name descname"><span class="pre">isrecursive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pprint.isrecursive" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Determina se <em>object</em> requer uma representação recursiva. Esta função está sujeita às mesmas limitações mencionadas em <a class="reference internal" href="#pprint.saferepr" title="pprint.saferepr"><code class="xref py py-func docutils literal notranslate"><span class="pre">saferepr()</span></code></a> abaixo e pode levantar uma exceção <a class="reference internal" href="../builtins/exceptions.html#RecursionError" title="RecursionError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RecursionError</span></code></a> se falhar em detectar um objeto recursivo.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pprint.saferepr">
+<span class="sig-prename descclassname"><span class="pre">pprint.</span></span><span class="sig-name descname"><span class="pre">saferepr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pprint.saferepr" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma representação de string de <em>object</em>, protegida contra recursão em algumas estruturas de dados comuns, nomeadamente instâncias de <a class="reference internal" href="../builtins/stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference internal" href="../builtins/stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> e <a class="reference internal" href="../builtins/stdtypes.html#tuple" title="tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a> ou subclasses cujo <code class="docutils literal notranslate"><span class="pre">__repr__</span></code> não foi substituído. Se a representação do objeto expõe uma entrada recursiva, a referência recursiva será representada como <code class="docutils literal notranslate"><span class="pre">&lt;Recursion</span> <span class="pre">on</span> <span class="pre">typename</span> <span class="pre">with</span> <span class="pre">id=number&gt;</span></code>. A representação não é formatada de outra forma.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="o">.</span><span class="n">saferepr</span><span class="p">(</span><span class="n">stuff</span><span class="p">)</span>
+<span class="go">"[&lt;Recursion on list with id=...&gt;, 'spam', 'eggs', 'lumberjack', 'knights', 'ni']"</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="prettyprinter-objects">
+<span id="id1"></span><h2 class="translated">Objetos PrettyPrinter<a class="headerlink" href="#prettyprinter-objects" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py class" id="index-1">
+<dt class="sig sig-object py" id="pprint.PrettyPrinter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pprint.</span></span><span class="sig-name descname"><span class="pre">PrettyPrinter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">compact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expand</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_dicts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">underscore_numbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pprint.PrettyPrinter" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Constrói uma instância <a class="reference internal" href="#pprint.PrettyPrinter" title="pprint.PrettyPrinter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PrettyPrinter</span></code></a>.</p>
+<p class="translated">Os argumentos têm o mesmo significado que para <a class="reference internal" href="#pprint.pp" title="pprint.pp"><code class="xref py py-func docutils literal notranslate"><span class="pre">pp()</span></code></a>. Observe que eles estão em uma ordem diferente e que o padrão <em>sort_dicts</em> é <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pprint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stuff</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'spam'</span><span class="p">,</span> <span class="s1">'eggs'</span><span class="p">,</span> <span class="s1">'lumberjack'</span><span class="p">,</span> <span class="s1">'knights'</span><span class="p">,</span> <span class="s1">'ni'</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stuff</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">stuff</span><span class="p">[:])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">PrettyPrinter</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">stuff</span><span class="p">)</span>
+<span class="go">[   ['spam', 'eggs', 'lumberjack', 'knights', 'ni'],</span>
+<span class="go">    'spam',</span>
+<span class="go">    'eggs',</span>
+<span class="go">    'lumberjack',</span>
+<span class="go">    'knights',</span>
+<span class="go">    'ni']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">PrettyPrinter</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">41</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">stuff</span><span class="p">)</span>
+<span class="go">[['spam', 'eggs', 'lumberjack',</span>
+<span class="go">  'knights', 'ni'],</span>
+<span class="go"> 'spam', 'eggs', 'lumberjack', 'knights',</span>
+<span class="go"> 'ni']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">PrettyPrinter</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">41</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">stuff</span><span class="p">)</span>
+<span class="go">[</span>
+<span class="go">   [</span>
+<span class="go">      'spam',</span>
+<span class="go">      'eggs',</span>
+<span class="go">      'lumberjack',</span>
+<span class="go">      'knights',</span>
+<span class="go">      'ni',</span>
+<span class="go">   ],</span>
+<span class="go">   'spam',</span>
+<span class="go">   'eggs',</span>
+<span class="go">   'lumberjack',</span>
+<span class="go">   'knights',</span>
+<span class="go">   'ni',</span>
+<span class="go">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tup</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'spam'</span><span class="p">,</span> <span class="p">(</span><span class="s1">'eggs'</span><span class="p">,</span> <span class="p">(</span><span class="s1">'lumberjack'</span><span class="p">,</span> <span class="p">(</span><span class="s1">'knights'</span><span class="p">,</span> <span class="p">(</span><span class="s1">'ni'</span><span class="p">,</span> <span class="p">(</span><span class="s1">'dead'</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">(</span><span class="s1">'parrot'</span><span class="p">,</span> <span class="p">(</span><span class="s1">'fresh fruit'</span><span class="p">,))))))))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">PrettyPrinter</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">tup</span><span class="p">)</span>
+<span class="go">('spam', ('eggs', ('lumberjack', ('knights', ('ni', ('dead', (...)))))))</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.4: </span>Adicionado o parâmetro <em>compact</em>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.8: </span>Adicionado o parâmetro <em>sort_dicts</em>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.10: </span>Adicionado o parâmetro <em>underscore_numbers</em>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.11: </span>Não tenta mais escrever em <code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stdout</span></code> se for <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.15: </span>Added the <em>expand</em> parameter.</p>
+</div>
+</dd></dl>
+
+<p class="translated">Instâncias <a class="reference internal" href="#pprint.PrettyPrinter" title="pprint.PrettyPrinter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PrettyPrinter</span></code></a> contêm os seguintes métodos:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pprint.PrettyPrinter.pformat">
+<span class="sig-prename descclassname"><span class="pre">PrettyPrinter.</span></span><span class="sig-name descname"><span class="pre">pformat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pprint.PrettyPrinter.pformat" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna a representação formatada de <em>object</em>. Isso leva em consideração as opções passadas para o construtor <a class="reference internal" href="#pprint.PrettyPrinter" title="pprint.PrettyPrinter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PrettyPrinter</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pprint.PrettyPrinter.pprint">
+<span class="sig-prename descclassname"><span class="pre">PrettyPrinter.</span></span><span class="sig-name descname"><span class="pre">pprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pprint.PrettyPrinter.pprint" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exibe a representação formatada de <em>object</em> no fluxo configurado, seguida por uma nova linha.</p>
+</dd></dl>
+
+<p class="translated">Os métodos a seguir fornecem as implementações para as funções correspondentes com os mesmos nomes. Usar esses métodos em uma instância é um pouco mais eficiente já que novos objetos <a class="reference internal" href="#pprint.PrettyPrinter" title="pprint.PrettyPrinter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PrettyPrinter</span></code></a> não precisam ser criados.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pprint.PrettyPrinter.isreadable">
+<span class="sig-prename descclassname"><span class="pre">PrettyPrinter.</span></span><span class="sig-name descname"><span class="pre">isreadable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pprint.PrettyPrinter.isreadable" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated" id="index-2">Determina se a representação formatada do objeto é “legível” ou pode ser usada para reconstruir o valor usando <a class="reference internal" href="../builtins/functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a>. Observe que isso retorna <code class="docutils literal notranslate"><span class="pre">False</span></code> para objetos recursivos. Se o parâmetro <em>depth</em> de <a class="reference internal" href="#pprint.PrettyPrinter" title="pprint.PrettyPrinter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PrettyPrinter</span></code></a> estiver definido e o objeto for mais profundo que o permitido, isso retornará <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pprint.PrettyPrinter.isrecursive">
+<span class="sig-prename descclassname"><span class="pre">PrettyPrinter.</span></span><span class="sig-name descname"><span class="pre">isrecursive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pprint.PrettyPrinter.isrecursive" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Determina se o objeto requer uma representação recursiva.</p>
+</dd></dl>
+
+<p class="translated">Este método é fornecido como um gancho para permitir que as subclasses modifiquem a maneira como os objetos são convertidos em strings.  A implementação padrão usa os componentes internos da implementação de <a class="reference internal" href="#pprint.saferepr" title="pprint.saferepr"><code class="xref py py-func docutils literal notranslate"><span class="pre">saferepr()</span></code></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pprint.PrettyPrinter.format">
+<span class="sig-prename descclassname"><span class="pre">PrettyPrinter.</span></span><span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxlevels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pprint.PrettyPrinter.format" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna três valores: a versão formatada de <em>object</em> como uma string, um sinalizador indicando se o resultado é legível e um sinalizador indicando se a recursão foi detectada.  O primeiro argumento é o objeto a ser apresentado.  O segundo é um dicionário que contém o <a class="reference internal" href="../builtins/functions.html#id" title="id"><code class="xref py py-func docutils literal notranslate"><span class="pre">id()</span></code></a> de objetos que fazem parte do contexto de apresentação atual (contêineres diretos e indiretos para <em>objects</em> que estão afetando a apresentação) como chaves; se for necessário apresentar um objeto que já esteja representado em <em>context</em>, o terceiro valor de retorno deverá ser <code class="docutils literal notranslate"><span class="pre">True</span></code>.  Chamadas recursivas ao método <a class="reference internal" href="#pprint.PrettyPrinter.format" title="pprint.PrettyPrinter.format"><code class="xref py py-meth docutils literal notranslate"><span class="pre">format()</span></code></a> devem adicionar entradas adicionais para contêineres neste dicionário.  O terceiro argumento, <em>maxlevels</em>, fornece o limite solicitado para recursão;  será <code class="docutils literal notranslate"><span class="pre">0</span></code> se não houver limite solicitado.  Este argumento deve ser passado sem modificações para chamadas recursivas. O quarto argumento, <em>level</em>, fornece o nível atual; chamadas recursivas devem receber um valor menor que o da chamada atual.</p>
+</dd></dl>
+
+</section>
+<section id="example">
+<span id="pprint-example"></span><h2 class="translated">Exemplo<a class="headerlink" href="#example" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Para demonstrar vários usos da função <a class="reference internal" href="#pprint.pp" title="pprint.pp"><code class="xref py py-func docutils literal notranslate"><span class="pre">pp()</span></code></a> e seus parâmetros, vamos buscar informações sobre um projeto no <a class="reference external" href="https://pypi.org">PyPI</a>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pprint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlopen</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">urlopen</span><span class="p">(</span><span class="s1">'https://pypi.org/pypi/sampleproject/1.2.0/json'</span><span class="p">)</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">project_info</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">resp</span><span class="p">)[</span><span class="s1">'info'</span><span class="p">]</span>
+</pre></div>
+</div>
+<p class="translated">Em sua forma básica, <a class="reference internal" href="#pprint.pp" title="pprint.pp"><code class="xref py py-func docutils literal notranslate"><span class="pre">pp()</span></code></a> mostra o objeto inteiro:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="o">.</span><span class="n">pp</span><span class="p">(</span><span class="n">project_info</span><span class="p">)</span>
+<span class="go">{'author': 'The Python Packaging Authority',</span>
+<span class="go"> 'author_email': 'pypa-dev@googlegroups.com',</span>
+<span class="go"> 'bugtrack_url': None,</span>
+<span class="go"> 'classifiers': ['Development Status :: 3 - Alpha',</span>
+<span class="go">                 'Intended Audience :: Developers',</span>
+<span class="go">                 'License :: OSI Approved :: MIT License',</span>
+<span class="go">                 'Programming Language :: Python :: 2',</span>
+<span class="go">                 'Programming Language :: Python :: 2.6',</span>
+<span class="go">                 'Programming Language :: Python :: 2.7',</span>
+<span class="go">                 'Programming Language :: Python :: 3',</span>
+<span class="go">                 'Programming Language :: Python :: 3.2',</span>
+<span class="go">                 'Programming Language :: Python :: 3.3',</span>
+<span class="go">                 'Programming Language :: Python :: 3.4',</span>
+<span class="go">                 'Topic :: Software Development :: Build Tools'],</span>
+<span class="go"> 'description': 'A sample Python project\n'</span>
+<span class="go">                '=======================\n'</span>
+<span class="go">                '\n'</span>
+<span class="go">                'This is the description file for the project.\n'</span>
+<span class="go">                '\n'</span>
+<span class="go">                'The file should use UTF-8 encoding and be written using '</span>
+<span class="go">                'ReStructured Text. It\n'</span>
+<span class="go">                'will be used to generate the project webpage on PyPI, and '</span>
+<span class="go">                'should be written for\n'</span>
+<span class="go">                'that purpose.\n'</span>
+<span class="go">                '\n'</span>
+<span class="go">                'Typical contents for this file would include an overview of '</span>
+<span class="go">                'the project, basic\n'</span>
+<span class="go">                'usage examples, etc. Generally, including the project '</span>
+<span class="go">                'changelog in here is not\n'</span>
+<span class="go">                'a good idea, although a simple "What\'s New" section for the '</span>
+<span class="go">                'most recent version\n'</span>
+<span class="go">                'may be appropriate.',</span>
+<span class="go"> 'description_content_type': None,</span>
+<span class="go"> 'docs_url': None,</span>
+<span class="go"> 'download_url': 'UNKNOWN',</span>
+<span class="go"> 'downloads': {'last_day': -1, 'last_month': -1, 'last_week': -1},</span>
+<span class="go"> 'home_page': 'https://github.com/pypa/sampleproject',</span>
+<span class="go"> 'keywords': 'sample setuptools development',</span>
+<span class="go"> 'license': 'MIT',</span>
+<span class="go"> 'maintainer': None,</span>
+<span class="go"> 'maintainer_email': None,</span>
+<span class="go"> 'name': 'sampleproject',</span>
+<span class="go"> 'package_url': 'https://pypi.org/project/sampleproject/',</span>
+<span class="go"> 'platform': 'UNKNOWN',</span>
+<span class="go"> 'project_url': 'https://pypi.org/project/sampleproject/',</span>
+<span class="go"> 'project_urls': {'Download': 'UNKNOWN',</span>
+<span class="go">                  'Homepage': 'https://github.com/pypa/sampleproject'},</span>
+<span class="go"> 'release_url': 'https://pypi.org/project/sampleproject/1.2.0/',</span>
+<span class="go"> 'requires_dist': None,</span>
+<span class="go"> 'requires_python': None,</span>
+<span class="go"> 'summary': 'A sample Python project',</span>
+<span class="go"> 'version': '1.2.0'}</span>
+</pre></div>
+</div>
+<p class="translated">O resultado pode ser limitado a uma certa <em>depth</em> (reticências são usadas para conteúdos mais profundos):</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="o">.</span><span class="n">pp</span><span class="p">(</span><span class="n">project_info</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">{'author': 'The Python Packaging Authority',</span>
+<span class="go"> 'author_email': 'pypa-dev@googlegroups.com',</span>
+<span class="go"> 'bugtrack_url': None,</span>
+<span class="go"> 'classifiers': [...],</span>
+<span class="go"> 'description': 'A sample Python project\n'</span>
+<span class="go">                '=======================\n'</span>
+<span class="go">                '\n'</span>
+<span class="go">                'This is the description file for the project.\n'</span>
+<span class="go">                '\n'</span>
+<span class="go">                'The file should use UTF-8 encoding and be written using '</span>
+<span class="go">                'ReStructured Text. It\n'</span>
+<span class="go">                'will be used to generate the project webpage on PyPI, and '</span>
+<span class="go">                'should be written for\n'</span>
+<span class="go">                'that purpose.\n'</span>
+<span class="go">                '\n'</span>
+<span class="go">                'Typical contents for this file would include an overview of '</span>
+<span class="go">                'the project, basic\n'</span>
+<span class="go">                'usage examples, etc. Generally, including the project '</span>
+<span class="go">                'changelog in here is not\n'</span>
+<span class="go">                'a good idea, although a simple "What\'s New" section for the '</span>
+<span class="go">                'most recent version\n'</span>
+<span class="go">                'may be appropriate.',</span>
+<span class="go"> 'description_content_type': None,</span>
+<span class="go"> 'docs_url': None,</span>
+<span class="go"> 'download_url': 'UNKNOWN',</span>
+<span class="go"> 'downloads': {...},</span>
+<span class="go"> 'home_page': 'https://github.com/pypa/sampleproject',</span>
+<span class="go"> 'keywords': 'sample setuptools development',</span>
+<span class="go"> 'license': 'MIT',</span>
+<span class="go"> 'maintainer': None,</span>
+<span class="go"> 'maintainer_email': None,</span>
+<span class="go"> 'name': 'sampleproject',</span>
+<span class="go"> 'package_url': 'https://pypi.org/project/sampleproject/',</span>
+<span class="go"> 'platform': 'UNKNOWN',</span>
+<span class="go"> 'project_url': 'https://pypi.org/project/sampleproject/',</span>
+<span class="go"> 'project_urls': {...},</span>
+<span class="go"> 'release_url': 'https://pypi.org/project/sampleproject/1.2.0/',</span>
+<span class="go"> 'requires_dist': None,</span>
+<span class="go"> 'requires_python': None,</span>
+<span class="go"> 'summary': 'A sample Python project',</span>
+<span class="go"> 'version': '1.2.0'}</span>
+</pre></div>
+</div>
+<p class="translated">Além disso, a largura <em>width</em> máxima do caractere pode ser sugerida.  Se um objeto longo não puder ser dividido, a largura especificada será excedida:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="o">.</span><span class="n">pp</span><span class="p">(</span><span class="n">project_info</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+<span class="go">{'author': 'The Python Packaging Authority',</span>
+<span class="go"> 'author_email': 'pypa-dev@googlegroups.com',</span>
+<span class="go"> 'bugtrack_url': None,</span>
+<span class="go"> 'classifiers': [...],</span>
+<span class="go"> 'description': 'A sample Python project\n'</span>
+<span class="go">                '=======================\n'</span>
+<span class="go">                '\n'</span>
+<span class="go">                'This is the description file for the '</span>
+<span class="go">                'project.\n'</span>
+<span class="go">                '\n'</span>
+<span class="go">                'The file should use UTF-8 encoding and be '</span>
+<span class="go">                'written using ReStructured Text. It\n'</span>
+<span class="go">                'will be used to generate the project '</span>
+<span class="go">                'webpage on PyPI, and should be written '</span>
+<span class="go">                'for\n'</span>
+<span class="go">                'that purpose.\n'</span>
+<span class="go">                '\n'</span>
+<span class="go">                'Typical contents for this file would '</span>
+<span class="go">                'include an overview of the project, '</span>
+<span class="go">                'basic\n'</span>
+<span class="go">                'usage examples, etc. Generally, including '</span>
+<span class="go">                'the project changelog in here is not\n'</span>
+<span class="go">                'a good idea, although a simple "What\'s '</span>
+<span class="go">                'New" section for the most recent version\n'</span>
+<span class="go">                'may be appropriate.',</span>
+<span class="go"> 'description_content_type': None,</span>
+<span class="go"> 'docs_url': None,</span>
+<span class="go"> 'download_url': 'UNKNOWN',</span>
+<span class="go"> 'downloads': {...},</span>
+<span class="go"> 'home_page': 'https://github.com/pypa/sampleproject',</span>
+<span class="go"> 'keywords': 'sample setuptools development',</span>
+<span class="go"> 'license': 'MIT',</span>
+<span class="go"> 'maintainer': None,</span>
+<span class="go"> 'maintainer_email': None,</span>
+<span class="go"> 'name': 'sampleproject',</span>
+<span class="go"> 'package_url': 'https://pypi.org/project/sampleproject/',</span>
+<span class="go"> 'platform': 'UNKNOWN',</span>
+<span class="go"> 'project_url': 'https://pypi.org/project/sampleproject/',</span>
+<span class="go"> 'project_urls': {...},</span>
+<span class="go"> 'release_url': 'https://pypi.org/project/sampleproject/1.2.0/',</span>
+<span class="go"> 'requires_dist': None,</span>
+<span class="go"> 'requires_python': None,</span>
+<span class="go"> 'summary': 'A sample Python project',</span>
+<span class="go"> 'version': '1.2.0'}</span>
+</pre></div>
+</div>
+<p class="untranslated">Lastly, we can format like pretty-printed JSON with the <em>expand</em> parameter.
+Best results are achieved with a higher <em>indent</em> value:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="o">.</span><span class="n">pp</span><span class="p">(</span><span class="n">project_info</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">{</span>
+<span class="go">   'author': 'The Python Packaging Authority',</span>
+<span class="go">   'author_email': 'pypa-dev@googlegroups.com',</span>
+<span class="go">   'bugtrack_url': None,</span>
+<span class="go">   'classifiers': [</span>
+<span class="go">      'Development Status :: 3 - Alpha',</span>
+<span class="go">      'Intended Audience :: Developers',</span>
+<span class="go">      'License :: OSI Approved :: MIT License',</span>
+<span class="go">      'Programming Language :: Python :: 2',</span>
+<span class="go">      'Programming Language :: Python :: 2.6',</span>
+<span class="go">      'Programming Language :: Python :: 2.7',</span>
+<span class="go">      'Programming Language :: Python :: 3',</span>
+<span class="go">      'Programming Language :: Python :: 3.2',</span>
+<span class="go">      'Programming Language :: Python :: 3.3',</span>
+<span class="go">      'Programming Language :: Python :: 3.4',</span>
+<span class="go">      'Topic :: Software Development :: Build Tools',</span>
+<span class="go">   ],</span>
+<span class="go">   'description': 'A sample Python project\n'</span>
+<span class="go">   '=======================\n'</span>
+<span class="go">   '\n'</span>
+<span class="go">   'This is the description file for the project.\n'</span>
+<span class="go">   '\n'</span>
+<span class="go">   'The file should use UTF-8 encoding and be written using ReStructured '</span>
+<span class="go">   'Text. It\n'</span>
+<span class="go">   'will be used to generate the project webpage on PyPI, and should be '</span>
+<span class="go">   'written for\n'</span>
+<span class="go">   'that purpose.\n'</span>
+<span class="go">   '\n'</span>
+<span class="go">   'Typical contents for this file would include an overview of the project, '</span>
+<span class="go">   'basic\n'</span>
+<span class="go">   'usage examples, etc. Generally, including the project changelog in here '</span>
+<span class="go">   'is not\n'</span>
+<span class="go">   'a good idea, although a simple "What\'s New" section for the most recent '</span>
+<span class="go">   'version\n'</span>
+<span class="go">   'may be appropriate.',</span>
+<span class="go">   'description_content_type': None,</span>
+<span class="go">   'docs_url': None,</span>
+<span class="go">   'download_url': 'UNKNOWN',</span>
+<span class="go">   'downloads': {'last_day': -1, 'last_month': -1, 'last_week': -1},</span>
+<span class="go">   'dynamic': None,</span>
+<span class="go">   'home_page': 'https://github.com/pypa/sampleproject',</span>
+<span class="go">   'keywords': 'sample setuptools development',</span>
+<span class="go">   'license': 'MIT',</span>
+<span class="go">   'license_expression': None,</span>
+<span class="go">   'license_files': None,</span>
+<span class="go">   'maintainer': None,</span>
+<span class="go">   'maintainer_email': None,</span>
+<span class="go">   'name': 'sampleproject',</span>
+<span class="go">   'package_url': 'https://pypi.org/project/sampleproject/',</span>
+<span class="go">   'platform': 'UNKNOWN',</span>
+<span class="go">   'project_url': 'https://pypi.org/project/sampleproject/',</span>
+<span class="go">   'project_urls': {</span>
+<span class="go">      'Download': 'UNKNOWN',</span>
+<span class="go">      'Homepage': 'https://github.com/pypa/sampleproject',</span>
+<span class="go">   },</span>
+<span class="go">   'provides_extra': None,</span>
+<span class="go">   'release_url': 'https://pypi.org/project/sampleproject/1.2.0/',</span>
+<span class="go">   'requires_dist': None,</span>
+<span class="go">   'requires_python': None,</span>
+<span class="go">   'summary': 'A sample Python project',</span>
+<span class="go">   'version': '1.2.0',</span>
+<span class="go">   'yanked': False,</span>
+<span class="go">   'yanked_reason': None,</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pprint</span></code> — Impressão bonita de dados</a><ul>
+<li><a class="reference internal" href="#functions">Funções</a></li>
+<li><a class="reference internal" href="#prettyprinter-objects">Objetos PrettyPrinter</a></li>
+<li><a class="reference internal" href="#example">Exemplo</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="copy.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">copy</span></code> — Operações de cópia profunda e cópia rasa</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="reprlib.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">reprlib</span></code> — Implementação alternativa à <code class="xref py py-func docutils literal notranslate"><span class="pre">repr()</span></code></a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/pprint.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/pprint.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/pprint.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="reprlib.html" title="reprlib — Implementação alternativa à repr()"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="copy.html" title="copy — Operações de cópia profunda e cópia rasa"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="datatypes.html" >Tipos de Dados</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">pprint</span></code> — Impressão bonita de dados</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

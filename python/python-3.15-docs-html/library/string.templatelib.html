@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="string.templatelib — Suporte para literais de string template" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/string.templatelib.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/string/templatelib.py Strings template: Strings template são um mecanismo para processamento personalizado de strings. Elas têm toda a flexibilidade das Literais de strings format..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_string.templatelib_8983e05e.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/string/templatelib.py Strings template: Strings template são um mecanismo para processamento personalizado de strings. Elas têm toda a flexibilidade das Literais de strings format..." />
+<meta name="description" content="Código-fonte: Lib/string/templatelib.py Strings template: Strings template são um mecanismo para processamento personalizado de strings. Elas têm toda a flexibilidade das Literais de strings format..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>string.templatelib — Suporte para literais de string template &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="re — Operações com expressões regulares" href="re.html" />
+    <link rel="prev" title="string — Operações comuns de strings" href="string.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/string.templatelib.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">string.templatelib</span></code> — Suporte para literais de string template</a><ul>
+<li><a class="reference internal" href="#template-strings">Strings template</a></li>
+<li><a class="reference internal" href="#types">Tipos</a></li>
+<li><a class="reference internal" href="#helper-functions">Funções auxiliares</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="string.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">string</span></code> — Operações comuns de strings</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="re.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">re</span></code> — Operações com expressões regulares</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/string.templatelib.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/string.templatelib.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/string.templatelib.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="re.html" title="re — Operações com expressões regulares"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="string.html" title="string — Operações comuns de strings"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="text.html" accesskey="U">Serviços de Processamento de Texto</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">string.templatelib</span></code> — Suporte para literais de string template</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-string.templatelib">
+<span id="string-templatelib-support-for-template-string-literals"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">string.templatelib</span></code> — Suporte para literais de string template<a class="headerlink" href="#module-string.templatelib" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/string/templatelib.py">Lib/string/templatelib.py</a></p>
+<hr class="docutils" />
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<ul class="simple">
+<li><p class="translated"><a class="reference internal" href="../reference/lexical_analysis.html#f-strings"><span class="std std-ref">Strings de formatação</span></a></p></li>
+<li><p class="translated"><a class="reference internal" href="../reference/lexical_analysis.html#t-strings"><span class="std std-ref">Sintaxe de literal de string template (t-string)</span></a></p></li>
+<li><p class="translated"><span class="target" id="index-0"></span><a class="pep reference external" href="https://peps.python.org/pep-0750/"><strong>PEP 750</strong></a></p></li>
+</ul>
+</div>
+<section id="template-strings">
+<span id="id1"></span><h2 class="translated">Strings template<a class="headerlink" href="#template-strings" title="Link para este cabeçalho">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+<p class="translated">Strings template são um mecanismo para processamento personalizado de strings. Elas têm toda a flexibilidade das <a class="reference internal" href="../reference/lexical_analysis.html#f-strings"><span class="std std-ref">Literais de strings formatadas</span></a> do Python, mas retornam uma instância <a class="reference internal" href="#string.templatelib.Template" title="string.templatelib.Template"><code class="xref py py-class docutils literal notranslate"><span class="pre">Template</span></code></a> que dá acesso às partes estáticas e interpoladas (entre chaves) de uma string <em>antes</em> de serem combinadas.</p>
+<p class="translated">Para escrever uma t-string, use um prefixo <code class="docutils literal notranslate"><span class="pre">'t'</span></code> em vez de <code class="docutils literal notranslate"><span class="pre">'f'</span></code>, assim:</p>
+<div class="translated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pi</span> <span class="o">=</span> <span class="mf">3.14</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">t</span><span class="s1">'t-strings são novas no Python </span><span class="si">{</span><span class="n">pi</span><span class="si">!s}</span><span class="s1">!'</span>
+<span class="go">Template(</span>
+<span class="go">   strings=('t-strings são novas no Python ', '!'),</span>
+<span class="go">   interpolations=(Interpolation(3.14, 'pi', 's', ''),)</span>
+<span class="go">)</span>
+</pre></div>
+</div>
+</section>
+<section id="types">
+<h2 class="translated">Tipos<a class="headerlink" href="#types" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="string.templatelib.Template">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">string.templatelib.</span></span><span class="sig-name descname"><span class="pre">Template</span></span><a class="headerlink" href="#string.templatelib.Template" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A classe <code class="xref py py-class docutils literal notranslate"><span class="pre">Template</span></code> descreve o conteúdo de uma string template. Ela é imutável, o que significa que os atributos de um template não podem ser reatribuídos.</p>
+<p class="translated">A maneira mais comum de criar uma instância de <code class="xref py py-class docutils literal notranslate"><span class="pre">Template</span></code> é usar a <a class="reference internal" href="../reference/lexical_analysis.html#t-strings"><span class="std std-ref">sintaxe de literal de string template</span></a>. Essa sintaxe é idêntica à de <a class="reference internal" href="../reference/lexical_analysis.html#f-strings"><span class="std std-ref">f-strings</span></a>, exceto pelo fato de usar um prefixo <code class="docutils literal notranslate"><span class="pre">t</span></code> no lugar de um <code class="docutils literal notranslate"><span class="pre">f</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cheese</span> <span class="o">=</span> <span class="s1">'Red Leicester'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span> <span class="o">=</span> <span class="sa">t</span><span class="s2">"We're fresh out of </span><span class="si">{</span><span class="n">cheese</span><span class="si">}</span><span class="s2">, sir."</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+<span class="go">&lt;class 'string.templatelib.Template'&gt;</span>
+</pre></div>
+</div>
+<p class="translated">Os templates são armazenados como sequências de literais <a class="reference internal" href="#string.templatelib.Template.strings" title="string.templatelib.Template.strings"><code class="xref py py-attr docutils literal notranslate"><span class="pre">strings</span></code></a> e dinâmicos <a class="reference internal" href="#string.templatelib.Template.interpolations" title="string.templatelib.Template.interpolations"><code class="xref py py-attr docutils literal notranslate"><span class="pre">interpolations</span></code></a>. Um atributo <a class="reference internal" href="#string.templatelib.Template.values" title="string.templatelib.Template.values"><code class="xref py py-attr docutils literal notranslate"><span class="pre">values</span></code></a> contém os valores das interpolações:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cheese</span> <span class="o">=</span> <span class="s1">'Camembert'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span> <span class="o">=</span> <span class="sa">t</span><span class="s1">'Ah! We do have </span><span class="si">{</span><span class="n">cheese</span><span class="si">}</span><span class="s1">.'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span><span class="o">.</span><span class="n">strings</span>
+<span class="go">('Ah! We do have ', '.')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span><span class="o">.</span><span class="n">interpolations</span>
+<span class="go">(Interpolation('Camembert', ...),)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span><span class="o">.</span><span class="n">values</span>
+<span class="go">('Camembert',)</span>
+</pre></div>
+</div>
+<p class="translated">A tupla <code class="xref py py-attr docutils literal notranslate"><span class="pre">strings</span></code> tem um elemento a mais que <code class="xref py py-attr docutils literal notranslate"><span class="pre">interpolations</span></code> e <code class="xref py py-attr docutils literal notranslate"><span class="pre">values</span></code>; as interpolações “pertencem” às strings. Isso pode ser mais fácil de entender quando as tuplas estão alinhadas</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">template</span><span class="o">.</span><span class="n">strings</span><span class="p">:</span>  <span class="p">(</span><span class="s1">'Ah! We do have '</span><span class="p">,</span>              <span class="s1">'.'</span><span class="p">)</span>
+<span class="n">template</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>   <span class="p">(</span>                   <span class="s1">'Camembert'</span><span class="p">,</span>    <span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated rubric">Atributos</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="string.templatelib.Template.strings">
+<span class="sig-name descname"><span class="pre">strings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../builtins/stdtypes.html#tuple" title="tuple"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#string.templatelib.Template.strings" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma <a class="reference internal" href="../builtins/stdtypes.html#tuple" title="tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a> das strings estáticas no template.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cheese</span> <span class="o">=</span> <span class="s1">'Camembert'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span> <span class="o">=</span> <span class="sa">t</span><span class="s1">'Ah! We do have </span><span class="si">{</span><span class="n">cheese</span><span class="si">}</span><span class="s1">.'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span><span class="o">.</span><span class="n">strings</span>
+<span class="go">('Ah! We do have ', '.')</span>
+</pre></div>
+</div>
+<p class="translated">Strings vazias <em>estão</em> incluídas na tupla:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s1">'We do have '</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cheese</span> <span class="o">=</span> <span class="s1">'Camembert'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span> <span class="o">=</span> <span class="sa">t</span><span class="s1">'Ah! </span><span class="si">{</span><span class="n">response</span><span class="si">}{</span><span class="n">cheese</span><span class="si">}</span><span class="s1">.'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span><span class="o">.</span><span class="n">strings</span>
+<span class="go">('Ah! ', '', '.')</span>
+</pre></div>
+</div>
+<p class="translated">A tupla <code class="docutils literal notranslate"><span class="pre">strings</span></code> nunca está vazia e sempre contém uma string a mais que as tuplas <code class="docutils literal notranslate"><span class="pre">interpolations</span></code> e <code class="docutils literal notranslate"><span class="pre">values</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="sa">t</span><span class="s1">''</span><span class="o">.</span><span class="n">strings</span>
+<span class="go">('',)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">t</span><span class="s1">''</span><span class="o">.</span><span class="n">values</span>
+<span class="go">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">t</span><span class="s1">'</span><span class="si">{</span><span class="s1">'cheese'</span><span class="si">}</span><span class="s1">'</span><span class="o">.</span><span class="n">strings</span>
+<span class="go">('', '')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">t</span><span class="s1">'</span><span class="si">{</span><span class="s1">'cheese'</span><span class="si">}</span><span class="s1">'</span><span class="o">.</span><span class="n">values</span>
+<span class="go">('cheese',)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="string.templatelib.Template.interpolations">
+<span class="sig-name descname"><span class="pre">interpolations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../builtins/stdtypes.html#tuple" title="tuple"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#string.templatelib.Interpolation" title="string.templatelib.Interpolation"><span class="pre">Interpolation</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#string.templatelib.Template.interpolations" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma <a class="reference internal" href="../builtins/stdtypes.html#tuple" title="tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a> das interpolações no template.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cheese</span> <span class="o">=</span> <span class="s1">'Camembert'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span> <span class="o">=</span> <span class="sa">t</span><span class="s1">'Ah! We do have </span><span class="si">{</span><span class="n">cheese</span><span class="si">}</span><span class="s1">.'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span><span class="o">.</span><span class="n">interpolations</span>
+<span class="go">(Interpolation('Camembert', 'cheese', None, ''),)</span>
+</pre></div>
+</div>
+<p class="translated">A tupla <code class="docutils literal notranslate"><span class="pre">interpolações</span></code> pode estar vazia e sempre contém um valor a menos que a tupla <code class="docutils literal notranslate"><span class="pre">strings</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="sa">t</span><span class="s1">'Red Leicester'</span><span class="o">.</span><span class="n">interpolations</span>
+<span class="go">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="string.templatelib.Template.values">
+<span class="sig-name descname"><span class="pre">values</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../builtins/stdtypes.html#tuple" title="tuple"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../builtins/functions.html#object" title="object"><span class="pre">object</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#string.templatelib.Template.values" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma tupla de todos os valores interpolados no template.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cheese</span> <span class="o">=</span> <span class="s1">'Camembert'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span> <span class="o">=</span> <span class="sa">t</span><span class="s1">'Ah! We do have </span><span class="si">{</span><span class="n">cheese</span><span class="si">}</span><span class="s1">.'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span><span class="o">.</span><span class="n">values</span>
+<span class="go">('Camembert',)</span>
+</pre></div>
+</div>
+<p class="translated">A tupla <code class="docutils literal notranslate"><span class="pre">values</span></code> sempre tem o mesmo comprimento que a tupla <code class="docutils literal notranslate"><span class="pre">interpolations</span></code>. Isso sempre equivale a <code class="docutils literal notranslate"><span class="pre">tuple(i.value</span> <span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">template.interpolations)</span></code>.</p>
+</dd></dl>
+
+<p class="translated rubric">Métodos</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="string.templatelib.Template.__new__">
+<span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#string.templatelib.Interpolation" title="string.templatelib.Interpolation"><span class="pre">Interpolation</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#string.templatelib.Template.__new__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Embora a sintaxe de literal seja a maneira mais comum de criar um <code class="xref py py-class docutils literal notranslate"><span class="pre">Template</span></code>, também é possível criá-las diretamente usando o construtor:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">string.templatelib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interpolation</span><span class="p">,</span> <span class="n">Template</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cheese</span> <span class="o">=</span> <span class="s1">'Camembert'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">'Ah! We do have '</span><span class="p">,</span> <span class="n">Interpolation</span><span class="p">(</span><span class="n">cheese</span><span class="p">,</span> <span class="s1">'cheese'</span><span class="p">),</span> <span class="s1">'.'</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+<span class="go">['Ah! We do have ', Interpolation('Camembert', 'cheese', None, ''), '.']</span>
+</pre></div>
+</div>
+<p class="translated">Se várias strings forem passadas consecutivamente, elas serão concatenadas em um único valor no atributo <a class="reference internal" href="#string.templatelib.Template.strings" title="string.templatelib.Template.strings"><code class="xref py py-attr docutils literal notranslate"><span class="pre">strings</span></code></a>. Por exemplo, o código a seguir cria uma <a class="reference internal" href="#string.templatelib.Template" title="string.templatelib.Template"><code class="xref py py-class docutils literal notranslate"><span class="pre">Template</span></code></a> com uma única string final:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">string.templatelib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Template</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="s1">'Ah! We do have '</span><span class="p">,</span> <span class="s1">'Camembert'</span><span class="p">,</span> <span class="s1">'.'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span><span class="o">.</span><span class="n">strings</span>
+<span class="go">('Ah! We do have Camembert.',)</span>
+</pre></div>
+</div>
+<p class="translated">Se várias interpolações forem passadas consecutivamente, elas serão tratadas como interpolações separadas e uma string vazia será inserida entre elas. Por exemplo, o código a seguir cria um modelo com espaços reservados vazios no atributo <a class="reference internal" href="#string.templatelib.Template.strings" title="string.templatelib.Template.strings"><code class="xref py py-attr docutils literal notranslate"><span class="pre">strings</span></code></a>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">string.templatelib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interpolation</span><span class="p">,</span> <span class="n">Template</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">Interpolation</span><span class="p">(</span><span class="s1">'Camembert'</span><span class="p">,</span> <span class="s1">'cheese'</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">Interpolation</span><span class="p">(</span><span class="s1">'.'</span><span class="p">,</span> <span class="s1">'punctuation'</span><span class="p">),</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span><span class="o">.</span><span class="n">strings</span>
+<span class="go">('', '', '')</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">iter(template)</span></span></dt>
+<dd><p class="translated">Itera sobre o template, produzindo cada string não-vazia e <a class="reference internal" href="#string.templatelib.Interpolation" title="string.templatelib.Interpolation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Interpolation</span></code></a> em ordem correta.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cheese</span> <span class="o">=</span> <span class="s1">'Camembert'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="sa">t</span><span class="s1">'Ah! We do have </span><span class="si">{</span><span class="n">cheese</span><span class="si">}</span><span class="s1">.'</span><span class="p">)</span>
+<span class="go">['Ah! We do have ', Interpolation('Camembert', 'cheese', None, ''), '.']</span>
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Cuidado</p>
+<p class="translated">Strings vazias <em>não</em> são incluídas na iteração:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="s1">'We do have '</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cheese</span> <span class="o">=</span> <span class="s1">'Camembert'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="sa">t</span><span class="s1">'Ah! </span><span class="si">{</span><span class="n">response</span><span class="si">}{</span><span class="n">cheese</span><span class="si">}</span><span class="s1">.'</span><span class="p">)</span>
+<span class="go">['Ah! ',</span>
+<span class="go"> Interpolation('We do have ', 'response', None, ''),</span>
+<span class="go"> Interpolation('Camembert', 'cheese', None, ''),</span>
+<span class="go"> '.']</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">template</span> <span class="pre">+</span> <span class="pre">other</span></span></dt>
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">template</span> <span class="pre">+=</span> <span class="pre">other</span></span></dt>
+<dd><p class="translated">Concatena este template com outro, retornando uma nova instância <code class="xref py py-class docutils literal notranslate"><span class="pre">Template</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cheese</span> <span class="o">=</span> <span class="s1">'Camembert'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="sa">t</span><span class="s1">'Ah! '</span> <span class="o">+</span> <span class="sa">t</span><span class="s1">'We do have </span><span class="si">{</span><span class="n">cheese</span><span class="si">}</span><span class="s1">.'</span><span class="p">)</span>
+<span class="go">['Ah! We do have ', Interpolation('Camembert', 'cheese', None, ''), '.']</span>
+</pre></div>
+</div>
+<p class="translated">A concatenação de uma <code class="xref py py-class docutils literal notranslate"><span class="pre">Template</span></code> e uma <code class="docutils literal notranslate"><span class="pre">str</span></code> <strong>não</strong> é suportada. Isso ocorre porque não está claro se a string deve ser tratada como uma string estática ou uma interpolação. Se você quiser concatenar uma <code class="xref py py-class docutils literal notranslate"><span class="pre">Template</span></code> com uma string, você deve encapsular a string diretamente em uma <code class="xref py py-class docutils literal notranslate"><span class="pre">Template</span></code> (para tratá-la como uma string estática) ou usar uma <code class="xref py py-class docutils literal notranslate"><span class="pre">Interpolation</span></code> (para tratá-la como dinâmica):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">string.templatelib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interpolation</span><span class="p">,</span> <span class="n">Template</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span> <span class="o">=</span> <span class="sa">t</span><span class="s1">'Ah! '</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Treat 'We do have ' as a static string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span> <span class="o">+=</span> <span class="n">Template</span><span class="p">(</span><span class="s1">'We do have '</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Treat cheese as an interpolation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cheese</span> <span class="o">=</span> <span class="s1">'Camembert'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span> <span class="o">+=</span> <span class="n">Template</span><span class="p">(</span><span class="n">Interpolation</span><span class="p">(</span><span class="n">cheese</span><span class="p">,</span> <span class="s1">'cheese'</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+<span class="go">['Ah! We do have ', Interpolation('Camembert', 'cheese', None, '')]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="string.templatelib.Interpolation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">string.templatelib.</span></span><span class="sig-name descname"><span class="pre">Interpolation</span></span><a class="headerlink" href="#string.templatelib.Interpolation" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O tipo <code class="xref py py-class docutils literal notranslate"><span class="pre">Interpolation</span></code> representa uma expressão dentro de uma string template. É imutável, o que significa que os atributos de uma interpolação não podem ser reatribuídos.</p>
+<p class="translated">As interpolações oferecem suporte à correspondência de padrões, permitindo que você compare seus atributos com a <a class="reference internal" href="../reference/compound_stmts.html#match"><span class="std std-ref">instrução match</span></a>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">string.templatelib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interpolation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interpolation</span> <span class="o">=</span> <span class="sa">t</span><span class="s1">'</span><span class="si">{</span><span class="mf">1.</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">2.</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="o">.</span><span class="n">interpolations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interpolation</span>
+<span class="go">Interpolation(3.0, '1. + 2.', None, '.2f')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">match</span> <span class="n">interpolation</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">case</span> <span class="n">Interpolation</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">expression</span><span class="p">,</span> <span class="n">conversion</span><span class="p">,</span> <span class="n">format_spec</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">expression</span><span class="p">,</span> <span class="n">conversion</span><span class="p">,</span> <span class="n">format_spec</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">' | '</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">3.0 | 1. + 2. | None | .2f</span>
+</pre></div>
+</div>
+<p class="translated">As interpolações são <a class="reference internal" href="typing.html#generics"><span class="std std-ref">genéricas</span></a> em relação aos tipos dos seus valores.</p>
+<p class="translated rubric">Atributos</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="string.templatelib.Interpolation.value">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../builtins/functions.html#object" title="object"><span class="pre">object</span></a></em><a class="headerlink" href="#string.templatelib.Interpolation.value" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O valor avaliado da interpolação.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="sa">t</span><span class="s1">'</span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="si">}</span><span class="s1">'</span><span class="o">.</span><span class="n">interpolations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="string.templatelib.Interpolation.expression">
+<span class="sig-name descname"><span class="pre">expression</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><span class="pre">str</span></a></em><a class="headerlink" href="#string.templatelib.Interpolation.expression" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Para interpolações criadas por literais de t-string, <code class="xref py py-attr docutils literal notranslate"><span class="pre">expression</span></code> é o texto da expressão encontrado dentro das chaves (<code class="docutils literal notranslate"><span class="pre">{</span></code> e <code class="docutils literal notranslate"><span class="pre">}</span></code>), incluindo quaisquer espaços em branco, excluindo as próprias chaves e terminando antes do primeiro <code class="docutils literal notranslate"><span class="pre">!</span></code>, <code class="docutils literal notranslate"><span class="pre">:</span></code> ou <code class="docutils literal notranslate"><span class="pre">=</span></code>, se houver algum. Para interpolações criadas manualmente, <code class="xref py py-attr docutils literal notranslate"><span class="pre">expression</span></code> é a string arbitrária fornecida ao construir a instância de interpolação.</p>
+<p class="translated">Recomendamos usar expressões Python válidas ou a string vazia para o campo <code class="docutils literal notranslate"><span class="pre">expression</span></code> de instâncias <code class="xref py py-class docutils literal notranslate"><span class="pre">Interpolation</span></code> criadas manualmente, embora isso não seja imposto em tempo de execução.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="sa">t</span><span class="s1">'</span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="si">}</span><span class="s1">'</span><span class="o">.</span><span class="n">interpolations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">expression</span>
+<span class="go">'1 + 2'</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="string.templatelib.Interpolation.conversion">
+<span class="sig-name descname"><span class="pre">conversion</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="typing.html#typing.Literal" title="typing.Literal"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'a'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'r'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'s'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../builtins/constants.html#None" title="None"><span class="pre">None</span></a></em><a class="headerlink" href="#string.templatelib.Interpolation.conversion" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A conversão a ser aplicada ao valor, ou <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<p class="translated">O <code class="xref py py-attr docutils literal notranslate"><span class="pre">conversion</span></code> é a conversão opcional a ser aplicada ao valor:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="sa">t</span><span class="s1">'</span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="si">!a}</span><span class="s1">'</span><span class="o">.</span><span class="n">interpolations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">conversion</span>
+<span class="go">'a'</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Ao contrário das f-strings, onde as conversões são aplicadas automaticamente, o comportamento esperado com t-strings é que o código que <em>processa</em> o <code class="xref py py-class docutils literal notranslate"><span class="pre">Template</span></code> decidirá como interpretar e se aplicará o <code class="xref py py-attr docutils literal notranslate"><span class="pre">conversion</span></code>. Por conveniência, a função <a class="reference internal" href="#string.templatelib.convert" title="string.templatelib.convert"><code class="xref py py-func docutils literal notranslate"><span class="pre">convert()</span></code></a> pode ser usada para imitar a semântica de conversão de f-strings.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="string.templatelib.Interpolation.format_spec">
+<span class="sig-name descname"><span class="pre">format_spec</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><span class="pre">str</span></a></em><a class="headerlink" href="#string.templatelib.Interpolation.format_spec" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A especificação de formato a ser aplicada ao valor.</p>
+<p class="translated">O <code class="xref py py-attr docutils literal notranslate"><span class="pre">format_spec</span></code> é uma string arbitrária opcional usada como especificação de formato para apresentar o valor:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="sa">t</span><span class="s1">'</span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="o">.</span><span class="n">interpolations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">format_spec</span>
+<span class="go">'.2f'</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Ao contrário das f-strings, onde as especificações de formato são aplicadas automaticamente por meio do protocolo <a class="reference internal" href="../builtins/functions.html#format" title="format"><code class="xref py py-func docutils literal notranslate"><span class="pre">format()</span></code></a>, o comportamento esperado com t-strings é que o código que <em>processa</em> a interpolação decida como interpretar e se a especificação de formato deve ser aplicada. Como resultado, os valores <code class="xref py py-attr docutils literal notranslate"><span class="pre">format_spec</span></code> em interpolações podem ser strings arbitrárias, incluindo aquelas que não estão em conformidade com o protocolo de <code class="xref py py-func docutils literal notranslate"><span class="pre">format()</span></code>.</p>
+</div>
+</dd></dl>
+
+<p class="translated rubric">Métodos</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="string.templatelib.Interpolation.__new__">
+<span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../builtins/functions.html#object" title="object"><span class="pre">object</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">conversion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="typing.html#typing.Literal" title="typing.Literal"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'a'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'r'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'s'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../builtins/constants.html#None" title="None"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_spec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#string.templatelib.Interpolation.__new__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cria um novo objeto <code class="xref py py-class docutils literal notranslate"><span class="pre">Interpolation</span></code> a partir de partes do componente.</p>
+<dl class="field-list simple">
+<dt class="field-odd untranslated">Parâmetros<span class="colon">:</span></dt>
+<dd class="field-odd untranslated"><ul class="simple">
+<li><p><strong>value</strong> – O resultado avaliado e dentro do escopo da interpolação.</p></li>
+<li><p><strong>expression</strong> – O texto de uma expressão Python válida ou uma string vazia.</p></li>
+<li><p><strong>conversion</strong> – A <a class="reference internal" href="string.html#formatstrings"><span class="std std-ref">conversão</span></a> a ser usada, uma entre <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">'a'</span></code>, <code class="docutils literal notranslate"><span class="pre">'r'</span></code> ou <code class="docutils literal notranslate"><span class="pre">'s'</span></code>.</p></li>
+<li><p><strong>format_spec</strong> – Uma string arbitrária opcional usada como <a class="reference internal" href="string.html#formatspec"><span class="std std-ref">especificação de formato</span></a> para apresentar o valor.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="helper-functions">
+<h2 class="translated">Funções auxiliares<a class="headerlink" href="#helper-functions" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="string.templatelib.convert">
+<span class="sig-prename descclassname"><span class="pre">string.templatelib.</span></span><span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">conversion</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#string.templatelib.convert" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Aplica a semântica de <a class="reference internal" href="string.html#formatstrings-conversion"><span class="std std-ref">conversão</span></a> de literal de string formatada ao objeto <em>obj</em> fornecido. Isso é frequentemente útil para lógica de processamento de string template personalizada.</p>
+<p class="translated">Atualmente, há três sinalizadores de conversão suportados:</p>
+<ul class="simple">
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">'s'</span></code> que chama <a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><code class="xref py py-func docutils literal notranslate"><span class="pre">str()</span></code></a> no valor (como <code class="docutils literal notranslate"><span class="pre">!s</span></code>),</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">'r'</span></code> que chama <a class="reference internal" href="../builtins/functions.html#repr" title="repr"><code class="xref py py-func docutils literal notranslate"><span class="pre">repr()</span></code></a> (como <code class="docutils literal notranslate"><span class="pre">!r</span></code>) e</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">'a'</span></code> que chama <a class="reference internal" href="../builtins/functions.html#ascii" title="ascii"><code class="xref py py-func docutils literal notranslate"><span class="pre">ascii()</span></code></a> (como <code class="docutils literal notranslate"><span class="pre">!a</span></code>).</p></li>
+</ul>
+<p class="translated">Se o sinalizador de conversão é <code class="docutils literal notranslate"><span class="pre">None</span></code>, <em>obj</em> é retornado sem alterações.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">string.templatelib</span></code> — Suporte para literais de string template</a><ul>
+<li><a class="reference internal" href="#template-strings">Strings template</a></li>
+<li><a class="reference internal" href="#types">Tipos</a></li>
+<li><a class="reference internal" href="#helper-functions">Funções auxiliares</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="string.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">string</span></code> — Operações comuns de strings</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="re.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">re</span></code> — Operações com expressões regulares</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/string.templatelib.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/string.templatelib.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/string.templatelib.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="re.html" title="re — Operações com expressões regulares"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="string.html" title="string — Operações comuns de strings"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="text.html" >Serviços de Processamento de Texto</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">string.templatelib</span></code> — Suporte para literais de string template</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

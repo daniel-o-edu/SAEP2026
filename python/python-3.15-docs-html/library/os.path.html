@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="os.path — Manipulações comuns de nomes de caminhos" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/os.path.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/genericpath.py, Lib/posixpath.py(para POSIX) e Lib/ntpath.py(para Windows). Este módulo implementa algumas funções úteis em nomes de caminho. Para ler ou escrever arquivos veja op..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_os.path_6c133fb0.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/genericpath.py, Lib/posixpath.py(para POSIX) e Lib/ntpath.py(para Windows). Este módulo implementa algumas funções úteis em nomes de caminho. Para ler ou escrever arquivos veja op..." />
+<meta name="description" content="Código-fonte: Lib/genericpath.py, Lib/posixpath.py(para POSIX) e Lib/ntpath.py(para Windows). Este módulo implementa algumas funções úteis em nomes de caminho. Para ler ou escrever arquivos veja op..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>os.path — Manipulações comuns de nomes de caminhos &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="stat — Interpretando resultados de stat()" href="stat.html" />
+    <link rel="prev" title="pathlib — Caminhos do sistema de arquivos orientados a objetos" href="pathlib.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/os.path.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="pathlib.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pathlib</span></code> — Caminhos do sistema de arquivos orientados a objetos</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="stat.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stat</span></code> — Interpretando resultados de <code class="xref py py-func docutils literal notranslate"><span class="pre">stat()</span></code></a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/os.path.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/os.path.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/os.path.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="stat.html" title="stat — Interpretando resultados de stat()"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="pathlib.html" title="pathlib — Caminhos do sistema de arquivos orientados a objetos"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="filesys.html" accesskey="U">Acesso a arquivos e diretórios</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">os.path</span></code> — Manipulações comuns de nomes de caminhos</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-os.path">
+<span id="os-path-common-pathname-manipulations"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">os.path</span></code> — Manipulações comuns de nomes de caminhos<a class="headerlink" href="#module-os.path" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/genericpath.py">Lib/genericpath.py</a>, <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/posixpath.py">Lib/posixpath.py</a> (para POSIX) e <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/ntpath.py">Lib/ntpath.py</a> (para Windows).</p>
+<hr class="docutils" id="index-0" />
+<p class="translated">Este módulo implementa algumas funções úteis em nomes de caminho. Para ler ou escrever arquivos veja <a class="reference internal" href="../builtins/functions.html#open" title="open"><code class="xref py py-func docutils literal notranslate"><span class="pre">open()</span></code></a>, e para acessar o sistema de arquivos veja o módulo <a class="reference internal" href="os.html#module-os" title="os: Miscellaneous operating system interfaces."><code class="xref py py-mod docutils literal notranslate"><span class="pre">os</span></code></a>. Os parâmetros de caminho podem ser passados como strings, ou bytes, ou qualquer objeto que implemente o protocolo <a class="reference internal" href="os.html#os.PathLike" title="os.PathLike"><code class="xref py py-class docutils literal notranslate"><span class="pre">os.PathLike</span></code></a>.</p>
+<p class="translated">Ao contrário de um shell Unix, Python não faz nenhuma expansão <em>automática</em> de caminho. Funções como <a class="reference internal" href="#os.path.expanduser" title="os.path.expanduser"><code class="xref py py-func docutils literal notranslate"><span class="pre">expanduser()</span></code></a> e <a class="reference internal" href="#os.path.expandvars" title="os.path.expandvars"><code class="xref py py-func docutils literal notranslate"><span class="pre">expandvars()</span></code></a> podem ser invocadas explicitamente quando uma aplicação deseja uma expansão de caminho no estilo do shell. (Veja também o módulo <a class="reference internal" href="glob.html#module-glob" title="glob: Unix shell style pathname pattern expansion."><code class="xref py py-mod docutils literal notranslate"><span class="pre">glob</span></code></a>.)</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<p class="translated">O módulo <a class="reference internal" href="pathlib.html#module-pathlib" title="pathlib: Object-oriented filesystem paths"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pathlib</span></code></a> oferece objetos de caminho de alto nível.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Todas essas funções aceitam apenas bytes ou apenas objetos de string como seus parâmetros. O resultado é um objeto do mesmo tipo, se um caminho ou nome de arquivo for retornado.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="untranslated">Since different operating systems have different path name conventions, there
+are several versions of this module in the standard library.  The
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">os.path</span></code> module is always the path module suitable for the operating
+system Python is running on, and therefore usable for local paths.  However,
+you can also import and use the individual modules if you want to manipulate
+a path that is <em>always</em> in one of the different formats.  They all have the
+same interface:</p>
+<ul class="simple">
+<li><p class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">posixpath</span></code> para caminhos no estilo UNIX</p></li>
+<li><p class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ntpath</span></code> para caminhos do Windows</p></li>
+</ul>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.8: </span><a class="reference internal" href="#os.path.exists" title="os.path.exists"><code class="xref py py-func docutils literal notranslate"><span class="pre">exists()</span></code></a>, <a class="reference internal" href="#os.path.lexists" title="os.path.lexists"><code class="xref py py-func docutils literal notranslate"><span class="pre">lexists()</span></code></a>, <a class="reference internal" href="#os.path.isdir" title="os.path.isdir"><code class="xref py py-func docutils literal notranslate"><span class="pre">isdir()</span></code></a>, <a class="reference internal" href="#os.path.isfile" title="os.path.isfile"><code class="xref py py-func docutils literal notranslate"><span class="pre">isfile()</span></code></a>, <a class="reference internal" href="#os.path.islink" title="os.path.islink"><code class="xref py py-func docutils literal notranslate"><span class="pre">islink()</span></code></a> e <a class="reference internal" href="#os.path.ismount" title="os.path.ismount"><code class="xref py py-func docutils literal notranslate"><span class="pre">ismount()</span></code></a> agora retornam <code class="docutils literal notranslate"><span class="pre">False</span></code> em vez de levantar uma exceção para caminhos que contêm caracteres ou bytes não representáveis no nível de sistema de operacional.</p>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.abspath">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">abspath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.abspath" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Return a normalized absolutized version of the pathname <em>path</em>. On most
+platforms, this is equivalent to calling <code class="docutils literal notranslate"><span class="pre">normpath(join(os.getcwd(),</span> <span class="pre">path))</span></code>.</p>
+<p class="untranslated">On Windows the path is normalized by the operating system,
+therefore the result can differ from <code class="docutils literal notranslate"><span class="pre">normpath(join(os.getcwd(),</span> <span class="pre">path))</span></code>.
+A drive-relative path is resolved against the current directory
+of the specified drive, and the drive letter is capitalized.
+Trailing dots and spaces are stripped.
+For example:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">'c:spam'</span><span class="p">)</span>
+<span class="go">'C:\\Temp\\spam'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">'c:/temp/spam. . .'</span><span class="p">)</span>
+<span class="go">'c:\\temp\\spam'</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<p class="untranslated"><a class="reference internal" href="#os.path.join" title="os.path.join"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.path.join()</span></code></a> and <a class="reference internal" href="#os.path.normpath" title="os.path.normpath"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.path.normpath()</span></code></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.basename">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">basename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.basename" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o nome base do caminho <em>path</em>. Este é o segundo elemento do par retornado pela passagem de <em>path</em> para a função <a class="reference internal" href="#os.path.split" title="os.path.split"><code class="xref py py-func docutils literal notranslate"><span class="pre">split()</span></code></a>. Observe que o resultado desta função é diferente do programa Unix <strong class="program">basename</strong>; onde <strong class="program">basename</strong> para <code class="docutils literal notranslate"><span class="pre">'/foo/bar/'</span></code> retorna <code class="docutils literal notranslate"><span class="pre">'bar'</span></code>, a função <a class="reference internal" href="#os.path.basename" title="os.path.basename"><code class="xref py py-func docutils literal notranslate"><span class="pre">basename()</span></code></a> retorna uma string vazia (<code class="docutils literal notranslate"><span class="pre">''</span></code>).</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.commonpath">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">commonpath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paths</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.commonpath" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o subcaminho comum mais longo de cada nome de caminho no iterável <em>paths</em>. Levanta <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> se <em>paths</em> contiverem nomes de caminho absolutos e relativos, os <em>paths</em> estiverem em unidades diferentes ou se <em>paths</em> estiverem vazios. Ao contrário de <a class="reference internal" href="#os.path.commonprefix" title="os.path.commonprefix"><code class="xref py py-func docutils literal notranslate"><span class="pre">commonprefix()</span></code></a>, retorna um caminho válido.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.5.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita uma sequência de <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objetos caminho ou similares</span></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>Qualquer iterável agora pode ser passado, em vez de apenas sequências.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.commonprefix">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">commonprefix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.commonprefix" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Return the longest string prefix (taken character-by-character) that is a
+prefix of all strings in <em>list</em>.  If <em>list</em> is empty, return the empty string
+(<code class="docutils literal notranslate"><span class="pre">''</span></code>).</p>
+<div class="admonition warning">
+<p class="admonition-title">Aviso</p>
+<p class="untranslated">This function may return invalid paths because it works a
+character at a time.
+If you need a <strong>common path prefix</strong>, then the algorithm
+implemented in this function is not secure. Use
+<a class="reference internal" href="#os.path.commonpath" title="os.path.commonpath"><code class="xref py py-func docutils literal notranslate"><span class="pre">commonpath()</span></code></a> for finding a common path prefix.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">commonprefix</span><span class="p">([</span><span class="s1">'/usr/lib'</span><span class="p">,</span> <span class="s1">'/usr/local/lib'</span><span class="p">])</span>
+<span class="go">'/usr/l'</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">commonpath</span><span class="p">([</span><span class="s1">'/usr/lib'</span><span class="p">,</span> <span class="s1">'/usr/local/lib'</span><span class="p">])</span>
+<span class="go">'/usr'</span>
+</pre></div>
+</div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Descontinuado desde a versão 3.15: </span>Deprecated in favor of <a class="reference internal" href="#os.path.commonpath" title="os.path.commonpath"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.path.commonpath()</span></code></a> for path prefixes.
+The <code class="xref py py-func docutils literal notranslate"><span class="pre">os.path.commonprefix()</span></code> function is being deprecated due to
+having a misleading name and module. The function is not safe to use for
+path prefixes despite being included in a module about path manipulation,
+meaning it is easy to accidentally introduce path traversal
+vulnerabilities into Python programs by using this function.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.dirname">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">dirname</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.dirname" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o nome do diretório do nome de caminho <em>path</em>. Este é o primeiro elemento do par retornado passando <em>path</em> para a função <a class="reference internal" href="#os.path.split" title="os.path.split"><code class="xref py py-func docutils literal notranslate"><span class="pre">split()</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.exists">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.exists" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se <em>path</em> se referir a um caminho existente ou um descritor de arquivo aberto. Retorna <code class="docutils literal notranslate"><span class="pre">False</span></code> para links simbólicos quebrados. Em algumas plataformas, esta função pode retornar <code class="docutils literal notranslate"><span class="pre">False</span></code> se a permissão não for concedida para executar <a class="reference internal" href="os.html#os.stat" title="os.stat"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.stat()</span></code></a> no arquivo solicitado, mesmo se o <em>path</em> existir fisicamente.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span><em>path</em> agora pode ser um inteiro: <code class="docutils literal notranslate"><span class="pre">True</span></code> é retornado se for um descritor de arquivo aberto, <code class="docutils literal notranslate"><span class="pre">False</span></code> caso contrário.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.lexists">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">lexists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.lexists" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se <em>path</em> se referir a um caminho existente, incluindo links simbólicos quebrados. Equivalente a <a class="reference internal" href="#os.path.exists" title="os.path.exists"><code class="xref py py-func docutils literal notranslate"><span class="pre">exists()</span></code></a> em plataformas sem <a class="reference internal" href="os.html#os.lstat" title="os.lstat"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.lstat()</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function" id="index-1">
+<dt class="sig sig-object py" id="os.path.expanduser">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">expanduser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.expanduser" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">No Unix e no Windows, retorna o argumento com um componente inicial de <code class="docutils literal notranslate"><span class="pre">~</span></code> ou <code class="docutils literal notranslate"><span class="pre">~user</span></code> substituído pelo diretório inicial daquele usuário <em>user</em>.</p>
+<p class="translated" id="index-2">No Unix, um <code class="docutils literal notranslate"><span class="pre">~</span></code> no início é substituído pela variável de ambiente <span class="target" id="index-16"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">HOME</span></code> se estiver definida; caso contrário, o diretório pessoal do usuário atual é procurado no diretório de senha através do módulo embutido <a class="reference internal" href="pwd.html#module-pwd" title="pwd: The password database (getpwnam() and friends)."><code class="xref py py-mod docutils literal notranslate"><span class="pre">pwd</span></code></a>. Um <code class="docutils literal notranslate"><span class="pre">~user</span></code> no início é procurado diretamente no diretório de senhas.</p>
+<p class="translated">No Windows, <span class="target" id="index-17"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">USERPROFILE</span></code> será usada se definida; caso contrário, uma combinação de <span class="target" id="index-18"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">HOMEPATH</span></code> e <span class="target" id="index-19"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">HOMEDRIVE</span></code> será usada. Um <code class="docutils literal notranslate"><span class="pre">~user</span></code> inicial é tratado verificando se o último componente do diretório home do usuário atual corresponde a <span class="target" id="index-20"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">USERNAME</span></code>, e substituindo-o se for o caso.</p>
+<p class="translated">Se a expansão falhar ou se o caminho não começar com um til, o caminho será retornado inalterado.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.8: </span>Não usa mais <span class="target" id="index-21"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">HOME</span></code> no Windows.</p>
+</div>
+</dd></dl>
+
+<dl class="py function" id="index-9">
+<dt class="sig sig-object py" id="os.path.expandvars">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">expandvars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.expandvars" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o argumento com as variáveis de ambiente expandidas. Substrings da forma <code class="docutils literal notranslate"><span class="pre">$name</span></code> ou <code class="docutils literal notranslate"><span class="pre">${name}</span></code> são substituídas pelo valor da variável de ambiente <em>name</em>. Nomes de variáveis malformados e referências a variáveis não existentes permanecem inalterados.</p>
+<p class="translated">No Windows, expansões <code class="docutils literal notranslate"><span class="pre">%name%</span></code> são suportadas juntamente a <code class="docutils literal notranslate"><span class="pre">$name</span></code> e <code class="docutils literal notranslate"><span class="pre">${name}</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.getatime">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">getatime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.getatime" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna a hora do último acesso de <em>path</em>. O valor de retorno é um número de ponto flutuante dando o número de segundos desde a Era Unix (veja o módulo <a class="reference internal" href="time.html#module-time" title="time: Time access and conversions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">time</span></code></a>). Levanta <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> se o arquivo não existe ou está inacessível.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.getmtime">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">getmtime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.getmtime" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna a hora da última modificação de <em>path</em>. O valor de retorno é um número de ponto flutuante dando o número de segundos desde a Era Unix (veja o módulo <a class="reference internal" href="time.html#module-time" title="time: Time access and conversions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">time</span></code></a>). Levanta <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> se o arquivo não existe ou está inacessível.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.getctime">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">getctime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.getctime" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o ctime do sistema que, em alguns sistemas (como Unix) é a hora da última alteração de metadados, e, em outros (como Windows), é a hora de criação de <em>path</em>. O valor de retorno é um número que fornece o número de segundos desde a Era Unix (veja o módulo <a class="reference internal" href="time.html#module-time" title="time: Time access and conversions."><code class="xref py py-mod docutils literal notranslate"><span class="pre">time</span></code></a>). Levanta <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> se o arquivo não existe ou está inacessível.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.getsize">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">getsize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.getsize" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o tamanho, em bytes, de <em>path</em>. Levanta <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> se o arquivo não existe ou está inacessível.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.isabs">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">isabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.isabs" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se <em>path</em> for um nome de caminho absoluto. No Unix, isso significa que começa com uma barra, no Windows começa com duas (contra)barras ou uma letra de unidade, caractere de dois pontos e (contra)barra juntos.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<p class="untranslated"><a class="reference internal" href="#os.path.abspath" title="os.path.abspath"><code class="xref py py-func docutils literal notranslate"><span class="pre">abspath()</span></code></a></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>No Windows, retorna <code class="docutils literal notranslate"><span class="pre">False</span></code> se o caminho fornecido começar com exatamente uma (contra)barra.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.isfile">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">isfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.isfile" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se <em>path</em> for um arquivo regular <a class="reference internal" href="#os.path.exists" title="os.path.exists"><code class="xref py py-func docutils literal notranslate"><span class="pre">existente</span></code></a>. Isso segue links simbólicos, então <a class="reference internal" href="#os.path.islink" title="os.path.islink"><code class="xref py py-func docutils literal notranslate"><span class="pre">islink()</span></code></a> e <a class="reference internal" href="#os.path.isfile" title="os.path.isfile"><code class="xref py py-func docutils literal notranslate"><span class="pre">isfile()</span></code></a> podem ser verdadeiros para o mesmo caminho.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.isdir">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">isdir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.isdir" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se <em>path</em> for um diretório <a class="reference internal" href="#os.path.exists" title="os.path.exists"><code class="xref py py-func docutils literal notranslate"><span class="pre">existente</span></code></a>. Isso segue links simbólicos, então <a class="reference internal" href="#os.path.islink" title="os.path.islink"><code class="xref py py-func docutils literal notranslate"><span class="pre">islink()</span></code></a> e <a class="reference internal" href="#os.path.isdir" title="os.path.isdir"><code class="xref py py-func docutils literal notranslate"><span class="pre">isdir()</span></code></a> podem ser verdadeiros para o mesmo caminho.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.isjunction">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">isjunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.isjunction" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se <em>path</em> se referir a uma entrada de diretório <a class="reference internal" href="#os.path.lexists" title="os.path.lexists"><code class="xref py py-func docutils literal notranslate"><span class="pre">existente</span></code></a> que é uma junção. Sempre retorna <code class="docutils literal notranslate"><span class="pre">False</span></code> se junções não forem suportados na plataforma atual.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.12.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.islink">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">islink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.islink" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se <em>path</em> se referir a uma entrada de diretório <a class="reference internal" href="#os.path.exists" title="os.path.exists"><code class="xref py py-func docutils literal notranslate"><span class="pre">existente</span></code></a> que é um link simbólico. Sempre <code class="docutils literal notranslate"><span class="pre">False</span></code> se links simbólicos não forem suportados pelo tempo de execução Python.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.ismount">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">ismount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.ismount" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se o nome de caminho <em>path</em> for um <em class="dfn">ponto de montagem</em>: um ponto em um sistema de arquivos onde um sistema de arquivos diferente foi montado. No POSIX, a função verifica se o pai de <em>path</em>, <code class="file docutils literal notranslate"><em><span class="pre">path</span></em><span class="pre">/..</span></code>, está em um dispositivo diferente de <em>path</em>, ou se <code class="file docutils literal notranslate"><em><span class="pre">path</span></em><span class="pre">/..</span></code> e <em>path</em> apontam para o mesmo nó-i no mesmo dispositivo – isso deve detectar pontos de montagem para todas as variantes Unix e POSIX. Não é capaz de detectar confiavelmente montagens bind no mesmo sistema de arquivos. Em sistemas Linux, sempre vai retornar <code class="docutils literal notranslate"><span class="pre">True</span></code> para subvolumes btrfs, mesmo se eles não forem pontos de montagem. No Windows, uma raiz de letra de unidade e um UNC de compartilhamento são sempre pontos de montagem e, para qualquer outro caminho, <code class="docutils literal notranslate"><span class="pre">GetVolumePathName</span></code> é chamado para ver se é diferente do caminho de entrada.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.4: </span>Adicionado suporte para detecção de pontos de montagem não raiz no Windows.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.isdevdrive">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">isdevdrive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.isdevdrive" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se o nome do caminho <em>path</em> estiver localizado em um Windows Dev Drive. Um Dev Drive é otimizado para cenários de desenvolvedor e oferece desempenho mais rápido para leitura e gravação de arquivos. É recomendado para uso em código-fonte, diretórios de construção temporários, caches de pacotes e outras operações com uso intensivo de ES.</p>
+<p class="translated">Pode levantar um erro para um caminho inválido, por exemplo, um sem uma unidade reconhecível, mas retorna <code class="docutils literal notranslate"><span class="pre">False</span></code> em plataformas que não provêm suporte a Dev Drives. Consulte <a class="reference external" href="https://learn.microsoft.com/windows/dev-drive/">a documentação do Windows</a> para obter informações sobre como habilitar e criar Dev Drives.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.12.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>A função já está disponível em todas as plataformas, e sempre retornará <code class="docutils literal notranslate"><span class="pre">False</span></code> naquelas que não possuem suporte para Dev Drives</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.isreserved">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">isreserved</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.isreserved" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se <em>path</em> for um caminho reservado no sistema atual.</p>
+<p class="translated">No Windows, os nomes de arquivos reservados incluem aqueles que terminam com espaço ou ponto; aqueles que contêm dois pontos (ou seja, fluxos de arquivos como “nome:fluxo”), caracteres curinga (ou seja, <code class="docutils literal notranslate"><span class="pre">'*?&quot;&lt;&gt;'</span></code>), encadeamento (pipe) ou caracteres de controle ASCII; bem como nomes de dispositivos DOS, como “NUL”, “CON”, “CONIN$”, “CONOUT$”, “AUX”, “PRN”, “COM1” e “LPT1”.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Esta função aproxima regras para caminhos reservados na maioria dos sistemas Windows. Essas regras mudam com o tempo em diversas versões do Windows. Esta função pode ser atualizada em versões futuras do Python à medida que as alterações nas regras se tornarem amplamente disponíveis.</p>
+</div>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Windows.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.13.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.join">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">join</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">paths</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.join" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Join one or more path segments intelligently.  The return value is the
+concatenation of <em>path</em> and all members of <em>*paths</em>, with exactly one
+directory separator following each non-empty part, except the last. That is,
+the result will only end in a separator if the last part is either empty or
+ends in a separator.</p>
+<p class="untranslated">If a segment is an absolute path (which on Windows requires both a drive and
+a root), then all previous segments are ignored and joining continues from the
+absolute path segment. On Linux, for example:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">'/home/foo'</span><span class="p">,</span> <span class="s1">'bar'</span><span class="p">)</span>
+<span class="go">'/home/foo/bar'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">'/home/foo'</span><span class="p">,</span> <span class="s1">'/home/bar'</span><span class="p">)</span>
+<span class="go">'/home/bar'</span>
+</pre></div>
+</div>
+<p class="untranslated">On Windows, the drive is not reset when a rooted path segment (e.g.,
+<code class="docutils literal notranslate"><span class="pre">r'\foo'</span></code>) is encountered. If a segment is on a different drive or is an
+absolute path, all previous segments are ignored and the drive is reset. For
+example:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">'c:</span><span class="se">\\</span><span class="s1">'</span><span class="p">,</span> <span class="s1">'foo'</span><span class="p">)</span>
+<span class="go">'c:\\foo'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">'c:</span><span class="se">\\</span><span class="s1">foo'</span><span class="p">,</span> <span class="s1">'d:</span><span class="se">\\</span><span class="s1">bar'</span><span class="p">)</span>
+<span class="go">'d:\\bar'</span>
+</pre></div>
+</div>
+<p class="untranslated">Note that since there is a current directory for each drive,
+<code class="docutils literal notranslate"><span class="pre">os.path.join(&quot;c:&quot;,</span> <span class="pre">&quot;foo&quot;)</span></code> represents a path relative to the current
+directory on drive <code class="file docutils literal notranslate"><span class="pre">C:</span></code> (<code class="file docutils literal notranslate"><span class="pre">c:foo</span></code>), not <code class="file docutils literal notranslate"><span class="pre">c:\foo</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a> para <em>path</em> e <em>paths</em>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.normcase">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">normcase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.normcase" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Normaliza o estado de letras maiúsculas/minúsculas de um nome de caminho. No Windows, converte todos os caracteres do nome do caminho em minúsculas e também converte barras normais em barras invertidas. Em outros sistemas operacionais, retorna o caminho inalterado.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.normpath">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">normpath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.normpath" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Normaliza um nome de caminho retirando separadores redundantes e referências de nível superior para que <code class="docutils literal notranslate"><span class="pre">A//B</span></code>, <code class="docutils literal notranslate"><span class="pre">A/B/</span></code>, <code class="docutils literal notranslate"><span class="pre">A/./B</span></code> e <code class="docutils literal notranslate"><span class="pre">A/foo/../B</span></code> todos se tornem <code class="docutils literal notranslate"><span class="pre">A/B</span></code>. Essa manipulação de string pode mudar o significado de um caminho que contém links simbólicos. No Windows, ele converte barras normais em barras invertidas. Para normalizar o estado de letras maiúsculas/minúsculas, use <a class="reference internal" href="#os.path.normcase" title="os.path.normcase"><code class="xref py py-func docutils literal notranslate"><span class="pre">normcase()</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Em sistemas POSIX, de acordo com <a class="reference external" href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap04.html#tag_04_13">IEEE Std 1003.1 2013 Edition; 4.13 Pathname Resolution</a>, se um nome de caminho começa com exatamente duas barras, o primeiro componente após os caracteres iniciais pode ser interpretado em um forma definida pela implementação, embora mais de dois caracteres iniciais devam ser tratados como um único caractere.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.realpath">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">realpath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.realpath" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Return the canonical path of the specified filename, eliminating any symbolic
+links encountered in the path (if they are supported by the operating
+system). On Windows, this function will also resolve MS-DOS (also called 8.3)
+style names such as <code class="docutils literal notranslate"><span class="pre">C:\\PROGRA~1</span></code> to <code class="docutils literal notranslate"><span class="pre">C:\\Program</span> <span class="pre">Files</span></code>.
+The returned path uses the case reported by the operating system,
+which can differ from the case of <em>path</em>,
+in particular the drive letter is capitalized.</p>
+<p class="translated">Por padrão, o caminho é avaliado até o primeiro componente que não existe, é um laço de link simbólico ou cuja avaliação levanta <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>. Todos esses componentes são anexados inalterados à parte existente do caminho.</p>
+<p class="translated">Alguns erros tratados dessa forma incluem “acesso negado”, “não é um diretório” ou “argumento inválido para função interna”. Assim, o caminho resultante pode estar ausente ou inacessível, ainda pode conter links ou laços e pode passar por diretórios não especificados.</p>
+<p class="translated">Esse comportamento pode ser modificado por argumentos nomeados:</p>
+<p class="untranslated">If <em>strict</em> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the first error encountered when evaluating the path is
+re-raised.
+In particular, <a class="reference internal" href="../builtins/exceptions.html#FileNotFoundError" title="FileNotFoundError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">FileNotFoundError</span></code></a> is raised if <em>path</em> does not exist,
+or another <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> if it is otherwise inaccessible.
+If <em>strict</em> is <a class="reference internal" href="#os.path.ALL_BUT_LAST" title="os.path.ALL_BUT_LAST"><code class="xref py py-data docutils literal notranslate"><span class="pre">ALL_BUT_LAST</span></code></a>, the last component of the path
+is allowed to be missing, but all other errors are raised.</p>
+<p class="translated">Se <em>strict</em> for <a class="reference internal" href="#os.path.ALLOW_MISSING" title="os.path.ALLOW_MISSING"><code class="xref py py-data docutils literal notranslate"><span class="pre">os.path.ALLOW_MISSING</span></code></a>, erros diferentes de <a class="reference internal" href="../builtins/exceptions.html#FileNotFoundError" title="FileNotFoundError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">FileNotFoundError</span></code></a> serão levantados novamente (como em <code class="docutils literal notranslate"><span class="pre">strict=True</span></code>). Portanto, o caminho retornado não conterá nenhum link simbólico, mas o arquivo nomeado e alguns de seus diretórios pais podem estar ausentes.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Esta função emula o procedimento do sistema operacional para tornar um caminho canônico, que difere ligeiramente entre o Windows e o UNIX  em relação a como links e componentes de caminho subsequentes interagem.</p>
+<p class="translated">As APIs do sistema operacional tornam os caminhos canônicos conforme necessário, portanto, normalmente não é necessário chamar esta função.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.8: </span>Links simbólicos e junções agora são resolvidos no Windows.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.10: </span>O parâmetro <em>strict</em> foi adicionado.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.15: </span>The <a class="reference internal" href="#os.path.ALL_BUT_LAST" title="os.path.ALL_BUT_LAST"><code class="xref py py-data docutils literal notranslate"><span class="pre">ALL_BUT_LAST</span></code></a> and <a class="reference internal" href="#os.path.ALLOW_MISSING" title="os.path.ALLOW_MISSING"><code class="xref py py-data docutils literal notranslate"><span class="pre">ALLOW_MISSING</span></code></a> values for
+the <em>strict</em> parameter was added.</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="os.path.ALL_BUT_LAST">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">ALL_BUT_LAST</span></span><a class="headerlink" href="#os.path.ALL_BUT_LAST" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Valor especial usado para o argumento <em>strict</em> em <a class="reference internal" href="#os.path.realpath" title="os.path.realpath"><code class="xref py py-func docutils literal notranslate"><span class="pre">realpath()</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.15.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="os.path.ALLOW_MISSING">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">ALLOW_MISSING</span></span><a class="headerlink" href="#os.path.ALLOW_MISSING" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Valor especial usado para o argumento <em>strict</em> em <a class="reference internal" href="#os.path.realpath" title="os.path.realpath"><code class="xref py py-func docutils literal notranslate"><span class="pre">realpath()</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.15.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.relpath">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">relpath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">os.curdir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.relpath" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um caminho de arquivo relativo a <em>caminho</em> do diretório atual ou de um diretório <em>start</em> opcional. Este é um cálculo de caminho: o sistema de arquivos não é acessado para confirmar a existência ou natureza de <em>path</em> ou <em>start</em>. No Windows, <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> é levantada quando <em>path</em> e <em>start</em> estão em unidades diferentes.</p>
+<p class="translated"><em>start</em> tem como padrão <a class="reference internal" href="os.html#os.curdir" title="os.curdir"><code class="xref py py-data docutils literal notranslate"><span class="pre">os.curdir</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.samefile">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">samefile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path2</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.samefile" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se ambos os argumentos de nome de caminho se referem ao mesmo arquivo ou diretório. Isso é determinado pelo número do dispositivo e número do nó-i e levanta uma exceção se uma chamada <a class="reference internal" href="os.html#os.stat" title="os.stat"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.stat()</span></code></a> em qualquer um dos caminhos falhar.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.2: </span>Adicionado suporte ao Windows.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.4: </span>O Windows agora usa a mesma implementação que todas as outras plataformas.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.sameopenfile">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">sameopenfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.sameopenfile" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se os descritores de arquivo <em>fp1</em> e <em>fp2</em> fazem referência ao mesmo arquivo.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.2: </span>Adicionado suporte ao Windows.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.samestat">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">samestat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stat1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stat2</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.samestat" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se as tuplas de estatísticas <em>stat1</em> e <em>stat2</em> fazem referência ao mesmo arquivo. Essas estruturas podem ter sido retornadas por <a class="reference internal" href="os.html#os.fstat" title="os.fstat"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.fstat()</span></code></a>, <a class="reference internal" href="os.html#os.lstat" title="os.lstat"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.lstat()</span></code></a> ou <a class="reference internal" href="os.html#os.stat" title="os.stat"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.stat()</span></code></a>. Esta função implementa a comparação subjacente usada por <a class="reference internal" href="#os.path.samefile" title="os.path.samefile"><code class="xref py py-func docutils literal notranslate"><span class="pre">samefile()</span></code></a> e <a class="reference internal" href="#os.path.sameopenfile" title="os.path.sameopenfile"><code class="xref py py-func docutils literal notranslate"><span class="pre">sameopenfile()</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.4: </span>Adicionado suporte ao Windows.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.split">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.split" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Split the pathname <em>path</em> into a pair, <code class="docutils literal notranslate"><span class="pre">(head,</span> <span class="pre">tail)</span></code> where <em>tail</em> is the
+last pathname component and <em>head</em> is everything leading up to that.  The
+<em>tail</em> part will never contain a slash; if <em>path</em> ends in a slash, <em>tail</em>
+will be empty.  If there is no slash in <em>path</em>, <em>head</em> will be empty.  If
+<em>path</em> is empty, both <em>head</em> and <em>tail</em> are empty.  Trailing slashes are
+stripped from <em>head</em> unless it is the root (one or more slashes only).  In
+all cases, <code class="docutils literal notranslate"><span class="pre">join(head,</span> <span class="pre">tail)</span></code> returns a path to the same location as <em>path</em>
+(but the strings may differ).  Also see the functions <a class="reference internal" href="#os.path.join" title="os.path.join"><code class="xref py py-func docutils literal notranslate"><span class="pre">join()</span></code></a>,
+<a class="reference internal" href="#os.path.dirname" title="os.path.dirname"><code class="xref py py-func docutils literal notranslate"><span class="pre">dirname()</span></code></a> and <a class="reference internal" href="#os.path.basename" title="os.path.basename"><code class="xref py py-func docutils literal notranslate"><span class="pre">basename()</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.splitdrive">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">splitdrive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.splitdrive" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Divide o nome do caminho <em>path</em> em um par <code class="docutils literal notranslate"><span class="pre">(unidade,</span> <span class="pre">rabo)</span></code> onde <em>unidade</em> é um ponto de montagem ou uma string vazia. Em sistemas que não usam especificações de unidade, <em>unidade</em> sempre será a string vazia. Em todos os casos, <code class="docutils literal notranslate"><span class="pre">unidade</span> <span class="pre">+</span> <span class="pre">rabo</span></code> será o mesmo que <em>path</em>.</p>
+<p class="translated">No Windows, divide um nome de caminho em unidade/ponto de compartilhamento UNC e caminho relativo.</p>
+<p class="translated">Se o caminho contiver uma letra de unidade, a unidade conterá tudo, incluindo os dois pontos:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">splitdrive</span><span class="p">(</span><span class="s2">"c:/dir"</span><span class="p">)</span>
+<span class="go">("c:", "/dir")</span>
+</pre></div>
+</div>
+<p class="translated">Se o caminho contiver um caminho UNC, a unidade conterá o nome do host e o compartilhamento:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">splitdrive</span><span class="p">(</span><span class="s2">"//host/computador/diretório"</span><span class="p">)</span>
+<span class="go">("//host/computador", "/diretório")</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.splitroot">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">splitroot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.splitroot" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Divide o nome de caminho <em>path</em> em uma tupla de 3 itens <code class="docutils literal notranslate"><span class="pre">(drive,</span> <span class="pre">root,</span> <span class="pre">tail)</span></code> onde <em>drive</em> é um nome de dispositivo ou ponto de montagem, <em>root</em> é uma string de separadores após a unidade e <em>tail</em> é tudo depois da raiz. Qualquer um desses itens pode ser uma string vazia. Em todos os casos, <code class="docutils literal notranslate"><span class="pre">drive</span> <span class="pre">+</span> <span class="pre">root</span> <span class="pre">+</span> <span class="pre">tail</span></code> será igual a <em>path</em>.</p>
+<p class="translated">Em sistemas POSIX, <em>drive</em> está sempre vazio. A <em>root</em> pode estar vazia (se <em>path</em> for relativo), uma única barra (se <em>path</em> for absoluto) ou duas barras (definidas pela implementação de acordo com <a class="reference external" href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap04.html#tag_04_13">IEEE Std 1003.1-2017; 4.13 Pathname Resolution</a>.) Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">splitroot</span><span class="p">(</span><span class="s1">'/home/sam'</span><span class="p">)</span>
+<span class="go">('', '/', 'home/sam')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">splitroot</span><span class="p">(</span><span class="s1">'//home/sam'</span><span class="p">)</span>
+<span class="go">('', '//', 'home/sam')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">splitroot</span><span class="p">(</span><span class="s1">'///home/sam'</span><span class="p">)</span>
+<span class="go">('', '/', '//home/sam')</span>
+</pre></div>
+</div>
+<p class="translated">No Windows, <em>drive</em> pode estar vazio, ser um nome de letra de unidade, um compartilhamento UNC ou um nome de dispositivo. <em>root</em> pode estar vazio, ser uma barra ou uma barra invertida. Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">splitroot</span><span class="p">(</span><span class="s1">'C:/Users/Sam'</span><span class="p">)</span>
+<span class="go">('C:', '/', 'Users/Sam')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">splitroot</span><span class="p">(</span><span class="s1">'//Server/Share/Users/Sam'</span><span class="p">)</span>
+<span class="go">('//Server/Share', '/', 'Users/Sam')</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.12.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="os.path.splitext">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">splitext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#os.path.splitext" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Divida o nome do caminho <em>path</em> em um par <code class="docutils literal notranslate"><span class="pre">(root,</span> <span class="pre">ext)</span></code> de modo que <code class="docutils literal notranslate"><span class="pre">root</span> <span class="pre">+</span> <span class="pre">ext</span> <span class="pre">==</span> <span class="pre">path</span></code>, e a extensão, <em>ext</em>, esteja vazia ou comece com um ponto e contenha no máximo um período.</p>
+<p class="translated">Se o caminho não contiver extensão, <em>ext</em> será <code class="docutils literal notranslate"><span class="pre">''</span></code>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">splitext</span><span class="p">(</span><span class="s1">'bar'</span><span class="p">)</span>
+<span class="go">('bar', '')</span>
+</pre></div>
+</div>
+<p class="translated">Se o caminho contiver uma extensão, <em>ext</em> será definido para esta extensão, incluindo o ponto inicial. Observe que os períodos anteriores serão ignorados:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">splitext</span><span class="p">(</span><span class="s1">'foo.bar.exe'</span><span class="p">)</span>
+<span class="go">('foo.bar', '.exe')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">splitext</span><span class="p">(</span><span class="s1">'/foo/bar.exe'</span><span class="p">)</span>
+<span class="go">('/foo/bar', '.exe')</span>
+</pre></div>
+</div>
+<p class="translated">Os períodos iniciais do último componente do caminho são considerados parte da raiz:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">splitext</span><span class="p">(</span><span class="s1">'.cshrc'</span><span class="p">)</span>
+<span class="go">('.cshrc', '')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">splitext</span><span class="p">(</span><span class="s1">'/foo/....jpg'</span><span class="p">)</span>
+<span class="go">('/foo/....jpg', '')</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>Aceita um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="os.path.supports_unicode_filenames">
+<span class="sig-prename descclassname"><span class="pre">os.path.</span></span><span class="sig-name descname"><span class="pre">supports_unicode_filenames</span></span><a class="headerlink" href="#os.path.supports_unicode_filenames" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">True</span></code> se strings Unicode arbitrárias podem ser usadas como nomes de arquivo (dentro das limitações impostas pelo sistema de arquivos).</p>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="pathlib.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pathlib</span></code> — Caminhos do sistema de arquivos orientados a objetos</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="stat.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stat</span></code> — Interpretando resultados de <code class="xref py py-func docutils literal notranslate"><span class="pre">stat()</span></code></a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/os.path.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/os.path.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/os.path.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="stat.html" title="stat — Interpretando resultados de stat()"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="pathlib.html" title="pathlib — Caminhos do sistema de arquivos orientados a objetos"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="filesys.html" >Acesso a arquivos e diretórios</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">os.path</span></code> — Manipulações comuns de nomes de caminhos</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

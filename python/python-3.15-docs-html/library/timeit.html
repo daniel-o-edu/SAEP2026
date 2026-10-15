@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="timeit — Mede o tempo de execução de pequenos trechos de código" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/timeit.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/timeit.py Este módulo fornece uma maneira simples de cronometrar pequenos trechos do código Python. Ele tem uma Interface de linha de comando e um chamável. Ele evita uma série de..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_timeit_067c743c.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/timeit.py Este módulo fornece uma maneira simples de cronometrar pequenos trechos do código Python. Ele tem uma Interface de linha de comando e um chamável. Ele evita uma série de..." />
+<meta name="description" content="Código-fonte: Lib/timeit.py Este módulo fornece uma maneira simples de cronometrar pequenos trechos do código Python. Ele tem uma Interface de linha de comando e um chamável. Ele evita uma série de..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>timeit — Mede o tempo de execução de pequenos trechos de código &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="trace — Rastreia ou acompanha a execução de instruções Python" href="trace.html" />
+    <link rel="prev" title="pstats — Statistics for profilers" href="pstats.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/timeit.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">timeit</span></code> — Mede o tempo de execução de pequenos trechos de código</a><ul>
+<li><a class="reference internal" href="#basic-examples">Basic examples</a></li>
+<li><a class="reference internal" href="#python-interface">Python interface</a></li>
+<li><a class="reference internal" href="#command-line-interface">Interface de linha de comando</a></li>
+<li><a class="reference internal" href="#examples">Exemplos</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="pstats.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pstats</span></code> — Statistics for profilers</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="trace.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">trace</span></code> — Rastreia ou acompanha a execução de instruções Python</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/timeit.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/timeit.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/timeit.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="trace.html" title="trace — Rastreia ou acompanha a execução de instruções Python"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="pstats.html" title="pstats — Statistics for profilers"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="debug.html" accesskey="U">Depuração e perfilamento</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">timeit</span></code> — Mede o tempo de execução de pequenos trechos de código</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-timeit">
+<span id="timeit-measure-execution-time-of-small-code-snippets"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">timeit</span></code> — Mede o tempo de execução de pequenos trechos de código<a class="headerlink" href="#module-timeit" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/timeit.py">Lib/timeit.py</a></p>
+<hr class="docutils" id="index-0" />
+<p class="translated">Este módulo fornece uma maneira simples de cronometrar pequenos trechos do código Python. Ele tem uma <a class="reference internal" href="#timeit-command-line-interface"><span class="std std-ref">Interface de linha de comando</span></a> e um <a class="reference internal" href="#python-interface"><span class="std std-ref">chamável</span></a>.  Ele evita uma série de armadilhas comuns para medir os tempos de execução de um script. Veja também o capítulo “Algorithms” de Tim Peters, na segunda edição do <em>Python Cookbook</em>, publicado pela O’Reilly.</p>
+<section id="basic-examples">
+<h2 class="untranslated">Basic examples<a class="headerlink" href="#basic-examples" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O exemplo a seguir mostra como a <a class="reference internal" href="#timeit-command-line-interface"><span class="std std-ref">Interface de linha de comando</span></a> pode ser usado para comparar três expressões diferentes:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>timeit<span class="w"> </span><span class="s2">"'-'.join(str(n) for n in range(100))"</span>
+<span class="go">10000 loops, best of 5: 30.2 usec per loop</span>
+<span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>timeit<span class="w"> </span><span class="s2">"'-'.join([str(n) for n in range(100)])"</span>
+<span class="go">10000 loops, best of 5: 27.5 usec per loop</span>
+<span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>timeit<span class="w"> </span><span class="s2">"'-'.join(map(str, range(100)))"</span>
+<span class="go">10000 loops, best of 5: 23.2 usec per loop</span>
+</pre></div>
+</div>
+<p class="translated">Isso pode ser obtido da interface <a class="reference internal" href="#python-interface"><span class="std std-ref">Python interface</span></a></p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">timeit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s1">'"-".join(str(n) for n in range(100))'</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="go">0.3018611848820001</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s1">'"-".join([str(n) for n in range(100)])'</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="go">0.2727368790656328</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s1">'"-".join(map(str, range(100)))'</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="go">0.23702679807320237</span>
+</pre></div>
+</div>
+<p class="translated">Um chamável também pode ser passado para a <a class="reference internal" href="#python-interface"><span class="std std-ref">Python interface</span></a>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="s2">"-"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))),</span> <span class="n">number</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="go">0.19665591977536678</span>
+</pre></div>
+</div>
+<p class="translated">Observe, entretanto, que <a class="reference internal" href="#timeit.timeit" title="timeit.timeit"><code class="xref py py-func docutils literal notranslate"><span class="pre">timeit()</span></code></a> determinará automaticamente o número de repetições somente quando a interface de linha de comando for usada. Na seção <a class="reference internal" href="#timeit-examples"><span class="std std-ref">Exemplos</span></a> você encontrará exemplos mais avançados.</p>
+</section>
+<section id="python-interface">
+<span id="id1"></span><h2 class="untranslated">Python interface<a class="headerlink" href="#python-interface" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Este módulo define três funções e uma classe pública:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="timeit.timeit">
+<span class="sig-prename descclassname"><span class="pre">timeit.</span></span><span class="sig-name descname"><span class="pre">timeit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stmt='pass'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setup='pass'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timer=&lt;default</span> <span class="pre">timer&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number=1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">globals=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeit.timeit" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cria uma instância de <a class="reference internal" href="#timeit.Timer" title="timeit.Timer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Timer</span></code></a> com o código de <em>setup</em> e a função <em>timer</em> função para executar o método <a class="reference internal" href="#timeit.Timer.timeit" title="timeit.Timer.timeit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">timeit()</span></code></a> com o total de execuções informado em <em>number</em>. O argumento opcional <em>globals</em> especifica um espaço de nomes no qual o código será executado.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.5: </span>O parâmetro opcional <em>globals</em> foi adicionado.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="timeit.repeat">
+<span class="sig-prename descclassname"><span class="pre">timeit.</span></span><span class="sig-name descname"><span class="pre">repeat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stmt='pass'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setup='pass'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timer=&lt;default</span> <span class="pre">timer&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat=5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number=1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">globals=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeit.repeat" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cria uma instância <a class="reference internal" href="#timeit.Timer" title="timeit.Timer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Timer</span></code></a> com a instrução fornecida, o código de <em>setup</em> e a função <em>timer</em> e para executar o método <a class="reference internal" href="#timeit.Timer.repeat" title="timeit.Timer.repeat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">repeat()</span></code></a> com o total de execuções informando em <em>repeat</em> e o <em>número</em> de execuções fornecidos. O argumento opcional <em>globals</em> especifica um espaço de nomes no qual executar o código.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.5: </span>O parâmetro opcional <em>globals</em> foi adicionado.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.7: </span>Valor padrão de <em>repetição</em> mudou de 3 para 5.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="timeit.default_timer">
+<span class="sig-prename descclassname"><span class="pre">timeit.</span></span><span class="sig-name descname"><span class="pre">default_timer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#timeit.default_timer" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O cronômetro padrão, que é sempre time.perf_counter(), retorna segundos com ponto flutuante. Uma alternativa, time.perf_counter_ns, retorna um inteiro em nanossegundos.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span><a class="reference internal" href="time.html#time.perf_counter" title="time.perf_counter"><code class="xref py py-func docutils literal notranslate"><span class="pre">time.perf_counter()</span></code></a> é o cronômetro padrão agora.</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="timeit.Timer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">timeit.</span></span><span class="sig-name descname"><span class="pre">Timer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stmt='pass'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setup='pass'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timer=&lt;timer</span> <span class="pre">function&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">globals=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeit.Timer" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Classe para cronometrar a velocidade de execução de pequenos trechos de código.</p>
+<p class="translated">O construtor recebe uma instrução a ser cronometrada, uma instrução adicional usada para configuração e uma função de timer. Ambas as instruções têm como padrão <code class="docutils literal notranslate"><span class="pre">'pass'</span></code>; a função de timer é dependente da plataforma (veja a string do documento do módulo). <em>stmt</em> e <em>setup</em> também podem conter múltiplas instruções separadas por <code class="docutils literal notranslate"><span class="pre">;</span></code> ou novas linhas, desde que não contenham literais de string multilinhas. A instrução será, por padrão, executada dentro do espaço de nomes do <em>timeit</em>; esse comportamento pode ser controlado passando um espaço de nomes para <em>globals</em>.</p>
+<p class="translated">Para medir o tempo de execução da primeira instrução use o método <a class="reference internal" href="#timeit.Timer.timeit" title="timeit.Timer.timeit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">timeit()</span></code></a>. Os métodos <a class="reference internal" href="#timeit.Timer.repeat" title="timeit.Timer.repeat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">repeat()</span></code></a> e <a class="reference internal" href="#timeit.Timer.autorange" title="timeit.Timer.autorange"><code class="xref py py-meth docutils literal notranslate"><span class="pre">autorange()</span></code></a> são convenientes para chamar <code class="xref py py-meth docutils literal notranslate"><span class="pre">timeit()</span></code> várias vezes.</p>
+<p class="translated">O tempo de execução de <em>setup</em> é excluído do tempo total de execução cronometrado.</p>
+<p class="translated">Os parâmetros <em>stmt</em> e <em>setup</em> também podem receber objetos que podem ser chamados sem argumentos. Isso incorporará chamadas a eles em uma função de timer que será executada por <a class="reference internal" href="#timeit.Timer.timeit" title="timeit.Timer.timeit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">timeit()</span></code></a>. Observe que a sobrecarga de temporização é um pouco maior neste caso por causa das chamadas de função extras.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.5: </span>O parâmetro opcional <em>globals</em> foi adicionado.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="timeit.Timer.timeit">
+<span class="sig-name descname"><span class="pre">timeit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeit.Timer.timeit" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Mede o tempo para a quantidade <em>number</em> de execuções da instrução principal. Isso executa a instrução setup uma vez e, em seguida, retorna o tempo necessário para executar a instrução principal várias vezes. O temporizador padrão retorna segundos como um float. O argumento é o número de vezes que o laço passa, com padrão de um milhão. A instrução principal, a instrução de configuração e a função de timer a ser usada são passadas para o construtor.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Por padrão, <a class="reference internal" href="#timeit.Timer.timeit" title="timeit.Timer.timeit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">timeit()</span></code></a> desativa temporariamente <a class="reference internal" href="../glossary.html#term-garbage-collection"><span class="xref std std-term">coleta de lixo</span></a> durante a temporização. A vantagem dessa abordagem é que ela torna temporizações independentes mais comparáveis. A desvantagem é que o GC pode ser um componente importante do desempenho da função que está sendo medida. Se for assim, o GC pode ser reativado como a primeira instrução na string <em>setup</em>. Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">timeit</span><span class="o">.</span><span class="n">Timer</span><span class="p">(</span><span class="s1">'for i in range(10): oct(i)'</span><span class="p">,</span> <span class="s1">'gc.enable()'</span><span class="p">)</span><span class="o">.</span><span class="n">timeit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="timeit.Timer.autorange">
+<span class="sig-name descname"><span class="pre">autorange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeit.Timer.autorange" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Determina automaticamente quantas vezes chamar <a class="reference internal" href="#timeit.Timer.timeit" title="timeit.Timer.timeit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">timeit()</span></code></a>.</p>
+<p class="untranslated">This is a convenience function that calls <a class="reference internal" href="#timeit.Timer.timeit" title="timeit.Timer.timeit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">timeit()</span></code></a> repeatedly
+so that the total time &gt;= <em>Timer.target_time</em> seconds, returning the eventual
+(number of loops, time taken for that number of loops). It calls
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">timeit()</span></code> with increasing numbers from the sequence 1, 2, 5,
+10, 20, 50, … until the time taken is at least <em>target_time</em> seconds.</p>
+<p class="translated">Se <em>callback</em> for fornecido e não for <code class="docutils literal notranslate"><span class="pre">None</span></code>, ele será chamado após cada tentativa e tem dois argumento: <code class="docutils literal notranslate"><span class="pre">callback(number,</span> <span class="pre">time_taken)</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.6.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.15: </span>The optional <em>target_time</em> parameter was added.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="timeit.Timer.repeat">
+<span class="sig-name descname"><span class="pre">repeat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repeat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeit.Timer.repeat" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Chama <a class="reference internal" href="#timeit.Timer.timeit" title="timeit.Timer.timeit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">timeit()</span></code></a> algumas vezes.</p>
+<p class="translated">Esse é um função de conveniência que chama o <a class="reference internal" href="#timeit.Timer.timeit" title="timeit.Timer.timeit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">timeit()</span></code></a> repetidamente e retorna uma lista de resultados.  O primeiro argumento especifica quantas vezes deve chamar o <code class="xref py py-meth docutils literal notranslate"><span class="pre">timeit()</span></code>.  O segundo argumento especifica o argumento <em>number</em> para <code class="xref py py-meth docutils literal notranslate"><span class="pre">timeit()</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">É tentador calcular a média e o desvio padrão do vetor de resultados e relatá-los. No entanto, isso não é muito útil. Em um caso típico, o menor valor fornece um limite inferior para a velocidade com que sua máquina pode executar o trecho de código fornecido; valores mais altos no vetor de resultados normalmente não são causados pela variabilidade na velocidade do Python, mas por outros processos que interferem na precisão do seu tempo. Portanto, o <a class="reference internal" href="../builtins/functions.html#min" title="min"><code class="xref py py-func docutils literal notranslate"><span class="pre">min()</span></code></a> do resultado é provavelmente o único número no qual você deve se interessar. Depois disso, você deve analisar o vetor inteiro e aplicar o bom senso em vez de estatística.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.7: </span>Valor padrão de <em>repetição</em> mudou de 3 para 5.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="timeit.Timer.print_exc">
+<span class="sig-name descname"><span class="pre">print_exc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeit.Timer.print_exc" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Função auxiliar para imprimir um traceback do código cronometrado.</p>
+<p class="translated">Uso típico:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">Timer</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>       <span class="c1"># fora do try/except</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="c1"># ou t.repeat(...)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="translated">A vantagem em relação ao traceback padrão é que as linhas de origem no modelo compilado serão exibidas.  O argumento opcional <em>file</em> direciona para onde o traceback é enviado; o padrão é <a class="reference internal" href="sys.html#sys.stderr" title="sys.stderr"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stderr</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="command-line-interface">
+<span id="timeit-command-line-interface"></span><h2 class="translated">Interface de linha de comando<a class="headerlink" href="#command-line-interface" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Quando chamado como um programa a partir da linha de comando, as seguintes opções estão disponíveis:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">timeit</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="n">U</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">S</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="n">instrução</span> <span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p class="translated">As seguintes opções são permitidas</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-timeit-n">
+<span id="cmdoption-timeit-number"></span><span class="sig-name descname"><span class="pre">-n</span></span><span class="sig-prename descclassname"> <span class="pre">N</span></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--number</span></span><span class="sig-prename descclassname"><span class="pre">=N</span></span><a class="headerlink" href="#cmdoption-timeit-n" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Quantas vezes deve executar ‘statement’</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-timeit-r">
+<span id="cmdoption-timeit-repeat"></span><span class="sig-name descname"><span class="pre">-r</span></span><span class="sig-prename descclassname"> <span class="pre">N</span></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--repeat</span></span><span class="sig-prename descclassname"><span class="pre">=N</span></span><a class="headerlink" href="#cmdoption-timeit-r" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Quantidade de vezes para repetir o cronômetro (o valor padrão é 5)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-timeit-s">
+<span id="cmdoption-timeit-setup"></span><span class="sig-name descname"><span class="pre">-s</span></span><span class="sig-prename descclassname"> <span class="pre">S</span></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--setup</span></span><span class="sig-prename descclassname"><span class="pre">=S</span></span><a class="headerlink" href="#cmdoption-timeit-s" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">instrução a ser executada apenas uma vez e quando iniciada (padrão <code class="docutils literal notranslate"><span class="pre">pass</span></code> )</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-timeit-p">
+<span id="cmdoption-timeit-process"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--process</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-timeit-p" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">mede apenas o tempo de processamento, e não o tempo total de execução, usando <a class="reference internal" href="time.html#time.process_time" title="time.process_time"><code class="xref py py-func docutils literal notranslate"><span class="pre">time.process_time()</span></code></a> em vez de <a class="reference internal" href="time.html#time.perf_counter" title="time.perf_counter"><code class="xref py py-func docutils literal notranslate"><span class="pre">time.perf_counter()</span></code></a>, que é o padrão</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-timeit-u">
+<span id="cmdoption-timeit-unit"></span><span class="sig-name descname"><span class="pre">-u</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--unit</span></span><span class="sig-prename descclassname"><span class="pre">=U</span></span><a class="headerlink" href="#cmdoption-timeit-u" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">especifique uma unidade de tempo para a saída do cronômetro; pode selecionar <code class="docutils literal notranslate"><span class="pre">nsec</span></code>, <code class="docutils literal notranslate"><span class="pre">usec</span></code>, <code class="docutils literal notranslate"><span class="pre">msec</span></code>, ou <code class="docutils literal notranslate"><span class="pre">sec</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-timeit-t">
+<span id="cmdoption-timeit-target-time"></span><span class="sig-name descname"><span class="pre">-t</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--target-time</span></span><span class="sig-prename descclassname"><span class="pre">=T</span></span><a class="headerlink" href="#cmdoption-timeit-t" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">if <a class="reference internal" href="#cmdoption-timeit-n"><code class="xref std std-option docutils literal notranslate"><span class="pre">--number</span></code></a> is 0, the code will run until it takes at
+least this many seconds (default: 0.2)</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.15.</span></p>
+</div>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-timeit-v">
+<span id="cmdoption-timeit-verbose"></span><span class="sig-name descname"><span class="pre">-v</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--verbose</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-timeit-v" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">imprime resultados brutos de tempo; repetir para obter mais precisão de dígitos</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-timeit-h">
+<span id="cmdoption-timeit-help"></span><span class="sig-name descname"><span class="pre">-h</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-timeit-h" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">imprime uma mensagem curta de uso e sai</p>
+</dd></dl>
+
+<p class="translated">Uma instrução multilinha pode ser fornecida especificando cada linha como um argumento de instrução separado; linhas indentadas são possíveis colocando um argumento entre aspas e usando espaços à esquerda. Múltiplas opções <a class="reference internal" href="#cmdoption-timeit-s"><code class="xref std std-option docutils literal notranslate"><span class="pre">-s</span></code></a> são tratadas de forma semelhante.</p>
+<p class="untranslated">If <a class="reference internal" href="#cmdoption-timeit-n"><code class="xref std std-option docutils literal notranslate"><span class="pre">-n</span></code></a> is not given, a suitable number of loops is calculated by trying
+increasing numbers from the sequence 1, 2, 5, 10, 20, 50, … until the total
+time is at least <a class="reference internal" href="#cmdoption-timeit-t"><code class="xref std std-option docutils literal notranslate"><span class="pre">--target-time</span></code></a> seconds (default: 0.2).</p>
+<p class="translated">As medições de <a class="reference internal" href="#timeit.default_timer" title="timeit.default_timer"><code class="xref py py-func docutils literal notranslate"><span class="pre">default_timer()</span></code></a> podem ser afetadas por outros programas em execução na mesma máquina, portanto, a melhor coisa a fazer quando uma cronometragem precisa é repeti-la algumas vezes e usar o melhor tempo. A opção <a class="reference internal" href="#cmdoption-timeit-r"><code class="xref std std-option docutils literal notranslate"><span class="pre">-r</span></code></a> é boa para isso; o padrão de 5 repetições provavelmente é suficiente na maioria dos casos. Você pode usar <a class="reference internal" href="time.html#time.process_time" title="time.process_time"><code class="xref py py-func docutils literal notranslate"><span class="pre">time.process_time()</span></code></a> para medir o tempo de CPU.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Há uma certa sobrecarga padrão associada à execução de uma instrução <em>pass</em>. O código aqui não tenta ocultá-lo, mas você deve estar ciente disso.  A sobrecarga padrão pode ser medida invocando pelo programa sem argumento, e pode ser diferente entre diferentes versões Python.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.15: </span>A saída é colorida por padrão e ela pode ser <a class="reference internal" href="../using/cmdline.html#using-on-controlling-color"><span class="std std-ref">controlada usando variáveis de ambiente</span></a>.</p>
+</div>
+</section>
+<section id="examples">
+<span id="timeit-examples"></span><h2 class="translated">Exemplos<a class="headerlink" href="#examples" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">É possível fornecer uma instrução de configuração que é executada apenas uma vez no início:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>timeit<span class="w"> </span>-s<span class="w"> </span><span class="s2">"text = 'sample string'; char = 'g'"</span><span class="w"> </span><span class="s2">"char in text"</span>
+<span class="go">5000000 loops, best of 5: 0.0877 usec per loop</span>
+<span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>timeit<span class="w"> </span>-s<span class="w"> </span><span class="s2">"text = 'sample string'; char = 'g'"</span><span class="w"> </span><span class="s2">"text.find(char)"</span>
+<span class="go">1000000 loops, best of 5: 0.342 usec per loop</span>
+</pre></div>
+</div>
+<p class="translated">Na saída, existem três campos. A contagem de laços, que informa quantas vezes o corpo da instrução foi executado por repetição do laço de temporização. A contagem de repetições (‘melhor de 5’) que informa quantas vezes o laço de temporização foi repetido e, finalmente, o tempo que o corpo da instrução levou, em média, na melhor repetição do laço de temporização. Ou seja, o tempo necessário para a repetição mais rápida dividido pela contagem de interações.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">timeit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s1">'char in text'</span><span class="p">,</span> <span class="n">setup</span><span class="o">=</span><span class="s1">'text = "sample string"; char = "g"'</span><span class="p">)</span>
+<span class="go">0.41440500499993504</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s1">'text.find(char)'</span><span class="p">,</span> <span class="n">setup</span><span class="o">=</span><span class="s1">'text = "sample string"; char = "g"'</span><span class="p">)</span>
+<span class="go">1.7246671520006203</span>
+</pre></div>
+</div>
+<p class="translated">O mesmo pode ser feito usando a classe <a class="reference internal" href="#timeit.Timer" title="timeit.Timer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Timer</span></code></a> e seus métodos:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">timeit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">Timer</span><span class="p">(</span><span class="s1">'char in text'</span><span class="p">,</span> <span class="n">setup</span><span class="o">=</span><span class="s1">'text = "sample string"; char = "g"'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">timeit</span><span class="p">()</span>
+<span class="go">0.3955516149999312</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">repeat</span><span class="p">()</span>
+<span class="go">[0.40183617287970225, 0.37027556854118704, 0.38344867356679524, 0.3712595970846668, 0.37866875250654886]</span>
+</pre></div>
+</div>
+<p class="translated">Os exemplos a seguir mostram como cronometrar expressões que contêm várias linhas. Aqui comparamos o custo de usar <a class="reference internal" href="../builtins/functions.html#hasattr" title="hasattr"><code class="xref py py-func docutils literal notranslate"><span class="pre">hasattr()</span></code></a> vs. <a class="reference internal" href="../reference/compound_stmts.html#try"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">try</span></code></a>/<a class="reference internal" href="../reference/compound_stmts.html#except"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">except</span></code></a> para testar atributos de objetos presentes e ausentes:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>timeit<span class="w"> </span><span class="s2">"try:"</span><span class="w"> </span><span class="s2">"  str.__bool__"</span><span class="w"> </span><span class="s2">"except AttributeError:"</span><span class="w"> </span><span class="s2">"  pass"</span>
+<span class="go">20000 loops, best of 5: 15.7 usec per loop</span>
+<span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>timeit<span class="w"> </span><span class="s2">"if hasattr(str, '__bool__'): pass"</span>
+<span class="go">50000 loops, best of 5: 4.26 usec per loop</span>
+
+<span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>timeit<span class="w"> </span><span class="s2">"try:"</span><span class="w"> </span><span class="s2">"  int.__bool__"</span><span class="w"> </span><span class="s2">"except AttributeError:"</span><span class="w"> </span><span class="s2">"  pass"</span>
+<span class="go">200000 loops, best of 5: 1.43 usec per loop</span>
+<span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>timeit<span class="w"> </span><span class="s2">"if hasattr(int, '__bool__'): pass"</span>
+<span class="go">100000 loops, best of 5: 2.23 usec per loop</span>
+</pre></div>
+</div>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">timeit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># atributo está em falta</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s2">"""</span><span class="se">\</span>
+<span class="gp">... </span><span class="s2">try:</span>
+<span class="gp">... </span><span class="s2">    str.__bool__</span>
+<span class="gp">... </span><span class="s2">except AttributeError:</span>
+<span class="gp">... </span><span class="s2">    pass</span>
+<span class="gp">... </span><span class="s2">"""</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="n">stmt</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+<span class="go">0.9138244460009446</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s2">"if hasattr(str, '__bool__'): pass"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="n">stmt</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+<span class="go">0.5829014980008651</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># atributo está presente</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s2">"""</span><span class="se">\</span>
+<span class="gp">... </span><span class="s2">try:</span>
+<span class="gp">... </span><span class="s2">    int.__bool__</span>
+<span class="gp">... </span><span class="s2">except AttributeError:</span>
+<span class="gp">... </span><span class="s2">    pass</span>
+<span class="gp">... </span><span class="s2">"""</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="n">stmt</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+<span class="go">0.04215312199994514</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s2">"if hasattr(int, '__bool__'): pass"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="n">stmt</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+<span class="go">0.08588060699912603</span>
+</pre></div>
+</div>
+<p class="translated">Para dar ao módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">timeit</span></code> acesso as funções que você definiu, você pode passar o parâmetro <em>setup</em>, que contém um instrução de importar:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">test</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Stupid test function"""</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)]</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">timeit</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">"test()"</span><span class="p">,</span> <span class="n">setup</span><span class="o">=</span><span class="s2">"from __main__ import test"</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="translated">Outra opção é passar <a class="reference internal" href="../builtins/functions.html#globals" title="globals"><code class="xref py py-func docutils literal notranslate"><span class="pre">globals()</span></code></a> para o parâmetro <em>globals</em>, o que fará com que o código seja executado em seu espaço de nomes global. Isso pode ser mais conveniente do que especificar individualmente imports:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">g</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">4</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">h</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">8</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">timeit</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s1">'[func(42) for func in (f,g,h)]'</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">()))</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">timeit</span></code> — Mede o tempo de execução de pequenos trechos de código</a><ul>
+<li><a class="reference internal" href="#basic-examples">Basic examples</a></li>
+<li><a class="reference internal" href="#python-interface">Python interface</a></li>
+<li><a class="reference internal" href="#command-line-interface">Interface de linha de comando</a></li>
+<li><a class="reference internal" href="#examples">Exemplos</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="pstats.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pstats</span></code> — Statistics for profilers</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="trace.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">trace</span></code> — Rastreia ou acompanha a execução de instruções Python</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/timeit.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/timeit.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/timeit.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="trace.html" title="trace — Rastreia ou acompanha a execução de instruções Python"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="pstats.html" title="pstats — Statistics for profilers"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="debug.html" >Depuração e perfilamento</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">timeit</span></code> — Mede o tempo de execução de pequenos trechos de código</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

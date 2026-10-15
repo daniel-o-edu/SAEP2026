@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="email.charset: Representando conjuntos de caracteres" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/email.charset.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/email/charset.py Este módulo faz parte da API de e-mail legada ( Compat32). Na nova API, apenas a tabela de apelidos é usada. O texto restante nesta seção é a documentação origina..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_email.charset_bcbb416a.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/email/charset.py Este módulo faz parte da API de e-mail legada ( Compat32). Na nova API, apenas a tabela de apelidos é usada. O texto restante nesta seção é a documentação origina..." />
+<meta name="description" content="Código-fonte: Lib/email/charset.py Este módulo faz parte da API de e-mail legada ( Compat32). Na nova API, apenas a tabela de apelidos é usada. O texto restante nesta seção é a documentação origina..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>email.charset: Representando conjuntos de caracteres &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="email.encoders: Codificadores" href="email.encoders.html" />
+    <link rel="prev" title="email.header: Internationalized headers" href="email.header.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/email.charset.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="email.header.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.header</span></code>: Internationalized headers</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="email.encoders.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.encoders</span></code>: Codificadores</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/email.charset.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/email.charset.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/email.charset.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="email.encoders.html" title="email.encoders: Codificadores"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="email.header.html" title="email.header: Internationalized headers"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="netdata.html" >Manuseio de Dados na Internet</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="email.html" accesskey="U"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code> — Um e-mail e um pacote MIME manipulável</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.charset</span></code>: Representando conjuntos de caracteres</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-email.charset">
+<span id="email-charset-representing-character-sets"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.charset</span></code>: Representando conjuntos de caracteres<a class="headerlink" href="#module-email.charset" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/email/charset.py">Lib/email/charset.py</a></p>
+<hr class="docutils" />
+<p class="translated">Este módulo faz parte da API de e-mail legada (<code class="docutils literal notranslate"><span class="pre">Compat32</span></code>). Na nova API, apenas a tabela de apelidos é usada.</p>
+<p class="translated">O texto restante nesta seção é a documentação original do módulo.</p>
+<p class="translated">Este módulo fornece uma classe <a class="reference internal" href="#email.charset.Charset" title="email.charset.Charset"><code class="xref py py-class docutils literal notranslate"><span class="pre">Charset</span></code></a> para representar conjuntos de caracteres e conversões de conjuntos de caracteres em mensagens de e-mail, bem como um registro de conjuntos de caracteres e vários métodos práticos para manipular esse registro. Instâncias de <code class="xref py py-class docutils literal notranslate"><span class="pre">Charset</span></code> são usadas em vários outros módulos do pacote <a class="reference internal" href="email.html#module-email" title="email: Package supporting the parsing, manipulating, and generating email messages."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code></a>.</p>
+<p class="translated">Importa esta classe do módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">email.charset</span></code>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="email.charset.Charset">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">email.charset.</span></span><span class="sig-name descname"><span class="pre">Charset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_charset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CHARSET</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.charset.Charset" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Mapeia conjuntos de caracteres para suas propriedades de e-mail.</p>
+<p class="translated">Esta classe fornece informações sobre os requisitos impostos ao e-mail para um conjunto de caracteres específico. Também fornece rotinas práticas para conversão entre conjuntos de caracteres, considerando a disponibilidade dos codecs aplicáveis. Dado um conjunto de caracteres, ela fará o possível para fornecer informações sobre como usá-lo em uma mensagem de e-mail de forma compatível com RFC.</p>
+<p class="translated">Certos conjuntos de caracteres devem ser codificados com quoted-printable ou base64 quando usados em cabeçalhos ou corpos de e-mail. Certos conjuntos de caracteres devem ser convertidos diretamente e não são permitidos em e-mails.</p>
+<p class="translated">O <em>input_charset</em> opcional é descrito abaixo; ele é sempre convertido para letras minúsculas. Após ser normalizado por apelido, ele também é usado como uma consulta no registro de conjuntos de caracteres para descobrir a codificação do cabeçalho, a codificação do corpo e o codec de conversão de saída a serem usados para o conjunto de caracteres. Por exemplo, se <em>input_charset</em> for <code class="docutils literal notranslate"><span class="pre">iso-8859-1</span></code>, os cabeçalhos e corpos serão codificados usando quoted-printable e nenhum codec de conversão de saída será necessário. Se <em>input_charset</em> for <code class="docutils literal notranslate"><span class="pre">euc-jp</span></code>, os cabeçalhos serão codificados em base64, os corpos não serão codificados, mas o texto de saída será convertido do conjunto de caracteres <code class="docutils literal notranslate"><span class="pre">euc-jp</span></code> para o conjunto de caracteres <code class="docutils literal notranslate"><span class="pre">iso-2022-jp</span></code>.</p>
+<p class="translated">Instâncias <a class="reference internal" href="#email.charset.Charset" title="email.charset.Charset"><code class="xref py py-class docutils literal notranslate"><span class="pre">Charset</span></code></a> têm os seguintes atributos de dados:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="email.charset.Charset.input_charset">
+<span class="sig-name descname"><span class="pre">input_charset</span></span><a class="headerlink" href="#email.charset.Charset.input_charset" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O conjunto de caracteres inicial especificado. Apelidos comuns são convertidos em seus nomes de e-mail <em>oficiais</em> (por exemplo, <code class="docutils literal notranslate"><span class="pre">latin_1</span></code> é convertido para <code class="docutils literal notranslate"><span class="pre">iso-8859-1</span></code>). O padrão é <code class="docutils literal notranslate"><span class="pre">us-ascii</span></code> de 7 bits.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="email.charset.Charset.header_encoding">
+<span class="sig-name descname"><span class="pre">header_encoding</span></span><a class="headerlink" href="#email.charset.Charset.header_encoding" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Se o conjunto de caracteres precisar ser codificado antes de ser usado em um cabeçalho de e-mail, este atributo será definido como <code class="docutils literal notranslate"><span class="pre">charset.QP</span></code> (para quoted-printable), <code class="docutils literal notranslate"><span class="pre">charset.BASE64</span></code> (para codificação base64) ou <code class="docutils literal notranslate"><span class="pre">charset.SHORTEST</span></code> para a codificação mais curta entre QP ou BASE64. Caso contrário, será <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="email.charset.Charset.body_encoding">
+<span class="sig-name descname"><span class="pre">body_encoding</span></span><a class="headerlink" href="#email.charset.Charset.body_encoding" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O mesmo que <em>header_encoding</em>, mas descreve a codificação do corpo da mensagem de e-mail, que pode ser diferente da codificação do cabeçalho. <code class="docutils literal notranslate"><span class="pre">charset.SHORTEST</span></code> não é permitido para <em>body_encoding</em>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="email.charset.Charset.output_charset">
+<span class="sig-name descname"><span class="pre">output_charset</span></span><a class="headerlink" href="#email.charset.Charset.output_charset" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Alguns conjuntos de caracteres precisam ser convertidos antes de serem usados em cabeçalhos ou corpos de e-mail. Se <em>input_charset</em> for um deles, este atributo conterá o nome do conjunto de caracteres para o qual a saída será convertida. Caso contrário, será <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="email.charset.Charset.input_codec">
+<span class="sig-name descname"><span class="pre">input_codec</span></span><a class="headerlink" href="#email.charset.Charset.input_codec" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O nome do codec Python usado para converter o <em>input_charset</em> para Unicode. Se nenhum codec de conversão for necessário, este atributo será <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="email.charset.Charset.output_codec">
+<span class="sig-name descname"><span class="pre">output_codec</span></span><a class="headerlink" href="#email.charset.Charset.output_codec" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O nome do codec Python usado para converter Unicode para o <em>output_charset</em>. Se nenhum codec de conversão for necessário, este atributo terá o mesmo valor que o <em>input_codec</em>.</p>
+</dd></dl>
+
+<p class="translated">Instâncias <a class="reference internal" href="#email.charset.Charset" title="email.charset.Charset"><code class="xref py py-class docutils literal notranslate"><span class="pre">Charset</span></code></a> também têm os seguintes métodos:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="email.charset.Charset.get_body_encoding">
+<span class="sig-name descname"><span class="pre">get_body_encoding</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.charset.Charset.get_body_encoding" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna a codificação de transferência de conteúdo usada para codificação do corpo.</p>
+<p class="translated">Esta é a string <code class="docutils literal notranslate"><span class="pre">quoted-printable</span></code> ou <code class="docutils literal notranslate"><span class="pre">base64</span></code>, dependendo da codificação usada, ou é uma função, caso em que você deve chamar a função com um único argumento, sendo o objeto Message codificado. A função deve então definir o próprio cabeçalho <em class="mailheader">Content-Transfer-Encoding</em> com o valor apropriado.</p>
+<p class="translated">Retorna a string <code class="docutils literal notranslate"><span class="pre">quoted-printable</span></code> se <em>body_encoding</em> for <code class="docutils literal notranslate"><span class="pre">QP</span></code>, retorna a string <code class="docutils literal notranslate"><span class="pre">base64</span></code> se <em>body_encoding</em> for <code class="docutils literal notranslate"><span class="pre">BASE64</span></code> e retorna a string <code class="docutils literal notranslate"><span class="pre">7bit</span></code> caso contrário.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="email.charset.Charset.get_output_charset">
+<span class="sig-name descname"><span class="pre">get_output_charset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.charset.Charset.get_output_charset" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o conjunto de caracteres de saída.</p>
+<p class="translated">Este é o atributo <em>output_charset</em> se não for <code class="docutils literal notranslate"><span class="pre">None</span></code>, caso contrário, é <em>input_charset</em>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="email.charset.Charset.header_encode">
+<span class="sig-name descname"><span class="pre">header_encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.charset.Charset.header_encode" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Codifica o cabeçalho com a string <em>string</em>.</p>
+<p class="translated">O tipo de codificação (base64 ou quoted-printable) será baseado no atributo <em>header_encoding</em>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="email.charset.Charset.header_encode_lines">
+<span class="sig-name descname"><span class="pre">header_encode_lines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxlengths</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.charset.Charset.header_encode_lines" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Codifica um cabeçalho de uma <em>string</em> convertendo-a primeiro em bytes.</p>
+<p class="translated">Isso é semelhante a <a class="reference internal" href="#email.charset.Charset.header_encode" title="email.charset.Charset.header_encode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">header_encode()</span></code></a>, exceto que a string é ajustada aos comprimentos máximos de linha, conforme fornecido pelo argumento <em>maxlengths</em>, que deve ser um iterador: cada elemento retornado deste iterador fornecerá o próximo comprimento máximo de linha.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="email.charset.Charset.body_encode">
+<span class="sig-name descname"><span class="pre">body_encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.charset.Charset.body_encode" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Codifica o corpo com a string <em>string</em>.</p>
+<p class="translated">O tipo de codificação (base64 ou quoted-printable) será baseado no atributo <em>body_encoding</em>.</p>
+</dd></dl>
+
+<p class="translated">A classe <a class="reference internal" href="#email.charset.Charset" title="email.charset.Charset"><code class="xref py py-class docutils literal notranslate"><span class="pre">Charset</span></code></a> também fornece vários métodos para dar suporte a operações padrão e funções embutidas.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="email.charset.Charset.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.charset.Charset.__str__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <em>input_charset</em> como uma string convertida para minúsculas. <code class="xref py py-meth docutils literal notranslate"><span class="pre">__repr__()</span></code> é um apelido para <code class="xref py py-meth docutils literal notranslate"><span class="pre">__str__()</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="email.charset.Charset.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.charset.Charset.__eq__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Este método permite que você compare duas instâncias <a class="reference internal" href="#email.charset.Charset" title="email.charset.Charset"><code class="xref py py-class docutils literal notranslate"><span class="pre">Charset</span></code></a> para verificar a igualdade.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="email.charset.Charset.__ne__">
+<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.charset.Charset.__ne__" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Este método permite que você compare duas instâncias <a class="reference internal" href="#email.charset.Charset" title="email.charset.Charset"><code class="xref py py-class docutils literal notranslate"><span class="pre">Charset</span></code></a> para verificar a desigualdade.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">email.charset</span></code> também fornece as seguintes funções para adicionar novas entradas ao conjunto global de caracteres, alias e registros de codec.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="email.charset.add_charset">
+<span class="sig-prename descclassname"><span class="pre">email.charset.</span></span><span class="sig-name descname"><span class="pre">add_charset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">charset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header_enc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body_enc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_charset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.charset.add_charset" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Adiciona propriedades de caracteres ao registro global.</p>
+<p class="translated"><em>charset</em> é o conjunto de caracteres de entrada e deve ser o nome canônico de um conjunto de caracteres.</p>
+<p class="translated"><em>header_enc</em> e <em>body_enc</em> opcionais são <code class="docutils literal notranslate"><span class="pre">charset.QP</span></code> para quoted-printable, <code class="docutils literal notranslate"><span class="pre">charset.BASE64</span></code> para codificação base64, <code class="docutils literal notranslate"><span class="pre">charset.SHORTEST</span></code> para a codificação mais curta entre quoted-printable ou base64, ou <code class="docutils literal notranslate"><span class="pre">None</span></code> para nenhuma codificação. <code class="docutils literal notranslate"><span class="pre">SHORTEST</span></code> é válido apenas para <em>header_enc</em>. O padrão é <code class="docutils literal notranslate"><span class="pre">None</span></code> para nenhuma codificação.</p>
+<p class="translated"><em>output_charset</em> opcional é o conjunto de caracteres que a saída deve conter. As conversões prosseguirão do conjunto de caracteres de entrada para Unicode e para o conjunto de caracteres de saída quando o método <code class="xref py py-meth docutils literal notranslate"><span class="pre">Charset.convert()</span></code> for chamado. O padrão é gerar a saída no mesmo conjunto de caracteres da entrada.</p>
+<p class="translated">Tanto <em>input_charset</em> quanto <em>output_charset</em> devem ter entradas de codec Unicode no mapeamento de conjunto de caracteres para codec do módulo; use <a class="reference internal" href="#email.charset.add_codec" title="email.charset.add_codec"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_codec()</span></code></a> para adicionar codecs que o módulo não conhece. Consulte a documentação do módulo <a class="reference internal" href="codecs.html#module-codecs" title="codecs: Encode and decode data and streams."><code class="xref py py-mod docutils literal notranslate"><span class="pre">codecs</span></code></a> para obter mais informações.</p>
+<p class="translated">O registro do conjunto de caracteres global é mantido no dicionário global do módulo <code class="docutils literal notranslate"><span class="pre">CHARSETS</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="email.charset.add_alias">
+<span class="sig-prename descclassname"><span class="pre">email.charset.</span></span><span class="sig-name descname"><span class="pre">add_alias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canonical</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.charset.add_alias" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Adicione um apelido para o conjunto de caracteres. <em>alias</em> é o nome do alias, por exemplo, <code class="docutils literal notranslate"><span class="pre">latin-1</span></code>. <em>canonical</em> é o nome canônico do conjunto de caracteres, por exemplo, <code class="docutils literal notranslate"><span class="pre">iso-8859-1</span></code>.</p>
+<p class="translated">O registro global de apelido de conjunto de caracteres é mantido no dicionário global do módulo <code class="docutils literal notranslate"><span class="pre">ALIASES</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="email.charset.add_codec">
+<span class="sig-prename descclassname"><span class="pre">email.charset.</span></span><span class="sig-name descname"><span class="pre">add_codec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">charset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codecname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.charset.add_codec" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Adiciona um codec que mapeia caracteres no conjunto de caracteres fornecido para e a partir do Unicode.</p>
+<p class="translated"><em>charset</em> é o nome canônico de um conjunto de caracteres. <em>codecname</em> é o nome de um codec Python, conforme apropriado para o segundo argumento do método <a class="reference internal" href="../builtins/stdtypes.html#str.encode" title="str.encode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">encode()</span></code></a> do <a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</p>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="email.header.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.header</span></code>: Internationalized headers</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="email.encoders.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.encoders</span></code>: Codificadores</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/email.charset.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/email.charset.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/email.charset.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="email.encoders.html" title="email.encoders: Codificadores"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="email.header.html" title="email.header: Internationalized headers"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="netdata.html" >Manuseio de Dados na Internet</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="email.html" ><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code> — Um e-mail e um pacote MIME manipulável</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.charset</span></code>: Representando conjuntos de caracteres</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

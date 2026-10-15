@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="xml.dom.pulldom — Suporte para construir árvores parciais de DOM" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/xml.dom.pulldom.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/xml/dom/pulldom.py O módulo xml.dom.pulldom fornece um “analisador sintático de pull” que também pode ser solicitado a produzir fragmentos do documento acessíveis via DOM, quando ..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_xml.dom.pulldom_d4f9bb4b.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/xml/dom/pulldom.py O módulo xml.dom.pulldom fornece um “analisador sintático de pull” que também pode ser solicitado a produzir fragmentos do documento acessíveis via DOM, quando ..." />
+<meta name="description" content="Código-fonte: Lib/xml/dom/pulldom.py O módulo xml.dom.pulldom fornece um “analisador sintático de pull” que também pode ser solicitado a produzir fragmentos do documento acessíveis via DOM, quando ..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>xml.dom.pulldom — Suporte para construir árvores parciais de DOM &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="xml.sax — Support for SAX2 parsers" href="xml.sax.html" />
+    <link rel="prev" title="xml.dom.minidom — Minimal DOM implementation" href="xml.dom.minidom.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/xml.dom.pulldom.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom.pulldom</span></code> — Suporte para construir árvores parciais de DOM</a><ul>
+<li><a class="reference internal" href="#domeventstream-objects">Objetos DOMEventStream</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="xml.dom.minidom.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom.minidom</span></code> — Minimal DOM implementation</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="xml.sax.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.sax</span></code> — Support for SAX2 parsers</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/xml.dom.pulldom.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/xml.dom.pulldom.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/xml.dom.pulldom.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="xml.sax.html" title="xml.sax — Support for SAX2 parsers"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="xml.dom.minidom.html" title="xml.dom.minidom — Minimal DOM implementation"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="markup.html" accesskey="U">Ferramentas de Processamento de Markup Estruturado</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom.pulldom</span></code> — Suporte para construir árvores parciais de DOM</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-xml.dom.pulldom">
+<span id="xml-dom-pulldom-support-for-building-partial-dom-trees"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom.pulldom</span></code> — Suporte para construir árvores parciais de DOM<a class="headerlink" href="#module-xml.dom.pulldom" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/xml/dom/pulldom.py">Lib/xml/dom/pulldom.py</a></p>
+<hr class="docutils" />
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom.pulldom</span></code> fornece um “analisador sintático de pull” que também pode ser solicitado a produzir fragmentos do documento acessíveis via DOM, quando necessário. O conceito básico envolve extrair “eventos” de um fluxo de XML recebido e processá-los. Ao contrário do SAX, que também emprega um modelo de processamento orientado a eventos juntamente com retornos de chamada, o usuário de um analisador sintático pull é responsável por extrair explicitamente os eventos do fluxo, repetindo esses eventos até que o processamento seja concluído ou ocorra uma condição de erro.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Se você precisar analisar dados não confiáveis ou não autenticados, consulte <a class="reference internal" href="xml.html#xml-security"><span class="std std-ref">Segurança no XML</span></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.7.1: </span>O analisador sintático de SAX não processa mais entidades externas gerais por padrão para aumentar a segurança. Para habilitar o processamento de entidades externas, passe uma instância personalizada do analisador sintático em:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">xml.dom.pulldom</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xml.sax</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_parser</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xml.sax.handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">feature_external_ges</span>
+
+<span class="n">parser</span> <span class="o">=</span> <span class="n">make_parser</span><span class="p">()</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">setFeature</span><span class="p">(</span><span class="n">feature_external_ges</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">parse</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p class="translated">Exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">xml.dom</span><span class="w"> </span><span class="kn">import</span> <span class="n">pulldom</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">pulldom</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">'sales_items.xml'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">event</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">event</span> <span class="o">==</span> <span class="n">pulldom</span><span class="o">.</span><span class="n">START_ELEMENT</span> <span class="ow">and</span> <span class="n">node</span><span class="o">.</span><span class="n">tagName</span> <span class="o">==</span> <span class="s1">'item'</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">getAttribute</span><span class="p">(</span><span class="s1">'price'</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">:</span>
+            <span class="n">doc</span><span class="o">.</span><span class="n">expandNode</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">toxml</span><span class="p">())</span>
+</pre></div>
+</div>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">event</span></code> é uma das seguintes constantes, e <code class="docutils literal notranslate"><span class="pre">node</span></code> é o nó ao qual o evento se refere. Os nós implementam as interfaces <a class="reference internal" href="xml.dom.html#module-xml.dom" title="xml.dom: Document Object Model API for Python."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom</span></code></a>; eles são criados pela implementação do DOM fornecida a <a class="reference internal" href="#xml.dom.pulldom.PullDOM" title="xml.dom.pulldom.PullDOM"><code class="xref py py-class docutils literal notranslate"><span class="pre">PullDOM</span></code></a>, que é <a class="reference internal" href="xml.dom.minidom.html#module-xml.dom.minidom" title="xml.dom.minidom: Minimal Document Object Model (DOM) implementation."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom.minidom</span></code></a> por padrão.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="xml.dom.pulldom.START_DOCUMENT">
+<span class="sig-prename descclassname"><span class="pre">xml.dom.pulldom.</span></span><span class="sig-name descname"><span class="pre">START_DOCUMENT</span></span><a class="headerlink" href="#xml.dom.pulldom.START_DOCUMENT" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="xml.dom.pulldom.END_DOCUMENT">
+<span class="sig-prename descclassname"><span class="pre">xml.dom.pulldom.</span></span><span class="sig-name descname"><span class="pre">END_DOCUMENT</span></span><a class="headerlink" href="#xml.dom.pulldom.END_DOCUMENT" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O início e o fim do documento. <em>node</em> é o <a class="reference internal" href="xml.dom.html#xml.dom.Document" title="xml.dom.Document"><code class="xref py py-class docutils literal notranslate"><span class="pre">Document</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="xml.dom.pulldom.START_ELEMENT">
+<span class="sig-prename descclassname"><span class="pre">xml.dom.pulldom.</span></span><span class="sig-name descname"><span class="pre">START_ELEMENT</span></span><a class="headerlink" href="#xml.dom.pulldom.START_ELEMENT" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="xml.dom.pulldom.END_ELEMENT">
+<span class="sig-prename descclassname"><span class="pre">xml.dom.pulldom.</span></span><span class="sig-name descname"><span class="pre">END_ELEMENT</span></span><a class="headerlink" href="#xml.dom.pulldom.END_ELEMENT" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A tag de início e a tag de fim de um elemento. <em>node</em> é o <a class="reference internal" href="xml.dom.html#xml.dom.Element" title="xml.dom.Element"><code class="xref py py-class docutils literal notranslate"><span class="pre">Element</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="xml.dom.pulldom.CHARACTERS">
+<span class="sig-prename descclassname"><span class="pre">xml.dom.pulldom.</span></span><span class="sig-name descname"><span class="pre">CHARACTERS</span></span><a class="headerlink" href="#xml.dom.pulldom.CHARACTERS" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Dados de caractere. <em>node</em> é o nó <a class="reference internal" href="xml.dom.html#xml.dom.Text" title="xml.dom.Text"><code class="xref py py-class docutils literal notranslate"><span class="pre">Text</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="xml.dom.pulldom.IGNORABLE_WHITESPACE">
+<span class="sig-prename descclassname"><span class="pre">xml.dom.pulldom.</span></span><span class="sig-name descname"><span class="pre">IGNORABLE_WHITESPACE</span></span><a class="headerlink" href="#xml.dom.pulldom.IGNORABLE_WHITESPACE" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Espaço em branco no conteúdo do elemento, conforme declarado na DTD. <em>node</em> é o nó <a class="reference internal" href="xml.dom.html#xml.dom.Text" title="xml.dom.Text"><code class="xref py py-class docutils literal notranslate"><span class="pre">Text</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="xml.dom.pulldom.COMMENT">
+<span class="sig-prename descclassname"><span class="pre">xml.dom.pulldom.</span></span><span class="sig-name descname"><span class="pre">COMMENT</span></span><a class="headerlink" href="#xml.dom.pulldom.COMMENT" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um comentário. <em>node</em> é o nó <a class="reference internal" href="xml.dom.html#xml.dom.Comment" title="xml.dom.Comment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Comment</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="xml.dom.pulldom.PROCESSING_INSTRUCTION">
+<span class="sig-prename descclassname"><span class="pre">xml.dom.pulldom.</span></span><span class="sig-name descname"><span class="pre">PROCESSING_INSTRUCTION</span></span><a class="headerlink" href="#xml.dom.pulldom.PROCESSING_INSTRUCTION" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma instrução de processamento. <em>node</em> é o nó <a class="reference internal" href="xml.dom.html#xml.dom.ProcessingInstruction" title="xml.dom.ProcessingInstruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessingInstruction</span></code></a>.</p>
+</dd></dl>
+
+<p class="translated">Como o documento é tratado como um fluxo “plano” de eventos, a “árvore” do documento é implicitamente percorrida e os elementos desejados são encontrados independentemente de sua profundidade na árvore. Em outras palavras, não é necessário considerar questões hierárquicas, como a busca recursiva dos nós do documento, embora, se o contexto dos elementos fosse importante, seria necessário manter algum estado relacionado ao contexto (ou seja, lembrar onde se está no documento em um determinado ponto) ou utilizar o método <a class="reference internal" href="#xml.dom.pulldom.DOMEventStream.expandNode" title="xml.dom.pulldom.DOMEventStream.expandNode"><code class="xref py py-func docutils literal notranslate"><span class="pre">DOMEventStream.expandNode()</span></code></a> e alternar para o processamento relacionado ao DOM.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="xml.dom.pulldom.PullDOM">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">xml.dom.pulldom.</span></span><span class="sig-name descname"><span class="pre">PullDOM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">documentFactory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xml.dom.pulldom.PullDOM" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Subclasse de <a class="reference internal" href="xml.sax.handler.html#xml.sax.handler.ContentHandler" title="xml.sax.handler.ContentHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">xml.sax.handler.ContentHandler</span></code></a> que converte eventos SAX em eventos do <em>pull parser</em>. Os nós são criados, mas não são adicionados à árvore, a menos que <a class="reference internal" href="#xml.dom.pulldom.DOMEventStream.expandNode" title="xml.dom.pulldom.DOMEventStream.expandNode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">expandNode()</span></code></a> seja chamado. <em>documentFactory</em>, se fornecido, é uma implementação DOM usada para criar o documento; por padrão, utiliza-se a implementação de <a class="reference internal" href="xml.dom.minidom.html#module-xml.dom.minidom" title="xml.dom.minidom: Minimal Document Object Model (DOM) implementation."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom.minidom</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="xml.dom.pulldom.SAX2DOM">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">xml.dom.pulldom.</span></span><span class="sig-name descname"><span class="pre">SAX2DOM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">documentFactory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xml.dom.pulldom.SAX2DOM" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Subclasse de <a class="reference internal" href="#xml.dom.pulldom.PullDOM" title="xml.dom.pulldom.PullDOM"><code class="xref py py-class docutils literal notranslate"><span class="pre">PullDOM</span></code></a> que também adiciona cada nó criado à árvore, de modo que o documento completo seja construído.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="xml.dom.pulldom.parse">
+<span class="sig-prename descclassname"><span class="pre">xml.dom.pulldom.</span></span><span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream_or_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bufsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xml.dom.pulldom.parse" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um <a class="reference internal" href="#xml.dom.pulldom.DOMEventStream" title="xml.dom.pulldom.DOMEventStream"><code class="xref py py-class docutils literal notranslate"><span class="pre">DOMEventStream</span></code></a> da entrada fornecida. <em>stream_or_string</em> pode ser um nome de arquivo ou um objeto arquivo ou similar. <em>parser</em>, se fornecido, deve ser um objeto <a class="reference internal" href="xml.sax.reader.html#xml.sax.xmlreader.XMLReader" title="xml.sax.xmlreader.XMLReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">XMLReader</span></code></a>. Esta função alterará o manipulador de documentos do analisador e ativará o suporte a espaços de nomes; outras configurações do analisador sintático (como a definição de um resolvedor de entidades) devem ter sido feitas previamente.</p>
+</dd></dl>
+
+<p class="translated">Se você tiver XML em uma string, poderá usar a função <a class="reference internal" href="#xml.dom.pulldom.parseString" title="xml.dom.pulldom.parseString"><code class="xref py py-func docutils literal notranslate"><span class="pre">parseString()</span></code></a>:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="xml.dom.pulldom.parseString">
+<span class="sig-prename descclassname"><span class="pre">xml.dom.pulldom.</span></span><span class="sig-name descname"><span class="pre">parseString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xml.dom.pulldom.parseString" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um <a class="reference internal" href="#xml.dom.pulldom.DOMEventStream" title="xml.dom.pulldom.DOMEventStream"><code class="xref py py-class docutils literal notranslate"><span class="pre">DOMEventStream</span></code></a> que representa a <em>string</em>. A <em>string</em> deve ser uma instância de <a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>; para analisar bytes, passe um objeto arquivo binário para <a class="reference internal" href="#xml.dom.pulldom.parse" title="xml.dom.pulldom.parse"><code class="xref py py-func docutils literal notranslate"><span class="pre">parse()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="xml.dom.pulldom.default_bufsize">
+<span class="sig-prename descclassname"><span class="pre">xml.dom.pulldom.</span></span><span class="sig-name descname"><span class="pre">default_bufsize</span></span><a class="headerlink" href="#xml.dom.pulldom.default_bufsize" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Valor padrão para o parâmetro <em>bufsize</em> para <a class="reference internal" href="#xml.dom.pulldom.parse" title="xml.dom.pulldom.parse"><code class="xref py py-func docutils literal notranslate"><span class="pre">parse()</span></code></a>.</p>
+<p class="translated">O valor desta variável pode ser alterado antes de chamar <a class="reference internal" href="#xml.dom.pulldom.parse" title="xml.dom.pulldom.parse"><code class="xref py py-func docutils literal notranslate"><span class="pre">parse()</span></code></a> e o novo valor entrará em vigor.</p>
+</dd></dl>
+
+<section id="domeventstream-objects">
+<span id="id1"></span><h2 class="translated">Objetos DOMEventStream<a class="headerlink" href="#domeventstream-objects" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="xml.dom.pulldom.DOMEventStream">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">xml.dom.pulldom.</span></span><span class="sig-name descname"><span class="pre">DOMEventStream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parser</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bufsize</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xml.dom.pulldom.DOMEventStream" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Produz os eventos para os dados lidos do objeto arquivo <em>stream</em> pelo <em>parser</em> <a class="reference internal" href="xml.sax.reader.html#xml.sax.xmlreader.XMLReader" title="xml.sax.xmlreader.XMLReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">XMLReader</span></code></a>. Os dados são lidos em blocos de <em>bufsize</em> bytes — ou caracteres, no caso de um fluxo de texto — por vez.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.11: </span>O suporte para o método <a class="reference internal" href="../reference/datamodel.html#object.__getitem__" title="object.__getitem__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code></a> foi removido</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="xml.dom.pulldom.DOMEventStream.getEvent">
+<span class="sig-name descname"><span class="pre">getEvent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xml.dom.pulldom.DOMEventStream.getEvent" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna a próxima tupla <code class="docutils literal notranslate"><span class="pre">(event,</span> <span class="pre">node)</span></code> ou <code class="docutils literal notranslate"><span class="pre">None</span></code> ao final do documento. Consulte acima as informações sobre os eventos e os nós correspondentes. O nó atual não contém informações sobre seus filhos, a menos que <a class="reference internal" href="#xml.dom.pulldom.DOMEventStream.expandNode" title="xml.dom.pulldom.DOMEventStream.expandNode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">expandNode()</span></code></a> seja chamado.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xml.dom.pulldom.DOMEventStream.expandNode">
+<span class="sig-name descname"><span class="pre">expandNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xml.dom.pulldom.DOMEventStream.expandNode" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Expande todos os filhos de <em>node</em> para <em>node</em>. Exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">xml.dom</span><span class="w"> </span><span class="kn">import</span> <span class="n">pulldom</span>
+
+<span class="n">xml</span> <span class="o">=</span> <span class="s1">'&lt;html&gt;&lt;title&gt;Foo&lt;/title&gt; &lt;p&gt;Algum texto &lt;div&gt;e mais&lt;/div&gt;&lt;/p&gt; &lt;/html&gt;'</span>
+<span class="n">doc</span> <span class="o">=</span> <span class="n">pulldom</span><span class="o">.</span><span class="n">parseString</span><span class="p">(</span><span class="n">xml</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">event</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">event</span> <span class="o">==</span> <span class="n">pulldom</span><span class="o">.</span><span class="n">START_ELEMENT</span> <span class="ow">and</span> <span class="n">node</span><span class="o">.</span><span class="n">tagName</span> <span class="o">==</span> <span class="s1">'p'</span><span class="p">:</span>
+        <span class="c1"># A seguinte instrução só exibe '&lt;p/&gt;'</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">toxml</span><span class="p">())</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">expandNode</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="c1"># A seguinte instrução exibe o nó com todos os seus filhos '&lt;p&gt;Algum texto &lt;div&gt;e mais&lt;/div&gt;&lt;/p&gt;'</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">toxml</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xml.dom.pulldom.DOMEventStream.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xml.dom.pulldom.DOMEventStream.reset" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Descarta os eventos que ainda não foram lidos e prepare o objeto para análise de um novo documento.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xml.dom.pulldom.DOMEventStream.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#xml.dom.pulldom.DOMEventStream.clear" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Libera o analisador e o documento. O fluxo não é fechado, e o objeto não pode mais ser utilizado.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom.pulldom</span></code> — Suporte para construir árvores parciais de DOM</a><ul>
+<li><a class="reference internal" href="#domeventstream-objects">Objetos DOMEventStream</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="xml.dom.minidom.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom.minidom</span></code> — Minimal DOM implementation</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="xml.sax.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.sax</span></code> — Support for SAX2 parsers</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/xml.dom.pulldom.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/xml.dom.pulldom.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/xml.dom.pulldom.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="xml.sax.html" title="xml.sax — Support for SAX2 parsers"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="xml.dom.minidom.html" title="xml.dom.minidom — Minimal DOM implementation"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="markup.html" >Ferramentas de Processamento de Markup Estruturado</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.dom.pulldom</span></code> — Suporte para construir árvores parciais de DOM</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

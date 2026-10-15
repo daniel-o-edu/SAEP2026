@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="marshal — Serialização interna de objetos Python" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/marshal.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Este módulo contém funções que podem ler e gravar valores Python em formato binário. O formato é específico para Python, mas independente dos problemas de arquitetura da máquina (por exemplo, você ..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_marshal_5be8642d.png" />
+<meta property="og:image:alt" content="Este módulo contém funções que podem ler e gravar valores Python em formato binário. O formato é específico para Python, mas independente dos problemas de arquitetura da máquina (por exemplo, você ..." />
+<meta name="description" content="Este módulo contém funções que podem ler e gravar valores Python em formato binário. O formato é específico para Python, mas independente dos problemas de arquitetura da máquina (por exemplo, você ..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>marshal — Serialização interna de objetos Python &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="dbm — Interfaces para “banco de dados” Unix" href="dbm.html" />
+    <link rel="prev" title="shelve — Python object persistence" href="shelve.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/marshal.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="shelve.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">shelve</span></code> — Python object persistence</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="dbm.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm</span></code> — Interfaces para “banco de dados” Unix</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/marshal.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/marshal.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/marshal.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="dbm.html" title="dbm — Interfaces para “banco de dados” Unix"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="shelve.html" title="shelve — Python object persistence"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="persistence.html" accesskey="U">Persistência de Dados</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">marshal</span></code> — Serialização interna de objetos Python</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-marshal">
+<span id="marshal-internal-python-object-serialization"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">marshal</span></code> — Serialização interna de objetos Python<a class="headerlink" href="#module-marshal" title="Link para este cabeçalho">¶</a></h1>
+<hr class="docutils" />
+<p class="translated">Este módulo contém funções que podem ler e gravar valores Python em formato binário. O formato é específico para Python, mas independente dos problemas de arquitetura da máquina (por exemplo, você pode gravar um valor Python em um arquivo em um PC, transportar o arquivo para um Mac e lê-lo de volta lá). Os detalhes do formato não são documentados propositalmente; ele pode mudar entre as versões do Python (embora raramente mude). <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
+<p class="untranslated" id="index-0">This is not a general “persistence” module.  For general persistence and
+transfer of Python objects through RPC calls, see the modules <a class="reference internal" href="pickle.html#module-pickle" title="pickle: Convert Python objects to streams of bytes and back."><code class="xref py py-mod docutils literal notranslate"><span class="pre">pickle</span></code></a> and
+<a class="reference internal" href="shelve.html#module-shelve" title="shelve: Python object persistence."><code class="xref py py-mod docutils literal notranslate"><span class="pre">shelve</span></code></a>.  The <code class="xref py py-mod docutils literal notranslate"><span class="pre">marshal</span></code> module exists mainly to support reading and
+writing the “pseudo-compiled” code for Python modules of <code class="file docutils literal notranslate"><span class="pre">.pyc</span></code> files.
+Therefore, the Python maintainers reserve the right to modify the marshal format
+in backward incompatible ways should the need arise.
+The format of code objects is not compatible between Python versions,
+even if the version of the format is the same.
+De-serializing a code object in the incorrect Python version has undefined behavior.
+If you’re serializing and
+de-serializing Python objects, use the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pickle</span></code> module instead – the
+performance is comparable, version independence is guaranteed, and pickle
+supports a substantially wider range of objects than marshal.</p>
+<div class="admonition warning">
+<p class="admonition-title">Aviso</p>
+<p class="untranslated">The <code class="xref py py-mod docutils literal notranslate"><span class="pre">marshal</span></code> module is not intended to be secure against erroneous or
+maliciously constructed data.  Never unmarshal data received from an
+untrusted or unauthenticated source.</p>
+</div>
+<p class="translated">Existem funções que leem/gravam arquivos, bem como funções que operam em objetos bytes ou similares.</p>
+<p class="untranslated" id="index-1">Not all Python object types are supported; in general, only objects whose value
+is independent from a particular invocation of Python can be written and read by
+this module.  The following types are supported:</p>
+<ul class="simple">
+<li><p class="untranslated">Numeric types: <a class="reference internal" href="../builtins/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference internal" href="../builtins/functions.html#bool" title="bool"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <a class="reference internal" href="../builtins/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference internal" href="../builtins/functions.html#complex" title="complex"><code class="xref py py-class docutils literal notranslate"><span class="pre">complex</span></code></a>.</p></li>
+<li><p class="untranslated">Strings (<a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) and <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>.
+<a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">Bytes-like objects</span></a> like <a class="reference internal" href="../builtins/stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a> are
+marshalled as <code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code>.</p></li>
+<li><p class="untranslated">Containers: <a class="reference internal" href="../builtins/stdtypes.html#tuple" title="tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>, <a class="reference internal" href="../builtins/stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference internal" href="../builtins/stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference internal" href="../builtins/stdtypes.html#frozendict" title="frozendict"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozendict</span></code></a>
+(since <a class="reference internal" href="#marshal.version" title="marshal.version"><code class="xref py py-data docutils literal notranslate"><span class="pre">version</span></code></a> 6), <a class="reference internal" href="../builtins/stdtypes.html#set" title="set"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a>, <a class="reference internal" href="../builtins/stdtypes.html#frozenset" title="frozenset"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozenset</span></code></a>, and
+<a class="reference internal" href="../builtins/functions.html#slice" title="slice"><code class="xref py py-class docutils literal notranslate"><span class="pre">slice</span></code></a> (since <code class="xref py py-data docutils literal notranslate"><span class="pre">version</span></code> 5).
+It should be understood that these are supported only if the values contained
+therein are themselves supported.
+Recursive containers are supported since <code class="xref py py-data docutils literal notranslate"><span class="pre">version</span></code> 3.</p></li>
+<li><p class="untranslated">The singletons <a class="reference internal" href="../builtins/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference internal" href="../builtins/constants.html#Ellipsis" title="Ellipsis"><code class="xref py py-const docutils literal notranslate"><span class="pre">Ellipsis</span></code></a> and <a class="reference internal" href="../builtins/exceptions.html#StopIteration" title="StopIteration"><code class="xref py py-exc docutils literal notranslate"><span class="pre">StopIteration</span></code></a>.</p></li>
+<li><p class="untranslated"><a class="reference internal" href="code.html#module-code" title="code: Facilities to implement read-eval-print loops."><code class="xref py py-class docutils literal notranslate"><span class="pre">code</span></code></a> objects, if <em>allow_code</em> is true. See note above about
+version dependence.</p></li>
+</ul>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.4: </span></p>
+<ul class="simple">
+<li><p class="untranslated">Added format version 3, which supports marshalling recursive lists, sets
+and dictionaries.</p></li>
+<li><p class="untranslated">Added format version 4, which supports efficient representations
+of short strings.</p></li>
+</ul>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.14: </span>Added format version 5, which allows marshalling slices.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.15: </span>Added format version 6, which allows marshalling <a class="reference internal" href="../builtins/stdtypes.html#frozendict" title="frozendict"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozendict</span></code></a>.</p>
+</div>
+<p class="translated">O módulo define estas funções:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="marshal.dump">
+<span class="sig-prename descclassname"><span class="pre">marshal.</span></span><span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#marshal.dump" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Grava o valor no arquivo aberto. O valor deve ser um tipo compatível. O arquivo deve ser <a class="reference internal" href="../glossary.html#term-binary-file"><span class="xref std std-term">arquivo binário</span></a> gravável.</p>
+<p class="translated">Se o valor tem (ou contém um objeto que tem) um tipo não suportado, uma exceção <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> é levantada – mas dados de lixo também serão gravados no arquivo. O objeto não será lido corretamente por <a class="reference internal" href="#marshal.load" title="marshal.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">load()</span></code></a>. Há suporte a <a class="reference internal" href="../reference/datamodel.html#code-objects"><span class="std std-ref">objetos código</span></a> somente se <em>allow_code</em> for verdadeiro.</p>
+<p class="translated">O argumento <em>version</em> indica o formato de dados que o <code class="docutils literal notranslate"><span class="pre">dump</span></code> deve usar (veja abaixo).</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">marshal.dumps</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">value</span></code>, <code class="docutils literal notranslate"><span class="pre">version</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>Adicionado o parâmetro <em>allow_code</em>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="marshal.load">
+<span class="sig-prename descclassname"><span class="pre">marshal.</span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#marshal.load" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Lê um valor do arquivo aberto e retorna-o. Se nenhum valor válido for lido (por exemplo, porque os dados têm um formato de empacotamento incompatível com uma versão diferente do Python), levanta <a class="reference internal" href="../builtins/exceptions.html#EOFError" title="EOFError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">EOFError</span></code></a>, <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> ou <a class="reference internal" href="../builtins/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>. Há suporte a <a class="reference internal" href="../reference/datamodel.html#code-objects"><span class="std std-ref">objetos código</span></a> somente se <em>allow_code</em> for verdadeiro. O arquivo deve ser um <a class="reference internal" href="../glossary.html#term-binary-file"><span class="xref std std-term">arquivo binário</span></a> legível.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">marshal.load</span></code> sem argumentos.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Se um objeto contendo um tipo não suportado foi empacotado com <a class="reference internal" href="#marshal.dump" title="marshal.dump"><code class="xref py py-func docutils literal notranslate"><span class="pre">dump()</span></code></a>, <a class="reference internal" href="#marshal.load" title="marshal.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">load()</span></code></a> irá substituir <code class="docutils literal notranslate"><span class="pre">None</span></code> pelo tipo não empacotável.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.10: </span>Esta chamada costumava levantar um evento de auditoria <code class="docutils literal notranslate"><span class="pre">code.__new__</span></code> para cada objeto código. Agora, ele levanta um único evento <code class="docutils literal notranslate"><span class="pre">marshal.load</span></code> para toda a operação de carregamento.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>Adicionado o parâmetro <em>allow_code</em>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="marshal.dumps">
+<span class="sig-prename descclassname"><span class="pre">marshal.</span></span><span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#marshal.dumps" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o objeto bytes que seria escrito em um arquivo por <code class="docutils literal notranslate"><span class="pre">dump(value,</span> <span class="pre">file)</span></code>. O valor deve ser um tipo compatível. Levanta uma exceção <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> se o valor tem (ou contém um objeto que tem) um tipo não suportado. Há suporte a <a class="reference internal" href="../reference/datamodel.html#code-objects"><span class="std std-ref">objetos código</span></a> somente se <em>allow_code</em> for verdadeiro.</p>
+<p class="translated">O argumento <em>version</em> indica o formato de dados que <code class="docutils literal notranslate"><span class="pre">dumps</span></code> deve usar (veja abaixo).</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">marshal.dumps</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">value</span></code>, <code class="docutils literal notranslate"><span class="pre">version</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>Adicionado o parâmetro <em>allow_code</em>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="marshal.loads">
+<span class="sig-prename descclassname"><span class="pre">marshal.</span></span><span class="sig-name descname"><span class="pre">loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#marshal.loads" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Converte o <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">objeto bytes ou similar</span></a> em um valor. Se nenhum valor válido for encontrado, levanta <a class="reference internal" href="../builtins/exceptions.html#EOFError" title="EOFError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">EOFError</span></code></a>, <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> ou <a class="reference internal" href="../builtins/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>. Há suporte a <a class="reference internal" href="../reference/datamodel.html#code-objects"><span class="std std-ref">objetos código</span></a> somente se <em>allow_code</em> for verdadeiro. Bytes extras na entrada são ignorados.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">marshal.loads</span></code> com o argumento <code class="docutils literal notranslate"><span class="pre">bytes</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.10: </span>Esta chamada costumava levantar um evento de auditoria <code class="docutils literal notranslate"><span class="pre">code.__new__</span></code> para cada objeto código. Agora, ele levanta um único evento <code class="docutils literal notranslate"><span class="pre">marshal.loads</span></code> para toda a operação de carregamento.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>Adicionado o parâmetro <em>allow_code</em>.</p>
+</div>
+</dd></dl>
+
+<p class="translated">Além disso, as seguintes constantes são definidas:</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="marshal.version">
+<span class="sig-prename descclassname"><span class="pre">marshal.</span></span><span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#marshal.version" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Indicates the format that the module uses.
+Version 0 is the historical first version; subsequent versions
+add new features.
+Generally, a new version becomes the default when it is introduced.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Versão</p></th>
+<th class="head"><p class="untranslated">Available since</p></th>
+<th class="head"><p class="translated">Novas funcionalidades</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated">1</p></td>
+<td><p class="untranslated">Python 2.4</p></td>
+<td><p class="untranslated">Sharing interned strings</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">2</p></td>
+<td><p class="untranslated">Python 2.5</p></td>
+<td><p class="untranslated">Binary representation of floats</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">3</p></td>
+<td><p class="untranslated">Python 3.4</p></td>
+<td><p class="untranslated">Support for object instancing and recursion</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">4</p></td>
+<td><p class="untranslated">Python 3.4</p></td>
+<td><p class="untranslated">Efficient representation of short strings</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">5</p></td>
+<td><p class="untranslated">Python 3.14</p></td>
+<td><p class="untranslated">Support for <a class="reference internal" href="../builtins/functions.html#slice" title="slice"><code class="xref py py-class docutils literal notranslate"><span class="pre">slice</span></code></a> objects</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">6</p></td>
+<td><p class="untranslated">Python 3.15</p></td>
+<td><p class="untranslated">Support for <a class="reference internal" href="../builtins/stdtypes.html#frozendict" title="frozendict"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozendict</span></code></a> objects</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p class="translated rubric">Notas de rodapé</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p class="translated">O nome deste módulo deriva de um pouco da terminologia usada pelos designers do Modula-3 (entre outros), que usam o termo “marshalling” para enviar dados em um formato independente. Estritamente falando, “to marshal” significa converter alguns dados da forma interna para a externa (em um buffer RPC, por exemplo) e “unmarshalling” para o processo reverso.</p>
+</aside>
+</aside>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="shelve.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">shelve</span></code> — Python object persistence</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="dbm.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dbm</span></code> — Interfaces para “banco de dados” Unix</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/marshal.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/marshal.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/marshal.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="dbm.html" title="dbm — Interfaces para “banco de dados” Unix"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="shelve.html" title="shelve — Python object persistence"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="persistence.html" >Persistência de Dados</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">marshal</span></code> — Serialização interna de objetos Python</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

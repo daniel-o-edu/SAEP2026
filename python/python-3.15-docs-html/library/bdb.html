@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="bdb — Framework do depurador" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/bdb.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/bdb.py The bdb module handles basic debugger functions, like setting breakpoints or managing execution via the debugger. A seguinte exceção é definida: The bdb module also defines..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_bdb_e79a0697.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/bdb.py The bdb module handles basic debugger functions, like setting breakpoints or managing execution via the debugger. A seguinte exceção é definida: The bdb module also defines..." />
+<meta name="description" content="Código-fonte: Lib/bdb.py The bdb module handles basic debugger functions, like setting breakpoints or managing execution via the debugger. A seguinte exceção é definida: The bdb module also defines..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>bdb — Framework do depurador &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="faulthandler — Dump the Python traceback" href="faulthandler.html" />
+    <link rel="prev" title="Tabela de eventos de auditoria" href="audit_events.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/bdb.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="audit_events.html"
+                          title="capítulo anterior">Tabela de eventos de auditoria</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="faulthandler.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">faulthandler</span></code> — Dump the Python traceback</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/bdb.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/bdb.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/bdb.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="faulthandler.html" title="faulthandler — Dump the Python traceback"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="audit_events.html" title="Tabela de eventos de auditoria"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="debug.html" accesskey="U">Depuração e perfilamento</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">bdb</span></code> — Framework do depurador</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-bdb">
+<span id="bdb-debugger-framework"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">bdb</span></code> — Framework do depurador<a class="headerlink" href="#module-bdb" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/bdb.py">Lib/bdb.py</a></p>
+<hr class="docutils" />
+<p class="untranslated">The <code class="xref py py-mod docutils literal notranslate"><span class="pre">bdb</span></code> module handles basic debugger functions, like setting breakpoints
+or managing execution via the debugger.</p>
+<p class="translated">A seguinte exceção é definida:</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="bdb.BdbQuit">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bdb.</span></span><span class="sig-name descname"><span class="pre">BdbQuit</span></span><a class="headerlink" href="#bdb.BdbQuit" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exceção levantada pela classe <a class="reference internal" href="#bdb.Bdb" title="bdb.Bdb"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bdb</span></code></a> para sair do depurador.</p>
+</dd></dl>
+
+<p class="untranslated">The <code class="xref py py-mod docutils literal notranslate"><span class="pre">bdb</span></code> module also defines two classes:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="bdb.Breakpoint">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bdb.</span></span><span class="sig-name descname"><span class="pre">Breakpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temporary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">funcname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Breakpoint" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Esta classe implementa pontos de interrupção temporários, contagens de ignorar, desativação e (re)ativação, além de condicionais.</p>
+<p class="translated">Os pontos de interrupção são indexados por número por meio de uma lista chamada <a class="reference internal" href="#bdb.Breakpoint.bpbynumber" title="bdb.Breakpoint.bpbynumber"><code class="xref py py-attr docutils literal notranslate"><span class="pre">bpbynumber</span></code></a> e por pares <code class="docutils literal notranslate"><span class="pre">(file,</span> <span class="pre">line)</span></code> por meio de <a class="reference internal" href="#bdb.Breakpoint.bplist" title="bdb.Breakpoint.bplist"><code class="xref py py-attr docutils literal notranslate"><span class="pre">bplist</span></code></a>. O primeiro aponta para uma única instância da classe <a class="reference internal" href="#bdb.Breakpoint" title="bdb.Breakpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Breakpoint</span></code></a>. O segundo aponta para uma lista dessas instâncias, já que pode haver mais de um ponto de interrupção por linha.</p>
+<p class="translated">Ao criar um ponto de interrupção, seu <a class="reference internal" href="#bdb.Breakpoint.file" title="bdb.Breakpoint.file"><code class="xref py py-attr docutils literal notranslate"><span class="pre">nome</span> <span class="pre">do</span> <span class="pre">arquivo</span></code></a> associado deve estar no formato canônico. Se um <a class="reference internal" href="#bdb.Breakpoint.funcname" title="bdb.Breakpoint.funcname"><code class="xref py py-attr docutils literal notranslate"><span class="pre">funcname</span></code></a> for definido, um ponto de interrupção <a class="reference internal" href="#bdb.Breakpoint.hits" title="bdb.Breakpoint.hits"><code class="xref py py-attr docutils literal notranslate"><span class="pre">atingido</span></code></a> será contado quando a primeira linha dessa função for executada. Um ponto de interrupção <a class="reference internal" href="#bdb.Breakpoint.cond" title="bdb.Breakpoint.cond"><code class="xref py py-attr docutils literal notranslate"><span class="pre">condicional</span></code></a> sempre conta um <code class="xref py py-attr docutils literal notranslate"><span class="pre">atingido</span></code>.</p>
+<p class="translated">As instâncias de <a class="reference internal" href="#bdb.Breakpoint" title="bdb.Breakpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Breakpoint</span></code></a> têm os seguintes métodos:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Breakpoint.deleteMe">
+<span class="sig-name descname"><span class="pre">deleteMe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Breakpoint.deleteMe" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exclui o ponto de interrupção da lista associada a um arquivo/linha.  Se for o último ponto de interrupção nessa posição, ele também excluirá a entrada do arquivo/linha.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Breakpoint.enable">
+<span class="sig-name descname"><span class="pre">enable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Breakpoint.enable" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Marca o ponto de interrupção como ativado.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Breakpoint.disable">
+<span class="sig-name descname"><span class="pre">disable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Breakpoint.disable" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Marca o ponto de interrupção como desativado.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Breakpoint.bpformat">
+<span class="sig-name descname"><span class="pre">bpformat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Breakpoint.bpformat" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma string com todas as informações sobre o ponto de interrupção, formatadas de maneira clara:</p>
+<ul class="simple">
+<li><p class="translated">Número do ponto de interrupção.</p></li>
+<li><p class="translated">Status temporário (del ou keep).</p></li>
+<li><p class="translated">Posição do arquivo/linha.</p></li>
+<li><p class="translated">Condição de interrupção.</p></li>
+<li><p class="translated">Número de vezes para ignorar.</p></li>
+<li><p class="translated">Número de vezes atingido.</p></li>
+</ul>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Breakpoint.bpprint">
+<span class="sig-name descname"><span class="pre">bpprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Breakpoint.bpprint" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exibe a saída de <a class="reference internal" href="#bdb.Breakpoint.bpformat" title="bdb.Breakpoint.bpformat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">bpformat()</span></code></a> no arquivo <em>out</em> ou, se for <code class="docutils literal notranslate"><span class="pre">None</span></code>, na saída padrão.</p>
+</dd></dl>
+
+<p class="translated">Instâncias <a class="reference internal" href="#bdb.Breakpoint" title="bdb.Breakpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Breakpoint</span></code></a> possuem os seguintes atributos:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bdb.Breakpoint.file">
+<span class="sig-name descname"><span class="pre">file</span></span><a class="headerlink" href="#bdb.Breakpoint.file" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Nome do arquivo do <a class="reference internal" href="#bdb.Breakpoint" title="bdb.Breakpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Breakpoint</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bdb.Breakpoint.line">
+<span class="sig-name descname"><span class="pre">line</span></span><a class="headerlink" href="#bdb.Breakpoint.line" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Número da linha do <a class="reference internal" href="#bdb.Breakpoint" title="bdb.Breakpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Breakpoint</span></code></a> dentro de <a class="reference internal" href="#bdb.Breakpoint.file" title="bdb.Breakpoint.file"><code class="xref py py-attr docutils literal notranslate"><span class="pre">file</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bdb.Breakpoint.temporary">
+<span class="sig-name descname"><span class="pre">temporary</span></span><a class="headerlink" href="#bdb.Breakpoint.temporary" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">True</span></code> se um <a class="reference internal" href="#bdb.Breakpoint" title="bdb.Breakpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Breakpoint</span></code></a> em (file, line) for temporário.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bdb.Breakpoint.cond">
+<span class="sig-name descname"><span class="pre">cond</span></span><a class="headerlink" href="#bdb.Breakpoint.cond" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Condição para avaliar um <a class="reference internal" href="#bdb.Breakpoint" title="bdb.Breakpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Breakpoint</span></code></a> em (file, line).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bdb.Breakpoint.funcname">
+<span class="sig-name descname"><span class="pre">funcname</span></span><a class="headerlink" href="#bdb.Breakpoint.funcname" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Nome da função que define se um <a class="reference internal" href="#bdb.Breakpoint" title="bdb.Breakpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Breakpoint</span></code></a> é atingido ao entrar na função.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bdb.Breakpoint.enabled">
+<span class="sig-name descname"><span class="pre">enabled</span></span><a class="headerlink" href="#bdb.Breakpoint.enabled" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated"><code class="docutils literal notranslate"><span class="pre">True</span></code> se <a class="reference internal" href="#bdb.Breakpoint" title="bdb.Breakpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Breakpoint</span></code></a> estiver ativado.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bdb.Breakpoint.bpbynumber">
+<span class="sig-name descname"><span class="pre">bpbynumber</span></span><a class="headerlink" href="#bdb.Breakpoint.bpbynumber" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Índice numérico de uma única instância de <a class="reference internal" href="#bdb.Breakpoint" title="bdb.Breakpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Breakpoint</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bdb.Breakpoint.bplist">
+<span class="sig-name descname"><span class="pre">bplist</span></span><a class="headerlink" href="#bdb.Breakpoint.bplist" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Dicionário de instâncias de <a class="reference internal" href="#bdb.Breakpoint" title="bdb.Breakpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Breakpoint</span></code></a> indexadas por tuplas (<a class="reference internal" href="#bdb.Breakpoint.file" title="bdb.Breakpoint.file"><code class="xref py py-attr docutils literal notranslate"><span class="pre">file</span></code></a>, <a class="reference internal" href="#bdb.Breakpoint.line" title="bdb.Breakpoint.line"><code class="xref py py-attr docutils literal notranslate"><span class="pre">line</span></code></a>).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bdb.Breakpoint.ignore">
+<span class="sig-name descname"><span class="pre">ignore</span></span><a class="headerlink" href="#bdb.Breakpoint.ignore" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Número de vezes para ignorar o <a class="reference internal" href="#bdb.Breakpoint" title="bdb.Breakpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Breakpoint</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bdb.Breakpoint.hits">
+<span class="sig-name descname"><span class="pre">hits</span></span><a class="headerlink" href="#bdb.Breakpoint.hits" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Contagem do número de vezes que um <a class="reference internal" href="#bdb.Breakpoint" title="bdb.Breakpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Breakpoint</span></code></a> foi atingido.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="bdb.Bdb">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bdb.</span></span><span class="sig-name descname"><span class="pre">Bdb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'settrace'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A <a class="reference internal" href="#bdb.Bdb" title="bdb.Bdb"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bdb</span></code></a> atua como uma classe base genérica de depurador em Python.</p>
+<p class="translated">Esta classe cuida dos detalhes do mecanismo de rastreamento; uma classe derivada deve implementar a interação com o usuário. A classe de depuração padrão (<a class="reference internal" href="pdb.html#pdb.Pdb" title="pdb.Pdb"><code class="xref py py-class docutils literal notranslate"><span class="pre">pdb.Pdb</span></code></a>) é um exemplo.</p>
+<p class="translated">O argumento <em>skip</em>, se fornecido, deve ser um iterável de padrões de nomes de módulos no estilo glob. O depurador não entrará em frames que se originam em um módulo que corresponda a um desses padrões. Se um frame é considerado como originado em determinado módulo é determinado pelo valor de <code class="docutils literal notranslate"><span class="pre">__name__</span></code> nos globals do frame.</p>
+<p class="translated">O argumento <em>backend</em> especifica o backend a ser usado pela <a class="reference internal" href="#bdb.Bdb" title="bdb.Bdb"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bdb</span></code></a>. Ele pode ser <code class="docutils literal notranslate"><span class="pre">'settrace'</span></code> ou <code class="docutils literal notranslate"><span class="pre">'monitoring'</span></code>. <code class="docutils literal notranslate"><span class="pre">'settrace'</span></code> usa <a class="reference internal" href="sys.html#sys.settrace" title="sys.settrace"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.settrace()</span></code></a>, que oferece a melhor retrocompatibilidade. O backend <code class="docutils literal notranslate"><span class="pre">'monitoring'</span></code> usa o novo <a class="reference internal" href="sys.monitoring.html#module-sys.monitoring" title="sys.monitoring: Access and control event monitoring"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sys.monitoring</span></code></a>, introduzido no Python 3.12, que pode ser muito mais eficiente porque pode desabilitar eventos não utilizados. Estamos tentando manter interfaces idênticas para ambos os backends, mas existem algumas diferenças. Os desenvolvedores de depuradores são incentivados a usar o backend <code class="docutils literal notranslate"><span class="pre">'monitoring'</span></code> para obter melhor desempenho.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.1: </span>Adicionado o parâmetro <em>skip</em>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.14: </span>Adicionado o parâmetro <em>backend</em>.</p>
+</div>
+<p class="translated">Os seguintes métodos de <a class="reference internal" href="#bdb.Bdb" title="bdb.Bdb"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bdb</span></code></a> normalmente não precisam ser substituídos.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.canonic">
+<span class="sig-name descname"><span class="pre">canonic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.canonic" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna a forma canônica de <em>filename</em>.</p>
+<p class="translated">Para nomes de arquivos reais, a forma canônica é um <a class="reference internal" href="os.path.html#os.path.abspath" title="os.path.abspath"><code class="xref py py-func docutils literal notranslate"><span class="pre">caminho</span> <span class="pre">absoluto</span></code></a>, <a class="reference internal" href="os.path.html#os.path.normcase" title="os.path.normcase"><code class="xref py py-func docutils literal notranslate"><span class="pre">normalizado</span> <span class="pre">para</span> <span class="pre">distinguir</span> <span class="pre">maiúsculas</span> <span class="pre">e</span> <span class="pre">minúsculas</span></code></a>, dependente do sistema operacional. Um <em>filename</em> com colchetes angulares, como <code class="docutils literal notranslate"><span class="pre">&quot;&lt;stdin&gt;&quot;</span></code> gerado no modo interativo, é retornado sem alterações.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.start_trace">
+<span class="sig-name descname"><span class="pre">start_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.start_trace" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Inicia o rastreamento. Para o backend <code class="docutils literal notranslate"><span class="pre">'settrace'</span></code>, este método equivale a <code class="docutils literal notranslate"><span class="pre">sys.settrace(self.trace_dispatch)</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.stop_trace">
+<span class="sig-name descname"><span class="pre">stop_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.stop_trace" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Para o rastreamento. Para o backend <code class="docutils literal notranslate"><span class="pre">'settrace'</span></code>, este método equivale a <code class="docutils literal notranslate"><span class="pre">sys.settrace(None)</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.reset" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Define os atributos <code class="xref py py-attr docutils literal notranslate"><span class="pre">botframe</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">stopframe</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">returnframe</span></code> e <a class="reference internal" href="#bdb.Bdb.set_quit" title="bdb.Bdb.set_quit"><code class="xref py py-attr docutils literal notranslate"><span class="pre">quitting</span></code></a> com valores prontos para iniciar a depuração.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.trace_dispatch">
+<span class="sig-name descname"><span class="pre">trace_dispatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.trace_dispatch" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Esta função é instalada como a função de rastreamento dos frames depurados. Seu valor de retorno é a nova função de rastreamento (na maioria dos casos, ela própria).</p>
+<p class="translated">A implementação padrão decide como despachar um frame, dependendo do tipo de evento (passado como string) que está prestes a ser executado. <em>event</em> pode ser um dos seguintes:</p>
+<ul class="simple">
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">&quot;line&quot;</span></code>: Uma nova linha de código será executada.</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">&quot;call&quot;</span></code>: Um função está prestes a ser chamada, ou outro bloco de código foi inserido.</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">&quot;retorno&quot;</span></code>: Um função ou outro bloco de código está prestes a retornar.</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">&quot;exception&quot;</span></code>: Ocorreu uma exceção.</p></li>
+</ul>
+<p class="untranslated">For all the events, specialized functions (see below) are called.</p>
+<p class="translated">O parâmetro <em>arg</em> depende do evento anterior.</p>
+<p class="translated">Consulte a documentação de <a class="reference internal" href="sys.html#sys.settrace" title="sys.settrace"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.settrace()</span></code></a> para mais informações sobre a função de rastreamento. Para mais informações sobre objetos de código e de frame, consulte <a class="reference internal" href="../reference/datamodel.html#types"><span class="std std-ref">A hierarquia de tipos padrão</span></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.dispatch_line">
+<span class="sig-name descname"><span class="pre">dispatch_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.dispatch_line" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Se o depurador deve parar na linha atual, invoca o método <a class="reference internal" href="#bdb.Bdb.user_line" title="bdb.Bdb.user_line"><code class="xref py py-meth docutils literal notranslate"><span class="pre">user_line()</span></code></a> (que deve ser substituído em subclasses). Levanta a exceção <a class="reference internal" href="#bdb.BdbQuit" title="bdb.BdbQuit"><code class="xref py py-exc docutils literal notranslate"><span class="pre">BdbQuit</span></code></a> se o sinalizador <a class="reference internal" href="#bdb.Bdb.set_quit" title="bdb.Bdb.set_quit"><code class="xref py py-attr docutils literal notranslate"><span class="pre">quitting</span></code></a> estiver definido (ele pode ser definido a partir de <code class="xref py py-meth docutils literal notranslate"><span class="pre">user_line()</span></code>). Retorna uma referência ao método <a class="reference internal" href="#bdb.Bdb.trace_dispatch" title="bdb.Bdb.trace_dispatch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">trace_dispatch()</span></code></a> para continuar o rastreamento nesse escopo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.dispatch_call">
+<span class="sig-name descname"><span class="pre">dispatch_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.dispatch_call" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Se o depurador deve parar nesta chamada de função, invoca o método <a class="reference internal" href="#bdb.Bdb.user_call" title="bdb.Bdb.user_call"><code class="xref py py-meth docutils literal notranslate"><span class="pre">user_call()</span></code></a> (que deve ser substituído em subclasses). Levanta a exceção <a class="reference internal" href="#bdb.BdbQuit" title="bdb.BdbQuit"><code class="xref py py-exc docutils literal notranslate"><span class="pre">BdbQuit</span></code></a> se o sinalizador <a class="reference internal" href="#bdb.Bdb.set_quit" title="bdb.Bdb.set_quit"><code class="xref py py-attr docutils literal notranslate"><span class="pre">quitting</span></code></a> estiver definido (ele pode ser definido a partir de <code class="xref py py-meth docutils literal notranslate"><span class="pre">user_call()</span></code>). Retorna uma referência ao método <a class="reference internal" href="#bdb.Bdb.trace_dispatch" title="bdb.Bdb.trace_dispatch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">trace_dispatch()</span></code></a> para continuar o rastreamento nesse escopo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.dispatch_return">
+<span class="sig-name descname"><span class="pre">dispatch_return</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.dispatch_return" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Se o depurador deve parar no retorno desta função, invoca o método <a class="reference internal" href="#bdb.Bdb.user_return" title="bdb.Bdb.user_return"><code class="xref py py-meth docutils literal notranslate"><span class="pre">user_return()</span></code></a> (que deve ser substituído em subclasses). Levanta a exceção <a class="reference internal" href="#bdb.BdbQuit" title="bdb.BdbQuit"><code class="xref py py-exc docutils literal notranslate"><span class="pre">BdbQuit</span></code></a> se o sinalizador <a class="reference internal" href="#bdb.Bdb.set_quit" title="bdb.Bdb.set_quit"><code class="xref py py-attr docutils literal notranslate"><span class="pre">quitting</span></code></a> estiver definido (ele pode ser definido a partir de <code class="xref py py-meth docutils literal notranslate"><span class="pre">user_return()</span></code>). Retorna uma referência ao método <a class="reference internal" href="#bdb.Bdb.trace_dispatch" title="bdb.Bdb.trace_dispatch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">trace_dispatch()</span></code></a> para continuar o rastreamento nesse escopo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.dispatch_exception">
+<span class="sig-name descname"><span class="pre">dispatch_exception</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.dispatch_exception" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Se o depurador deve parar nesta exceção, invoca o método <a class="reference internal" href="#bdb.Bdb.user_exception" title="bdb.Bdb.user_exception"><code class="xref py py-meth docutils literal notranslate"><span class="pre">user_exception()</span></code></a> (que deve ser substituído em subclasses). Levanta a exceção <a class="reference internal" href="#bdb.BdbQuit" title="bdb.BdbQuit"><code class="xref py py-exc docutils literal notranslate"><span class="pre">BdbQuit</span></code></a> se o sinalizador <a class="reference internal" href="#bdb.Bdb.set_quit" title="bdb.Bdb.set_quit"><code class="xref py py-attr docutils literal notranslate"><span class="pre">quitting</span></code></a> estiver definido (ele pode ser definido a partir de <code class="xref py py-meth docutils literal notranslate"><span class="pre">user_exception()</span></code>). Retorna uma referência ao método <a class="reference internal" href="#bdb.Bdb.trace_dispatch" title="bdb.Bdb.trace_dispatch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">trace_dispatch()</span></code></a> para continuar o rastreamento nesse escopo.</p>
+</dd></dl>
+
+<p class="translated">Normalmente, as classes derivadas não substituem o seguinte métodos, mas podem fazê-lo se quiserem redefinir a definição de parada e  de pontos de interrupção.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.is_skipped_module">
+<span class="sig-name descname"><span class="pre">is_skipped_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.is_skipped_module" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se <em>module_name</em> corresponder a algum padrão de skip.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.stop_here">
+<span class="sig-name descname"><span class="pre">stop_here</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.stop_here" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se frame estiver abaixo do frame inicial na pilha.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.break_here">
+<span class="sig-name descname"><span class="pre">break_here</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.break_here" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se houver um ponto de interrupção efetivo para essa linha.</p>
+<p class="translated">Verifica se uma linha ou função ponto de interrupção existe e está em vigor.  Exclua os pontos de interrupção temporários com base nas informações de <a class="reference internal" href="#bdb.effective" title="bdb.effective"><code class="xref py py-func docutils literal notranslate"><span class="pre">effective()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.break_anywhere">
+<span class="sig-name descname"><span class="pre">break_anywhere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.break_anywhere" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se existir algum ponto de interrupção para o nome de arquivo de <em>frame</em>’s.</p>
+</dd></dl>
+
+<p class="translated">As classes derivadas devem substituir esses métodos para obter controle sobre a operação da depurador.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.user_call">
+<span class="sig-name descname"><span class="pre">user_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">argument_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.user_call" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Chamado a partir de <a class="reference internal" href="#bdb.Bdb.dispatch_call" title="bdb.Bdb.dispatch_call"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dispatch_call()</span></code></a> se um ponto de interrupção puder parar dentro da função chamada.</p>
+<p class="translated"><em>argument_list</em> não é mais usado e sempre será <code class="docutils literal notranslate"><span class="pre">None</span></code>. O argumento é mantido por retrocompatibilidade.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.user_line">
+<span class="sig-name descname"><span class="pre">user_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.user_line" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Chamado a partir de <a class="reference internal" href="#bdb.Bdb.dispatch_line" title="bdb.Bdb.dispatch_line"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dispatch_line()</span></code></a> quando <a class="reference internal" href="#bdb.Bdb.stop_here" title="bdb.Bdb.stop_here"><code class="xref py py-meth docutils literal notranslate"><span class="pre">stop_here()</span></code></a> ou <a class="reference internal" href="#bdb.Bdb.break_here" title="bdb.Bdb.break_here"><code class="xref py py-meth docutils literal notranslate"><span class="pre">break_here()</span></code></a> retornam <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.user_return">
+<span class="sig-name descname"><span class="pre">user_return</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.user_return" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Chamado a partir de <a class="reference internal" href="#bdb.Bdb.dispatch_return" title="bdb.Bdb.dispatch_return"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dispatch_return()</span></code></a> quando <a class="reference internal" href="#bdb.Bdb.stop_here" title="bdb.Bdb.stop_here"><code class="xref py py-meth docutils literal notranslate"><span class="pre">stop_here()</span></code></a> retorna <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.user_exception">
+<span class="sig-name descname"><span class="pre">user_exception</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.user_exception" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Chamado a partir de <a class="reference internal" href="#bdb.Bdb.dispatch_exception" title="bdb.Bdb.dispatch_exception"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dispatch_exception()</span></code></a> quando <a class="reference internal" href="#bdb.Bdb.stop_here" title="bdb.Bdb.stop_here"><code class="xref py py-meth docutils literal notranslate"><span class="pre">stop_here()</span></code></a> retorna <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.do_clear">
+<span class="sig-name descname"><span class="pre">do_clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.do_clear" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Manipula como um ponto de interrupção deve ser removido quando for temporário.</p>
+<p class="translated">Esse método deve ser implementado por classes derivadas.</p>
+</dd></dl>
+
+<p class="translated">As classes derivadas e os clientes podem chamar os métodos a seguir para afetar o estado de stepping.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.set_step">
+<span class="sig-name descname"><span class="pre">set_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.set_step" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Parar após uma linha de código.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.set_next">
+<span class="sig-name descname"><span class="pre">set_next</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.set_next" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Parar na próxima linha no frame fornecido ou abaixo dele.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.set_return">
+<span class="sig-name descname"><span class="pre">set_return</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.set_return" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Parar ao retornar do frame fornecido.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.set_until">
+<span class="sig-name descname"><span class="pre">set_until</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineno</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.set_until" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Parar quando a linha com <em>lineno</em> maior que a atual for alcançada ou ao retornar do frame atual.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.set_trace">
+<span class="sig-name descname"><span class="pre">set_trace</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.set_trace" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Inicia a depuração a partir de <em>frame</em>. Se <em>frame</em> não for especificado, a depuração começa a partir do frame do chamador.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span><a class="reference internal" href="#bdb.set_trace" title="bdb.set_trace"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_trace()</span></code></a> entrará no depurador imediatamente, em vez de na próxima linha de código a ser executada.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.set_continue">
+<span class="sig-name descname"><span class="pre">set_continue</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.set_continue" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Pare somente nos pontos de interrupção ou quando terminar.  Se não houver pontos de interrupção, defina o sistema função de rastreamento como <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.set_quit">
+<span class="sig-name descname"><span class="pre">set_quit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.set_quit" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated" id="index-0">Defina o atributo <code class="xref py py-attr docutils literal notranslate"><span class="pre">quitting</span></code> como <code class="docutils literal notranslate"><span class="pre">True</span></code>. Isso levanta <a class="reference internal" href="#bdb.BdbQuit" title="bdb.BdbQuit"><code class="xref py py-exc docutils literal notranslate"><span class="pre">BdbQuit</span></code></a> na próxima chamada de um dos métodos <code class="xref py py-meth docutils literal notranslate"><span class="pre">dispatch_*()</span></code>.</p>
+</dd></dl>
+
+<p class="translated">Classes derivadas e clientes podem chamar os métodos a seguir para manipular pontos de interrupção. Esses métodos retornam uma string contendo uma mensagem de erro se algo der errado, ou <code class="docutils literal notranslate"><span class="pre">None</span></code> se tudo estiver correto.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.set_break">
+<span class="sig-name descname"><span class="pre">set_break</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineno</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temporary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">funcname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.set_break" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Define um novo ponto de interrupção. Se a linha <em>lineno</em> não existir para o <em>filename</em> passado como argumento, retorna uma mensagem de erro. O <em>filename</em> deve estar na forma canônica, conforme descrito no método <a class="reference internal" href="#bdb.Bdb.canonic" title="bdb.Bdb.canonic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">canonic()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.clear_break">
+<span class="sig-name descname"><span class="pre">clear_break</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineno</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.clear_break" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exclui os pontos de interrupção em <em>filename</em> e <em>lineno</em>. Se nenhum tiver sido definido, retorna uma mensagem de erro.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.clear_bpbynumber">
+<span class="sig-name descname"><span class="pre">clear_bpbynumber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.clear_bpbynumber" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exclui o ponto de interrupção cujo índice é <em>arg</em> em <a class="reference internal" href="#bdb.Breakpoint.bpbynumber" title="bdb.Breakpoint.bpbynumber"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Breakpoint.bpbynumber</span></code></a>. Se <em>arg</em> não for numérico ou estiver fora do intervalo, retorna uma mensagem de erro.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.clear_all_file_breaks">
+<span class="sig-name descname"><span class="pre">clear_all_file_breaks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.clear_all_file_breaks" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exclui todos os pontos de interrupção em <em>filename</em>. Se nenhum tiver sido definido, retorna uma mensagem de erro.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.clear_all_breaks">
+<span class="sig-name descname"><span class="pre">clear_all_breaks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.clear_all_breaks" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exclui todos os pontos de interrupção existentes. Se nenhum tiver sido definido, retorna uma mensagem de erro.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.get_bpbynumber">
+<span class="sig-name descname"><span class="pre">get_bpbynumber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.get_bpbynumber" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o ponto de interrupção especificado pelo número fornecido. Se <em>arg</em> for uma string, ele será convertido para um número. Se <em>arg</em> for uma string não numérica, se o ponto de interrupção nunca tiver existido ou tiver sido excluído, uma <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> será levantada.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.get_break">
+<span class="sig-name descname"><span class="pre">get_break</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineno</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.get_break" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se houver um ponto de interrupção para <em>lineno</em> em <em>filename</em>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.get_breaks">
+<span class="sig-name descname"><span class="pre">get_breaks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineno</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.get_breaks" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna todos os pontos de interrupção para <em>lineno</em> em <em>filename</em>, ou uma lista vazia se nenhum estiver definido.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.get_file_breaks">
+<span class="sig-name descname"><span class="pre">get_file_breaks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.get_file_breaks" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna todos os pontos de interrupção em <em>filename</em>, ou uma lista vazia se nenhum estiver definido.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.get_all_breaks">
+<span class="sig-name descname"><span class="pre">get_all_breaks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.get_all_breaks" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna todos os pontos de interrupção definidos.</p>
+</dd></dl>
+
+<p class="translated">Classes derivadas e clientes podem chamar os métodos a seguir para desabilitar e reiniciar eventos a fim de obter melhor desempenho. Esses métodos só funcionam ao usar o backend <code class="docutils literal notranslate"><span class="pre">'monitoring'</span></code>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.disable_current_event">
+<span class="sig-name descname"><span class="pre">disable_current_event</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.disable_current_event" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Desabilita o evento atual até a próxima vez que <a class="reference internal" href="#bdb.Bdb.restart_events" title="bdb.Bdb.restart_events"><code class="xref py py-func docutils literal notranslate"><span class="pre">restart_events()</span></code></a> for chamada. Isso é útil quando o depurador não está interessado na linha atual.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.restart_events">
+<span class="sig-name descname"><span class="pre">restart_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.restart_events" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Reinicia todos os eventos desabilitados. Essa função é chamada automaticamente nos métodos <code class="docutils literal notranslate"><span class="pre">dispatch_*</span></code> após a chamada dos métodos <code class="docutils literal notranslate"><span class="pre">user_*</span></code>. Se os métodos <code class="docutils literal notranslate"><span class="pre">dispatch_*</span></code> não forem substituídos, os eventos desabilitados serão reiniciados após cada interação do usuário.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+<p class="translated">Classes derivadas e clientes podem chamar os métodos a seguir para obter uma estrutura de dados que represente um stack trace (situação da pilha de execução).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.get_stack">
+<span class="sig-name descname"><span class="pre">get_stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.get_stack" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma lista de tuplas (frame, lineno) em um stack trace e um tamanho.</p>
+<p class="translated">O frame chamado mais recentemente é o último da lista. O tamanho é o número de frames abaixo do frame onde o depurador foi invocado.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.format_stack_entry">
+<span class="sig-name descname"><span class="pre">format_stack_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_lineno</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lprefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">':</span> <span class="pre">'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.format_stack_entry" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma string com informações sobre uma entrada da pilha, que é uma tupla <code class="docutils literal notranslate"><span class="pre">(frame,</span> <span class="pre">lineno)</span></code>. A string retornada contém:</p>
+<ul class="simple">
+<li><p class="translated">O nome de arquivo canônico que contém o quadro.</p></li>
+<li><p class="translated">O nome da função ou <code class="docutils literal notranslate"><span class="pre">&quot;&lt;lambda&gt;&quot;</span></code>.</p></li>
+<li><p class="translated">O argumento de entrada.</p></li>
+<li><p class="translated">O valor de retorno.</p></li>
+<li><p class="translated">A linha de código (se existir).</p></li>
+</ul>
+</dd></dl>
+
+<p class="translated">Os dois métodos a seguir podem ser chamados pelos clientes para usar um depurador e depurar uma <a class="reference internal" href="../glossary.html#term-statement"><span class="xref std std-term">instrução</span></a>, fornecida como uma string.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">globals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.run" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Depura uma instrução executada por meio da função <a class="reference internal" href="../builtins/functions.html#exec" title="exec"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a>. globals assume por padrão <code class="xref py py-attr docutils literal notranslate"><span class="pre">__main__.__dict__</span></code>, locals assume por padrão globals.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.runeval">
+<span class="sig-name descname"><span class="pre">runeval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">globals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.runeval" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Depura uma expressão executada por meio da função <a class="reference internal" href="../builtins/functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a>. globals e locals têm o mesmo significado que em <a class="reference internal" href="#bdb.Bdb.run" title="bdb.Bdb.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.runctx">
+<span class="sig-name descname"><span class="pre">runctx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">globals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.runctx" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Por retrocompatibilidade. Chama o método <a class="reference internal" href="#bdb.Bdb.run" title="bdb.Bdb.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bdb.Bdb.runcall">
+<span class="sig-name descname"><span class="pre">runcall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.Bdb.runcall" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Depura uma única chamada de função e retorna seu resultado.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p class="translated">Por fim, o módulo define as funções a seguir:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="bdb.checkfuncname">
+<span class="sig-prename descclassname"><span class="pre">bdb.</span></span><span class="sig-name descname"><span class="pre">checkfuncname</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.checkfuncname" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">True</span></code> se devemos interromper aqui, dependendo da forma como o <a class="reference internal" href="#bdb.Breakpoint" title="bdb.Breakpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Breakpoint</span></code></a> foi configurado.</p>
+<p class="untranslated">If it was set via line number, it checks if
+<a class="reference internal" href="#bdb.Breakpoint.line" title="bdb.Breakpoint.line"><code class="xref py py-attr docutils literal notranslate"><span class="pre">b.line</span></code></a> is the same as the one in <em>frame</em>.
+If the breakpoint was set via
+<a class="reference internal" href="#bdb.Breakpoint.funcname" title="bdb.Breakpoint.funcname"><code class="xref py py-attr docutils literal notranslate"><span class="pre">function</span> <span class="pre">name</span></code></a>, we have to check we are in
+the right <em>frame</em> (the right function) and if we are on its first executable
+line.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bdb.effective">
+<span class="sig-prename descclassname"><span class="pre">bdb.</span></span><span class="sig-name descname"><span class="pre">effective</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bdb.effective" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna <code class="docutils literal notranslate"><span class="pre">(active</span> <span class="pre">breakpoint,</span> <span class="pre">delete</span> <span class="pre">temporary</span> <span class="pre">flag)</span></code> ou <code class="docutils literal notranslate"><span class="pre">(None,</span> <span class="pre">None)</span></code> como o ponto de interrupção sobre o qual agir.</p>
+<p class="untranslated">The <em>active breakpoint</em> is the first entry in
+<a class="reference internal" href="#bdb.Breakpoint.bplist" title="bdb.Breakpoint.bplist"><code class="xref py py-attr docutils literal notranslate"><span class="pre">bplist</span></code></a> for the
+(<a class="reference internal" href="#bdb.Breakpoint.file" title="bdb.Breakpoint.file"><code class="xref py py-attr docutils literal notranslate"><span class="pre">file</span></code></a>, <a class="reference internal" href="#bdb.Breakpoint.line" title="bdb.Breakpoint.line"><code class="xref py py-attr docutils literal notranslate"><span class="pre">line</span></code></a>)
+(which must exist) that is <a class="reference internal" href="#bdb.Breakpoint.enabled" title="bdb.Breakpoint.enabled"><code class="xref py py-attr docutils literal notranslate"><span class="pre">enabled</span></code></a>, for
+which <a class="reference internal" href="#bdb.checkfuncname" title="bdb.checkfuncname"><code class="xref py py-func docutils literal notranslate"><span class="pre">checkfuncname()</span></code></a> is true, and that has neither a false
+<a class="reference internal" href="#bdb.Breakpoint.cond" title="bdb.Breakpoint.cond"><code class="xref py py-attr docutils literal notranslate"><span class="pre">condition</span></code></a> nor positive
+<a class="reference internal" href="#bdb.Breakpoint.ignore" title="bdb.Breakpoint.ignore"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ignore</span></code></a> count.  The <em>flag</em>, meaning that a
+temporary breakpoint should be deleted, is <code class="docutils literal notranslate"><span class="pre">False</span></code> only when the
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">cond</span></code> cannot be evaluated (in which case,
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">ignore</span></code> count is ignored).</p>
+<p class="translated">Se essa entrada não existir, será retornado <code class="docutils literal notranslate"><span class="pre">(None,</span> <span class="pre">None)</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bdb.set_trace">
+<span class="sig-prename descclassname"><span class="pre">bdb.</span></span><span class="sig-name descname"><span class="pre">set_trace</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bdb.set_trace" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Inicie a depuração com uma instância de <a class="reference internal" href="#bdb.Bdb" title="bdb.Bdb"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bdb</span></code></a> a partir do frame do chamador.</p>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="audit_events.html"
+                          title="capítulo anterior">Tabela de eventos de auditoria</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="faulthandler.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">faulthandler</span></code> — Dump the Python traceback</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/bdb.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/bdb.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/bdb.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="faulthandler.html" title="faulthandler — Dump the Python traceback"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="audit_events.html" title="Tabela de eventos de auditoria"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="debug.html" >Depuração e perfilamento</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">bdb</span></code> — Framework do depurador</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Depurando extensões de API C e internos do CPython com GDB" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/howto/gdb_helpers.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Este documento explica como a extensão GDB do Python, python-gdb.py, pode ser usada com o depurador GDB para depurar extensões CPython e o próprio interpretador CPython. Ao depurar problemas de bai..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_howto_gdb_helpers_e53c9246.png" />
+<meta property="og:image:alt" content="Este documento explica como a extensão GDB do Python, python-gdb.py, pode ser usada com o depurador GDB para depurar extensões CPython e o próprio interpretador CPython. Ao depurar problemas de bai..." />
+<meta name="description" content="Este documento explica como a extensão GDB do Python, python-gdb.py, pode ser usada com o depurador GDB para depurar extensões CPython e o próprio interpretador CPython. Ao depurar problemas de bai..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Depurando extensões de API C e internos do CPython com GDB &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Enum" href="enum.html" />
+    <link rel="prev" title="Guia de descritores" href="descriptor.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/howto/gdb_helpers.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Depurando extensões de API C e internos do CPython com GDB</a><ul>
+<li><a class="reference internal" href="#prerequisites">Pré-requisitos</a><ul>
+<li><a class="reference internal" href="#setup-with-python-built-from-source">Configuração com Python construído a partir do código-fonte</a></li>
+<li><a class="reference internal" href="#setup-for-python-from-a-linux-distro">Configuração para Python a partir de uma distribuição Linux</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-the-debug-build-and-development-mode">Usando a compilação de depuração e o modo de desenvolvimento</a></li>
+<li><a class="reference internal" href="#using-the-python-gdb-extension">Usando a extensão <code class="docutils literal notranslate"><span class="pre">python-gdb</span></code></a><ul>
+<li><a class="reference internal" href="#pretty-printers">Pretty-printers</a></li>
+<li><a class="reference internal" href="#py-list"><code class="docutils literal notranslate"><span class="pre">py-list</span></code></a></li>
+<li><a class="reference internal" href="#py-up-and-py-down"><code class="docutils literal notranslate"><span class="pre">py-up</span></code> e <code class="docutils literal notranslate"><span class="pre">py-down</span></code></a></li>
+<li><a class="reference internal" href="#py-bt"><code class="docutils literal notranslate"><span class="pre">py-bt</span></code></a></li>
+<li><a class="reference internal" href="#py-print"><code class="docutils literal notranslate"><span class="pre">py-print</span></code></a></li>
+<li><a class="reference internal" href="#py-locals"><code class="docutils literal notranslate"><span class="pre">py-locals</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#use-with-gdb-commands">Uso com comandos do GDB</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="descriptor.html"
+                          title="capítulo anterior">Guia de descritores</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="enum.html"
+                          title="próximo capítulo">Enum</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "howto/gdb_helpers.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/howto/gdb_helpers.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/howto/gdb_helpers.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="enum.html" title="Enum"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="descriptor.html" title="Guia de descritores"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python HOWTOs</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Depurando extensões de API C e internos do CPython com GDB</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="debugging-c-api-extensions-and-cpython-internals-with-gdb">
+<span id="gdb"></span><h1 class="translated">Depurando extensões de API C e internos do CPython com GDB<a class="headerlink" href="#debugging-c-api-extensions-and-cpython-internals-with-gdb" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated">Este documento explica como a extensão GDB do Python, <code class="docutils literal notranslate"><span class="pre">python-gdb.py</span></code>, pode ser usada com o depurador GDB para depurar extensões CPython e o próprio interpretador CPython.</p>
+<p class="translated">Ao depurar problemas de baixo nível, como falhas ou impasses, um depurador de baixo nível, como o GDB, é útil para diagnosticar e corrigir o problema. Por padrão, o GDB (ou qualquer uma de suas interfaces) não oferece suporte a informações de alto nível específicas do interpretador CPython.</p>
+<p class="translated">A extensão <code class="docutils literal notranslate"><span class="pre">python-gdb.py</span></code> adiciona informações do interpretador CPython ao GDB. A extensão ajuda a inspecionar a pilha de funções Python atualmente em execução. Dado um objeto Python representado por um ponteiro <span class="c-expr sig sig-inline c"><a class="reference internal" href="../c-api/structures.html#c.PyObject" title="PyObject"><span class="n">PyObject</span></a><span class="p">*</span></span>, a extensão mostra o tipo e o valor do objeto.</p>
+<p class="translated">Desenvolvedores que estão trabalhando em extensões CPython ou mexendo com partes do CPython escritas em C podem usar este documento para aprender como usar a extensão <code class="docutils literal notranslate"><span class="pre">python-gdb.py</span></code> com o GDB.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Este documento pressupõe que você esteja familiarizado com o básico do GDB e da API C do CPython. Ele consolida orientações do <a class="reference external" href="https://devguide.python.org">devguide</a> e da <a class="reference external" href="https://wiki.python.org/moin/DebuggingWithGdb">wiki do Python</a>.</p>
+</div>
+<section id="prerequisites">
+<h2 class="translated">Pré-requisitos<a class="headerlink" href="#prerequisites" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Você precisa ter:</p>
+<ul class="simple">
+<li><p class="translated">GDB 7 ou posterior. (Para versões anteriores do GDB, consulte <code class="docutils literal notranslate"><span class="pre">Misc/gdbinit</span></code> nas fontes do Python 3.11 ou anterior.)</p></li>
+<li><p class="translated">Informações de depuração compatíveis com GDB para Python e qualquer extensão que você esteja depurando.</p></li>
+<li><p class="translated">A extensão <code class="docutils literal notranslate"><span class="pre">python-gdb.py</span></code>.</p></li>
+</ul>
+<p class="translated">A extensão é construída com Python, mas pode ser distribuída separadamente ou não ser distribuída. Abaixo, incluímos dicas para alguns sistemas comuns como exemplos. Note que mesmo se as instruções corresponderem ao seu sistema, elas podem estar desatualizadas.</p>
+<section id="setup-with-python-built-from-source">
+<h3 class="translated">Configuração com Python construído a partir do código-fonte<a class="headerlink" href="#setup-with-python-built-from-source" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Quando você compila o CPython a partir do código-fonte, as informações de depuração devem estar disponíveis, e a compilação deve adicionar um arquivo <code class="docutils literal notranslate"><span class="pre">python-gdb.py</span></code> ao diretório raiz do seu repositório.</p>
+<p class="translated">Para ativar o suporte, você deve adicionar o diretório que contém <code class="docutils literal notranslate"><span class="pre">python-gdb.py</span></code> ao “auto-load-safe-path” do GDB. Se você ainda não fez isso, as versões recentes do GDB imprimirão um aviso com instruções sobre como fazer isso.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Se você não encontrar instruções para a sua versão do GDB, coloque isso no seu arquivo de configuração (<code class="docutils literal notranslate"><span class="pre">~/.gdbinit</span></code> ou <code class="docutils literal notranslate"><span class="pre">~/.config/gdb/gdbinit</span></code>):</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>add-auto-load-safe-path /caminho/para/cpython
+</pre></div>
+</div>
+<p class="translated">Você também pode adicionar vários caminhos, separados por <code class="docutils literal notranslate"><span class="pre">:</span></code>.</p>
+</div>
+</section>
+<section id="setup-for-python-from-a-linux-distro">
+<h3 class="translated">Configuração para Python a partir de uma distribuição Linux<a class="headerlink" href="#setup-for-python-from-a-linux-distro" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">A maioria dos sistemas Linux fornece informações de depuração para o Python do sistema em um pacote chamado <code class="docutils literal notranslate"><span class="pre">python-debuginfo</span></code>, <code class="docutils literal notranslate"><span class="pre">python-dbg</span></code> ou similar. Por exemplo:</p>
+<ul>
+<li><p class="translated">Fedora:</p>
+<blockquote>
+<div><div class="translated highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>gdb
+sudo<span class="w"> </span>dnf<span class="w"> </span>debuginfo-install<span class="w"> </span>python3
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="translated">Ubuntu:</p>
+<blockquote>
+<div><div class="translated highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>gdb<span class="w"> </span>python3-dbg
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<p class="translated">Em vários sistemas Linux recentes, o GDB pode baixar automaticamente símbolos de depuração usando <em>debuginfod</em>. No entanto, isso não instalará a extensão <code class="docutils literal notranslate"><span class="pre">python-gdb.py</span></code>; geralmente é necessário instalar separadamente o pacote de informações de depuração.</p>
+</section>
+</section>
+<section id="using-the-debug-build-and-development-mode">
+<h2 class="translated">Usando a compilação de depuração e o modo de desenvolvimento<a class="headerlink" href="#using-the-debug-build-and-development-mode" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Para facilitar a depuração, você pode querer:</p>
+<ul class="simple">
+<li><p class="translated">Use a <a class="reference internal" href="../using/configure.html#debug-build"><span class="std std-ref">compilação de depuração</span></a> do Python. (Ao compilar a partir do código-fonte, use <code class="docutils literal notranslate"><span class="pre">configure</span> <span class="pre">--with-pydebug</span></code>. Em distribuições Linux, instale e execute um pacote como <code class="docutils literal notranslate"><span class="pre">python-debug</span></code> ou <code class="docutils literal notranslate"><span class="pre">python-dbg</span></code>, se disponível.)</p></li>
+<li><p class="translated">Use o <a class="reference internal" href="../library/devmode.html#devmode"><span class="std std-ref">modo de desenvolvimento</span></a> de tempo de execução (<code class="docutils literal notranslate"><span class="pre">-X</span> <span class="pre">dev</span></code>).</p></li>
+</ul>
+<p class="translated">Ambos habilitam assertivas extras e desabilitam algumas otimizações. Às vezes isso esconde o bug que você está tentando encontrar, mas na maioria dos casos eles facilitam o processo.</p>
+</section>
+<section id="using-the-python-gdb-extension">
+<h2 class="translated">Usando a extensão <code class="docutils literal notranslate"><span class="pre">python-gdb</span></code><a class="headerlink" href="#using-the-python-gdb-extension" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Quando a extensão é carregada, ela fornece duas principais funcionalidades: impressões bonitas para valores Python e comandos adicionais.</p>
+<section id="pretty-printers">
+<h3 class="translated">Pretty-printers<a class="headerlink" href="#pretty-printers" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Este é o aspecto de um backtrace do GDB (truncado) quando esta extensão está habilitada:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>#0  0x000000000041a6b1 in PyObject_Malloc (nbytes=Cannot access memory at address 0x7fffff7fefe8
+) at Objects/obmalloc.c:748
+#1  0x000000000041b7c0 in _PyObject_DebugMallocApi (id=111 'o', nbytes=24) at Objects/obmalloc.c:1445
+#2  0x000000000041b717 in _PyObject_DebugMalloc (nbytes=24) at Objects/obmalloc.c:1412
+#3  0x000000000044060a in _PyUnicode_New (length=11) at Objects/unicodeobject.c:346
+#4  0x00000000004466aa in PyUnicodeUCS2_DecodeUTF8Stateful (s=0x5c2b8d "__lltrace__", size=11, errors=0x0, consumed=
+    0x0) at Objects/unicodeobject.c:2531
+#5  0x0000000000446647 in PyUnicodeUCS2_DecodeUTF8 (s=0x5c2b8d "__lltrace__", size=11, errors=0x0)
+    at Objects/unicodeobject.c:2495
+#6  0x0000000000440d1b in PyUnicodeUCS2_FromStringAndSize (u=0x5c2b8d "__lltrace__", size=11)
+    at Objects/unicodeobject.c:551
+#7  0x0000000000440d94 in PyUnicodeUCS2_FromString (u=0x5c2b8d "__lltrace__") at Objects/unicodeobject.c:569
+#8  0x0000000000584abd in PyDict_GetItemString (v=
+    {'Yuck': &lt;type at remote 0xad4730&gt;, '__builtins__': &lt;module at remote 0x7ffff7fd5ee8&gt;, '__file__': 'Lib/test/crashers/nasty_eq_vs_dict.py', '__package__': None, 'y': &lt;Yuck(i=0) at remote 0xaacd80&gt;, 'dict': {0: 0, 1: 1, 2: 2, 3: 3}, '__name__': '__main__', 'z': &lt;Yuck(i=0) at remote 0xaace60&gt;, '__doc__': None}, key=
+    0x5c2b8d "__lltrace__") at Objects/dictobject.c:2171
+</pre></div>
+</div>
+<p class="translated">Observe como o argumento do dicionário para <code class="docutils literal notranslate"><span class="pre">PyDict_GetItemString</span></code> é exibido como seu <code class="docutils literal notranslate"><span class="pre">repr()</span></code>, em vez de um ponteiro <code class="docutils literal notranslate"><span class="pre">PyObject</span> <span class="pre">*</span></code> opaco.</p>
+<p class="translated">A extensão funciona fornecendo uma rotina de impressão personalizada para valores do tipo <code class="docutils literal notranslate"><span class="pre">PyObject</span> <span class="pre">*</span></code>. Se você precisar acessar detalhes de nível inferior de um objeto, então converta o valor para um ponteiro do tipo apropriado. Por exemplo:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) p globals
+$1 = {'__builtins__': &lt;module at remote 0x7ffff7fb1868&gt;, '__name__':
+'__main__', 'ctypes': &lt;module at remote 0x7ffff7f14360&gt;, '__doc__': None,
+'__package__': None}
+
+(gdb) p *(PyDictObject*)globals
+$2 = {ob_refcnt = 3, ob_type = 0x3dbdf85820, ma_fill = 5, ma_used = 5,
+ma_mask = 7, ma_table = 0x63d0f8, ma_lookup = 0x3dbdc7ea70
+&lt;lookdict_string&gt;, ma_smalltable = {{me_hash = 7065186196740147912,
+me_key = '__builtins__', me_value = &lt;module at remote 0x7ffff7fb1868&gt;},
+{me_hash = -368181376027291943, me_key = '__name__',
+me_value ='__main__'}, {me_hash = 0, me_key = 0x0, me_value = 0x0},
+{me_hash = 0, me_key = 0x0, me_value = 0x0},
+{me_hash = -9177857982131165996, me_key = 'ctypes',
+me_value = &lt;module at remote 0x7ffff7f14360&gt;},
+{me_hash = -8518757509529533123, me_key = '__doc__', me_value = None},
+{me_hash = 0, me_key = 0x0, me_value = 0x0}, {
+  me_hash = 6614918939584953775, me_key = '__package__', me_value = None}}}
+</pre></div>
+</div>
+<p class="translated">Observe que os pretty-printers não chamam realmente <code class="docutils literal notranslate"><span class="pre">repr()</span></code>. Para tipos básicos, eles tentam corresponder ao seu resultado de perto.</p>
+<p class="translated">Uma área que pode ser confusa é que a impressão personalizada para alguns tipos se parece muito com a impressão embutida do GDB para tipos padrão. Por exemplo, a impressora bonita para um <code class="docutils literal notranslate"><span class="pre">int</span></code> do Python (<span class="c-expr sig sig-inline c"><a class="reference internal" href="../c-api/long.html#c.PyLongObject" title="PyLongObject"><span class="n">PyLongObject</span></a><span class="p">*</span></span>) fornece uma representação que não é distinguível de um inteiro de nível de máquina regular.</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) p some_machine_integer
+$3 = 42
+
+(gdb) p some_python_integer
+$4 = 42
+</pre></div>
+</div>
+<p class="translated">A estrutura interna pode ser revelada com um elenco para <span class="c-expr sig sig-inline c"><a class="reference internal" href="../c-api/long.html#c.PyLongObject" title="PyLongObject"><span class="n">PyLongObject</span></a><span class="p">*</span></span>:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) p *(PyLongObject*)algum_inteiro_python $5 = {ob_base = {ob_base = {ob_refcnt = 8, ob_type = 0x3dad39f5e0}, ob_size = 1}, ob_digit = {42}}
+</pre></div>
+</div>
+<p class="translated">Uma confusão semelhante pode surgir com o tipo <code class="docutils literal notranslate"><span class="pre">str</span></code>, onde a saída se parece muito com a a impressão embutida do gdb para <code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*</span></code>.</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) p ptr_to_python_str
+$6 = '__builtins__'
+</pre></div>
+</div>
+<p class="translated">O pretty-printer para instâncias de <code class="docutils literal notranslate"><span class="pre">str</span></code> tem como padrão o uso de aspas simples (assim como o <code class="docutils literal notranslate"><span class="pre">repr</span></code> do Python para strings), enquanto o printer padrão para valores de <code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*</span></code> usa aspas duplas e contém um endereço hexadecimal.</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) p ptr_to_char_star
+$7 = 0x6d72c0 "hello world"
+</pre></div>
+</div>
+<p class="translated">Novamente, os detalhes de implementação podem ser revelados com um chamada a <span class="c-expr sig sig-inline c"><a class="reference internal" href="../c-api/unicode.html#c.PyUnicodeObject" title="PyUnicodeObject"><span class="n">PyUnicodeObject</span></a><span class="p">*</span></span>::.</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) p *(PyUnicodeObject*)$6
+$8 = {ob_base = {ob_refcnt = 33, ob_type = 0x3dad3a95a0}, length = 12,
+str = 0x7ffff2128500, hash = 7065186196740147912, state = 1, defenc = 0x0}
+</pre></div>
+</div>
+</section>
+<section id="py-list">
+<h3 class="translated"><code class="docutils literal notranslate"><span class="pre">py-list</span></code><a class="headerlink" href="#py-list" title="Link para este cabeçalho">¶</a></h3>
+<blockquote>
+<div><p class="translated">A extensão adiciona um comando <code class="docutils literal notranslate"><span class="pre">py-list</span></code>, que lista o código-fonte Python (se houver) para o quadro atual na thread selecionada. A linha atual é marcada com um “&gt;”:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) py-list
+ 901        if options.profile:
+ 902            options.profile = False
+ 903            profile_me()
+ 904            return
+ 905
+&gt;906        u = UI()
+ 907        if not u.quit:
+ 908            try:
+ 909                gtk.main()
+ 910            except KeyboardInterrupt:
+ 911                # properly quit on a keyboard interrupt...
+</pre></div>
+</div>
+<p class="translated">Use <code class="docutils literal notranslate"><span class="pre">py-list</span> <span class="pre">START</span></code> para listar em um número de linha diferente dentro do código Python, e <code class="docutils literal notranslate"><span class="pre">py-list</span> <span class="pre">START,END</span></code> para listar um intervalo específico de linhas dentro do código Python.</p>
+</div></blockquote>
+</section>
+<section id="py-up-and-py-down">
+<h3 class="translated"><code class="docutils literal notranslate"><span class="pre">py-up</span></code> e <code class="docutils literal notranslate"><span class="pre">py-down</span></code><a class="headerlink" href="#py-up-and-py-down" title="Link para este cabeçalho">¶</a></h3>
+<blockquote>
+<div><p class="translated">Os comandos <code class="docutils literal notranslate"><span class="pre">py-up</span></code> e <code class="docutils literal notranslate"><span class="pre">py-down</span></code> são análogos aos comandos regulares <code class="docutils literal notranslate"><span class="pre">up</span></code> e <code class="docutils literal notranslate"><span class="pre">down</span></code> do GDB, mas tentam se mover no nível dos quadros do CPython, em vez dos quadros do C.</p>
+<p class="translated">GDB nem sempre consegue ler as informações relevantes do quadro, dependendo do nível de otimização com o qual o CPython foi compilado. Internamente, os comandos procuram por quadros C que estão executando a função de avaliação de quadro padrão (ou seja, o laço do interpretador de bytecode principal dentro do CPython) e procuram o valor do <code class="docutils literal notranslate"><span class="pre">PyFrameObject</span> <span class="pre">*</span></code> relacionado.</p>
+<p class="translated">Eles emitem o número do quadro (no nível C) dentro da thread.</p>
+<p class="translated">Por exemplo:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) py-up
+#37 Frame 0x9420b04, for file /usr/lib/python2.6/site-packages/
+gnome_sudoku/main.py, line 906, in start_game ()
+    u = UI()
+(gdb) py-up
+#40 Frame 0x948e82c, for file /usr/lib/python2.6/site-packages/
+gnome_sudoku/gnome_sudoku.py, line 22, in start_game(main=&lt;module at remote 0xb771b7f4&gt;)
+    main.start_game()
+(gdb) py-up
+Unable to find an older python frame
+</pre></div>
+</div>
+<p class="translated">de forma estamos no topo da pilha do Python.</p>
+<p class="translated">Os números de quadro correspondem aos exibidos pelo comando padrão <code class="docutils literal notranslate"><span class="pre">backtrace</span></code> do GDB. O comando ignora os quadros C que não estão executando código Python.</p>
+<p class="translated">Voltando para baixo:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) py-down
+#37 Frame 0x9420b04, for file /usr/lib/python2.6/site-packages/gnome_sudoku/main.py, line 906, in start_game ()
+    u = UI()
+(gdb) py-down
+#34 (unable to read python frame information)
+(gdb) py-down
+#23 (unable to read python frame information)
+(gdb) py-down
+#19 (unable to read python frame information)
+(gdb) py-down
+#14 Frame 0x99262ac, for file /usr/lib/python2.6/site-packages/gnome_sudoku/game_selector.py, line 201, in run_swallowed_dialog (self=&lt;NewOrSavedGameSelector(new_game_model=&lt;gtk.ListStore at remote 0x98fab44&gt;, puzzle=None, saved_games=[{'gsd.auto_fills': 0, 'tracking': {}, 'trackers': {}, 'notes': [], 'saved_at': 1270084485, 'game': '7 8 0 0 0 0 0 5 6 0 0 9 0 8 0 1 0 0 0 4 6 0 0 0 0 7 0 6 5 0 0 0 4 7 9 2 0 0 0 9 0 1 0 0 0 3 9 7 6 0 0 0 1 8 0 6 0 0 0 0 2 8 0 0 0 5 0 4 0 6 0 0 2 1 0 0 0 0 0 4 5\n7 8 0 0 0 0 0 5 6 0 0 9 0 8 0 1 0 0 0 4 6 0 0 0 0 7 0 6 5 1 8 3 4 7 9 2 0 0 0 9 0 1 0 0 0 3 9 7 6 0 0 0 1 8 0 6 0 0 0 0 2 8 0 0 0 5 0 4 0 6 0 0 2 1 0 0 0 0 0 4 5', 'gsd.impossible_hints': 0, 'timer.__absolute_start_time__': &lt;float at remote 0x984b474&gt;, 'gsd.hints': 0, 'timer.active_time': &lt;float at remote 0x984b494&gt;, 'timer.total_time': &lt;float at remote 0x984b464&gt;}], dialog=&lt;gtk.Dialog at remote 0x98faaa4&gt;, saved_game_model=&lt;gtk.ListStore at remote 0x98fad24&gt;, sudoku_maker=&lt;SudokuMaker(terminated=False, played=[], batch_siz...(truncated)
+            swallower.run_dialog(self.dialog)
+(gdb) py-down
+#11 Frame 0x9aead74, for file /usr/lib/python2.6/site-packages/gnome_sudoku/dialog_swallower.py, line 48, in run_dialog (self=&lt;SwappableArea(running=&lt;gtk.Dialog at remote 0x98faaa4&gt;, main_page=0) at remote 0x98fa6e4&gt;, d=&lt;gtk.Dialog at remote 0x98faaa4&gt;)
+            gtk.main()
+(gdb) py-down
+#8 (unable to read python frame information)
+(gdb) py-down
+Unable to find a newer python frame
+</pre></div>
+</div>
+<p class="translated">e estamos na parte inferior da pilha do Python.</p>
+<p class="translated">Observe que no Python 3.12 e versões mais recentes, o mesmo quadro de pilha C pode ser usado para vários quadros de pilha Python. Isso significa que <code class="docutils literal notranslate"><span class="pre">py-up</span></code> e <code class="docutils literal notranslate"><span class="pre">py-down</span></code> podem mover vários quadros Python de uma vez. Por exemplo:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) py-up
+#6 Frame 0x7ffff7fb62b0, for file /tmp/rec.py, line 5, in recursive_function (n=0)
+   time.sleep(5)
+#6 Frame 0x7ffff7fb6240, for file /tmp/rec.py, line 7, in recursive_function (n=1)
+   recursive_function(n-1)
+#6 Frame 0x7ffff7fb61d0, for file /tmp/rec.py, line 7, in recursive_function (n=2)
+   recursive_function(n-1)
+#6 Frame 0x7ffff7fb6160, for file /tmp/rec.py, line 7, in recursive_function (n=3)
+   recursive_function(n-1)
+#6 Frame 0x7ffff7fb60f0, for file /tmp/rec.py, line 7, in recursive_function (n=4)
+   recursive_function(n-1)
+#6 Frame 0x7ffff7fb6080, for file /tmp/rec.py, line 7, in recursive_function (n=5)
+   recursive_function(n-1)
+#6 Frame 0x7ffff7fb6020, for file /tmp/rec.py, line 9, in &lt;module&gt; ()
+   recursive_function(5)
+(gdb) py-up
+Unable to find an older python frame
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="py-bt">
+<h3 class="translated"><code class="docutils literal notranslate"><span class="pre">py-bt</span></code><a class="headerlink" href="#py-bt" title="Link para este cabeçalho">¶</a></h3>
+<blockquote>
+<div><p class="translated">O comando <code class="docutils literal notranslate"><span class="pre">py-bt</span></code> tenta mostrar uma rastreabilidade em nível Python da thread atual.</p>
+<p class="translated">Por exemplo:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) py-bt
+#8 (unable to read python frame information)
+#11 Frame 0x9aead74, for file /usr/lib/python2.6/site-packages/gnome_sudoku/dialog_swallower.py, line 48, in run_dialog (self=&lt;SwappableArea(running=&lt;gtk.Dialog at remote 0x98faaa4&gt;, main_page=0) at remote 0x98fa6e4&gt;, d=&lt;gtk.Dialog at remote 0x98faaa4&gt;)
+            gtk.main()
+#14 Frame 0x99262ac, for file /usr/lib/python2.6/site-packages/gnome_sudoku/game_selector.py, line 201, in run_swallowed_dialog (self=&lt;NewOrSavedGameSelector(new_game_model=&lt;gtk.ListStore at remote 0x98fab44&gt;, puzzle=None, saved_games=[{'gsd.auto_fills': 0, 'tracking': {}, 'trackers': {}, 'notes': [], 'saved_at': 1270084485, 'game': '7 8 0 0 0 0 0 5 6 0 0 9 0 8 0 1 0 0 0 4 6 0 0 0 0 7 0 6 5 0 0 0 4 7 9 2 0 0 0 9 0 1 0 0 0 3 9 7 6 0 0 0 1 8 0 6 0 0 0 0 2 8 0 0 0 5 0 4 0 6 0 0 2 1 0 0 0 0 0 4 5\n7 8 0 0 0 0 0 5 6 0 0 9 0 8 0 1 0 0 0 4 6 0 0 0 0 7 0 6 5 1 8 3 4 7 9 2 0 0 0 9 0 1 0 0 0 3 9 7 6 0 0 0 1 8 0 6 0 0 0 0 2 8 0 0 0 5 0 4 0 6 0 0 2 1 0 0 0 0 0 4 5', 'gsd.impossible_hints': 0, 'timer.__absolute_start_time__': &lt;float at remote 0x984b474&gt;, 'gsd.hints': 0, 'timer.active_time': &lt;float at remote 0x984b494&gt;, 'timer.total_time': &lt;float at remote 0x984b464&gt;}], dialog=&lt;gtk.Dialog at remote 0x98faaa4&gt;, saved_game_model=&lt;gtk.ListStore at remote 0x98fad24&gt;, sudoku_maker=&lt;SudokuMaker(terminated=False, played=[], batch_siz...(truncated)
+            swallower.run_dialog(self.dialog)
+#19 (unable to read python frame information)
+#23 (unable to read python frame information)
+#34 (unable to read python frame information)
+#37 Frame 0x9420b04, for file /usr/lib/python2.6/site-packages/gnome_sudoku/main.py, line 906, in start_game ()
+    u = UI()
+#40 Frame 0x948e82c, for file /usr/lib/python2.6/site-packages/gnome_sudoku/gnome_sudoku.py, line 22, in start_game (main=&lt;module at remote 0xb771b7f4&gt;)
+    main.start_game()
+</pre></div>
+</div>
+<p class="translated">Os números de quadro correspondem aos exibidos pelo comando padrão <code class="docutils literal notranslate"><span class="pre">backtrace</span></code> do GDB.</p>
+</div></blockquote>
+</section>
+<section id="py-print">
+<h3 class="translated"><code class="docutils literal notranslate"><span class="pre">py-print</span></code><a class="headerlink" href="#py-print" title="Link para este cabeçalho">¶</a></h3>
+<blockquote>
+<div><p class="translated">O comando <code class="docutils literal notranslate"><span class="pre">py-print</span></code> procura um nome em Python e tenta imprimi-lo. Ele procura em locais dentro da thread atual, depois em globais e, finalmente, em embutidos:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) py-print self
+local 'self' = &lt;SwappableArea(running=&lt;gtk.Dialog at remote 0x98faaa4&gt;,
+main_page=0) at remote 0x98fa6e4&gt;
+(gdb) py-print __name__
+global '__name__' = 'gnome_sudoku.dialog_swallower'
+(gdb) py-print len
+builtin 'len' = &lt;built-in function len&gt;
+(gdb) py-print scarlet_pimpernel
+'scarlet_pimpernel' not found
+</pre></div>
+</div>
+<p class="translated">Se o quadro C atual corresponder a vários quadros Python, <code class="docutils literal notranslate"><span class="pre">py-print</span></code> considera apenas o primeiro.</p>
+</div></blockquote>
+</section>
+<section id="py-locals">
+<h3 class="translated"><code class="docutils literal notranslate"><span class="pre">py-locals</span></code><a class="headerlink" href="#py-locals" title="Link para este cabeçalho">¶</a></h3>
+<blockquote>
+<div><p class="translated">O comando <code class="docutils literal notranslate"><span class="pre">py-locals</span></code> busca todas as variáveis locais do Python no quadro Python atual na thread selecionada e imprime suas representações:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) py-locals
+self = &lt;SwappableArea(running=&lt;gtk.Dialog at remote 0x98faaa4&gt;,
+main_page=0) at remote 0x98fa6e4&gt;
+d = &lt;gtk.Dialog at remote 0x98faaa4&gt;
+</pre></div>
+</div>
+<p class="translated">Se o quadro C atual corresponder a vários quadros Python, serão mostrados os locais de todos eles:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) py-locals
+Locals for recursive_function
+n = 0
+Locals for recursive_function
+n = 1
+Locals for recursive_function
+n = 2
+Locals for recursive_function
+n = 3
+Locals for recursive_function
+n = 4
+Locals for recursive_function
+n = 5
+Locals for &lt;module&gt;
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+</section>
+<section id="use-with-gdb-commands">
+<h2 class="translated">Uso com comandos do GDB<a class="headerlink" href="#use-with-gdb-commands" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Os comandos de extensão complementam os comandos embutidos do GDB. Por exemplo, você pode usar os números de quadro mostrados por <code class="docutils literal notranslate"><span class="pre">py-bt</span></code> com o comando <code class="docutils literal notranslate"><span class="pre">frame</span></code> para ir a um quadro específico dentro da thread selecionada, assim:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) py-bt
+(output snipped)
+#68 Frame 0xaa4560, for file Lib/test/regrtest.py, line 1548, in &lt;module&gt; ()
+        main()
+(gdb) frame 68
+#68 0x00000000004cd1e6 in PyEval_EvalFrameEx (f=Frame 0xaa4560, for file Lib/test/regrtest.py, line 1548, in &lt;module&gt; (), throwflag=0) at Python/ceval.c:2665
+2665                            x = call_function(&amp;sp, oparg);
+(gdb) py-list
+1543        # Run the tests in a context manager that temporary changes the CWD to a
+1544        # temporary and writable directory. If it's not possible to create or
+1545        # change the CWD, the original CWD will be used. The original CWD is
+1546        # available from test_support.SAVEDCWD.
+1547        with test_support.temp_cwd(TESTCWD, quiet=True):
+&gt;1548            main()
+</pre></div>
+</div>
+<p class="translated">O comando <code class="docutils literal notranslate"><span class="pre">info</span> <span class="pre">threads</span></code> fornecerá uma lista das threads dentro do processo, e você pode usar o comando <code class="docutils literal notranslate"><span class="pre">thread</span></code> para selecionar uma diferente:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) info threads
+  105 Thread 0x7fffefa18710 (LWP 10260)  sem_wait () at ../nptl/sysdeps/unix/sysv/linux/x86_64/sem_wait.S:86
+  104 Thread 0x7fffdf5fe710 (LWP 10259)  sem_wait () at ../nptl/sysdeps/unix/sysv/linux/x86_64/sem_wait.S:86
+* 1 Thread 0x7ffff7fe2700 (LWP 10145)  0x00000038e46d73e3 in select () at ../sysdeps/unix/syscall-template.S:82
+</pre></div>
+</div>
+<p class="translated">Você pode usar <code class="docutils literal notranslate"><span class="pre">thread</span> <span class="pre">apply</span> <span class="pre">all</span> <span class="pre">COMANDO</span></code> ou (<code class="docutils literal notranslate"><span class="pre">t</span> <span class="pre">a</span> <span class="pre">a</span> <span class="pre">COMANDO</span></code> para abreviar) para executar um comando em todas as threads. Com <code class="docutils literal notranslate"><span class="pre">py-bt</span></code>, isso permite que você veja o que cada thread está fazendo no nível do Python:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>(gdb) t a a py-bt
+
+Thread 105 (Thread 0x7fffefa18710 (LWP 10260)):
+#5 Frame 0x7fffd00019d0, for file /home/david/coding/python-svn/Lib/threading.py, line 155, in _acquire_restore (self=&lt;_RLock(_Verbose__verbose=False, _RLock__owner=140737354016512, _RLock__block=&lt;thread.lock at remote 0x858770&gt;, _RLock__count=1) at remote 0xd7ff40&gt;, count_owner=(1, 140737213728528), count=1, owner=140737213728528)
+        self.__block.acquire()
+#8 Frame 0x7fffac001640, for file /home/david/coding/python-svn/Lib/threading.py, line 269, in wait (self=&lt;_Condition(_Condition__lock=&lt;_RLock(_Verbose__verbose=False, _RLock__owner=140737354016512, _RLock__block=&lt;thread.lock at remote 0x858770&gt;, _RLock__count=1) at remote 0xd7ff40&gt;, acquire=&lt;instancemethod at remote 0xd80260&gt;, _is_owned=&lt;instancemethod at remote 0xd80160&gt;, _release_save=&lt;instancemethod at remote 0xd803e0&gt;, release=&lt;instancemethod at remote 0xd802e0&gt;, _acquire_restore=&lt;instancemethod at remote 0xd7ee60&gt;, _Verbose__verbose=False, _Condition__waiters=[]) at remote 0xd7fd10&gt;, timeout=None, waiter=&lt;thread.lock at remote 0x858a90&gt;, saved_state=(1, 140737213728528))
+            self._acquire_restore(saved_state)
+#12 Frame 0x7fffb8001a10, for file /home/david/coding/python-svn/Lib/test/lock_tests.py, line 348, in f ()
+            cond.wait()
+#16 Frame 0x7fffb8001c40, for file /home/david/coding/python-svn/Lib/test/lock_tests.py, line 37, in task (tid=140737213728528)
+                f()
+
+Thread 104 (Thread 0x7fffdf5fe710 (LWP 10259)):
+#5 Frame 0x7fffe4001580, for file /home/david/coding/python-svn/Lib/threading.py, line 155, in _acquire_restore (self=&lt;_RLock(_Verbose__verbose=False, _RLock__owner=140737354016512, _RLock__block=&lt;thread.lock at remote 0x858770&gt;, _RLock__count=1) at remote 0xd7ff40&gt;, count_owner=(1, 140736940992272), count=1, owner=140736940992272)
+        self.__block.acquire()
+#8 Frame 0x7fffc8002090, for file /home/david/coding/python-svn/Lib/threading.py, line 269, in wait (self=&lt;_Condition(_Condition__lock=&lt;_RLock(_Verbose__verbose=False, _RLock__owner=140737354016512, _RLock__block=&lt;thread.lock at remote 0x858770&gt;, _RLock__count=1) at remote 0xd7ff40&gt;, acquire=&lt;instancemethod at remote 0xd80260&gt;, _is_owned=&lt;instancemethod at remote 0xd80160&gt;, _release_save=&lt;instancemethod at remote 0xd803e0&gt;, release=&lt;instancemethod at remote 0xd802e0&gt;, _acquire_restore=&lt;instancemethod at remote 0xd7ee60&gt;, _Verbose__verbose=False, _Condition__waiters=[]) at remote 0xd7fd10&gt;, timeout=None, waiter=&lt;thread.lock at remote 0x858860&gt;, saved_state=(1, 140736940992272))
+            self._acquire_restore(saved_state)
+#12 Frame 0x7fffac001c90, for file /home/david/coding/python-svn/Lib/test/lock_tests.py, line 348, in f ()
+            cond.wait()
+#16 Frame 0x7fffac0011c0, for file /home/david/coding/python-svn/Lib/test/lock_tests.py, line 37, in task (tid=140736940992272)
+                f()
+
+Thread 1 (Thread 0x7ffff7fe2700 (LWP 10145)):
+#5 Frame 0xcb5380, for file /home/david/coding/python-svn/Lib/test/lock_tests.py, line 16, in _wait ()
+    time.sleep(0.01)
+#8 Frame 0x7fffd00024a0, for file /home/david/coding/python-svn/Lib/test/lock_tests.py, line 378, in _check_notify (self=&lt;ConditionTests(_testMethodName='test_notify', _resultForDoCleanups=&lt;TestResult(_original_stdout=&lt;cStringIO.StringO at remote 0xc191e0&gt;, skipped=[], _mirrorOutput=False, testsRun=39, buffer=False, _original_stderr=&lt;file at remote 0x7ffff7fc6340&gt;, _stdout_buffer=&lt;cStringIO.StringO at remote 0xc9c7f8&gt;, _stderr_buffer=&lt;cStringIO.StringO at remote 0xc9c790&gt;, _moduleSetUpFailed=False, expectedFailures=[], errors=[], _previousTestClass=&lt;type at remote 0x928310&gt;, unexpectedSuccesses=[], failures=[], shouldStop=False, failfast=False) at remote 0xc185a0&gt;, _threads=(0,), _cleanups=[], _type_equality_funcs={&lt;type at remote 0x7eba00&gt;: &lt;instancemethod at remote 0xd750e0&gt;, &lt;type at remote 0x7e7820&gt;: &lt;instancemethod at remote 0xd75160&gt;, &lt;type at remote 0x7e30e0&gt;: &lt;instancemethod at remote 0xd75060&gt;, &lt;type at remote 0x7e7d20&gt;: &lt;instancemethod at remote 0xd751e0&gt;, &lt;type at remote 0x7f19e0...(truncated)
+        _wait()
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Depurando extensões de API C e internos do CPython com GDB</a><ul>
+<li><a class="reference internal" href="#prerequisites">Pré-requisitos</a><ul>
+<li><a class="reference internal" href="#setup-with-python-built-from-source">Configuração com Python construído a partir do código-fonte</a></li>
+<li><a class="reference internal" href="#setup-for-python-from-a-linux-distro">Configuração para Python a partir de uma distribuição Linux</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-the-debug-build-and-development-mode">Usando a compilação de depuração e o modo de desenvolvimento</a></li>
+<li><a class="reference internal" href="#using-the-python-gdb-extension">Usando a extensão <code class="docutils literal notranslate"><span class="pre">python-gdb</span></code></a><ul>
+<li><a class="reference internal" href="#pretty-printers">Pretty-printers</a></li>
+<li><a class="reference internal" href="#py-list"><code class="docutils literal notranslate"><span class="pre">py-list</span></code></a></li>
+<li><a class="reference internal" href="#py-up-and-py-down"><code class="docutils literal notranslate"><span class="pre">py-up</span></code> e <code class="docutils literal notranslate"><span class="pre">py-down</span></code></a></li>
+<li><a class="reference internal" href="#py-bt"><code class="docutils literal notranslate"><span class="pre">py-bt</span></code></a></li>
+<li><a class="reference internal" href="#py-print"><code class="docutils literal notranslate"><span class="pre">py-print</span></code></a></li>
+<li><a class="reference internal" href="#py-locals"><code class="docutils literal notranslate"><span class="pre">py-locals</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#use-with-gdb-commands">Uso com comandos do GDB</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="descriptor.html"
+                          title="capítulo anterior">Guia de descritores</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="enum.html"
+                          title="próximo capítulo">Enum</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "howto/gdb_helpers.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/howto/gdb_helpers.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/howto/gdb_helpers.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="enum.html" title="Enum"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="descriptor.html" title="Guia de descritores"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python HOWTOs</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Depurando extensões de API C e internos do CPython com GDB</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

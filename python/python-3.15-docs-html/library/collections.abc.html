@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="collections.abc — Classes Base Abstratas para Contêineres" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/collections.abc.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/_collections_abc.py Esse módulo fornece classes base abstratas que podem ser usadas para testar se uma classe fornece uma interface específica; por exemplo, se é hasheável ou se é..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_collections.abc_0637eb38.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/_collections_abc.py Esse módulo fornece classes base abstratas que podem ser usadas para testar se uma classe fornece uma interface específica; por exemplo, se é hasheável ou se é..." />
+<meta name="description" content="Código-fonte: Lib/_collections_abc.py Esse módulo fornece classes base abstratas que podem ser usadas para testar se uma classe fornece uma interface específica; por exemplo, se é hasheável ou se é..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>collections.abc — Classes Base Abstratas para Contêineres &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="heapq — Algoritmo de fila heap" href="heapq.html" />
+    <link rel="prev" title="collections — Tipos de dados de contêineres" href="collections.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/collections.abc.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">collections.abc</span></code> — Classes Base Abstratas para Contêineres</a><ul>
+<li><a class="reference internal" href="#collections-abstract-base-classes">Classes Base Abstratas de Coleções</a></li>
+<li><a class="reference internal" href="#collections-abstract-base-classes-detailed-descriptions">Classes Base Abstrata de Coleções – Descrições Detalhadas</a></li>
+<li><a class="reference internal" href="#examples-and-recipes">Exemplos e receitas</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="collections.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">collections</span></code> — Tipos de dados de contêineres</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="heapq.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">heapq</span></code> — Algoritmo de fila heap</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/collections.abc.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/collections.abc.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/collections.abc.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="heapq.html" title="heapq — Algoritmo de fila heap"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="collections.html" title="collections — Tipos de dados de contêineres"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="datatypes.html" accesskey="U">Tipos de Dados</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">collections.abc</span></code> — Classes Base Abstratas para Contêineres</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-collections.abc">
+<span id="collections-abc-abstract-base-classes-for-containers"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">collections.abc</span></code> — Classes Base Abstratas para Contêineres<a class="headerlink" href="#module-collections.abc" title="Link para este cabeçalho">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3: </span>Anteriormente, esse módulo fazia parte do módulo <a class="reference internal" href="collections.html#module-collections" title="collections: Container datatypes"><code class="xref py py-mod docutils literal notranslate"><span class="pre">collections</span></code></a>.</p>
+</div>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/_collections_abc.py">Lib/_collections_abc.py</a></p>
+<hr class="docutils" />
+<p class="translated">Esse módulo fornece <a class="reference internal" href="../glossary.html#term-abstract-base-class"><span class="xref std std-term">classes base abstratas</span></a> que podem ser usadas para testar se uma classe fornece uma interface específica; por exemplo, se é <a class="reference internal" href="../glossary.html#term-hashable"><span class="xref std std-term">hasheável</span></a> ou se é um <a class="reference internal" href="../glossary.html#term-mapping"><span class="xref std std-term">mapeamento</span></a>.</p>
+<p class="translated">Um teste <a class="reference internal" href="../builtins/functions.html#issubclass" title="issubclass"><code class="xref py py-func docutils literal notranslate"><span class="pre">issubclass()</span></code></a> ou <a class="reference internal" href="../builtins/functions.html#isinstance" title="isinstance"><code class="xref py py-func docutils literal notranslate"><span class="pre">isinstance()</span></code></a> para uma interface funciona em uma das três formas.</p>
+<ol class="arabic">
+<li><p class="translated">Uma classe recém-escrita pode herdar diretamente de uma das classes base abstratas. A classe deve fornecer os métodos abstratos necessários. Os métodos mixin restantes vêm da herança e podem ser substituídos se desejado. Outros métodos podem ser adicionados conforme necessário:</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">C</span><span class="p">(</span><span class="n">Sequence</span><span class="p">):</span>                      <span class="c1"># Herança direta</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>             <span class="c1"># Método extra não exigido pela ABC</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>  <span class="o">...</span>  <span class="c1"># Método abstrato exigido</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="o">...</span>             <span class="c1"># Método abstrato exigido</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span> <span class="o">...</span>         <span class="c1"># Opcionalmente substitui um método mixin</span>
+</pre></div>
+</div>
+<div class="translated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">issubclass</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">C</span><span class="p">(),</span> <span class="n">Sequence</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</li>
+<li><p class="translated">Classes existentes e classes embutidas podem ser registradas como “subclasses virtuais” dos ABCs. Essas classes devem definir a API completa, incluindo todos os métodos abstratos e todos os métodos mixin. Isso permite que os usuários confiem nos testes <a class="reference internal" href="../builtins/functions.html#issubclass" title="issubclass"><code class="xref py py-func docutils literal notranslate"><span class="pre">issubclass()</span></code></a> ou <a class="reference internal" href="../builtins/functions.html#isinstance" title="isinstance"><code class="xref py py-func docutils literal notranslate"><span class="pre">isinstance()</span></code></a> para determinar se a interface completa é suportada. A exceção a essa regra é para métodos que são automaticamente inferidos do restante da API:</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">D</span><span class="p">:</span>                                 <span class="c1"># Sem herança</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>              <span class="c1"># Método extra exigido pela ABC</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>  <span class="o">...</span>   <span class="c1"># Método abstrato</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="o">...</span>              <span class="c1"># Método abstrato</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span> <span class="o">...</span>          <span class="c1"># Método mixin</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span> <span class="o">...</span>          <span class="c1"># Método mixin</span>
+
+<span class="n">Sequence</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>                     <span class="c1"># Registra ao invés de herdar</span>
+</pre></div>
+</div>
+<div class="translated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">issubclass</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">D</span><span class="p">(),</span> <span class="n">Sequence</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p class="translated">Neste exemplo, a classe <code class="xref py py-class docutils literal notranslate"><span class="pre">D</span></code> não precisa definir <code class="docutils literal notranslate"><span class="pre">__contains__</span></code>, <code class="docutils literal notranslate"><span class="pre">__iter__</span></code> e <code class="docutils literal notranslate"><span class="pre">__reversed__</span></code> porque o <a class="reference internal" href="../reference/expressions.html#comparisons"><span class="std std-ref">operador in</span></a>, a lógica <a class="reference internal" href="../glossary.html#term-iterable"><span class="xref std std-term">iteration</span></a> e a função <a class="reference internal" href="../builtins/functions.html#reversed" title="reversed"><code class="xref py py-func docutils literal notranslate"><span class="pre">reversed()</span></code></a> retornam automaticamente para o uso de <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> e <code class="docutils literal notranslate"><span class="pre">__len__</span></code>.</p>
+</li>
+<li><p class="translated">Algumas interfaces simples são diretamente reconhecíveis pela presença dos métodos necessários (a menos que esses métodos tenham sido definidos como <a class="reference internal" href="../builtins/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>):</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">E</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+</pre></div>
+</div>
+<div class="translated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">issubclass</span><span class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">E</span><span class="p">(),</span> <span class="n">Iterable</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p class="translated">Interfaces complexas não oferecem suporte a esta última técnica porque uma interface é mais do que apenas a presença de nomes de métodos. Interfaces especificam semântica e relacionamentos entre métodos que não podem ser inferidos somente da presença de nomes de métodos específicos. Por exemplo, saber que uma classe fornece <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>, <code class="docutils literal notranslate"><span class="pre">__len__</span></code> e <code class="docutils literal notranslate"><span class="pre">__iter__</span></code> é insuficiente para distinguir uma <a class="reference internal" href="#collections.abc.Sequence" title="collections.abc.Sequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a> de uma <a class="reference internal" href="#collections.abc.Mapping" title="collections.abc.Mapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code></a>.</p>
+</li>
+</ol>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.9: </span>Essas classes abstratas agora oferecem suporte a <code class="docutils literal notranslate"><span class="pre">[]</span></code>. Veja <a class="reference internal" href="../builtins/stdtypes.html#types-genericalias"><span class="std std-ref">Tipo Generic Alias</span></a> e <span class="target" id="index-14"></span><a class="pep reference external" href="https://peps.python.org/pep-0585/"><strong>PEP 585</strong></a>.</p>
+</div>
+<section id="collections-abstract-base-classes">
+<span id="id1"></span><h2 class="translated">Classes Base Abstratas de Coleções<a class="headerlink" href="#collections-abstract-base-classes" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O módulo de coleções oferece o seguinte <a class="reference internal" href="../glossary.html#term-abstract-base-class"><span class="xref std std-term">ABCs</span></a>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">ABC</p></th>
+<th class="head"><p class="translated">Herda de</p></th>
+<th class="head"><p class="translated">Métodos abstratos</p></th>
+<th class="head"><p class="translated">Métodos mixin</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="#collections.abc.Container" title="collections.abc.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">Container</span></code></a> <a class="footnote-reference brackets" href="#id18" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__contains__</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="#collections.abc.Hashable" title="collections.abc.Hashable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Hashable</span></code></a> <a class="footnote-reference brackets" href="#id18" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__hash__</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="#collections.abc.Iterable" title="collections.abc.Iterable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code></a> <a class="footnote-reference brackets" href="#id18" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id19" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p></td>
+<td></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__iter__</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="#collections.abc.Iterator" title="collections.abc.Iterator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code></a> <a class="footnote-reference brackets" href="#id18" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.Iterable" title="collections.abc.Iterable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code></a></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__next__</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__iter__</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="#collections.abc.Reversible" title="collections.abc.Reversible"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reversible</span></code></a> <a class="footnote-reference brackets" href="#id18" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.Iterable" title="collections.abc.Iterable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code></a></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__reversed__</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="#collections.abc.Generator" title="collections.abc.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a>  <a class="footnote-reference brackets" href="#id18" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.Iterator" title="collections.abc.Iterator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code></a></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">send</span></code>, <code class="docutils literal notranslate"><span class="pre">throw</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">close</span></code>, <code class="docutils literal notranslate"><span class="pre">__iter__</span></code>, <code class="docutils literal notranslate"><span class="pre">__next__</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="#collections.abc.Sized" title="collections.abc.Sized"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sized</span></code></a>  <a class="footnote-reference brackets" href="#id18" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__len__</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="#collections.abc.Callable" title="collections.abc.Callable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code></a>  <a class="footnote-reference brackets" href="#id18" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__call__</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="#collections.abc.Collection" title="collections.abc.Collection"><code class="xref py py-class docutils literal notranslate"><span class="pre">Collection</span></code></a>  <a class="footnote-reference brackets" href="#id18" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.Sized" title="collections.abc.Sized"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sized</span></code></a>,
+<a class="reference internal" href="#collections.abc.Iterable" title="collections.abc.Iterable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code></a>,
+<a class="reference internal" href="#collections.abc.Container" title="collections.abc.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">Container</span></code></a></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__contains__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__iter__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__len__</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="#collections.abc.Sequence" title="collections.abc.Sequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.Reversible" title="collections.abc.Reversible"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reversible</span></code></a>,
+<a class="reference internal" href="#collections.abc.Collection" title="collections.abc.Collection"><code class="xref py py-class docutils literal notranslate"><span class="pre">Collection</span></code></a></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__len__</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__contains__</span></code>, <code class="docutils literal notranslate"><span class="pre">__iter__</span></code>, <code class="docutils literal notranslate"><span class="pre">__reversed__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">index</span></code>, and <code class="docutils literal notranslate"><span class="pre">count</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="#collections.abc.MutableSequence" title="collections.abc.MutableSequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">MutableSequence</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.Sequence" title="collections.abc.Sequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__setitem__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__delitem__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__len__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">insert</span></code></p></td>
+<td><p class="translated">Herdados métodos de <a class="reference internal" href="#collections.abc.Sequence" title="collections.abc.Sequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a> e <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">clear</span></code>, <code class="docutils literal notranslate"><span class="pre">reverse</span></code>, <code class="docutils literal notranslate"><span class="pre">extend</span></code>, <code class="docutils literal notranslate"><span class="pre">pop</span></code>, <code class="docutils literal notranslate"><span class="pre">remove</span></code> e <code class="docutils literal notranslate"><span class="pre">__iadd__</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="#collections.abc.ByteString" title="collections.abc.ByteString"><code class="xref py py-class docutils literal notranslate"><span class="pre">ByteString</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.Sequence" title="collections.abc.Sequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__len__</span></code></p></td>
+<td><p class="translated">Métodos herdados de <a class="reference internal" href="#collections.abc.Sequence" title="collections.abc.Sequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="#collections.abc.Set" title="collections.abc.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.Collection" title="collections.abc.Collection"><code class="xref py py-class docutils literal notranslate"><span class="pre">Collection</span></code></a></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__contains__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__iter__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__len__</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__le__</span></code>, <code class="docutils literal notranslate"><span class="pre">__lt__</span></code>, <code class="docutils literal notranslate"><span class="pre">__eq__</span></code>, <code class="docutils literal notranslate"><span class="pre">__ne__</span></code>, <code class="docutils literal notranslate"><span class="pre">__gt__</span></code>, <code class="docutils literal notranslate"><span class="pre">__ge__</span></code>, <code class="docutils literal notranslate"><span class="pre">__and__</span></code>, <code class="docutils literal notranslate"><span class="pre">__or__</span></code>, <code class="docutils literal notranslate"><span class="pre">__sub__</span></code>, <code class="docutils literal notranslate"><span class="pre">__rsub__</span></code>, <code class="docutils literal notranslate"><span class="pre">__xor__</span></code>, <code class="docutils literal notranslate"><span class="pre">__rxor__</span></code> e <code class="docutils literal notranslate"><span class="pre">isdisjoint</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="#collections.abc.MutableSet" title="collections.abc.MutableSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">MutableSet</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.Set" title="collections.abc.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__contains__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__iter__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__len__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">add</span></code>,
+<code class="docutils literal notranslate"><span class="pre">discard</span></code></p></td>
+<td><p class="translated">Herdado <a class="reference internal" href="#collections.abc.Set" title="collections.abc.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a> métodos e <code class="docutils literal notranslate"><span class="pre">clear</span></code>, <code class="docutils literal notranslate"><span class="pre">pop</span></code>, <code class="docutils literal notranslate"><span class="pre">remove</span></code>, <code class="docutils literal notranslate"><span class="pre">__ior__</span></code>, <code class="docutils literal notranslate"><span class="pre">__iand__</span></code>, <code class="docutils literal notranslate"><span class="pre">__ixor__</span></code>, e <code class="docutils literal notranslate"><span class="pre">__isub__</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="#collections.abc.Mapping" title="collections.abc.Mapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.Collection" title="collections.abc.Collection"><code class="xref py py-class docutils literal notranslate"><span class="pre">Collection</span></code></a></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__iter__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__len__</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__contains__</span></code>, <code class="docutils literal notranslate"><span class="pre">keys</span></code>, <code class="docutils literal notranslate"><span class="pre">items</span></code>, <code class="docutils literal notranslate"><span class="pre">values</span></code>, <code class="docutils literal notranslate"><span class="pre">get</span></code>, <code class="docutils literal notranslate"><span class="pre">__eq__</span></code>, e <code class="docutils literal notranslate"><span class="pre">__ne__</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="#collections.abc.MutableMapping" title="collections.abc.MutableMapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">MutableMapping</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.Mapping" title="collections.abc.Mapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code></a></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__setitem__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__delitem__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__iter__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__len__</span></code></p></td>
+<td><p class="translated">Herdado <a class="reference internal" href="#collections.abc.Mapping" title="collections.abc.Mapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code></a> métodos e <code class="docutils literal notranslate"><span class="pre">pop</span></code>, <code class="docutils literal notranslate"><span class="pre">popitem</span></code>, <code class="docutils literal notranslate"><span class="pre">clear</span></code>, <code class="docutils literal notranslate"><span class="pre">update</span></code>, e <code class="docutils literal notranslate"><span class="pre">setdefault</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="#collections.abc.MappingView" title="collections.abc.MappingView"><code class="xref py py-class docutils literal notranslate"><span class="pre">MappingView</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.Sized" title="collections.abc.Sized"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sized</span></code></a></p></td>
+<td></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__init__</span></code>, <code class="docutils literal notranslate"><span class="pre">__len__</span></code> e <code class="docutils literal notranslate"><span class="pre">__repr__</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="#collections.abc.ItemsView" title="collections.abc.ItemsView"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItemsView</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.MappingView" title="collections.abc.MappingView"><code class="xref py py-class docutils literal notranslate"><span class="pre">MappingView</span></code></a>,
+<a class="reference internal" href="#collections.abc.Set" title="collections.abc.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a></p></td>
+<td></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__contains__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__iter__</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="#collections.abc.KeysView" title="collections.abc.KeysView"><code class="xref py py-class docutils literal notranslate"><span class="pre">KeysView</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.MappingView" title="collections.abc.MappingView"><code class="xref py py-class docutils literal notranslate"><span class="pre">MappingView</span></code></a>,
+<a class="reference internal" href="#collections.abc.Set" title="collections.abc.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a></p></td>
+<td></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__contains__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__iter__</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="#collections.abc.ValuesView" title="collections.abc.ValuesView"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValuesView</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.MappingView" title="collections.abc.MappingView"><code class="xref py py-class docutils literal notranslate"><span class="pre">MappingView</span></code></a>,
+<a class="reference internal" href="#collections.abc.Collection" title="collections.abc.Collection"><code class="xref py py-class docutils literal notranslate"><span class="pre">Collection</span></code></a></p></td>
+<td></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__contains__</span></code>, <code class="docutils literal notranslate"><span class="pre">__iter__</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="#collections.abc.Awaitable" title="collections.abc.Awaitable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Awaitable</span></code></a> <a class="footnote-reference brackets" href="#id18" id="id12" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__await__</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="#collections.abc.Coroutine" title="collections.abc.Coroutine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Coroutine</span></code></a> <a class="footnote-reference brackets" href="#id18" id="id13" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.Awaitable" title="collections.abc.Awaitable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Awaitable</span></code></a></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">send</span></code>, <code class="docutils literal notranslate"><span class="pre">throw</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">close</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="#collections.abc.AsyncIterable" title="collections.abc.AsyncIterable"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncIterable</span></code></a> <a class="footnote-reference brackets" href="#id18" id="id14" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__aiter__</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="#collections.abc.AsyncIterator" title="collections.abc.AsyncIterator"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncIterator</span></code></a> <a class="footnote-reference brackets" href="#id18" id="id15" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.AsyncIterable" title="collections.abc.AsyncIterable"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncIterable</span></code></a></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__anext__</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__aiter__</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="#collections.abc.AsyncGenerator" title="collections.abc.AsyncGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncGenerator</span></code></a> <a class="footnote-reference brackets" href="#id18" id="id16" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><a class="reference internal" href="#collections.abc.AsyncIterator" title="collections.abc.AsyncIterator"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncIterator</span></code></a></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">asend</span></code>, <code class="docutils literal notranslate"><span class="pre">athrow</span></code></p></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">aclose</span></code>, <code class="docutils literal notranslate"><span class="pre">__aiter__</span></code>, <code class="docutils literal notranslate"><span class="pre">__anext__</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="#collections.abc.Buffer" title="collections.abc.Buffer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Buffer</span></code></a> <a class="footnote-reference brackets" href="#id18" id="id17" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td></td>
+<td><p class="translated"><code class="docutils literal notranslate"><span class="pre">__buffer__</span></code></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="translated rubric">Notas de rodapé</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id18" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id3">2</a>,<a role="doc-backlink" href="#id4">3</a>,<a role="doc-backlink" href="#id6">4</a>,<a role="doc-backlink" href="#id7">5</a>,<a role="doc-backlink" href="#id8">6</a>,<a role="doc-backlink" href="#id9">7</a>,<a role="doc-backlink" href="#id10">8</a>,<a role="doc-backlink" href="#id11">9</a>,<a role="doc-backlink" href="#id12">10</a>,<a role="doc-backlink" href="#id13">11</a>,<a role="doc-backlink" href="#id14">12</a>,<a role="doc-backlink" href="#id15">13</a>,<a role="doc-backlink" href="#id16">14</a>,<a role="doc-backlink" href="#id17">15</a>)</span>
+<p class="translated">Essas ABCs substituem <a class="reference internal" href="abc.html#abc.ABCMeta.__subclasshook__" title="abc.ABCMeta.__subclasshook__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__subclasshook__()</span></code></a> para dar suporte ao teste de uma interface verificando se os métodos necessários estão presentes e não foram definidos como <a class="reference internal" href="../builtins/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>. Isso só funciona para interfaces simples. Interfaces mais complexas exigem registro ou subclassificação direta.</p>
+</aside>
+<aside class="footnote brackets" id="id19" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">2</a><span class="fn-bracket">]</span></span>
+<p class="translated">A verificação <code class="docutils literal notranslate"><span class="pre">isinstance(obj,</span> <span class="pre">Iterable)</span></code> detecta classes que são registradas como <a class="reference internal" href="#collections.abc.Iterable" title="collections.abc.Iterable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code></a> ou que possuem um método <a class="reference internal" href="../builtins/stdtypes.html#container.__iter__" title="container.__iter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></a>, mas que não detecta classes que iteram com o método <a class="reference internal" href="../reference/datamodel.html#object.__getitem__" title="object.__getitem__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code></a>. A única maneira confiável de determinar se um objeto é <a class="reference internal" href="../glossary.html#term-iterable"><span class="xref std std-term">iterável</span></a> é chamar <code class="docutils literal notranslate"><span class="pre">iter(obj)</span></code>.</p>
+</aside>
+</aside>
+</section>
+<section id="collections-abstract-base-classes-detailed-descriptions">
+<h2 class="translated">Classes Base Abstrata de Coleções – Descrições Detalhadas<a class="headerlink" href="#collections-abstract-base-classes-detailed-descriptions" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.Container">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">Container</span></span><a class="headerlink" href="#collections.abc.Container" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABC para classes que fornecem o método <a class="reference internal" href="../reference/datamodel.html#object.__contains__" title="object.__contains__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__contains__()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.Hashable">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">Hashable</span></span><a class="headerlink" href="#collections.abc.Hashable" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABC para classes que fornecem o método <a class="reference internal" href="../reference/datamodel.html#object.__hash__" title="object.__hash__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__hash__()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.Sized">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">Sized</span></span><a class="headerlink" href="#collections.abc.Sized" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABC para classes que fornecem o método <a class="reference internal" href="../reference/datamodel.html#object.__len__" title="object.__len__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__len__()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.Callable">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">Callable</span></span><a class="headerlink" href="#collections.abc.Callable" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABC para classes que fornecem o método <a class="reference internal" href="../reference/datamodel.html#object.__call__" title="object.__call__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__call__()</span></code></a>.</p>
+<p class="translated">Veja <a class="reference internal" href="typing.html#annotating-callables"><span class="std std-ref">Anotações de objetos chamáveis</span></a> para detalhes sobre como usar <code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code> em anotações de tipos.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.Iterable">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">Iterable</span></span><a class="headerlink" href="#collections.abc.Iterable" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABC para classes que fornecem o método <a class="reference internal" href="../builtins/stdtypes.html#container.__iter__" title="container.__iter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></a>.</p>
+<p class="translated">A verificação <code class="docutils literal notranslate"><span class="pre">isinstance(obj,</span> <span class="pre">Iterable)</span></code> detecta classes que são registradas como <a class="reference internal" href="#collections.abc.Iterable" title="collections.abc.Iterable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code></a> ou que possuem um método <a class="reference internal" href="../builtins/stdtypes.html#container.__iter__" title="container.__iter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></a>, mas que não detecta classes que iteram com o método <a class="reference internal" href="../reference/datamodel.html#object.__getitem__" title="object.__getitem__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code></a>. A única maneira confiável de determinar se um objeto é <a class="reference internal" href="../glossary.html#term-iterable"><span class="xref std std-term">iterável</span></a> é chamar <code class="docutils literal notranslate"><span class="pre">iter(obj)</span></code>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.Collection">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">Collection</span></span><a class="headerlink" href="#collections.abc.Collection" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABC para classes de contêiner iterável de tamanho.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.Iterator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">Iterator</span></span><a class="headerlink" href="#collections.abc.Iterator" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABC para classes que fornecem os métodos <a class="reference internal" href="../builtins/stdtypes.html#iterator.__iter__" title="iterator.__iter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></a> e métodos <a class="reference internal" href="../builtins/stdtypes.html#iterator.__next__" title="iterator.__next__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__next__()</span></code></a>. Veja também a definição de <a class="reference internal" href="../glossary.html#term-iterator"><span class="xref std std-term">iterator</span></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.Reversible">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">Reversible</span></span><a class="headerlink" href="#collections.abc.Reversible" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABC para classes iteráveis que também fornecem o método <a class="reference internal" href="../reference/datamodel.html#object.__reversed__" title="object.__reversed__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__reversed__()</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.Generator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">Generator</span></span><a class="headerlink" href="#collections.abc.Generator" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABC para classes <a class="reference internal" href="../glossary.html#term-generator"><span class="xref std std-term">geradores</span></a> que implementam o protocolo definido em <span class="target" id="index-15"></span><a class="pep reference external" href="https://peps.python.org/pep-0342/"><strong>PEP 342</strong></a> que estende os <a class="reference internal" href="../glossary.html#term-iterator"><span class="xref std std-term">iteradores</span></a> com os métodos <a class="reference internal" href="../builtins/stdtypes.html#generator.send" title="generator.send"><code class="xref py py-meth docutils literal notranslate"><span class="pre">send()</span></code></a>, <a class="reference internal" href="../builtins/stdtypes.html#generator.throw" title="generator.throw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">throw()</span></code></a> e <a class="reference internal" href="../builtins/stdtypes.html#generator.close" title="generator.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code></a>.</p>
+<p class="translated">Consulte <a class="reference internal" href="typing.html#annotating-generators-and-coroutines"><span class="std std-ref">Anotando geradores e corrotinas</span></a> para obter detalhes sobre como usar <code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code> em anotações de tipos.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.Sequence">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">Sequence</span></span><a class="headerlink" href="#collections.abc.Sequence" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="collections.abc.MutableSequence">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">MutableSequence</span></span><a class="headerlink" href="#collections.abc.MutableSequence" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="collections.abc.ByteString">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">ByteString</span></span><a class="headerlink" href="#collections.abc.ByteString" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABCs para <a class="reference internal" href="../glossary.html#term-sequence"><span class="xref std std-term">sequências</span></a> somente de leitura e mutáveis.</p>
+<p class="translated">Nota de implementação: Alguns métodos mixin, como <a class="reference internal" href="../builtins/stdtypes.html#container.__iter__" title="container.__iter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></a>, <a class="reference internal" href="../reference/datamodel.html#object.__reversed__" title="object.__reversed__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__reversed__()</span></code></a> e <a class="reference internal" href="../builtins/stdtypes.html#sequence.index" title="sequence.index"><code class="xref py py-meth docutils literal notranslate"><span class="pre">index()</span></code></a>, fazem chamadas repetidas ao método subjacente <a class="reference internal" href="../reference/datamodel.html#object.__getitem__" title="object.__getitem__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code></a>. Consequentemente, se <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code> for implementado com velocidade de acesso constante, os métodos mixin terão desempenho linear; no entanto, se o método subjacente for linear (como seria com uma lista encadeada), os mixins terão desempenho quadrático e provavelmente precisarão ser substituídos.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="collections.abc.ByteString.index">
+<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#collections.abc.ByteString.index" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o primeiro índice de <em>valor</em>.</p>
+<p class="translated">Levanta <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> se o valor não estiver presente.</p>
+<p class="translated">Suporte aos argumentos <em>start</em> e <em>stop</em> é opcional, mas recomendado.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.5: </span>O método <a class="reference internal" href="../builtins/stdtypes.html#sequence.index" title="sequence.index"><code class="xref py py-meth docutils literal notranslate"><span class="pre">index()</span></code></a> ganhou suporte para os argumentos <em>stop</em> e <em>start</em>.</p>
+</div>
+</dd></dl>
+
+<div class="deprecated-removed">
+<p><span class="versionmodified deprecated">Descontinuado desde a versão 3.12, será removido na versão 3.17: </span>A ABC <a class="reference internal" href="#collections.abc.ByteString" title="collections.abc.ByteString"><code class="xref py py-class docutils literal notranslate"><span class="pre">ByteString</span></code></a> foi descontinuada.</p>
+<p class="translated">Use <code class="docutils literal notranslate"><span class="pre">isinstance(obj,</span> <span class="pre">collections.abc.Buffer)</span></code> para testar se <code class="docutils literal notranslate"><span class="pre">obj</span></code> implementa o <a class="reference internal" href="../c-api/buffer.html#bufferobjects"><span class="std std-ref">protocolo de buffer</span></a> em tempo de execução. Para uso em anotações de tipo, use <a class="reference internal" href="#collections.abc.Buffer" title="collections.abc.Buffer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Buffer</span></code></a> ou uma união que especifique explicitamente os tipos suportados pelo seu código (por exemplo, <code class="docutils literal notranslate"><span class="pre">bytes</span> <span class="pre">|</span> <span class="pre">bytearray</span> <span class="pre">|</span> <span class="pre">memoryview</span></code>).</p>
+<p class="translated"><code class="xref py py-class docutils literal notranslate"><span class="pre">ByteString</span></code> foi originalmente concebido para ser uma classe abstrata que serviria como um supertipo de <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> e <a class="reference internal" href="../builtins/stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a>. No entanto, como o ABC nunca teve métodos, saber que um objeto era uma instância de <code class="xref py py-class docutils literal notranslate"><span class="pre">ByteString</span></code> nunca lhe dizia nada de útil sobre o objeto. Outros tipos comuns de buffer, como <a class="reference internal" href="../builtins/stdtypes.html#memoryview" title="memoryview"><code class="xref py py-class docutils literal notranslate"><span class="pre">memoryview</span></code></a>, também nunca foram entendidos como subtipos de <code class="xref py py-class docutils literal notranslate"><span class="pre">ByteString</span></code> (seja em tempo de execução ou por verificadores de tipo estáticos).</p>
+<p class="translated">Consulte <span class="target" id="index-16"></span><a class="pep reference external" href="https://peps.python.org/pep-0688/#current-options"><strong>PEP</strong></a> para mais detalhes.</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.Set">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">Set</span></span><a class="headerlink" href="#collections.abc.Set" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="collections.abc.MutableSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">MutableSet</span></span><a class="headerlink" href="#collections.abc.MutableSet" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABCs para <a class="reference internal" href="../builtins/stdtypes.html#types-set"><span class="std std-ref">conjuntos</span></a> somente leitura e mutáveis.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.Mapping">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">Mapping</span></span><a class="headerlink" href="#collections.abc.Mapping" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="collections.abc.MutableMapping">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">MutableMapping</span></span><a class="headerlink" href="#collections.abc.MutableMapping" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABCs para somente leitura e mutável <a class="reference internal" href="../glossary.html#term-mapping"><span class="xref std std-term">mappings</span></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.MappingView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">MappingView</span></span><a class="headerlink" href="#collections.abc.MappingView" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="collections.abc.ItemsView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">ItemsView</span></span><a class="headerlink" href="#collections.abc.ItemsView" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="collections.abc.KeysView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">KeysView</span></span><a class="headerlink" href="#collections.abc.KeysView" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="collections.abc.ValuesView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">ValuesView</span></span><a class="headerlink" href="#collections.abc.ValuesView" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABCs para mapeamento, itens, chaves e valores <a class="reference internal" href="../glossary.html#term-dictionary-view"><span class="xref std std-term">views</span></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.Awaitable">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">Awaitable</span></span><a class="headerlink" href="#collections.abc.Awaitable" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABC para objetos <a class="reference internal" href="../glossary.html#term-awaitable"><span class="xref std std-term">aguardáveis</span></a>, que podem ser usados em expressões de <a class="reference internal" href="../reference/expressions.html#await"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">await</span></code></a>. Implementações personalizadas devem fornecer o método <a class="reference internal" href="../reference/datamodel.html#object.__await__" title="object.__await__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__await__()</span></code></a>.</p>
+<p class="translated">Objetos e instâncias de <a class="reference internal" href="../glossary.html#term-coroutine"><span class="xref std std-term">corrotina</span></a> da ABC <a class="reference internal" href="#collections.abc.Coroutine" title="collections.abc.Coroutine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Coroutine</span></code></a> são todas instâncias dessa ABC.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">No CPython, as corrotinas baseados em gerador (<a class="reference internal" href="../glossary.html#term-generator"><span class="xref std std-term">geradores</span></a> decorados com <a class="reference internal" href="types.html#types.coroutine" title="types.coroutine"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;types.coroutine</span></code></a>) são <em>aguardáveis</em>, embora não possuam o método <a class="reference internal" href="../reference/datamodel.html#object.__await__" title="object.__await__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__await__()</span></code></a>. Usar <code class="docutils literal notranslate"><span class="pre">isinstance(gencoro,</span> <span class="pre">Awaitable)</span></code> para eles retornará <code class="docutils literal notranslate"><span class="pre">False</span></code>. Use <a class="reference internal" href="inspect.html#inspect.isawaitable" title="inspect.isawaitable"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.isawaitable()</span></code></a> para detectá-los.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.Coroutine">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">Coroutine</span></span><a class="headerlink" href="#collections.abc.Coroutine" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABC para classes compatíveis com <a class="reference internal" href="../glossary.html#term-coroutine"><span class="xref std std-term">corrotina</span></a>. Eles implementam os seguintes métodos, definidos em <a class="reference internal" href="../reference/datamodel.html#coroutine-objects"><span class="std std-ref">Objetos corrotina</span></a>: <a class="reference internal" href="../reference/datamodel.html#coroutine.send" title="coroutine.send"><code class="xref py py-meth docutils literal notranslate"><span class="pre">send()</span></code></a>, <a class="reference internal" href="../reference/datamodel.html#coroutine.throw" title="coroutine.throw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">throw()</span></code></a>, e <a class="reference internal" href="../reference/datamodel.html#coroutine.close" title="coroutine.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code></a>. Implementações personalizadas também devem implementar <a class="reference internal" href="../reference/datamodel.html#object.__await__" title="object.__await__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__await__()</span></code></a>. Todas as instâncias <a class="reference internal" href="#collections.abc.Coroutine" title="collections.abc.Coroutine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Coroutine</span></code></a> também são instâncias de <a class="reference internal" href="#collections.abc.Awaitable" title="collections.abc.Awaitable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Awaitable</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">No CPython, as corrotinas baseados em gerador (<a class="reference internal" href="../glossary.html#term-generator"><span class="xref std std-term">geradores</span></a> decorados com <a class="reference internal" href="types.html#types.coroutine" title="types.coroutine"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;types.coroutine</span></code></a>) são <em>aguardáveis</em>, embora não possuam o método <a class="reference internal" href="../reference/datamodel.html#object.__await__" title="object.__await__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__await__()</span></code></a>. Usar <code class="docutils literal notranslate"><span class="pre">isinstance(gencoro,</span> <span class="pre">Coroutine)</span></code> para eles retornará <code class="docutils literal notranslate"><span class="pre">False</span></code>. Use <a class="reference internal" href="inspect.html#inspect.isawaitable" title="inspect.isawaitable"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.isawaitable()</span></code></a> para detectá-los.</p>
+</div>
+<p class="translated">Consulte <a class="reference internal" href="typing.html#annotating-generators-and-coroutines"><span class="std std-ref">Anotando geradores e corrotinas</span></a> para obter detalhes sobre como usar <code class="xref py py-class docutils literal notranslate"><span class="pre">Coroutine</span></code> em anotações de tipos. A variância e a ordem dos parâmetros de tipo correspondem às de <a class="reference internal" href="#collections.abc.Generator" title="collections.abc.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.AsyncIterable">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">AsyncIterable</span></span><a class="headerlink" href="#collections.abc.AsyncIterable" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABC para classes que fornecem um método <code class="docutils literal notranslate"><span class="pre">__aiter__</span></code>. Veja também a definição de <a class="reference internal" href="../glossary.html#term-asynchronous-iterable"><span class="xref std std-term">iterável assíncrono</span></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.AsyncIterator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">AsyncIterator</span></span><a class="headerlink" href="#collections.abc.AsyncIterator" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABC para classes que fornecem os métodos <code class="docutils literal notranslate"><span class="pre">__aiter__</span></code> e <code class="docutils literal notranslate"><span class="pre">__anext__</span></code>. Veja também a definição de <a class="reference internal" href="../glossary.html#term-asynchronous-iterator"><span class="xref std std-term">iterador assíncrono</span></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.AsyncGenerator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">AsyncGenerator</span></span><a class="headerlink" href="#collections.abc.AsyncGenerator" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABC para classes de <a class="reference internal" href="../glossary.html#term-asynchronous-generator"><span class="xref std std-term">gerador assíncrono</span></a> que implementam o protocolo definido em <span class="target" id="index-17"></span><a class="pep reference external" href="https://peps.python.org/pep-0525/"><strong>PEP 525</strong></a> e <span class="target" id="index-18"></span><a class="pep reference external" href="https://peps.python.org/pep-0492/"><strong>PEP 492</strong></a>.</p>
+<p class="translated">Consulte <a class="reference internal" href="typing.html#annotating-generators-and-coroutines"><span class="std std-ref">Anotando geradores e corrotinas</span></a> para obter detalhes sobre como usar <code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncGenerator</span></code> em anotações de tipos.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="collections.abc.Buffer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">collections.abc.</span></span><span class="sig-name descname"><span class="pre">Buffer</span></span><a class="headerlink" href="#collections.abc.Buffer" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">ABC para classes que fornecem o método <a class="reference internal" href="../reference/datamodel.html#object.__buffer__" title="object.__buffer__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__buffer__()</span></code></a>, implementando o <a class="reference internal" href="../c-api/buffer.html#bufferobjects"><span class="std std-ref">protocolo buffer</span></a>. Veja <span class="target" id="index-19"></span><a class="pep reference external" href="https://peps.python.org/pep-0688/"><strong>PEP 688</strong></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.12.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="examples-and-recipes">
+<h2 class="translated">Exemplos e receitas<a class="headerlink" href="#examples-and-recipes" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">ABCs nos permitem perguntar a classes ou instâncias se elas fornecem funcionalidades específicas, por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">size</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">myvar</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Sized</span><span class="p">):</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">myvar</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Vários ABCs também são também úteis como mixins que facilitam o desenvolvimento de classes que suportam APIs de contêiner. Por exemplo, para escrever uma classe que suporte toda a API <a class="reference internal" href="#collections.abc.Set" title="collections.abc.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a> , é necessário fornecer apenas os três métodos abstratos subjacentes: <a class="reference internal" href="../reference/datamodel.html#object.__contains__" title="object.__contains__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__contains__()</span></code></a>, <a class="reference internal" href="../builtins/stdtypes.html#container.__iter__" title="container.__iter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></a>, e <a class="reference internal" href="../reference/datamodel.html#object.__len__" title="object.__len__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__len__()</span></code></a>. O ABC fornece os métodos restantes, como <code class="xref py py-meth docutils literal notranslate"><span class="pre">__and__()</span></code> e <a class="reference internal" href="../builtins/stdtypes.html#frozenset.isdisjoint" title="frozenset.isdisjoint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">isdisjoint()</span></code></a>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ListBasedSet</span><span class="p">(</span><span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Set</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">''' Alternate set implementation favoring space over speed</span>
+<span class="sd">        and not requiring the set elements to be hashable. '''</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="n">lst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">:</span>
+                <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">)</span>
+
+<span class="n">s1</span> <span class="o">=</span> <span class="n">ListBasedSet</span><span class="p">(</span><span class="s1">'abcdef'</span><span class="p">)</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="n">ListBasedSet</span><span class="p">(</span><span class="s1">'defghi'</span><span class="p">)</span>
+<span class="n">overlap</span> <span class="o">=</span> <span class="n">s1</span> <span class="o">&amp;</span> <span class="n">s2</span>            <span class="c1"># O método __and__() é automaticamente suportado</span>
+</pre></div>
+</div>
+<p class="translated">Notas sobre o uso de <a class="reference internal" href="#collections.abc.Set" title="collections.abc.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a> e <a class="reference internal" href="#collections.abc.MutableSet" title="collections.abc.MutableSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">MutableSet</span></code></a> como um mixin:</p>
+<ol class="arabic simple">
+<li><p class="translated">Como algumas operações de conjunto criam novos conjuntos, os métodos de mixin padrão precisam de uma maneira de criar novas instâncias a partir de um <a class="reference internal" href="../glossary.html#term-iterable"><span class="xref std std-term">iterável</span></a>. Supõe-se que a classe construtor tenha uma assinatura no formato <code class="docutils literal notranslate"><span class="pre">ClassName(iterable)</span></code>. Essa suposição é fatorada em um <a class="reference internal" href="../builtins/functions.html#classmethod" title="classmethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">classmethod</span></code></a> interno chamado <code class="xref py py-meth docutils literal notranslate"><span class="pre">_from_iterable()</span></code> que chama <code class="docutils literal notranslate"><span class="pre">cls(iterable)</span></code> para produzir um novo conjunto. Se o mixin <a class="reference internal" href="#collections.abc.Set" title="collections.abc.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a> estiver sendo usado em uma classe com uma assinatura de construtor diferente, você precisará substituir <code class="xref py py-meth docutils literal notranslate"><span class="pre">_from_iterable()</span></code> por um método de classe ou um método regular que possa construir novas instâncias a partir de um argumento iterável.</p></li>
+<li><p class="translated">Para substituir as comparações (presumivelmente para velocidade, já que a semântica é fixa), redefina <a class="reference internal" href="../reference/datamodel.html#object.__le__" title="object.__le__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__le__()</span></code></a> e <a class="reference internal" href="../reference/datamodel.html#object.__ge__" title="object.__ge__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__ge__()</span></code></a>, então as outras operações seguirão o exemplo automaticamente.</p></li>
+<li><p class="translated">O mixin <a class="reference internal" href="#collections.abc.Set" title="collections.abc.Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a> fornece um método <code class="xref py py-meth docutils literal notranslate"><span class="pre">_hash()</span></code> para calcular um valor de hash para o conjunto; no entanto, <a class="reference internal" href="../reference/datamodel.html#object.__hash__" title="object.__hash__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__hash__()</span></code></a> não é definido porque nem todos os conjuntos são <a class="reference internal" href="../glossary.html#term-hashable"><span class="xref std std-term">hasheáveis</span></a> ou imutáveis. Para adicionar hasheabilidade em conjuntos usando mixin, herde de ambos <code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code> e <a class="reference internal" href="#collections.abc.Hashable" title="collections.abc.Hashable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Hashable</span></code></a>, e então defina <code class="docutils literal notranslate"><span class="pre">__hash__</span> <span class="pre">=</span> <span class="pre">Set._hash</span></code>.</p></li>
+</ol>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<ul class="simple">
+<li><p class="translated"><a class="reference external" href="https://code.activestate.com/recipes/576694/">OrderedSet receita</a> para um exemplo baseado em <a class="reference internal" href="#collections.abc.MutableSet" title="collections.abc.MutableSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">MutableSet</span></code></a>.</p></li>
+<li><p class="translated">Para mais informações sobre ABCs, consulte o módulo <a class="reference internal" href="abc.html#module-abc" title="abc: Abstract base classes according to :pep:`3119`."><code class="xref py py-mod docutils literal notranslate"><span class="pre">abc</span></code></a> e <span class="target" id="index-20"></span><a class="pep reference external" href="https://peps.python.org/pep-3119/"><strong>PEP 3119</strong></a>.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">collections.abc</span></code> — Classes Base Abstratas para Contêineres</a><ul>
+<li><a class="reference internal" href="#collections-abstract-base-classes">Classes Base Abstratas de Coleções</a></li>
+<li><a class="reference internal" href="#collections-abstract-base-classes-detailed-descriptions">Classes Base Abstrata de Coleções – Descrições Detalhadas</a></li>
+<li><a class="reference internal" href="#examples-and-recipes">Exemplos e receitas</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="collections.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">collections</span></code> — Tipos de dados de contêineres</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="heapq.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">heapq</span></code> — Algoritmo de fila heap</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/collections.abc.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/collections.abc.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/collections.abc.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="heapq.html" title="heapq — Algoritmo de fila heap"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="collections.html" title="collections — Tipos de dados de contêineres"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="datatypes.html" >Tipos de Dados</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">collections.abc</span></code> — Classes Base Abstratas para Contêineres</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

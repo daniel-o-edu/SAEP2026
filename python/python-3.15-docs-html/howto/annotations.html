@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Boas práticas para anotações" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/howto/annotations.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Resumo: Este documento foi projetado para encapsular as melhores práticas para trabalhar com anotações. Se você escrever um código Python que examina__annotations__ nos objetos Python, nós o encora..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_howto_annotations_2dafc405.png" />
+<meta property="og:image:alt" content="Resumo: Este documento foi projetado para encapsular as melhores práticas para trabalhar com anotações. Se você escrever um código Python que examina__annotations__ nos objetos Python, nós o encora..." />
+<meta name="description" content="Resumo: Este documento foi projetado para encapsular as melhores práticas para trabalhar com anotações. Se você escrever um código Python que examina__annotations__ nos objetos Python, nós o encora..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Boas práticas para anotações &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Isolando módulos de extensão" href="isolating-extensions.html" />
+    <link rel="prev" title="Python support for the perf map compatible profilers" href="perf_profiling.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/howto/annotations.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Boas práticas para anotações</a><ul>
+<li><a class="reference internal" href="#accessing-the-annotations-dict-of-an-object-in-python-3-10-and-newer">Acessando o dicionário de anotações de um objeto no Python 3.10 e nas versões mais recentes</a></li>
+<li><a class="reference internal" href="#accessing-the-annotations-dict-of-an-object-in-python-3-9-and-older">Acessando o dicionário de anotações de um objeto no Python 3.9 e nas versões mais antigas</a></li>
+<li><a class="reference internal" href="#manually-un-stringizing-stringized-annotations">Recuperando manualmente anotações transformadas em strings</a></li>
+<li><a class="reference internal" href="#best-practices-for-annotations-in-any-python-version">Melhores práticas para <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> em qualquer versão Python</a></li>
+<li><a class="reference internal" href="#annotations-quirks">Peculiaridades de <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="perf_profiling.html"
+                          title="capítulo anterior">Python support for the <code class="docutils literal notranslate"><span class="pre">perf</span> <span class="pre">map</span></code> compatible profilers</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="isolating-extensions.html"
+                          title="próximo capítulo">Isolando módulos de extensão</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "howto/annotations.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/howto/annotations.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/howto/annotations.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="isolating-extensions.html" title="Isolando módulos de extensão"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="perf_profiling.html" title="Python support for the perf map compatible profilers"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python HOWTOs</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Boas práticas para anotações</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="annotations-best-practices">
+<span id="annotations-howto"></span><h1 class="translated">Boas práticas para anotações<a class="headerlink" href="#annotations-best-practices" title="Link para este cabeçalho">¶</a></h1>
+<aside class="topic">
+<p class="translated topic-title">Resumo</p>
+<p class="translated">Este documento foi projetado para encapsular as melhores práticas para trabalhar com anotações. Se você escrever um código Python que examina <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> nos objetos Python, nós o encorajamos a seguir as diretrizes descritas abaixo.</p>
+<p class="translated">Este documento está dividido em quatro seções: melhores práticas para acessar as anotações de um objeto no Python  na versão 3.10 e versões mais recente, melhores práticas para acessar as anotações de um objeto no Python na versão 3.9 e versões mais antiga, outras melhores práticas para <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> para qualquer versão do Python e peculiaridades do <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code>.</p>
+<p class="translated">Note que este documento é específico sobre trabalhar com <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code>, não para o uso <em>de</em> anotações. Se você está procurando por informações sobre como usar “type hints” no seu código, por favor veja o módulo <a class="reference internal" href="../library/typing.html#module-typing" title="typing: Support for type hints (see :pep:`484`)."><code class="xref py py-mod docutils literal notranslate"><span class="pre">typing</span></code></a></p>
+</aside>
+<section id="accessing-the-annotations-dict-of-an-object-in-python-3-10-and-newer">
+<h2 class="translated">Acessando o dicionário de anotações de um objeto no Python 3.10 e nas versões mais recentes<a class="headerlink" href="#accessing-the-annotations-dict-of-an-object-in-python-3-10-and-newer" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O Python 3.10 adicionou uma nova função para a biblioteca padrão: <a class="reference internal" href="../library/inspect.html#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a>. A partir do Python 3.10 até 3.13, chamar esta função é a melhor prática para acessar o dicionário de anotações de qualquer objeto com suporte a anotações. Esta função pode até “destextualizar” anotações textualizadas para você.</p>
+<p class="translated">No Python 3.14, há um novo módulo <a class="reference internal" href="../library/annotationlib.html#module-annotationlib" title="annotationlib: Functionality for introspecting annotations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">annotationlib</span></code></a> com funcionalidade para trabalhar com anotações. Isso inclui uma função <a class="reference internal" href="../library/annotationlib.html#annotationlib.get_annotations" title="annotationlib.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">annotationlib.get_annotations()</span></code></a>, que substitui <a class="reference internal" href="../library/inspect.html#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a>.</p>
+<p class="translated">Se por alguma razão <a class="reference internal" href="../library/inspect.html#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a> não for viável para o seu caso de uso, você pode acessar o membro de dados <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> manualmente. As melhores práticas para isto também mudaram no Python 3.10: a partir do Python 3.10, <code class="docutils literal notranslate"><span class="pre">o.__annotations__</span></code> é garantido <em>sempre</em> funcionar em funções, classes e módulos Python. Se você tem certeza que o objeto que você está examinando é um desses três <em>exatos</em> objetos, pode simplesmente usar <code class="docutils literal notranslate"><span class="pre">o.__annotations__</span></code> para chegar no dicionário de anotações do objeto.</p>
+<p class="translated">Contudo, outros tipos de chamáveis – por exemplo, chamáveis criados por <a class="reference internal" href="../library/functools.html#functools.partial" title="functools.partial"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.partial()</span></code></a> – podem não ter um atributo <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> definido. Ao acessar o <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> de um objeto possivelmente desconhecido, as melhores práticas nas versões de Python 3.10 e mais novas é chamar <a class="reference internal" href="../builtins/functions.html#getattr" title="getattr"><code class="xref py py-func docutils literal notranslate"><span class="pre">getattr()</span></code></a> com três argumentos, por exemplo <code class="docutils literal notranslate"><span class="pre">getattr(o,</span> <span class="pre">'__annotations__',</span> <span class="pre">None)</span></code>.</p>
+<p class="translated">Antes de Python 3.10, acessar <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> numa classe que não define anotações mas que possui uma classe base com anotações retorna o <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> da classe pai. A partir do Python 3.10, a anotação da classe filha será um dicionário vazio.</p>
+</section>
+<section id="accessing-the-annotations-dict-of-an-object-in-python-3-9-and-older">
+<h2 class="translated">Acessando o dicionário de anotações de um objeto no Python 3.9 e nas versões mais antigas<a class="headerlink" href="#accessing-the-annotations-dict-of-an-object-in-python-3-9-and-older" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Em Python 3.9 e versões mais antigas, acessar o dicionário de anotações de um objeto é muito mais complicado que em versões mais novas. O problema é uma falha de design em versões mais antigas do Python, especificamente a respeito de anotações de classe.</p>
+<p class="translated">As melhores práticas para acessar os dicionários de anotações de outros objetos, funções, outros chamáveis e módulos - são as mesmas melhores práticas para 3.10, supondo que você não esteja chamando <a class="reference internal" href="../library/inspect.html#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a>: você deve usar a função <a class="reference internal" href="../builtins/functions.html#getattr" title="getattr"><code class="xref py py-func docutils literal notranslate"><span class="pre">getattr()</span></code></a> com três argumentos para acessar os atributos do objeto <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code>.</p>
+<p class="translated">Infelizmente, essas não são as melhores práticas para classes. O problema é que, como <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> é opcional nas classes, e posto que classes podem herdar atributos das suas classes base, acessar o atributo <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> de uma classe pode inesperadamente retornar o dicionário de anotações de uma <em>classe base.</em>  Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Base</span><span class="p">:</span>
+    <span class="n">a</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">b</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'abc'</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Derived</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Derived</span><span class="o">.</span><span class="vm">__annotations__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Isso mostrará o dicionário de anotações de <code class="docutils literal notranslate"><span class="pre">Base</span></code>, não de <code class="docutils literal notranslate"><span class="pre">Derived</span></code>.</p>
+<p class="translated">Seu código terá que ter um caminho de código separado se o objeto que você está examinando for uma classe (<code class="docutils literal notranslate"><span class="pre">isinstance(o,</span> <span class="pre">type)</span></code>). Nesse caso, a melhor prática depende de um detalhe de implementação do Python 3.9 e anteriores: se uma classe tiver anotações definidas, elas serão armazenadas no dicionário <a class="reference internal" href="../reference/datamodel.html#type.__dict__" title="type.__dict__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__dict__</span></code></a> da classe. Como a classe pode ou não ter anotações definidas, a melhor prática é chamar o método <a class="reference internal" href="../builtins/stdtypes.html#dict.get" title="dict.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a> no dict da classe.</p>
+<p class="translated">Considerando tudo isso, aqui está um exemplo de código que acessa de forma segura o atributo <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> em um objeto arbitrário em Python 3.9 e anteriores:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+    <span class="n">ann</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'__annotations__'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">ann</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="s1">'__annotations__'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Após executar este código, <code class="docutils literal notranslate"><span class="pre">ann</span></code> deve ser um dicionário ou <code class="docutils literal notranslate"><span class="pre">None</span></code>. Você é encorajado a fazer uma checagem dupla do tipo de <code class="docutils literal notranslate"><span class="pre">ann</span></code> utilizando <a class="reference internal" href="../builtins/functions.html#isinstance" title="isinstance"><code class="xref py py-func docutils literal notranslate"><span class="pre">isinstance()</span></code></a> antes de uma análise mais aprofundada.</p>
+<p class="translated">Observe que alguns objetos de tipos exóticos ou malformados podem não ter atributo um <a class="reference internal" href="../reference/datamodel.html#type.__dict__" title="type.__dict__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__dict__</span></code></a>, portanto, para maior segurança, talvez você também queira usar <a class="reference internal" href="../builtins/functions.html#getattr" title="getattr"><code class="xref py py-func docutils literal notranslate"><span class="pre">getattr()</span></code></a> para acessar <code class="xref py py-attr docutils literal notranslate"><span class="pre">__dict__</span></code>.</p>
+</section>
+<section id="manually-un-stringizing-stringized-annotations">
+<h2 class="translated">Recuperando manualmente anotações transformadas em strings<a class="headerlink" href="#manually-un-stringizing-stringized-annotations" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Em situações em que as anotações podem ter sido transformadas em strings, e caso queira avaliar essas strings para produzir os valores de Python que elas representam, é melhor chamar <a class="reference internal" href="../library/inspect.html#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a> para fazer isto por você.</p>
+<p class="translated">Se estiver usando Python 3.9 ou anterior, ou por algum motivo não puder usar <a class="reference internal" href="../library/inspect.html#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a>, será necessário replicar sua lógica. Considere examinar a implementação de <code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code> na versão de Python atual e seguir uma abordagem similar.</p>
+<p class="translated">Resumindo, caso deseje avaliar uma anotação transformada em string em um objeto arbitrário <code class="docutils literal notranslate"><span class="pre">o</span></code>:</p>
+<ul class="simple">
+<li><p class="translated">Se <code class="docutils literal notranslate"><span class="pre">o</span></code> for um módulo, use <code class="docutils literal notranslate"><span class="pre">o.__dict__</span></code> como <code class="docutils literal notranslate"><span class="pre">globals</span></code> ao chamar <a class="reference internal" href="../builtins/functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a>.</p></li>
+<li><p class="translated">Se <code class="docutils literal notranslate"><span class="pre">o</span></code> for uma classe, use <code class="docutils literal notranslate"><span class="pre">sys.modules[o.__module__].__dict__</span></code> como <code class="docutils literal notranslate"><span class="pre">globals</span></code>, e <code class="docutils literal notranslate"><span class="pre">dict(vars(o))</span></code> como <code class="docutils literal notranslate"><span class="pre">locals</span></code>, quando chamar <a class="reference internal" href="../builtins/functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a>.</p></li>
+<li><p class="translated">Se <code class="docutils literal notranslate"><span class="pre">o</span></code> for um chamável envolto em um invólucro usando <a class="reference internal" href="../library/functools.html#functools.update_wrapper" title="functools.update_wrapper"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.update_wrapper()</span></code></a>, <a class="reference internal" href="../library/functools.html#functools.wraps" title="functools.wraps"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;functools.wraps</span></code></a> ou <a class="reference internal" href="../library/functools.html#functools.partial" title="functools.partial"><code class="xref py py-func docutils literal notranslate"><span class="pre">functools.partial()</span></code></a>, desenvolva-o iterativamente acessando <code class="docutils literal notranslate"><span class="pre">o.__wrapped__</span></code> ou <code class="docutils literal notranslate"><span class="pre">o.func</span></code> conforme apropriado, até encontrar a função raiz.</p></li>
+<li><p class="translated">Caso <code class="docutils literal notranslate"><span class="pre">o</span></code> seja chamável (mas não uma classe), use <a class="reference internal" href="../reference/datamodel.html#function.__globals__" title="function.__globals__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">o.__globals__</span></code></a> como globals quando chamar <a class="reference internal" href="../builtins/functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a>.</p></li>
+</ul>
+<p class="translated">Contudo, nem todas strings usadas como anotações podem ser convertidas em valores de Python utilizando <a class="reference internal" href="../builtins/functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a>. Valores de string poderiam teoricamente conter qualquer string válida, e na prática existem casos válidos para dicas de tipo que requerem anotar com valores de strings que <em>não</em> podem ser executados. Por exemplo:</p>
+<ul class="simple">
+<li><p class="translated">Tipos de união <span class="target" id="index-4"></span><a class="pep reference external" href="https://peps.python.org/pep-0604/"><strong>PEP 604</strong></a> usando <code class="docutils literal notranslate"><span class="pre">|</span></code>, antes do suporte a isso ser adicionado em Python 3.10.</p></li>
+<li><p class="translated">Definições que não são necessárias no ambiente de execução, apenas importadas quando <a class="reference internal" href="../library/typing.html#typing.TYPE_CHECKING" title="typing.TYPE_CHECKING"><code class="xref py py-const docutils literal notranslate"><span class="pre">typing.TYPE_CHECKING</span></code></a> é verdadeiro.</p></li>
+</ul>
+<p class="translated">Caso <a class="reference internal" href="../builtins/functions.html#eval" title="eval"><code class="xref py py-func docutils literal notranslate"><span class="pre">eval()</span></code></a> tente executar tais valores, levantará uma exceção. Então, quando projetar uma biblioteca API que trabalha com anotações, é recomendado que tente executar os valores das strings apenas quando for solicitado explicitamente.</p>
+</section>
+<section id="best-practices-for-annotations-in-any-python-version">
+<h2 class="translated">Melhores práticas para <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> em qualquer versão Python<a class="headerlink" href="#best-practices-for-annotations-in-any-python-version" title="Link para este cabeçalho">¶</a></h2>
+<ul class="simple">
+<li><p class="translated">Evite atribuir diretamente ao membro <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> dos objetos. Deixe que Python gerenciar a configuração de <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code>.</p></li>
+<li><p class="translated">Se você atribuir diretamente ao membro <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> do objeto, sempre o defina como um objeto <code class="docutils literal notranslate"><span class="pre">dict</span></code>.</p></li>
+<li><p class="translated">Evita acessar <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> diretamente em qualquer objeto. Em vez disso, use <a class="reference internal" href="../library/annotationlib.html#annotationlib.get_annotations" title="annotationlib.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">annotationlib.get_annotations()</span></code></a> (Python 3.14+) ou <a class="reference internal" href="../library/inspect.html#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a> (Python 3.10+).</p></li>
+<li><p class="translated">Caso acesse diretamente o membro <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> de um objeto, certifique-se de que ele é um dicionário antes de tentar examinar seu conteúdo.</p></li>
+<li><p class="translated">Evite modificar o dicionário <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code>.</p></li>
+<li><p class="translated">Evite deletar o atributo <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> de um objeto.</p></li>
+</ul>
+</section>
+<section id="annotations-quirks">
+<h2 class="translated">Peculiaridades de <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code><a class="headerlink" href="#annotations-quirks" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Em todas as versões de Python 3, objetos de função criam preguiçosamente um dicionário de anotações caso nenhuma anotação seja definida nesse objeto. Você pode deletar o atributo <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> utilizando <code class="docutils literal notranslate"><span class="pre">del</span> <span class="pre">fn.__annotations__</span></code>, mas ao acessar <code class="docutils literal notranslate"><span class="pre">fn.__annotations__</span></code> o objeto criará um novo dicionário vazio que será armazenado e retornado como suas anotações.
+Apagar as anotações de uma função antes que ela tenha criado preguiçosamente seu dicionário de anotações irá produzir um <code class="docutils literal notranslate"><span class="pre">AttributeError</span></code>; ao utilizar <code class="docutils literal notranslate"><span class="pre">del</span> <span class="pre">fn.__annotations__</span></code> duas vezes em sequência, é garantido que será produzido um <code class="docutils literal notranslate"><span class="pre">AttributeError</span></code>.</p>
+<p class="translated">O citado no parágrafo acima também se aplica para classes e objetos de módulo em Python 3.10 e posteriores.</p>
+<p class="translated">Em todas as versões de Python 3, você pode definir <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> como <code class="docutils literal notranslate"><span class="pre">None</span></code> em um objeto de função. Contudo, acessar em sequência as anotações nesse objeto utilizando <code class="docutils literal notranslate"><span class="pre">fn.__annotations__</span></code> irá criar preguiçosamente um dicionário vazio como descrito no primeiro parágrafo dessa seção. Isso <em>não</em> é válido para módulos e classes, em qualquer versão de Python; esses objetos permitem atribuir <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> a qualquer valor de Python, e armazenam qualquer valor atribuído.</p>
+<p class="translated">Se Python transformar sua anotação em string (utilizando <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">annotations</span></code>), e você especificar uma string como anotação, essa string será posta entre aspas. Na prática a anotação receberá aspas <em>duplas</em>. Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="s2">"str"</span><span class="p">):</span> <span class="k">pass</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">foo</span><span class="o">.</span><span class="vm">__annotations__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Isso exibe <code class="docutils literal notranslate"><span class="pre">{'a':</span> <span class="pre">&quot;'str'&quot;}</span></code>. Não considere isso como uma “peculiaridade”; foi mencionado aqui simplesmente porque pode ser surpreendente.</p>
+<p class="translated">Se você usar uma classe com uma metaclasse personalizada e acessar <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> na classe, poderá observar um comportamento inesperado; consulte a <span class="target" id="index-5"></span><a class="pep reference external" href="https://peps.python.org/pep-0749/#pep749-metaclasses"><strong>749</strong></a> para obter alguns exemplos. Você pode evitar essas peculiaridades usando <a class="reference internal" href="../library/annotationlib.html#annotationlib.get_annotations" title="annotationlib.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">annotationlib.get_annotations()</span></code></a> no Python 3.14+ ou <a class="reference internal" href="../library/inspect.html#inspect.get_annotations" title="inspect.get_annotations"><code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.get_annotations()</span></code></a> no Python 3.10+. Em versões anteriores do Python, você pode evitar esses bugs acessando as anotações do <a class="reference internal" href="../reference/datamodel.html#type.__dict__" title="type.__dict__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__dict__</span></code></a> da classe (por exemplo, <code class="docutils literal notranslate"><span class="pre">cls.__dict__.get('__annotations__',</span> <span class="pre">None)</span></code>).</p>
+<p class="translated">Em algumas versões do Python, instâncias de classes podem ter um atributo <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code>. No entanto, essa funcionalidade não é suportada. Se precisar das anotações de uma instância, você pode usar <a class="reference internal" href="../builtins/functions.html#type" title="type"><code class="xref py py-func docutils literal notranslate"><span class="pre">type()</span></code></a> para acessar sua classe (por exemplo, <code class="docutils literal notranslate"><span class="pre">annotationlib.get_annotations(type(myinstance))</span></code> no Python 3.14+).</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Boas práticas para anotações</a><ul>
+<li><a class="reference internal" href="#accessing-the-annotations-dict-of-an-object-in-python-3-10-and-newer">Acessando o dicionário de anotações de um objeto no Python 3.10 e nas versões mais recentes</a></li>
+<li><a class="reference internal" href="#accessing-the-annotations-dict-of-an-object-in-python-3-9-and-older">Acessando o dicionário de anotações de um objeto no Python 3.9 e nas versões mais antigas</a></li>
+<li><a class="reference internal" href="#manually-un-stringizing-stringized-annotations">Recuperando manualmente anotações transformadas em strings</a></li>
+<li><a class="reference internal" href="#best-practices-for-annotations-in-any-python-version">Melhores práticas para <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code> em qualquer versão Python</a></li>
+<li><a class="reference internal" href="#annotations-quirks">Peculiaridades de <code class="docutils literal notranslate"><span class="pre">__annotations__</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="perf_profiling.html"
+                          title="capítulo anterior">Python support for the <code class="docutils literal notranslate"><span class="pre">perf</span> <span class="pre">map</span></code> compatible profilers</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="isolating-extensions.html"
+                          title="próximo capítulo">Isolando módulos de extensão</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "howto/annotations.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/howto/annotations.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/howto/annotations.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="isolating-extensions.html" title="Isolando módulos de extensão"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="perf_profiling.html" title="Python support for the perf map compatible profilers"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python HOWTOs</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Boas práticas para anotações</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

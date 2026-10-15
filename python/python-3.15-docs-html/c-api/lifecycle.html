@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Ciclo de vida do objeto" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/c-api/lifecycle.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Esta seção explica como os slots de um tipo se relacionam entre si ao longo da vida de um objeto. Não se destina a ser uma referência canônica completa para os slots; em vez disso, consulte a docum..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_c-api_lifecycle_4acc647d.png" />
+<meta property="og:image:alt" content="Esta seção explica como os slots de um tipo se relacionam entre si ao longo da vida de um objeto. Não se destina a ser uma referência canônica completa para os slots; em vez disso, consulte a docum..." />
+<meta name="description" content="Esta seção explica como os slots de um tipo se relacionam entre si ao longo da vida de um objeto. Não se destina a ser uma referência canônica completa para os slots; em vez disso, consulte a docum..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Ciclo de vida do objeto &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Estruturas comuns de objetos" href="structures.html" />
+    <link rel="prev" title="Alocando objetos na heap" href="allocation.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/c-api/lifecycle.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Ciclo de vida do objeto</a><ul>
+<li><a class="reference internal" href="#life-events">Eventos de vida</a></li>
+<li><a class="reference internal" href="#cyclic-isolate-destruction">Destruição de isolado cíclico</a></li>
+<li><a class="reference internal" href="#functions">Funções</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="allocation.html"
+                          title="capítulo anterior">Alocando objetos na heap</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="structures.html"
+                          title="próximo capítulo">Estruturas comuns de objetos</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "c-api/lifecycle.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/c-api/lifecycle.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/c-api/lifecycle.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="structures.html" title="Estruturas comuns de objetos"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="allocation.html" title="Alocando objetos na heap"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Manual de referência da API C/Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="objimpl.html" accesskey="U">Suporte a implementação de Objetos</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Ciclo de vida do objeto</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="object-life-cycle">
+<span id="life-cycle"></span><h1 class="translated">Ciclo de vida do objeto<a class="headerlink" href="#object-life-cycle" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated">Esta seção explica como os slots de um tipo se relacionam entre si ao longo da vida de um objeto. Não se destina a ser uma referência canônica completa para os slots; em vez disso, consulte a documentação específica do slot em <a class="reference internal" href="typeobj.html#type-structs"><span class="std std-ref">Estruturas de objetos tipo</span></a> para obter detalhes sobre um slot específico.</p>
+<section id="life-events">
+<h2 class="translated">Eventos de vida<a class="headerlink" href="#life-events" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">A figura abaixo ilustra a ordem dos eventos que podem ocorrer ao longo da vida de um objeto. Uma seta de <em>A</em> para <em>B</em> indica que o evento <em>B</em> pode ocorrer após a ocorrência do evento <em>A</em>, com o rótulo da seta indicando a condição que deve ser verdadeira para que <em>B</em> ocorra após <em>A</em>.</p>
+<style type="text/css">#life_events_graph {
+  --svg-fgcolor: currentcolor;
+  --svg-bgcolor: transparent;
+}
+#life_events_graph a {
+  color: inherit;
+}
+#life_events_graph [stroke="black"] {
+  stroke: var(--svg-fgcolor);
+}
+#life_events_graph text,
+#life_events_graph [fill="black"] {
+  fill: var(--svg-fgcolor);
+}
+#life_events_graph [fill="white"] {
+  fill: var(--svg-bgcolor);
+}
+#life_events_graph [fill="none"] {
+  /* On links, setting fill will make the entire shape clickable */
+  fill: var(--svg-bgcolor);
+}
+</style><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet href="lifecycle.dot.css" type="text/css"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.2.0 (0)
+ -->
+<!-- Title: Life Events Pages: 1 -->
+<svg width="465pt" height="845pt"
+ viewBox="0.00 0.00 465.30 845.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="life_events_graph" class="graph" transform="scale(1 1) rotate(0) translate(4 841)">
+<title>Life Events</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-841 461.3,-841 461.3,4 -4,4"/>
+<!-- start -->
+<!-- tp_new -->
+<g id="life_events_graph_node2" class="node">
+<title>tp_new</title>
+<g id="a_life_events_graph_node2"><a xlink:href="typeobj.html#c.PyTypeObject.tp_new" xlink:title="tp_new" target="_top">
+<ellipse fill="none" stroke="black" cx="192.8" cy="-772.5" rx="38.8" ry="18"/>
+<text text-anchor="middle" x="192.8" y="-768.23" font-family="monospace,monospace" font-size="12.00">tp_new</text>
+</a>
+</g>
+</g>
+<!-- start&#45;&gt;tp_new -->
+<g id="life_events_graph_edge1" class="edge">
+<title>start&#45;&gt;tp_new</title>
+<g id="a_life_events_graph_edge1"><a xlink:title="start to tp_new: type call">
+<path fill="none" stroke="black" d="M192.8,-822.95C192.8,-817.85 192.8,-810.09 192.8,-802.22"/>
+<polygon fill="black" stroke="black" points="196.3,-802.42 192.8,-792.42 189.3,-802.42 196.3,-802.42"/>
+</a>
+</g>
+<g id="a_life_events_graph_edge1&#45;label"><a xlink:title="start to tp_new: type call">
+<text text-anchor="start" x="192.8" y="-802.35" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;&#160;&#160;type call &#160;</text>
+</a>
+</g>
+</g>
+<!-- tp_alloc -->
+<g id="life_events_graph_node3" class="node">
+<title>tp_alloc</title>
+<g id="a_life_events_graph_node3"><a xlink:href="typeobj.html#c.PyTypeObject.tp_alloc" xlink:title="tp_alloc" target="_top">
+<ellipse fill="none" stroke="black" cx="373.8" cy="-772.5" rx="48.34" ry="18"/>
+<text text-anchor="middle" x="373.8" y="-768.23" font-family="monospace,monospace" font-size="12.00">tp_alloc</text>
+</a>
+</g>
+</g>
+<!-- tp_new&#45;&gt;tp_alloc -->
+<g id="life_events_graph_edge2" class="edge">
+<title>tp_new&#45;&gt;tp_alloc</title>
+<g id="a_life_events_graph_edge2"><a xlink:title="tp_new to tp_alloc: direct call">
+<path fill="none" stroke="black" d="M232.07,-772.5C256,-772.5 287.05,-772.5 313.98,-772.5"/>
+<polygon fill="none" stroke="black" points="313.73,-776 323.73,-772.5 313.73,-769 313.73,-776"/>
+</a>
+</g>
+<g id="a_life_events_graph_edge2&#45;label"><a xlink:title="tp_new to tp_alloc: direct call">
+<text text-anchor="start" x="240.65" y="-778.35" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;direct call &#160;</text>
+</a>
+</g>
+</g>
+<!-- tp_init -->
+<g id="life_events_graph_node4" class="node">
+<title>tp_init</title>
+<g id="a_life_events_graph_node4"><a xlink:href="typeobj.html#c.PyTypeObject.tp_init" xlink:title="tp_init" target="_top">
+<ellipse fill="none" stroke="black" cx="192.8" cy="-717.5" rx="43.57" ry="18"/>
+<text text-anchor="middle" x="192.8" y="-713.23" font-family="monospace,monospace" font-size="12.00">tp_init</text>
+</a>
+</g>
+</g>
+<!-- tp_new&#45;&gt;tp_init -->
+<g id="life_events_graph_edge3" class="edge">
+<title>tp_new&#45;&gt;tp_init</title>
+<g id="a_life_events_graph_edge3"><a xlink:title="tp_new to tp_init">
+<path fill="none" stroke="black" d="M192.8,-754.15C192.8,-751.83 192.8,-749.42 192.8,-746.98"/>
+<polygon fill="black" stroke="black" points="196.3,-747.23 192.8,-737.23 189.3,-747.23 196.3,-747.23"/>
+</a>
+</g>
+</g>
+<!-- reachable -->
+<g id="life_events_graph_node5" class="node">
+<title>reachable</title>
+<polygon fill="none" stroke="black" points="230.8,-680.5 154.8,-680.5 154.8,-644.5 230.8,-644.5 230.8,-680.5"/>
+<text text-anchor="middle" x="192.8" y="-658.23" font-family="serif,serif" font-style="italic" font-size="12.00">reachable</text>
+</g>
+<!-- tp_init&#45;&gt;reachable -->
+<g id="life_events_graph_edge4" class="edge">
+<title>tp_init&#45;&gt;reachable</title>
+<g id="a_life_events_graph_edge4"><a xlink:title="tp_init to reachable">
+<path fill="none" stroke="black" d="M186.44,-699.44C186.24,-697.12 186.11,-694.69 186.07,-692.24"/>
+<polygon fill="black" stroke="black" points="189.56,-692.51 186.37,-682.41 182.56,-692.29 189.56,-692.51"/>
+</a>
+</g>
+</g>
+<!-- reachable&#45;&gt;tp_init -->
+<g id="life_events_graph_edge7" class="edge">
+<title>reachable&#45;&gt;tp_init</title>
+<g id="a_life_events_graph_edge7"><a xlink:title="reachable to tp_init">
+<path fill="none" stroke="black" d="M199.18,-680.89C199.37,-683.22 199.49,-685.65 199.53,-688.11"/>
+<polygon fill="black" stroke="black" points="196.04,-687.81 199.2,-697.93 203.04,-688.05 196.04,-687.81"/>
+</a>
+</g>
+</g>
+<!-- tp_traverse -->
+<g id="life_events_graph_node6" class="node">
+<title>tp_traverse</title>
+<g id="a_life_events_graph_node6"><a xlink:href="typeobj.html#c.PyTypeObject.tp_traverse" xlink:title="tp_traverse" target="_top">
+<ellipse fill="none" stroke="black" cx="136.8" cy="-565.75" rx="62.65" ry="18"/>
+<text text-anchor="middle" x="136.8" y="-561.48" font-family="monospace,monospace" font-size="12.00">tp_traverse</text>
+</a>
+</g>
+</g>
+<!-- reachable&#45;&gt;tp_traverse -->
+<g id="life_events_graph_edge5" class="edge">
+<title>reachable&#45;&gt;tp_traverse</title>
+<g id="a_life_events_graph_edge5"><a xlink:title="tp_traverse to reachable: not in a cyclic isolate">
+<path fill="none" stroke="black" d="M143.43,-658.77C108.3,-655.68 65.38,-649.16 54.05,-635.5 41.91,-620.88 42.8,-608.07 54.05,-592.75 60.55,-583.89 70.07,-577.97 80.37,-574.03"/>
+<polygon fill="black" stroke="black" points="142.76,-662.23 153.01,-659.54 143.32,-655.25 142.76,-662.23"/>
+</a>
+</g>
+<g id="a_life_events_graph_edge5&#45;label"><a xlink:title="tp_traverse to reachable: not in a cyclic isolate">
+<text text-anchor="start" x="54.05" y="-624.1" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;not in a &#160;</text>
+<text text-anchor="start" x="59.67" y="-609.85" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;cyclic &#160;</text>
+<text text-anchor="start" x="57.05" y="-595.6" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;isolate &#160;</text>
+</a>
+</g>
+</g>
+<!-- reachable&#45;&gt;tp_traverse -->
+<g id="life_events_graph_edge6" class="edge">
+<title>reachable&#45;&gt;tp_traverse</title>
+<g id="a_life_events_graph_edge6"><a xlink:title="reachable to tp_traverse: periodic cyclic isolate detection">
+<path fill="none" stroke="black" d="M154.41,-650.07C147.94,-646.44 142.04,-641.69 138.05,-635.5 130.52,-623.82 129.57,-608.56 130.79,-595.38"/>
+<polygon fill="black" stroke="black" points="134.25,-595.91 132.17,-585.52 127.31,-594.94 134.25,-595.91"/>
+</a>
+</g>
+<g id="a_life_events_graph_edge6&#45;label"><a xlink:title="reachable to tp_traverse: periodic cyclic isolate detection">
+<text text-anchor="start" x="154.17" y="-624.1" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;periodic &#160;</text>
+<text text-anchor="start" x="138.05" y="-609.85" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;cyclic isolate &#160;&#160;</text>
+<text text-anchor="start" x="151.17" y="-595.6" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;detection &#160;</text>
+</a>
+</g>
+</g>
+<!-- finalized? -->
+<g id="life_events_graph_node7" class="node">
+<title>finalized?</title>
+<g id="a_life_events_graph_node7"><a xlink:title="marked as finalized?">
+<polygon fill="none" stroke="black" points="191.8,-487 112.05,-450.5 191.8,-414 271.55,-450.5 191.8,-487"/>
+<text text-anchor="start" x="159.92" y="-453.35" font-family="serif,serif" font-style="italic" font-size="12.00">marked as</text>
+<text text-anchor="start" x="162.92" y="-439.1" font-family="serif,serif" font-style="italic" font-size="12.00">finalized?</text>
+</a>
+</g>
+</g>
+<!-- reachable&#45;&gt;finalized? -->
+<g id="life_events_graph_edge10" class="edge">
+<title>reachable&#45;&gt;finalized?</title>
+<g id="a_life_events_graph_edge10"><a xlink:title="reachable to finalized?: no refs">
+<path fill="none" stroke="black" d="M227.72,-644.32C230.51,-641.73 232.96,-638.8 234.8,-635.5 244.04,-618.9 235.48,-611.74 234.8,-592.75 233.24,-549.67 243.64,-536.1 227.8,-496 226.37,-492.38 224.53,-488.82 222.45,-485.4"/>
+<polygon fill="black" stroke="black" points="225.47,-483.62 216.91,-477.39 219.72,-487.61 225.47,-483.62"/>
+</a>
+</g>
+<g id="a_life_events_graph_edge10&#45;label"><a xlink:title="reachable to finalized?: no refs">
+<text text-anchor="start" x="236.45" y="-561.48" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;no refs &#160;</text>
+</a>
+</g>
+</g>
+<!-- tp_finalize -->
+<g id="life_events_graph_node8" class="node">
+<title>tp_finalize</title>
+<g id="a_life_events_graph_node8"><a xlink:href="typeobj.html#c.PyTypeObject.tp_finalize" xlink:title="tp_finalize" target="_top">
+<ellipse fill="none" stroke="black" cx="122.8" cy="-321" rx="62.65" ry="18"/>
+<text text-anchor="middle" x="122.8" y="-316.73" font-family="monospace,monospace" font-size="12.00">tp_finalize</text>
+</a>
+</g>
+</g>
+<!-- reachable&#45;&gt;tp_finalize -->
+<g id="life_events_graph_edge8" class="edge">
+<title>reachable&#45;&gt;tp_finalize</title>
+<g id="a_life_events_graph_edge8"><a xlink:title="tp_finalize to reachable: resurrected (maybe remove finalized mark)">
+<path fill="none" stroke="black" d="M142.86,-659.6C103.8,-656.96 53.97,-650.63 40.8,-635.5 -37.32,-545.75 69.61,-390.31 109.14,-338.99"/>
+<polygon fill="black" stroke="black" points="142.62,-663.09 152.82,-660.2 143.05,-656.11 142.62,-663.09"/>
+</a>
+</g>
+<g id="a_life_events_graph_edge8&#45;label"><a xlink:title="tp_finalize to reachable: resurrected (maybe remove finalized mark)">
+<text text-anchor="start" x="33.68" y="-527.35" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;resurrected &#160;</text>
+<text text-anchor="start" x="22.43" y="-513.1" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;(maybe remove &#160;</text>
+<text text-anchor="start" x="23.18" y="-498.85" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;finalized mark) &#160;</text>
+</a>
+</g>
+</g>
+<!-- uncollectable -->
+<g id="life_events_graph_node10" class="node">
+<title>uncollectable</title>
+<g id="a_life_events_graph_node10"><a xlink:title="uncollectable (leaked)">
+<polygon fill="none" stroke="black" points="371.92,-159.75 275.67,-159.75 275.67,-123.25 371.92,-123.25 371.92,-159.75"/>
+<text text-anchor="start" x="283.67" y="-144.35" font-family="serif,serif" font-style="italic" font-size="12.00">uncollectable</text>
+<text text-anchor="start" x="299.42" y="-130.1" font-family="serif,serif" font-style="italic" font-size="12.00">(leaked)</text>
+</a>
+</g>
+</g>
+<!-- reachable&#45;&gt;uncollectable -->
+<g id="life_events_graph_edge19" class="edge">
+<title>reachable&#45;&gt;uncollectable</title>
+<g id="a_life_events_graph_edge19"><a xlink:title="reachable to uncollectable: cyclic isolate (no GC support)">
+<path fill="none" stroke="black" d="M231.2,-652.03C270.79,-639.69 326.8,-613.9 326.8,-566.75 326.8,-566.75 326.8,-566.75 326.8,-237.5 326.8,-215.3 325.97,-190.2 325.18,-171.37"/>
+<polygon fill="black" stroke="black" points="328.68,-171.35 324.75,-161.52 321.69,-171.66 328.68,-171.35"/>
+</a>
+</g>
+<g id="a_life_events_graph_edge19&#45;label"><a xlink:title="reachable to uncollectable: cyclic isolate (no GC support)">
+<text text-anchor="start" x="335.05" y="-393.6" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;cyclic &#160;</text>
+<text text-anchor="start" x="332.42" y="-379.35" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;isolate &#160;</text>
+<text text-anchor="start" x="331.3" y="-365.1" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;(no GC &#160;</text>
+<text text-anchor="start" x="326.8" y="-350.85" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;support) &#160;</text>
+</a>
+</g>
+</g>
+<!-- tp_dealloc -->
+<g id="life_events_graph_node11" class="node">
+<title>tp_dealloc</title>
+<g id="a_life_events_graph_node11"><a xlink:href="typeobj.html#c.PyTypeObject.tp_dealloc" xlink:title="tp_dealloc" target="_top">
+<ellipse fill="none" stroke="black" cx="200.8" cy="-86.25" rx="57.88" ry="18"/>
+<text text-anchor="middle" x="200.8" y="-81.97" font-family="monospace,monospace" font-size="12.00">tp_dealloc</text>
+</a>
+</g>
+</g>
+<!-- reachable&#45;&gt;tp_dealloc -->
+<g id="life_events_graph_edge20" class="edge">
+<title>reachable&#45;&gt;tp_dealloc</title>
+<path fill="none" stroke="black" d="M231.23,-661.18C293.08,-658.43 407.8,-643.03 407.8,-566.75 407.8,-566.75 407.8,-566.75 407.8,-140.5 407.8,-111.22 329.12,-97.8 268.77,-91.82"/>
+<polygon fill="black" stroke="black" points="269.15,-88.34 258.87,-90.89 268.5,-95.31 269.15,-88.34"/>
+<g id="a_life_events_graph_edge20&#45;label"><a xlink:title="reachable to tp_dealloc: no refs">
+<text text-anchor="start" x="407.8" y="-316.73" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;no refs</text>
+</a>
+</g>
+</g>
+<!-- tp_traverse&#45;&gt;finalized? -->
+<g id="life_events_graph_edge9" class="edge">
+<title>tp_traverse&#45;&gt;finalized?</title>
+<g id="a_life_events_graph_edge9"><a xlink:title="tp_traverse to finalized?: cyclic isolate">
+<path fill="none" stroke="black" d="M145.15,-547.55C152.4,-532.62 163.18,-510.43 172.55,-491.13"/>
+<polygon fill="black" stroke="black" points="175.7,-492.66 176.92,-482.14 169.4,-489.61 175.7,-492.66"/>
+</a>
+</g>
+<g id="a_life_events_graph_edge9&#45;label"><a xlink:title="tp_traverse to finalized?: cyclic isolate">
+<text text-anchor="start" x="171.85" y="-520.23" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;cyclic &#160;</text>
+<text text-anchor="start" x="169.22" y="-505.98" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;isolate &#160;</text>
+</a>
+</g>
+</g>
+<!-- finalized?&#45;&gt;tp_finalize -->
+<g id="life_events_graph_edge11" class="edge">
+<title>finalized?&#45;&gt;tp_finalize</title>
+<g id="a_life_events_graph_edge11"><a xlink:title="finalized? to tp_finalize: no (mark as finalized)">
+<path fill="none" stroke="black" d="M172.89,-422.6C169.14,-416.89 165.34,-410.82 162.05,-405 151.89,-387.08 141.99,-366.11 134.68,-349.73"/>
+<polygon fill="black" stroke="black" points="137.89,-348.35 130.66,-340.61 131.48,-351.17 137.89,-348.35"/>
+</a>
+</g>
+<g id="a_life_events_graph_edge11&#45;label"><a xlink:title="finalized? to tp_finalize: no (mark as finalized)">
+<text text-anchor="start" x="170.67" y="-379.35" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;no (mark &#160;</text>
+<text text-anchor="start" x="162.05" y="-365.1" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;as finalized) &#160;</text>
+</a>
+</g>
+</g>
+<!-- tp_clear -->
+<g id="life_events_graph_node9" class="node">
+<title>tp_clear</title>
+<g id="a_life_events_graph_node9"><a xlink:href="typeobj.html#c.PyTypeObject.tp_clear" xlink:title="tp_clear" target="_top">
+<ellipse fill="none" stroke="black" cx="222.8" cy="-238.5" rx="48.34" ry="18"/>
+<text text-anchor="middle" x="222.8" y="-234.22" font-family="monospace,monospace" font-size="12.00">tp_clear</text>
+</a>
+</g>
+</g>
+<!-- finalized?&#45;&gt;tp_clear -->
+<g id="life_events_graph_edge12" class="edge">
+<title>finalized?&#45;&gt;tp_clear</title>
+<g id="a_life_events_graph_edge12"><a xlink:title="finalized? to tp_clear: yes">
+<path fill="none" stroke="black" d="M227.56,-430.1C236.46,-423.41 244.86,-415.02 249.8,-405 277.22,-349.39 274.06,-322.55 249.8,-265.5 249.7,-265.27 249.6,-265.04 249.49,-264.81"/>
+<polygon fill="black" stroke="black" points="252.41,-262.88 243.93,-256.52 246.6,-266.78 252.41,-262.88"/>
+</a>
+</g>
+<g id="a_life_events_graph_edge12&#45;label"><a xlink:title="finalized? to tp_clear: yes">
+<text text-anchor="start" x="269.2" y="-316.73" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;yes &#160;</text>
+</a>
+</g>
+</g>
+<!-- tp_finalize&#45;&gt;tp_clear -->
+<g id="life_events_graph_edge13" class="edge">
+<title>tp_finalize&#45;&gt;tp_clear</title>
+<g id="a_life_events_graph_edge13"><a xlink:title="tp_finalize to tp_clear: no refs or cyclic isolate">
+<path fill="none" stroke="black" d="M130.02,-302.72C135.75,-290.85 144.8,-275.49 156.8,-265.5 161.95,-261.21 167.9,-257.57 174.07,-254.49"/>
+<polygon fill="black" stroke="black" points="175.46,-257.71 183.18,-250.45 172.62,-251.31 175.46,-257.71"/>
+</a>
+</g>
+<g id="a_life_events_graph_edge13&#45;label"><a xlink:title="tp_finalize to tp_clear: no refs or cyclic isolate">
+<text text-anchor="start" x="164.3" y="-282.6" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;no refs or &#160;&#160;</text>
+<text text-anchor="start" x="156.8" y="-268.35" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;cyclic isolate &#160;</text>
+</a>
+</g>
+</g>
+<!-- tp_finalize&#45;&gt;tp_dealloc -->
+<g id="life_events_graph_edge14" class="edge">
+<title>tp_finalize&#45;&gt;tp_dealloc</title>
+<g id="a_life_events_graph_edge14"><a xlink:href="lifecycle.html#c.PyObject_CallFinalizerFromDealloc" xlink:title="tp_dealloc to tp_finalize: recommended call (see explanation)" target="_top">
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M85.85,-298.52C42.09,-270.18 -21.4,-218.11 7.8,-168.75 36.22,-120.7 99.95,-100.97 146.42,-92.87"/>
+<polygon fill="none" stroke="black" points="83.78,-301.35 94.11,-303.72 87.52,-295.43 83.78,-301.35"/>
+</a>
+</g>
+<g id="a_life_events_graph_edge14&#45;label"><a xlink:href="lifecycle.html#c.PyObject_CallFinalizerFromDealloc" xlink:title="tp_dealloc to tp_finalize: recommended call (see explanation)" target="_top">
+<text text-anchor="start" x="7.8" y="-200.1" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;recommended</text>
+<text text-anchor="start" x="25.8" y="-185.85" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;call (see</text>
+<text text-anchor="start" x="13.05" y="-171.6" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;explanation)</text>
+</a>
+</g>
+</g>
+<!-- tp_finalize&#45;&gt;tp_dealloc -->
+<g id="life_events_graph_edge15" class="edge">
+<title>tp_finalize&#45;&gt;tp_dealloc</title>
+<g id="a_life_events_graph_edge15"><a xlink:title="tp_finalize to tp_dealloc: no refs">
+<path fill="none" stroke="black" d="M123.03,-302.58C123.95,-273.77 128.08,-214.78 146.05,-168.75 153.95,-148.5 167.56,-128.2 179.24,-112.92"/>
+<polygon fill="black" stroke="black" points="181.81,-115.32 185.25,-105.3 176.31,-110.98 181.81,-115.32"/>
+</a>
+</g>
+<g id="a_life_events_graph_edge15&#45;label"><a xlink:title="tp_finalize to tp_dealloc: no refs">
+<text text-anchor="start" x="146.05" y="-185.85" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;&#160;no refs &#160;</text>
+</a>
+</g>
+</g>
+<!-- tp_clear&#45;&gt;uncollectable -->
+<g id="life_events_graph_edge17" class="edge">
+<title>tp_clear&#45;&gt;uncollectable</title>
+<g id="a_life_events_graph_edge17"><a xlink:title="tp_clear to uncollectable: cyclic isolate">
+<path fill="none" stroke="black" d="M227.75,-220.38C232.99,-205 242.67,-182.74 258.05,-168.75 260.43,-166.58 263.02,-164.58 265.74,-162.73"/>
+<polygon fill="black" stroke="black" points="267.27,-165.89 274.12,-157.81 263.73,-159.86 267.27,-165.89"/>
+</a>
+</g>
+<g id="a_life_events_graph_edge17&#45;label"><a xlink:title="tp_clear to uncollectable: cyclic isolate">
+<text text-anchor="start" x="260.67" y="-192.97" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;cyclic &#160;</text>
+<text text-anchor="start" x="258.05" y="-178.72" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;isolate &#160;</text>
+</a>
+</g>
+</g>
+<!-- tp_clear&#45;&gt;tp_dealloc -->
+<g id="life_events_graph_edge16" class="edge">
+<title>tp_clear&#45;&gt;tp_dealloc</title>
+<g id="a_life_events_graph_edge16"><a xlink:title="tp_clear to tp_dealloc: no refs">
+<path fill="none" stroke="black" d="M219.7,-220.24C216.92,-204.51 212.83,-180.61 209.8,-159.75 207.7,-145.34 205.67,-129.26 204.07,-115.92"/>
+<polygon fill="black" stroke="black" points="207.56,-115.59 202.91,-106.07 200.61,-116.41 207.56,-115.59"/>
+</a>
+</g>
+<g id="a_life_events_graph_edge16&#45;label"><a xlink:title="tp_clear to tp_dealloc: no refs">
+<text text-anchor="start" x="209.8" y="-137.22" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;no refs &#160;</text>
+</a>
+</g>
+</g>
+<!-- uncollectable&#45;&gt;tp_dealloc -->
+<!-- tp_free -->
+<g id="life_events_graph_node12" class="node">
+<title>tp_free</title>
+<g id="a_life_events_graph_node12"><a xlink:href="typeobj.html#c.PyTypeObject.tp_free" xlink:title="tp_free" target="_top">
+<ellipse fill="none" stroke="black" cx="200.8" cy="-18" rx="43.57" ry="18"/>
+<text text-anchor="middle" x="200.8" y="-13.72" font-family="monospace,monospace" font-size="12.00">tp_free</text>
+</a>
+</g>
+</g>
+<!-- tp_dealloc&#45;&gt;tp_free -->
+<g id="life_events_graph_edge21" class="edge">
+<title>tp_dealloc&#45;&gt;tp_free</title>
+<g id="a_life_events_graph_edge21"><a xlink:title="tp_dealloc to tp_free: direct call">
+<path fill="none" stroke="black" d="M200.8,-67.84C200.8,-61.63 200.8,-54.46 200.8,-47.56"/>
+<polygon fill="none" stroke="black" points="204.3,-47.57 200.8,-37.57 197.3,-47.57 204.3,-47.57"/>
+</a>
+</g>
+<g id="a_life_events_graph_edge21&#45;label"><a xlink:title="tp_dealloc to tp_free: direct call">
+<text text-anchor="start" x="200.8" y="-47.85" font-family="serif,serif" font-style="italic" font-size="12.00"> &#160;&#160;&#160;direct call &#160;</text>
+</a>
+</g>
+</g>
+</g>
+</svg>
+<script>
+    (() => {
+        const g = document.getElementById('life_events_graph');
+        const title = g.querySelector(':scope > title');
+        title.id = 'life-events-graph-title';
+        const svg = g.closest('svg');
+        svg.role = 'img';
+        svg.setAttribute('aria-describedby',
+                         'life-events-graph-description');
+        svg.setAttribute('aria-labelledby', 'life-events-graph-title');
+    })();
+</script><div class="docutils container" id="life-events-graph-description">
+<p class="translated">Explicação:</p>
+<ul class="simple">
+<li><p class="translated">Quando um novo objeto é construído chamando seu tipo:</p>
+<ol class="arabic simple">
+<li><p class="translated"><a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_new" title="PyTypeObject.tp_new"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_new</span></code></a> é chamado para criar um novo objeto.</p></li>
+<li><p class="translated"><a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_alloc" title="PyTypeObject.tp_alloc"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_alloc</span></code></a> é chamado diretamente por <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_new" title="PyTypeObject.tp_new"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_new</span></code></a> para alocar a memória para o novo objeto.</p></li>
+<li><p class="translated"><a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_init" title="PyTypeObject.tp_init"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_init</span></code></a> inicializa o objeto recém-criado. <code class="xref c c-member docutils literal notranslate"><span class="pre">tp_init</span></code> pode ser chamado novamente para reinicializar um objeto, se desejado. A chamada DE <code class="xref c c-member docutils literal notranslate"><span class="pre">tp_init</span></code> também pode ser completamente ignorada, por exemplo, com código Python chamando <a class="reference internal" href="../reference/datamodel.html#object.__new__" title="object.__new__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__new__()</span></code></a>.</p></li>
+</ol>
+</li>
+<li><p class="translated">Após a conclusão de <code class="xref c c-member docutils literal notranslate"><span class="pre">tp_init</span></code>, o objeto estará pronto para uso.</p></li>
+<li><p class="translated">Algum tempo após a última referência a um objeto ser removida:</p>
+<ol class="arabic simple">
+<li><p class="translated">Se um objeto não estiver marcado como <em>finalizado</em>, ele poderá ser finalizado marcando-o como <em>finalizado</em> e chamando sua função <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_finalize" title="PyTypeObject.tp_finalize"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_finalize</span></code></a>. O Python <em>não</em> finaliza um objeto quando a última referência a ele é excluída; use <a class="reference internal" href="#c.PyObject_CallFinalizerFromDealloc" title="PyObject_CallFinalizerFromDealloc"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_CallFinalizerFromDealloc()</span></code></a> para garantir que <code class="xref c c-member docutils literal notranslate"><span class="pre">tp_finalize</span></code> seja sempre chamado.</p></li>
+<li><p class="translated">Se o objeto estiver marcado como finalizado, <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_clear" title="PyTypeObject.tp_clear"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_clear</span></code></a> poderá ser chamado pelo coletor de lixo para limpar as referências mantidas pelo objeto. Ele <em>não</em> é chamado quando a contagem de referências do objeto chega a zero.</p></li>
+<li><p class="translated"><a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_dealloc" title="PyTypeObject.tp_dealloc"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_dealloc</span></code></a> é chamado para destruir o objeto. Para evitar duplicação de código, <code class="xref c c-member docutils literal notranslate"><span class="pre">tp_dealloc</span></code> normalmente chama <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_clear" title="PyTypeObject.tp_clear"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_clear</span></code></a> para liberar as referências do objeto.</p></li>
+<li><p class="translated">Quando <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_dealloc" title="PyTypeObject.tp_dealloc"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_dealloc</span></code></a> termina a destruição do objeto, ele chama diretamente <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_free" title="PyTypeObject.tp_free"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_free</span></code></a> (geralmente definido como <a class="reference internal" href="memory.html#c.PyObject_Free" title="PyObject_Free"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_Free()</span></code></a> ou <a class="reference internal" href="gcsupport.html#c.PyObject_GC_Del" title="PyObject_GC_Del"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_GC_Del()</span></code></a> automaticamente, conforme apropriado para o tipo) para desalocar a memória.</p></li>
+</ol>
+</li>
+<li><p class="translated">A função <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_finalize" title="PyTypeObject.tp_finalize"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_finalize</span></code></a> tem permissão para adicionar uma referência ao objeto, se desejado. Se isso acontecer, o objeto será <em>ressuscitado</em>, impedindo sua destruição pendente. (Somente <code class="xref c c-member docutils literal notranslate"><span class="pre">tp_finalize</span></code> tem permissão para ressuscitar um objeto; <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_clear" title="PyTypeObject.tp_clear"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_clear</span></code></a> e <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_dealloc" title="PyTypeObject.tp_dealloc"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_dealloc</span></code></a> não podem sem chamar <code class="xref c c-member docutils literal notranslate"><span class="pre">tp_finalize</span></code>.) Ressuscitar um objeto pode ou não causar a remoção da marca <em>finalizado</em> do objeto. Atualmente, o Python não remove a marca <em>finalizado</em> de um objeto ressuscitado se ele suportar coleta de lixo (ou seja, o sinalizador <a class="reference internal" href="typeobj.html#c.Py_TPFLAGS_HAVE_GC" title="Py_TPFLAGS_HAVE_GC"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_TPFLAGS_HAVE_GC</span></code></a> estiver definido), mas remove a marca se o objeto não suportar coleta de lixo; qualquer um ou ambos os comportamentos podem mudar no futuro.</p></li>
+<li><p class="translated"><a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_dealloc" title="PyTypeObject.tp_dealloc"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_dealloc</span></code></a> pode opcionalmente chamar <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_finalize" title="PyTypeObject.tp_finalize"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_finalize</span></code></a> via <a class="reference internal" href="#c.PyObject_CallFinalizerFromDealloc" title="PyObject_CallFinalizerFromDealloc"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_CallFinalizerFromDealloc()</span></code></a> se desejar reutilizar esse código para auxiliar na destruição de objetos. Isso é recomendado porque garante que <code class="xref c c-member docutils literal notranslate"><span class="pre">tp_finalize</span></code> seja sempre chamado antes da destruição. Consulte a documentação de <code class="xref c c-member docutils literal notranslate"><span class="pre">tp_dealloc</span></code> para obter um exemplo de código.</p></li>
+<li><p class="translated">Se o objeto for membro de um <a class="reference internal" href="../glossary.html#term-cyclic-isolate"><span class="xref std std-term">isolado cíclico</span></a> e <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_clear" title="PyTypeObject.tp_clear"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_clear</span></code></a> não conseguir interromper o ciclo de referência ou o isolado cíclico não for detectado (talvez <a class="reference internal" href="../library/gc.html#gc.disable" title="gc.disable"><code class="xref py py-func docutils literal notranslate"><span class="pre">gc.disable()</span></code></a> tenha sido chamado ou o sinalizador <a class="reference internal" href="typeobj.html#c.Py_TPFLAGS_HAVE_GC" title="Py_TPFLAGS_HAVE_GC"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_TPFLAGS_HAVE_GC</span></code></a> tenha sido omitido erroneamente em um dos tipos envolvidos), os objetos permanecerão indefinidamente não coletáveis (eles “vazam”). Veja <a class="reference internal" href="../library/gc.html#gc.garbage" title="gc.garbage"><code class="xref py py-data docutils literal notranslate"><span class="pre">gc.garbage</span></code></a>.</p></li>
+</ul>
+<p class="translated">Se o objeto for marcado como compatível com coleta de lixo (o sinalizador <a class="reference internal" href="typeobj.html#c.Py_TPFLAGS_HAVE_GC" title="Py_TPFLAGS_HAVE_GC"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_TPFLAGS_HAVE_GC</span></code></a> estiver definido em <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_flags" title="PyTypeObject.tp_flags"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_flags</span></code></a>), os seguintes eventos também serão possíveis:</p>
+<ul class="simple">
+<li><p class="translated">O coletor de lixo ocasionalmente chama <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_traverse" title="PyTypeObject.tp_traverse"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_traverse</span></code></a> para identificar <a class="reference internal" href="../glossary.html#term-cyclic-isolate"><span class="xref std std-term">isolados cíclicos</span></a>.</p></li>
+<li><p class="translated">Quando o coletor de lixo descobre um <a class="reference internal" href="../glossary.html#term-cyclic-isolate"><span class="xref std std-term">isolado cíclico</span></a>, ele finaliza um dos objetos do grupo marcando-o como <em>finalizado</em> e chamando sua função <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_finalize" title="PyTypeObject.tp_finalize"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_finalize</span></code></a>, se houver. Isso se repete até que o isolado cíclico não exista mais ou todos os objetos tenham sido finalizados.</p></li>
+<li><p class="translated"><a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_finalize" title="PyTypeObject.tp_finalize"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_finalize</span></code></a> tem permissão para ressuscitar o objeto adicionando uma referência externa ao <a class="reference internal" href="../glossary.html#term-cyclic-isolate"><span class="xref std std-term">isolado cíclico</span></a>. A nova referência faz com que o grupo de objetos não forme mais um isolado cíclico (o ciclo de referência ainda pode existir, mas se existir, os objetos não estarão mais isolados).</p></li>
+<li><p class="translated">Quando o coletor de lixo descobre um <a class="reference internal" href="../glossary.html#term-cyclic-isolate"><span class="xref std std-term">isolado cíclico</span></a> e todos os objetos do grupo já foram marcados como <em>finalizados</em>, o coletor de lixo limpa um ou mais objetos não limpos no grupo (possivelmente simultaneamente) chamando a função <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_clear" title="PyTypeObject.tp_clear"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_clear</span></code></a> de cada um. Isso se repete enquanto o isolado cíclico ainda existir e nem todos os objetos tiverem sido limpos.</p></li>
+</ul>
+</div>
+</section>
+<section id="cyclic-isolate-destruction">
+<h2 class="translated">Destruição de isolado cíclico<a class="headerlink" href="#cyclic-isolate-destruction" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Abaixo estão listados os estágios de vida de um <a class="reference internal" href="../glossary.html#term-cyclic-isolate"><span class="xref std std-term">isolado cíclico</span></a> hipotético que continua a existir após cada objeto membro ser finalizado ou limpo. É um vazamento de memória se um isolado cíclico passar por todos esses estágios; ele deve desaparecer assim que todos os objetos forem limpos, ou até mesmo antes. Um isolado cíclico pode desaparecer porque o ciclo de referência foi quebrado ou porque os objetos não estão mais isolados devido à ressurreição do finalizador (veja <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_finalize" title="PyTypeObject.tp_finalize"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_finalize</span></code></a>).</p>
+<ol class="arabic simple" start="0">
+<li><p class="translated"><strong>Alcançável</strong> (ainda não é um isolado cíclico): todos os objetos estão em seu estado normal e acessível. Um ciclo de referência pode existir, mas uma referência externa significa que os objetos ainda não estão isolados.</p></li>
+<li><p class="translated"><strong>Inalcançável, mas consistente:</strong> a referência final de fora do grupo cíclico de objetos foi removida, causando o isolado dos objetos (criando assim um isolado cíclico). Nenhum dos objetos do grupo foi finalizado ou limpo ainda. O isolado cíclico permanece neste estágio até alguma execução futura do coletor de lixo (não necessariamente a próxima execução, pois a próxima execução pode não varrer todos os objetos).</p></li>
+<li><p class="translated"><strong>Mistura de finalizados e não finalizados:</strong> objetos em um isolado cíclico são finalizados um de cada vez, o que significa que há um período em que o isolado cíclico é composto por uma mistura de objetos finalizados e não finalizados. A ordem de finalização não é especificada, portanto, pode parecer aleatória. Um objeto finalizado deve se comportar de maneira sensata quando objetos não finalizados interagem com ele, e um objeto não finalizado deve ser capaz de tolerar a finalização de um subconjunto arbitrário de seus referentes.</p></li>
+<li><p class="translated"><strong>Todos finalizados:</strong> todos os objetos em um isolado cíclico são finalizados antes que qualquer um deles seja limpo.</p></li>
+<li><p class="translated"><strong>Combinação de finalizado e limpo:</strong> os objetos podem ser limpos em série ou simultaneamente (mas com a <a class="reference internal" href="../glossary.html#term-GIL"><span class="xref std std-term">GIL</span></a> mantida); de qualquer forma, alguns serão concluídos antes de outros. Um objeto finalizado deve ser capaz de tolerar a limpeza de um subconjunto de seus referentes. <span class="target" id="index-2"></span><a class="pep reference external" href="https://peps.python.org/pep-0442/"><strong>PEP 442</strong></a> chama essa etapa de “lixo cíclico”.</p></li>
+<li><p class="translated"><strong>Vazamento:</strong> se um isolado cíclico ainda existir após todos os objetos do grupo terem sido finalizados e limpos, os objetos permanecerão indefinidamente não coletáveis (consulte <a class="reference internal" href="../library/gc.html#gc.garbage" title="gc.garbage"><code class="xref py py-data docutils literal notranslate"><span class="pre">gc.garbage</span></code></a>). É um bug se um isolado cíclico atingir esse estágio — significa que os métodos <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_clear" title="PyTypeObject.tp_clear"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_clear</span></code></a> dos objetos participantes falharam em interromper o ciclo de referência conforme necessário.</p></li>
+</ol>
+<p class="translated">Se <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_clear" title="PyTypeObject.tp_clear"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_clear</span></code></a> não existisse, o Python não teria como interromper com segurança um ciclo de referência. A simples destruição de um objeto em um isolado cíclico resultaria em um ponteiro pendente, desencadeando um comportamento indefinido quando um objeto que referencia o objeto destruído é destruído. A etapa de limpeza torna a destruição de objetos um processo de duas fases: primeiro, <code class="xref c c-member docutils literal notranslate"><span class="pre">tp_clear</span></code> é chamado para destruir parcialmente os objetos o suficiente para desvinculá-los uns dos outros; em seguida, <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_dealloc" title="PyTypeObject.tp_dealloc"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_dealloc</span></code></a> é chamado para completar a destruição.</p>
+<p class="translated">Ao contrário da limpeza, a finalização não é uma fase da destruição. Um objeto finalizado ainda deve se comportar corretamente, continuando a cumprir seus contratos de design. O finalizador de um objeto pode executar código Python arbitrário e até mesmo impedir a destruição iminente adicionando uma referência. O finalizador está relacionado à destruição apenas pela ordem de chamada — se for executado, será executado antes da destruição, que começa com <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_clear" title="PyTypeObject.tp_clear"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_clear</span></code></a> (se chamado) e termina com <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_dealloc" title="PyTypeObject.tp_dealloc"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_dealloc</span></code></a>.</p>
+<p class="translated">A etapa de finalização não é necessária para recuperar com segurança os objetos em um isolado cíclico, mas sua existência facilita o design de tipos que se comportam de maneira sensata quando os objetos são limpos. Limpar um objeto pode necessariamente deixá-lo em um estado quebrado, parcialmente destruído — pode ser inseguro chamar qualquer um dos métodos do objeto limpo ou acessar qualquer um de seus atributos. Com a finalização, apenas objetos finalizados podem interagir com objetos limpos; objetos não finalizados têm a garantia de interagir apenas com objetos não limpos (mas potencialmente finalizados).</p>
+<p class="translated">Para resumir as interações possíveis:</p>
+<ul class="simple">
+<li><p class="translated">Um objeto não finalizado pode ter referências a ou de objetos não finalizados e finalizados, mas não a ou de objetos limpos.</p></li>
+<li><p class="translated">Um objeto finalizado pode ter referências a ou de objetos não finalizados, finalizados e limpos.</p></li>
+<li><p class="translated">Um objeto limpo pode ter referências a ou de objetos finalizados e limpos, mas não a ou de objetos não finalizados.</p></li>
+</ul>
+<p class="translated">Sem ciclos de referência, um objeto pode ser simplesmente destruído após a exclusão de sua última referência; as etapas de finalização e limpeza não são necessárias para recuperar objetos não utilizados com segurança. No entanto, pode ser útil chamar automaticamente <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_finalize" title="PyTypeObject.tp_finalize"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_finalize</span></code></a> e <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_clear" title="PyTypeObject.tp_clear"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_clear</span></code></a> antes da destruição, pois o design de tipos é simplificado quando todos os objetos sempre experimentam a mesma série de eventos, independentemente de terem participado ou não de um isolado cíclico. Atualmente, o Python chama <code class="xref c c-member docutils literal notranslate"><span class="pre">tp_finalize</span></code> e <code class="xref c c-member docutils literal notranslate"><span class="pre">tp_clear</span></code> apenas conforme necessário para destruir um isolado cíclico; isso pode mudar em uma versão futura.</p>
+</section>
+<section id="functions">
+<h2 class="translated">Funções<a class="headerlink" href="#functions" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Para alocar e liberar memória, consulte <a class="reference internal" href="allocation.html#allocating-objects"><span class="std std-ref">Alocando objetos na heap</span></a>.</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_CallFinalizer">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_CallFinalizer</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">op</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_CallFinalizer" title="Link para esta definição">¶</a><br /></dt>
+<dd><p class="translated">Finaliza o objeto conforme descrito em <a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_finalize" title="PyTypeObject.tp_finalize"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_finalize</span></code></a>. Chame esta função (ou <a class="reference internal" href="#c.PyObject_CallFinalizerFromDealloc" title="PyObject_CallFinalizerFromDealloc"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_CallFinalizerFromDealloc()</span></code></a>) em vez de chamar <code class="xref c c-member docutils literal notranslate"><span class="pre">tp_finalize</span></code> diretamente, pois esta função pode desduplicar várias chamadas para <code class="xref c c-member docutils literal notranslate"><span class="pre">tp_finalize</span></code>. Atualmente, as chamadas são desduplicadas somente se o tipo oferecer suporte a coleta de lixo (ou seja, se o sinalizador <a class="reference internal" href="typeobj.html#c.Py_TPFLAGS_HAVE_GC" title="Py_TPFLAGS_HAVE_GC"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_TPFLAGS_HAVE_GC</span></code></a> estiver definido); isso pode mudar no futuro.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyObject_CallFinalizerFromDealloc">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyObject_CallFinalizerFromDealloc</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">op</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyObject_CallFinalizerFromDealloc" title="Link para esta definição">¶</a><br /></dt>
+<dd><em class="stableabi"> Parte da <a class="reference internal" href="stable.html#stable"><span class="std std-ref">ABI Estável</span></a> desde a versão 3.15.</em><p class="translated">O mesmo que <a class="reference internal" href="#c.PyObject_CallFinalizer" title="PyObject_CallFinalizer"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_CallFinalizer()</span></code></a>, mas deve ser chamado no início do destrutor do objeto (<a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_dealloc" title="PyTypeObject.tp_dealloc"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_dealloc</span></code></a>). Não deve haver nenhuma referência ao objeto. Se o finalizador do objeto ressuscitar o objeto, esta função retornará -1; nenhuma outra destruição deverá ocorrer. Caso contrário, esta função retornará 0 e a destruição pode continuar normalmente.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.4.</span></p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<p class="translated"><a class="reference internal" href="typeobj.html#c.PyTypeObject.tp_dealloc" title="PyTypeObject.tp_dealloc"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_dealloc</span></code></a> para código de exemplo.</p>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Ciclo de vida do objeto</a><ul>
+<li><a class="reference internal" href="#life-events">Eventos de vida</a></li>
+<li><a class="reference internal" href="#cyclic-isolate-destruction">Destruição de isolado cíclico</a></li>
+<li><a class="reference internal" href="#functions">Funções</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="allocation.html"
+                          title="capítulo anterior">Alocando objetos na heap</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="structures.html"
+                          title="próximo capítulo">Estruturas comuns de objetos</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "c-api/lifecycle.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/c-api/lifecycle.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/c-api/lifecycle.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="structures.html" title="Estruturas comuns de objetos"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="allocation.html" title="Alocando objetos na heap"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Manual de referência da API C/Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="objimpl.html" >Suporte a implementação de Objetos</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Ciclo de vida do objeto</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

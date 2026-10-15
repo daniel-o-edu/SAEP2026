@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Complexidade de tempo de operações em tipos embutidos" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/builtins/time-complexity.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Esta página documenta a complexidade de tempo de várias operações em tipos nativos no CPython. Outras implementações do Python podem apresentar características de desempenho diferentes. Além disso,..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_builtins_time-complexity_6f3df9e9.png" />
+<meta property="og:image:alt" content="Esta página documenta a complexidade de tempo de várias operações em tipos nativos no CPython. Outras implementações do Python podem apresentar características de desempenho diferentes. Além disso,..." />
+<meta name="description" content="Esta página documenta a complexidade de tempo de várias operações em tipos nativos no CPython. Outras implementações do Python podem apresentar características de desempenho diferentes. Além disso,..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Complexidade de tempo de operações em tipos embutidos &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="A biblioteca padrão do Python" href="../library/index.html" />
+    <link rel="prev" title="Garantias de segurança de thread" href="threadsafety.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/builtins/time-complexity.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Complexidade de tempo de operações em tipos embutidos</a><ul>
+<li><a class="reference internal" href="#list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></li>
+<li><a class="reference internal" href="#tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></li>
+<li><a class="reference internal" href="#dict-frozendict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">frozendict</span></code></a></li>
+<li><a class="reference internal" href="#set-frozenset"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">frozenset</span></code></a></li>
+<li><a class="reference internal" href="#str-bytes-bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a></li>
+<li><a class="reference internal" href="#memoryview"><code class="xref py py-class docutils literal notranslate"><span class="pre">memoryview</span></code></a></li>
+<li><a class="reference internal" href="#range"><code class="xref py py-class docutils literal notranslate"><span class="pre">range</span></code></a></li>
+<li><a class="reference internal" href="#notes">Notas</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="threadsafety.html"
+                          title="capítulo anterior">Garantias de segurança de thread</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="../library/index.html"
+                          title="próximo capítulo">A biblioteca padrão do Python</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "builtins/time-complexity.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/builtins/time-complexity.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/builtins/time-complexity.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="../library/index.html" title="A biblioteca padrão do Python"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="threadsafety.html" title="Garantias de segurança de thread"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Referência da bibliotecas embutidas do Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Complexidade de tempo de operações em tipos embutidos</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="time-complexity-of-operations-on-built-in-types">
+<span id="time-complexity"></span><h1 class="translated">Complexidade de tempo de operações em tipos embutidos<a class="headerlink" href="#time-complexity-of-operations-on-built-in-types" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated">Esta página documenta a complexidade de tempo de várias operações em tipos nativos no CPython. Outras implementações do Python podem apresentar características de desempenho diferentes. Além disso, os custos listados pressupõem os tipos nativos exatos, uma vez que instâncias de subclasses podem ter custos diferentes.</p>
+<p class="translated">Utilizamos a <a class="reference external" href="https://en.wikipedia.org/wiki/Big_O_notation">Big <em>O</em> notation</a> para descrever como o tempo de execução de uma operação cresce em função do tamanho de suas entradas. A menos que indicado de outra forma, <em>n</em> representa o número de elementos atualmente no contêiner, e <em>k</em> é o valor de um parâmetro numérico, como um índice ou uma contagem de repetições.</p>
+<section id="list">
+<h2 class="translated"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code><a class="headerlink" href="#list" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Listas são sequências mutáveis; para mais detalhes sobre a implementação, consulte <a class="reference internal" href="../faq/design.html#how-are-lists-implemented"><span class="std std-ref">Como as listas são implementadas no CPython?</span></a>. Os custos mais elevados ocorrem ao expandir a lista além do tamanho de alocação atual (pois todos os elementos precisam ser movidos) ou ao inserir ou remover itens próximos ao início (pois todos os elementos subsequentes precisam ser movidos). Se você precisar adicionar ou remover itens em ambas as extremidades, considere usar um <a class="reference internal" href="../library/collections.html#collections.deque" title="collections.deque"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.deque</span></code></a> em vez disso.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Operação</p></th>
+<th class="head"><p class="translated">Complexidade</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated">Cópia (<code class="docutils literal notranslate"><span class="pre">l.copy()</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Anexação ao final (<code class="docutils literal notranslate"><span class="pre">l.append(x)</span></code>) <a class="footnote-reference brackets" href="#id54" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Pop (<code class="docutils literal notranslate"><span class="pre">l.pop(k)</span></code>) <a class="footnote-reference brackets" href="#id54" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id55" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em> - <em>k</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Inserção (<code class="docutils literal notranslate"><span class="pre">l.insert(k,</span> <span class="pre">x)</span></code>) <a class="footnote-reference brackets" href="#id54" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id55" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em> - <em>k</em>)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Obtenção de item (<code class="docutils literal notranslate"><span class="pre">l[k]</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Definição de item (<code class="docutils literal notranslate"><span class="pre">l[k]</span> <span class="pre">=</span> <span class="pre">x</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Exclusão de item (<code class="docutils literal notranslate"><span class="pre">del</span> <span class="pre">l[k]</span></code>) <a class="footnote-reference brackets" href="#id55" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em> - <em>k</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Iteração</p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Obtenção de fatia (<code class="docutils literal notranslate"><span class="pre">l[i:j]</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(<em>j</em> - <em>i</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Definição de fatia (<code class="docutils literal notranslate"><span class="pre">l[i:j]</span> <span class="pre">=</span> <span class="pre">t</span></code>) <a class="footnote-reference brackets" href="#id54" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(<em>j</em> - <em>i</em>) if len(<em>t</em>) == <em>j</em> - <em>i</em>, do contrário <em>O</em>(<em>n</em> - <em>i</em> + len(<em>t</em>))</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Exclusão de fatia (<code class="docutils literal notranslate"><span class="pre">del</span> <span class="pre">l[i:j]</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(<em>n</em> - <em>i</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Estensão (<code class="docutils literal notranslate"><span class="pre">l.extend(t)</span></code>) <a class="footnote-reference brackets" href="#id54" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id56" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(len(<em>t</em>))</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Ordenação (<code class="docutils literal notranslate"><span class="pre">l.sort()</span></code>) <a class="footnote-reference brackets" href="#id57" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em> log <em>n</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Concatenação (<code class="docutils literal notranslate"><span class="pre">l1</span> <span class="pre">+</span> <span class="pre">l2</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(len(<em>l1</em>) + len(<em>l2</em>))</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Multiplicação (<code class="docutils literal notranslate"><span class="pre">l</span> <span class="pre">*</span> <span class="pre">k</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(<em>nk</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">in</span> <span class="pre">l</span></code></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">min(l)</span></code>, <code class="docutils literal notranslate"><span class="pre">max(l)</span></code></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Obtenção de comprimento (<code class="docutils literal notranslate"><span class="pre">len(l)</span></code>) <a class="footnote-reference brackets" href="#id58" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="tuple">
+<h2 class="translated"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code><a class="headerlink" href="#tuple" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Uma <a class="reference internal" href="stdtypes.html#tuple" title="tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a> é uma sequência <a class="reference internal" href="../glossary.html#term-immutable"><span class="xref std std-term">imutável</span></a>. Como uma tupla nunca pode ser alterada, não há custos de inserção ou remoção, e criar uma cópia simplesmente retorna o mesmo objeto; portanto, a operação ocorre em tempo constante (<em>O</em>(1)).</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Operação</p></th>
+<th class="head"><p class="translated">Complexidade</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated">Cópia (<code class="docutils literal notranslate"><span class="pre">tuple(t)</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Obtenção de item (<code class="docutils literal notranslate"><span class="pre">t[k]</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Obtenção de fatia (<code class="docutils literal notranslate"><span class="pre">t[i:j]</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(<em>j</em> - <em>i</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Concatenação (<code class="docutils literal notranslate"><span class="pre">t1</span> <span class="pre">+</span> <span class="pre">t2</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(len(<em>t1</em>) + len(<em>t2</em>))</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Multiplicação (<code class="docutils literal notranslate"><span class="pre">t</span> <span class="pre">*</span> <span class="pre">k</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(<em>nk</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Iteração</p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">in</span> <span class="pre">t</span></code></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">min(t)</span></code>, <code class="docutils literal notranslate"><span class="pre">max(t)</span></code></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Obtenção de comprimento (<code class="docutils literal notranslate"><span class="pre">len(t)</span></code>) <a class="footnote-reference brackets" href="#id58" id="id12" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="dict-frozendict">
+<h2 class="translated"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">frozendict</span></code><a class="headerlink" href="#dict-frozendict" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Os tempos listados para objetos do tipo <em>dict</em> referem-se a casos médios, pois pressupõem que a função de <em>hash</em> utilizada seja suficientemente robusta para tornar incomuns as colisões. Também pressupõem que as chaves estejam bem distribuídas no conjunto de chaves possíveis. No pior caso — quando todas as chaves resultam no mesmo valor de <em>hash</em> —, cada uma das operações <em>O</em>(1) listadas abaixo passa a exigir tempo <em>O</em>(<em>n</em>). Além disso, eles pressupõem que as operações de <em>hashing</em> e comparação de chaves ocorrem em tempo <em>O</em>(1). Para mais detalhes sobre a implementação, consulte <a class="reference internal" href="../faq/design.html#how-are-dictionaries-implemented"><span class="std std-ref">Como são os dicionários implementados no CPython?</span></a>.</p>
+<p class="translated">Um <a class="reference internal" href="stdtypes.html#frozendict" title="frozendict"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozendict</span></code></a> é imutável; portanto, não oferece suporte à definição, exclusão ou a atualização de itens. As outras operações listadas abaixo aplicam-se a ele com os mesmos custos.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Operação</p></th>
+<th class="head"><p class="translated">Complexidade</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">key</span> <span class="pre">in</span> <span class="pre">d</span></code></p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Cópia (<code class="docutils literal notranslate"><span class="pre">d.copy()</span></code>) <a class="footnote-reference brackets" href="#id59" id="id13" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id60" id="id14" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Obtenção de item (<code class="docutils literal notranslate"><span class="pre">d[key]</span></code>, <code class="docutils literal notranslate"><span class="pre">d.get(key)</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Definição de item (<code class="docutils literal notranslate"><span class="pre">d[key]</span> <span class="pre">=</span> <span class="pre">value</span></code>) <a class="footnote-reference brackets" href="#id54" id="id15" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Exclusão de item (<code class="docutils literal notranslate"><span class="pre">del</span> <span class="pre">d[key]</span></code>, <code class="docutils literal notranslate"><span class="pre">d.pop(key)</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Atualização (<code class="docutils literal notranslate"><span class="pre">d.update(t)</span></code>, <code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">|=</span> <span class="pre">t</span></code>) <a class="footnote-reference brackets" href="#id54" id="id16" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id56" id="id17" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id60" id="id18" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(len(<em>t</em>))</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Iteração <a class="footnote-reference brackets" href="#id60" id="id19" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Obtenção de comprimento (<code class="docutils literal notranslate"><span class="pre">len(d)</span></code>) <a class="footnote-reference brackets" href="#id58" id="id20" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="set-frozenset">
+<h2 class="translated"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">frozenset</span></code><a class="headerlink" href="#set-frozenset" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Consulte <a class="reference internal" href="stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, pois as implementações de <a class="reference internal" href="stdtypes.html#set" title="set"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a> e <a class="reference internal" href="stdtypes.html#frozenset" title="frozenset"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozenset</span></code></a> são semelhantes e as mesmas ressalvas se aplicam. No pior caso, operações de <em>O</em>(1) passam a levar tempo <em>O</em>(<em>n</em>), e operações que percorrem todos os elementos sofrem uma degradação de desempenho correspondente.</p>
+<p class="translated">Um <a class="reference internal" href="stdtypes.html#frozenset" title="frozenset"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozenset</span></code></a> é <a class="reference internal" href="../glossary.html#term-immutable"><span class="xref std std-term">imutável</span></a>, portanto, não oferece suporte a operações de adição, descarte ou atualização local (<em>in-place</em>). As demais operações listadas abaixo aplicam-se a ele com os mesmos custos.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Operação</p></th>
+<th class="head"><p class="translated">Complexidade</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">in</span> <span class="pre">s</span></code></p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Cópia (<code class="docutils literal notranslate"><span class="pre">s.copy()</span></code>) <a class="footnote-reference brackets" href="#id59" id="id21" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id60" id="id22" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Adição (<code class="docutils literal notranslate"><span class="pre">s.add(x)</span></code>) <a class="footnote-reference brackets" href="#id54" id="id23" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Descarte (<code class="docutils literal notranslate"><span class="pre">s.discard(x)</span></code>, <code class="docutils literal notranslate"><span class="pre">s.remove(x)</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">União (<code class="docutils literal notranslate"><span class="pre">s1</span> <span class="pre">|</span> <span class="pre">s2</span></code>, <code class="docutils literal notranslate"><span class="pre">s1.union(s2)</span></code>) <a class="footnote-reference brackets" href="#id60" id="id24" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(len(<em>s1</em>) + len(<em>s2</em>))</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Atualização (<code class="docutils literal notranslate"><span class="pre">s1</span> <span class="pre">|=</span> <span class="pre">s2</span></code>, <code class="docutils literal notranslate"><span class="pre">s1.update(s2)</span></code>) <a class="footnote-reference brackets" href="#id54" id="id25" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id60" id="id26" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(len(<em>s2</em>))</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Interseção (<code class="docutils literal notranslate"><span class="pre">s1</span> <span class="pre">&amp;</span> <span class="pre">s2</span></code>, <code class="docutils literal notranslate"><span class="pre">s1.intersection(s2)</span></code>) <a class="footnote-reference brackets" href="#id60" id="id27" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id61" id="id28" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(min(len(<em>s1</em>), len(<em>s2</em>)))</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Atualização de interseção (<code class="docutils literal notranslate"><span class="pre">s1</span> <span class="pre">&amp;=</span> <span class="pre">s2</span></code>, <code class="docutils literal notranslate"><span class="pre">s1.intersection_update(s2)</span></code>) <a class="footnote-reference brackets" href="#id54" id="id29" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id60" id="id30" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id61" id="id31" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(min(len(<em>s1</em>), len(<em>s2</em>)))</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Diferença (<code class="docutils literal notranslate"><span class="pre">s1</span> <span class="pre">-</span> <span class="pre">s2</span></code>, <code class="docutils literal notranslate"><span class="pre">s1.difference(s2)</span></code>) <a class="footnote-reference brackets" href="#id60" id="id32" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id62" id="id33" role="doc-noteref"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(len(<em>s1</em>))</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Atualização de diferença (<code class="docutils literal notranslate"><span class="pre">s1</span> <span class="pre">-=</span> <span class="pre">s2</span></code>, <code class="docutils literal notranslate"><span class="pre">s1.difference_update(s2)</span></code>) <a class="footnote-reference brackets" href="#id54" id="id34" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id60" id="id35" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id61" id="id36" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(min(len(<em>s1</em>), len(<em>s2</em>)))</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Diferença simétrica (<code class="docutils literal notranslate"><span class="pre">s1</span> <span class="pre">^</span> <span class="pre">s2</span></code>, <code class="docutils literal notranslate"><span class="pre">s1.symmetric_difference(s2)</span></code>) <a class="footnote-reference brackets" href="#id60" id="id37" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(len(<em>s1</em>) + len(<em>s2</em>))</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Atualização de diferença simétrica (<code class="docutils literal notranslate"><span class="pre">s1</span> <span class="pre">^=</span> <span class="pre">s2</span></code>, <code class="docutils literal notranslate"><span class="pre">s1.symmetric_difference_update(s2)</span></code>) <a class="footnote-reference brackets" href="#id54" id="id38" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id60" id="id39" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(len(<em>s2</em>))</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Obtenção de comprimento (<code class="docutils literal notranslate"><span class="pre">len(s)</span></code>) <a class="footnote-reference brackets" href="#id58" id="id40" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="str-bytes-bytearray">
+<h2 class="translated"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code><a class="headerlink" href="#str-bytes-bytearray" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Objetos <a class="reference internal" href="stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> e <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> são sequências imutáveis de caracteres e bytes, respectivamente. Assim como ocorre com as tuplas, copiar um deles retorna o objeto original. Um <a class="reference internal" href="stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a> é mutável e, além disso, oferece suporte às operações de modificação de <a class="reference internal" href="stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> (exceto <code class="xref py py-meth docutils literal notranslate"><span class="pre">sort()</span></code>), com os mesmos custos. No entanto, a exclusão no início utilizando <code class="docutils literal notranslate"><span class="pre">del</span></code> (<code class="docutils literal notranslate"><span class="pre">del</span> <span class="pre">b[0]</span></code>, <code class="docutils literal notranslate"><span class="pre">del</span> <span class="pre">b[:k]</span></code>) apenas avança o início do buffer, em vez de mover os bytes restantes, resultando em uma complexidade amortizada <em>O</em>(1).</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Operação</p></th>
+<th class="head"><p class="translated">Complexidade</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated">Obtenção de item (<code class="docutils literal notranslate"><span class="pre">s[k]</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Obtenção de fatia (<code class="docutils literal notranslate"><span class="pre">s[i:j]</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(<em>j</em> - <em>i</em>)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Concatenação (<code class="docutils literal notranslate"><span class="pre">s</span> <span class="pre">+</span> <span class="pre">t</span></code>) <a class="footnote-reference brackets" href="#id63" id="id41" role="doc-noteref"><span class="fn-bracket">[</span>10<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(len(<em>s</em>) + len(<em>t</em>))</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Multiplicação (<code class="docutils literal notranslate"><span class="pre">s</span> <span class="pre">*</span> <span class="pre">k</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(<em>nk</em>)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Busca por substring (<code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">in</span> <span class="pre">s</span></code>, <code class="docutils literal notranslate"><span class="pre">s.find(x)</span></code>, <code class="docutils literal notranslate"><span class="pre">s.index(x)</span></code>) <a class="footnote-reference brackets" href="#id64" id="id42" role="doc-noteref"><span class="fn-bracket">[</span>11<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Busca inversa por substring (<code class="docutils literal notranslate"><span class="pre">s.rfind(x)</span></code>, <code class="docutils literal notranslate"><span class="pre">s.rindex(x)</span></code>) <a class="footnote-reference brackets" href="#id64" id="id43" role="doc-noteref"><span class="fn-bracket">[</span>11<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id65" id="id44" role="doc-noteref"><span class="fn-bracket">[</span>12<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em> × len(<em>x</em>))</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Codificação e decodificação <a class="footnote-reference brackets" href="#id66" id="id45" role="doc-noteref"><span class="fn-bracket">[</span>13<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Iteração</p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Obtenção de comprimento (<code class="docutils literal notranslate"><span class="pre">len(s)</span></code>) <a class="footnote-reference brackets" href="#id58" id="id46" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="memoryview">
+<h2 class="translated"><code class="xref py py-class docutils literal notranslate"><span class="pre">memoryview</span></code><a class="headerlink" href="#memoryview" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Objetos <a class="reference internal" href="stdtypes.html#memoryview" title="memoryview"><code class="xref py py-class docutils literal notranslate"><span class="pre">memoryview</span></code></a> permitem que código Python acesse os dados internos de um objeto que implemente o <a class="reference internal" href="../c-api/buffer.html#bufferobjects"><span class="std std-ref">protocolo buffer</span></a> sem copiá-lo. Em especial, o fatiamento de uma view de memória retorna uma nova view para o mesmo buffer.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Operação</p></th>
+<th class="head"><p class="translated">Complexidade</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated">Criação (<code class="docutils literal notranslate"><span class="pre">memoryview(obj)</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Obtenção de item (<code class="docutils literal notranslate"><span class="pre">v[k]</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Obtenção de fatia (<code class="docutils literal notranslate"><span class="pre">v[i:j]</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Índice (<code class="docutils literal notranslate"><span class="pre">v.index(x)</span></code>) <a class="footnote-reference brackets" href="#id64" id="id47" role="doc-noteref"><span class="fn-bracket">[</span>11<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id67" id="id48" role="doc-noteref"><span class="fn-bracket">[</span>14<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Contagem (<code class="docutils literal notranslate"><span class="pre">v.count(x)</span></code>) <a class="footnote-reference brackets" href="#id67" id="id49" role="doc-noteref"><span class="fn-bracket">[</span>14<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Conversão para bytes (<code class="docutils literal notranslate"><span class="pre">v.tobytes()</span></code>, <code class="docutils literal notranslate"><span class="pre">bytes(v)</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Obtenção de comprimento (<code class="docutils literal notranslate"><span class="pre">len(v)</span></code>) <a class="footnote-reference brackets" href="#id58" id="id50" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="range">
+<h2 class="translated"><code class="xref py py-class docutils literal notranslate"><span class="pre">range</span></code><a class="headerlink" href="#range" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Um objeto <a class="reference internal" href="stdtypes.html#range" title="range"><code class="xref py py-class docutils literal notranslate"><span class="pre">range</span></code></a> calcula seus itens sob demanda a partir de seus valores de <em>start</em>, <em>stop</em> e <em>step</em>; portanto, a maioria das operações não depende do comprimento do intervalo.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Operação</p></th>
+<th class="head"><p class="translated">Complexidade</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated">Obtenção de item (<code class="docutils literal notranslate"><span class="pre">r[k]</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Obtenção de fatia (<code class="docutils literal notranslate"><span class="pre">r[i:j]</span></code>)</p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">in</span> <span class="pre">r</span></code> <a class="footnote-reference brackets" href="#id68" id="id51" role="doc-noteref"><span class="fn-bracket">[</span>15<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated">Índice e contagem (<code class="docutils literal notranslate"><span class="pre">r.index(x)</span></code>, <code class="docutils literal notranslate"><span class="pre">r.count(x)</span></code>) <a class="footnote-reference brackets" href="#id68" id="id52" role="doc-noteref"><span class="fn-bracket">[</span>15<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Iteração</p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">min(r)</span></code>, <code class="docutils literal notranslate"><span class="pre">max(r)</span></code></p></td>
+<td><p class="translated"><em>O</em>(<em>n</em>)</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated">Obtenção de comprimento (<code class="docutils literal notranslate"><span class="pre">len(r)</span></code>) <a class="footnote-reference brackets" href="#id58" id="id53" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></td>
+<td><p class="translated"><em>O</em>(1)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="notes">
+<h2 class="translated">Notas<a class="headerlink" href="#notes" title="Link para este cabeçalho">¶</a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id54" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>,<a role="doc-backlink" href="#id4">3</a>,<a role="doc-backlink" href="#id7">4</a>,<a role="doc-backlink" href="#id8">5</a>,<a role="doc-backlink" href="#id15">6</a>,<a role="doc-backlink" href="#id16">7</a>,<a role="doc-backlink" href="#id23">8</a>,<a role="doc-backlink" href="#id25">9</a>,<a role="doc-backlink" href="#id29">10</a>,<a role="doc-backlink" href="#id34">11</a>,<a role="doc-backlink" href="#id38">12</a>)</span>
+<p class="translated">Amortizado. Uma operação individual pode, ocasionalmente, ser <em>O*(*n</em>) quando o armazenamento subjacente é redimensionado, mas esse custo é distribuído por muitas operações, dependendo do histórico do contêiner.</p>
+</aside>
+<aside class="footnote brackets" id="id55" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id5">2</a>,<a role="doc-backlink" href="#id6">3</a>)</span>
+<p class="translated">Retirar (<em>pop</em>) ou excluir o elemento no índice <em>k</em> de uma lista de tamanho <em>n</em> desloca todos os elementos após <em>k</em> uma posição para a esquerda, movimentando <em>n</em> - <em>k</em> - 1 elementos; inserir no índice <em>k</em> desloca os elementos a partir de <em>k</em> uma posição para a direita, movimentando <em>n</em> - <em>k</em> elementos. O pior caso ocorre no índice 0, onde todo o restante da lista precisa ser deslocado; o caso médio — um índice no meio da lista — requer <em>O</em>(<em>n</em>/2) = <em>O</em>(<em>n</em>) operações; e realizar a operação no final da lista não exige movimentação, sendo uma operação <em>O</em>(1).</p>
+</aside>
+<aside class="footnote brackets" id="id56" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id9">1</a>,<a role="doc-backlink" href="#id17">2</a>)</span>
+<p class="translated">Além do custo de iterar sobre <em>t</em>, que pode ser elevado para um iterável arbitrário.</p>
+</aside>
+<aside class="footnote brackets" id="id57" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">4</a><span class="fn-bracket">]</span></span>
+<p class="translated">Este é o pior cenário possível. A ordenação é adaptativa, e entradas já ordenadas ou ordenadas em ordem inversa requerem apenas <em>O*(*n</em>) comparações. Consulte <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Objects/listsort.txt">Objects/listsort.txt</a> para mais informações.</p>
+</aside>
+<aside class="footnote brackets" id="id58" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id11">1</a>,<a role="doc-backlink" href="#id12">2</a>,<a role="doc-backlink" href="#id20">3</a>,<a role="doc-backlink" href="#id40">4</a>,<a role="doc-backlink" href="#id46">5</a>,<a role="doc-backlink" href="#id50">6</a>,<a role="doc-backlink" href="#id53">7</a>)</span>
+<p class="translated">O número de elementos é armazenado no objeto, portanto, <code class="docutils literal notranslate"><span class="pre">len()</span></code> não precisa contá-los.</p>
+</aside>
+<aside class="footnote brackets" id="id59" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id13">1</a>,<a role="doc-backlink" href="#id21">2</a>)</span>
+<p class="translated">A cópia de um <a class="reference internal" href="stdtypes.html#frozendict" title="frozendict"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozendict</span></code></a> ou um <a class="reference internal" href="stdtypes.html#frozenset" title="frozenset"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozenset</span></code></a> é <em>O</em>(1), pois retorna o objeto original.</p>
+</aside>
+<aside class="footnote brackets" id="id60" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id14">1</a>,<a role="doc-backlink" href="#id18">2</a>,<a role="doc-backlink" href="#id19">3</a>,<a role="doc-backlink" href="#id22">4</a>,<a role="doc-backlink" href="#id24">5</a>,<a role="doc-backlink" href="#id26">6</a>,<a role="doc-backlink" href="#id27">7</a>,<a role="doc-backlink" href="#id30">8</a>,<a role="doc-backlink" href="#id32">9</a>,<a role="doc-backlink" href="#id35">10</a>,<a role="doc-backlink" href="#id37">11</a>,<a role="doc-backlink" href="#id39">12</a>)</span>
+<p class="translated">Essas operações percorrem a tabela de hash interna do contêiner, a qual não é reduzida quando elementos são removidos. Mesmo após a remoção da maioria dos elementos, elas continuam levando um tempo proporcional ao tamanho anterior do contêiner, até que uma inserção posterior acione um redimensionamento.</p>
+</aside>
+<aside class="footnote brackets" id="id61" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id28">1</a>,<a role="doc-backlink" href="#id31">2</a>,<a role="doc-backlink" href="#id36">3</a>)</span>
+<p class="translated"><em>O</em>(len(<em>t</em>)) se <em>t</em> não é um conjunto.</p>
+</aside>
+<aside class="footnote brackets" id="id62" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id33">9</a><span class="fn-bracket">]</span></span>
+<p class="translated"><em>O</em>(len(<em>s</em>) + len(<em>t</em>)) se <em>t</em> não é um conjunto.</p>
+</aside>
+<aside class="footnote brackets" id="id63" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id41">10</a><span class="fn-bracket">]</span></span>
+<p class="translated">Cada concatenação cria um novo objeto; portanto, construir uma string concatenando muitas partes em um laço tem complexidade quadrática em relação ao comprimento total. Consulte a <a class="reference internal" href="stdtypes.html#typesseq-repeated-concatenation"><span class="std std-ref">nota sobre a concatenação de sequências imutáveis</span></a> para ver alternativas.</p>
+</aside>
+<aside class="footnote brackets" id="id64" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>11<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id42">1</a>,<a role="doc-backlink" href="#id43">2</a>,<a role="doc-backlink" href="#id47">3</a>)</span>
+<p class="translated">Com os argumentos <em>start</em> e <em>end</em>, <em>n</em> é o comprimento da região pesquisada, e não de <em>s</em>, e, ao contrário do fatiamento, nada é copiado.</p>
+</aside>
+<aside class="footnote brackets" id="id65" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id44">12</a><span class="fn-bracket">]</span></span>
+<p class="translated">Este é o pior caso. As buscas inversas são <em>O*(*n</em>) para entradas típicas. Já as buscas diretas utilizam um algoritmo mais elaborado com complexidade linear no pior caso, descrito em <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Objects/stringlib/stringlib_find_two_way_notes.txt">Objects/stringlib/stringlib_find_two_way_notes.txt</a>.</p>
+</aside>
+<aside class="footnote brackets" id="id66" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id45">13</a><span class="fn-bracket">]</span></span>
+<p class="translated">Isso presume um codec que realiza uma quantidade constante de trabalho por caractere.</p>
+</aside>
+<aside class="footnote brackets" id="id67" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>14<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id48">1</a>,<a role="doc-backlink" href="#id49">2</a>)</span>
+<p class="translated">Eles desempacotam e comparam cada elemento individualmente; portanto, são muito mais lentos do que os métodos equivalentes de <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>.</p>
+</aside>
+<aside class="footnote brackets" id="id68" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>15<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id51">1</a>,<a role="doc-backlink" href="#id52">2</a>)</span>
+<p class="translated">Presumindo os argumentos como sendo do tipo <a class="reference internal" href="functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> ou <a class="reference internal" href="functions.html#bool" title="bool"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>. Para outros tipos, o intervalo é pesquisado como qualquer outra sequência, em tempo <em>O</em>(<em>n</em>).</p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Complexidade de tempo de operações em tipos embutidos</a><ul>
+<li><a class="reference internal" href="#list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></li>
+<li><a class="reference internal" href="#tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></li>
+<li><a class="reference internal" href="#dict-frozendict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">frozendict</span></code></a></li>
+<li><a class="reference internal" href="#set-frozenset"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">frozenset</span></code></a></li>
+<li><a class="reference internal" href="#str-bytes-bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a></li>
+<li><a class="reference internal" href="#memoryview"><code class="xref py py-class docutils literal notranslate"><span class="pre">memoryview</span></code></a></li>
+<li><a class="reference internal" href="#range"><code class="xref py py-class docutils literal notranslate"><span class="pre">range</span></code></a></li>
+<li><a class="reference internal" href="#notes">Notas</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="threadsafety.html"
+                          title="capítulo anterior">Garantias de segurança de thread</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="../library/index.html"
+                          title="próximo capítulo">A biblioteca padrão do Python</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "builtins/time-complexity.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/builtins/time-complexity.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/builtins/time-complexity.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="../library/index.html" title="A biblioteca padrão do Python"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="threadsafety.html" title="Garantias de segurança de thread"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Referência da bibliotecas embutidas do Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Complexidade de tempo de operações em tipos embutidos</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

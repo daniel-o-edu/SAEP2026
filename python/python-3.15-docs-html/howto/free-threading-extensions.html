@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Suporte a extensões da API C para threads livres" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/howto/free-threading-extensions.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="A partir da versão 3.13, o CPython tem suporte para execução com a trava global do interpretador(GIL) desabilitada em uma configuração chamada threads livres. Este documento descreve como adaptar e..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_howto_free-threading-extensions_02b68572.png" />
+<meta property="og:image:alt" content="A partir da versão 3.13, o CPython tem suporte para execução com a trava global do interpretador(GIL) desabilitada em uma configuração chamada threads livres. Este documento descreve como adaptar e..." />
+<meta name="description" content="A partir da versão 3.13, o CPython tem suporte para execução com a trava global do interpretador(GIL) desabilitada em uma configuração chamada threads livres. Este documento descreve como adaptar e..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Suporte a extensões da API C para threads livres &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Migrating to Stable ABI for free threading (abi3t)" href="abi3t-migration.html" />
+    <link rel="prev" title="Suporte do Python para threads livres" href="free-threading-python.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/howto/free-threading-extensions.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Suporte a extensões da API C para threads livres</a><ul>
+<li><a class="reference internal" href="#identifying-the-free-threaded-build-in-c">Identificando a construção com threads livres em C</a></li>
+<li><a class="reference internal" href="#module-initialization">Inicialização de módulo</a><ul>
+<li><a class="reference internal" href="#multi-phase-initialization">Inicialização multifásica</a></li>
+<li><a class="reference internal" href="#single-phase-initialization">Inicialização monofásica</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#general-api-guidelines">Diretrizes gerais de API</a><ul>
+<li><a class="reference internal" href="#container-thread-safety">Segurança de threads de contêineres</a><ul>
+<li><a class="reference internal" href="#pydict-next"><code class="docutils literal notranslate"><span class="pre">PyDict_Next</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#borrowed-references">Referências emprestadas</a></li>
+<li><a class="reference internal" href="#memory-allocation-apis">APIs de alocação de memória</a></li>
+<li><a class="reference internal" href="#thread-state-and-gil-apis">APIs da GIL e de estado de threads</a></li>
+<li><a class="reference internal" href="#protecting-internal-extension-state">Protegendo o estado interno das extensões</a></li>
+<li><a class="reference internal" href="#critical-sections">Seções críticas</a><ul>
+<li><a class="reference internal" href="#what-are-critical-sections">O que são seções críticas?</a></li>
+<li><a class="reference internal" href="#using-critical-sections">Usando seções críticas</a></li>
+<li><a class="reference internal" href="#how-critical-sections-work">Como seções críticas funcionam</a></li>
+<li><a class="reference internal" href="#deadlock-avoidance">Prevenção de impasses</a></li>
+<li><a class="reference internal" href="#important-considerations">Considerações importantes</a></li>
+<li><a class="reference internal" href="#per-object-locks-ob-mutex">Per-Object Locks (<code class="docutils literal notranslate"><span class="pre">ob_mutex</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-extensions-for-the-free-threaded-build">Construindo extensões para a construção com threads livres</a><ul>
+<li><a class="reference internal" href="#limited-c-api-and-stable-abi">API C limitada e ABI estável</a></li>
+<li><a class="reference internal" href="#windows">Windows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="free-threading-python.html"
+                          title="capítulo anterior">Suporte do Python para threads livres</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="abi3t-migration.html"
+                          title="próximo capítulo">Migrating to Stable ABI for free threading (<code class="docutils literal notranslate"><span class="pre">abi3t</span></code>)</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "howto/free-threading-extensions.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/howto/free-threading-extensions.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/howto/free-threading-extensions.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="abi3t-migration.html" title="Migrating to Stable ABI for free threading (abi3t)"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="free-threading-python.html" title="Suporte do Python para threads livres"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python HOWTOs</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Suporte a extensões da API C para threads livres</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="c-api-extension-support-for-free-threading">
+<span id="freethreading-extensions-howto"></span><h1 class="translated">Suporte a extensões da API C para threads livres<a class="headerlink" href="#c-api-extension-support-for-free-threading" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated">A partir da versão 3.13, o CPython tem suporte para execução com a <a class="reference internal" href="../glossary.html#term-global-interpreter-lock"><span class="xref std std-term">trava global do interpretador</span></a> (GIL) desabilitada em uma configuração chamada <a class="reference internal" href="../glossary.html#term-free-threading"><span class="xref std std-term">threads livres</span></a>. Este documento descreve como adaptar extensões da API C para ter suporte a threads livres.</p>
+<section id="identifying-the-free-threaded-build-in-c">
+<h2 class="translated">Identificando a construção com threads livres em C<a class="headerlink" href="#identifying-the-free-threaded-build-in-c" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">A API C do CPython expõe a macro <code class="docutils literal notranslate"><span class="pre">Py_GIL_DISABLED</span></code>: na construção com threads livres ela está definida como <code class="docutils literal notranslate"><span class="pre">1</span></code>, e na construção regular ela não está definida. Você pode usá-la para ativar o código que é executado apenas na construção com threads livres:</p>
+<div class="translated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifdef Py_GIL_DISABLED</span>
+<span class="cm">/* código que só vai ser executado na construção com threads livres */</span>
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">No Windows, esta macro não é definida automaticamente, mas deve ser especificada ao compilador durante a compilação. A função <a class="reference internal" href="../library/sysconfig.html#sysconfig.get_config_var" title="sysconfig.get_config_var"><code class="xref py py-func docutils literal notranslate"><span class="pre">sysconfig.get_config_var()</span></code></a> pode ser usada para determinar se o interpretador em execução tinha a macro definida.</p>
+</div>
+</section>
+<section id="module-initialization">
+<h2 class="translated">Inicialização de módulo<a class="headerlink" href="#module-initialization" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Os módulos de extensão precisam indicar explicitamente que têm suporte à execução com a GIL desabilitada; caso contrário, importar a extensão levantará um aviso e ativará a GIL em tempo de execução.</p>
+<p class="translated">Há duas maneiras de indicar que um módulo de extensão tem suporte à execução com a GIL desabilitada, dependendo se a extensão usa inicialização monofásica ou multifásica.</p>
+<section id="multi-phase-initialization">
+<h3 class="translated">Inicialização multifásica<a class="headerlink" href="#multi-phase-initialization" title="Link para este cabeçalho">¶</a></h3>
+<p class="untranslated">Extensions that use <a class="reference internal" href="../c-api/extension-modules.html#multi-phase-initialization"><span class="std std-ref">multi-phase initialization</span></a>
+(functions like <a class="reference internal" href="../c-api/extension-modules.html#c.PyModuleDef_Init" title="PyModuleDef_Init"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyModuleDef_Init()</span></code></a>,
+<a class="reference internal" href="../c-api/extension-modules.html#c.PyModExport_modulename" title="PyModExport_modulename"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyModExport_*</span></code></a> export hook,
+<a class="reference internal" href="../c-api/module.html#c.PyModule_FromSlotsAndSpec" title="PyModule_FromSlotsAndSpec"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyModule_FromSlotsAndSpec()</span></code></a>) should add a
+<a class="reference internal" href="../c-api/module.html#c.Py_mod_gil" title="Py_mod_gil"><code class="xref c c-data docutils literal notranslate"><span class="pre">Py_mod_gil</span></code></a> slot in the module definition.
+If your extension supports older versions of CPython,
+you should guard the slot with a <a class="reference internal" href="../c-api/apiabiversion.html#c.PY_VERSION_HEX" title="PY_VERSION_HEX"><code class="xref c c-data docutils literal notranslate"><span class="pre">PY_VERSION_HEX</span></code></a> check.</p>
+<div class="untranslated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">PyModuleDef_Slot</span><span class="w"> </span><span class="n">module_slots</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="cp">#if PY_VERSION_HEX &gt;= 0x030D0000</span>
+<span class="w">    </span><span class="p">{</span><span class="n">Py_mod_gil</span><span class="p">,</span><span class="w"> </span><span class="n">Py_MOD_GIL_NOT_USED</span><span class="p">},</span>
+<span class="cp">#endif</span>
+<span class="w">    </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</section>
+<section id="single-phase-initialization">
+<h3 class="translated">Inicialização monofásica<a class="headerlink" href="#single-phase-initialization" title="Link para este cabeçalho">¶</a></h3>
+<p class="untranslated">Extensions that use legacy <a class="reference internal" href="../c-api/extension-modules.html#single-phase-initialization"><span class="std std-ref">single-phase initialization</span></a>
+(that is, <a class="reference internal" href="../c-api/module.html#c.PyModule_Create" title="PyModule_Create"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyModule_Create()</span></code></a>) should call <a class="reference internal" href="../c-api/module.html#c.PyUnstable_Module_SetGIL" title="PyUnstable_Module_SetGIL"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyUnstable_Module_SetGIL()</span></code></a> to
+indicate that they support running with the GIL disabled.  The function is
+only defined in the free-threaded build, so you should guard the call with
+<code class="docutils literal notranslate"><span class="pre">#ifdef</span> <span class="pre">Py_GIL_DISABLED</span></code> to avoid compilation errors in the regular build.</p>
+<div class="translated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">PyModuleDef</span><span class="w"> </span><span class="n">moduledef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">PyModuleDef_HEAD_INIT</span><span class="p">,</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">};</span>
+
+<span class="n">PyMODINIT_FUNC</span>
+<span class="nf">PyInit_mymodule</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_Create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">moduledef</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="cp">#ifdef Py_GIL_DISABLED</span>
+<span class="w">    </span><span class="n">PyUnstable_Module_SetGIL</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">Py_MOD_GIL_NOT_USED</span><span class="p">);</span>
+<span class="cp">#endif</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">m</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="general-api-guidelines">
+<h2 class="translated">Diretrizes gerais de API<a class="headerlink" href="#general-api-guidelines" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">A maior parte da API C é segura para thread, mas há algumas exceções.</p>
+<ul class="simple">
+<li><p class="translated"><strong>Campos de structs</strong>: acessar campos em objetos ou structs da API C do Python diretamente não é seguro para thread se o campo puder ser modificado simultaneamente.</p></li>
+<li><p class="translated"><strong>Macros</strong>: macros de acesso como <a class="reference internal" href="../c-api/list.html#c.PyList_GET_ITEM" title="PyList_GET_ITEM"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyList_GET_ITEM</span></code></a>, <a class="reference internal" href="../c-api/list.html#c.PyList_SET_ITEM" title="PyList_SET_ITEM"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PyList_SET_ITEM</span></code></a> e macros como <a class="reference internal" href="../c-api/sequence.html#c.PySequence_Fast_GET_SIZE" title="PySequence_Fast_GET_SIZE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PySequence_Fast_GET_SIZE</span></code></a> que usam o objeto retornado por <a class="reference internal" href="../c-api/sequence.html#c.PySequence_Fast" title="PySequence_Fast"><code class="xref c c-func docutils literal notranslate"><span class="pre">PySequence_Fast()</span></code></a> não realizam nenhuma verificação de erro ou trava. Essas macros não são seguras para thread se o objeto contêiner puder ser modificado simultaneamente.</p></li>
+<li><p class="translated"><strong>Referências emprestadas</strong>: as funções da API C que retornam <a class="reference internal" href="../glossary.html#term-borrowed-reference"><span class="xref std std-term">referências emprestadas</span></a> podem não ser seguras para thread se o objeto que as contêm for modificado simultaneamente. Veja a seção sobre <a class="reference internal" href="#id2"><span class="std std-ref">referências emprestadas</span></a> para mais informações.</p></li>
+</ul>
+<section id="container-thread-safety">
+<h3 class="translated">Segurança de threads de contêineres<a class="headerlink" href="#container-thread-safety" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Contêineres como <a class="reference internal" href="../c-api/list.html#c.PyListObject" title="PyListObject"><code class="xref c c-struct docutils literal notranslate"><span class="pre">PyListObject</span></code></a>, <a class="reference internal" href="../c-api/dict.html#c.PyDictObject" title="PyDictObject"><code class="xref c c-struct docutils literal notranslate"><span class="pre">PyDictObject</span></code></a> e <a class="reference internal" href="../c-api/set.html#c.PySetObject" title="PySetObject"><code class="xref c c-struct docutils literal notranslate"><span class="pre">PySetObject</span></code></a> executam uma trava interna na construção com threads livres. Por exemplo, <a class="reference internal" href="../c-api/list.html#c.PyList_Append" title="PyList_Append"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyList_Append()</span></code></a> irá travar a lista antes de anexar um item.</p>
+<section id="pydict-next">
+<span id="id1"></span><h4 class="translated"><code class="docutils literal notranslate"><span class="pre">PyDict_Next</span></code><a class="headerlink" href="#pydict-next" title="Link para este cabeçalho">¶</a></h4>
+<p class="translated">Uma exceção notável é <a class="reference internal" href="../c-api/dict.html#c.PyDict_Next" title="PyDict_Next"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDict_Next()</span></code></a>, que não trava o dicionário. Você deve usar <a class="reference internal" href="../c-api/synchronization.html#c.Py_BEGIN_CRITICAL_SECTION" title="Py_BEGIN_CRITICAL_SECTION"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_BEGIN_CRITICAL_SECTION</span></code></a> para proteger o dicionário enquanto itera sobre ele se o dicionário puder ser modificado simultaneamente:</p>
+<div class="translated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Py_BEGIN_CRITICAL_SECTION</span><span class="p">(</span><span class="n">dict</span><span class="p">);</span>
+<span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">value</span><span class="p">;</span>
+<span class="n">Py_ssize_t</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">PyDict_Next</span><span class="p">(</span><span class="n">dict</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">value</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+<span class="n">Py_END_CRITICAL_SECTION</span><span class="p">();</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="borrowed-references">
+<h2 class="translated">Referências emprestadas<a class="headerlink" href="#borrowed-references" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated" id="id2">Algumas funções da API C retornam <a class="reference internal" href="../glossary.html#term-borrowed-reference"><span class="xref std std-term">referências emprestadas</span></a>. Essas APIs não são seguras para thread se o objeto que as contém for modificado simultaneamente. Por exemplo, não é seguro usar <a class="reference internal" href="../c-api/list.html#c.PyList_GetItem" title="PyList_GetItem"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyList_GetItem()</span></code></a> se a lista puder ser modificada simultaneamente.</p>
+<p class="translated">A tabela a seguir lista algumas APIs de referências emprestadas e suas substituições que retornam <a class="reference internal" href="../glossary.html#term-strong-reference"><span class="xref std std-term">referências fortes</span></a>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">API de referências emprestadas</p></th>
+<th class="head"><p class="translated">API de referências fortes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="../c-api/list.html#c.PyList_GetItem" title="PyList_GetItem"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyList_GetItem()</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="../c-api/list.html#c.PyList_GetItemRef" title="PyList_GetItemRef"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyList_GetItemRef()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="../c-api/list.html#c.PyList_GET_ITEM" title="PyList_GET_ITEM"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyList_GET_ITEM()</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="../c-api/list.html#c.PyList_GetItemRef" title="PyList_GetItemRef"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyList_GetItemRef()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="../c-api/dict.html#c.PyDict_GetItem" title="PyDict_GetItem"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDict_GetItem()</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="../c-api/dict.html#c.PyDict_GetItemRef" title="PyDict_GetItemRef"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDict_GetItemRef()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="../c-api/dict.html#c.PyDict_GetItemWithError" title="PyDict_GetItemWithError"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDict_GetItemWithError()</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="../c-api/dict.html#c.PyDict_GetItemRef" title="PyDict_GetItemRef"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDict_GetItemRef()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="../c-api/dict.html#c.PyDict_GetItemString" title="PyDict_GetItemString"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDict_GetItemString()</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="../c-api/dict.html#c.PyDict_GetItemStringRef" title="PyDict_GetItemStringRef"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDict_GetItemStringRef()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="../c-api/dict.html#c.PyDict_SetDefault" title="PyDict_SetDefault"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDict_SetDefault()</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="../c-api/dict.html#c.PyDict_SetDefaultRef" title="PyDict_SetDefaultRef"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDict_SetDefaultRef()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="../c-api/dict.html#c.PyDict_Next" title="PyDict_Next"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDict_Next()</span></code></a></p></td>
+<td><p class="translated">nenhuma (veja <a class="reference internal" href="#pydict-next"><span class="std std-ref">PyDict_Next</span></a>)</p></td>
+</tr>
+<tr class="row-odd"><td><p class="untranslated"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyWeakref_GetObject()</span></code></p></td>
+<td><p class="translated"><a class="reference internal" href="../c-api/weakref.html#c.PyWeakref_GetRef" title="PyWeakref_GetRef"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyWeakref_GetRef()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p class="untranslated"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyWeakref_GET_OBJECT()</span></code></p></td>
+<td><p class="translated"><a class="reference internal" href="../c-api/weakref.html#c.PyWeakref_GetRef" title="PyWeakref_GetRef"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyWeakref_GetRef()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><a class="reference internal" href="../c-api/import.html#c.PyImport_AddModule" title="PyImport_AddModule"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyImport_AddModule()</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="../c-api/import.html#c.PyImport_AddModuleRef" title="PyImport_AddModuleRef"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyImport_AddModuleRef()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><a class="reference internal" href="../c-api/cell.html#c.PyCell_GET" title="PyCell_GET"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyCell_GET()</span></code></a></p></td>
+<td><p class="translated"><a class="reference internal" href="../c-api/cell.html#c.PyCell_Get" title="PyCell_Get"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyCell_Get()</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<p class="translated">Nem todas as APIs que retornam referências emprestadas são problemáticas. Por exemplo, <a class="reference internal" href="../c-api/tuple.html#c.PyTuple_GetItem" title="PyTuple_GetItem"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyTuple_GetItem()</span></code></a> é segura porque as tuplas são imutáveis. Da mesma forma, nem todos os usos das APIs acima são problemáticos. Por exemplo, <a class="reference internal" href="../c-api/dict.html#c.PyDict_GetItem" title="PyDict_GetItem"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDict_GetItem()</span></code></a> é frequentemente usado para analisar dicionários de argumentos nomeados em chamadas de função; esses dicionários de argumentos nomeados efetivamente privados (não acessíveis por outros threads), portanto, usar referências emprestadas nesse contexto é seguro.</p>
+<p class="translated">Algumas dessas funções foram adicionadas no Python 3.13. Você pode usar o pacote <a class="reference external" href="https://github.com/python/pythoncapi-compat">pythoncapi-compat</a> para fornecer implementações dessas funções para versões mais antigas do Python.</p>
+</section>
+<section id="memory-allocation-apis">
+<span id="free-threaded-memory-allocation"></span><h2 class="translated">APIs de alocação de memória<a class="headerlink" href="#memory-allocation-apis" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">A API C de gerenciamento de memória do Python fornece funções em três <a class="reference internal" href="../c-api/memory.html#id1"><span class="std std-ref">domínios de alocação</span></a> diferentes: “raw”, “mem” e “object”. Para segurança de thread, a construção com threads livres requer que apenas objetos Python sejam alocados usando o domínio do objeto e que todos os objetos Python sejam alocados usando esse domínio. Isso difere das versões anteriores do Python, onde era apenas uma melhor prática e não um requisito estrito.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Procure usos de <a class="reference internal" href="../c-api/memory.html#c.PyObject_Malloc" title="PyObject_Malloc"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_Malloc()</span></code></a> em sua extensão e verifique se a memória alocada é usada para objetos Python. Use <a class="reference internal" href="../c-api/memory.html#c.PyMem_Malloc" title="PyMem_Malloc"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMem_Malloc()</span></code></a> para alocar buffers em vez de <code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_Malloc()</span></code>.</p>
+</div>
+</section>
+<section id="thread-state-and-gil-apis">
+<h2 class="translated">APIs da GIL e de estado de threads<a class="headerlink" href="#thread-state-and-gil-apis" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Python fornece um conjunto de funções e macros para gerenciar o estado de threads e a GIL, como:</p>
+<ul class="simple">
+<li><p class="untranslated"><a class="reference internal" href="../c-api/threads.html#c.PyThreadState_Ensure" title="PyThreadState_Ensure"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyThreadState_Ensure()</span></code></a>, <a class="reference internal" href="../c-api/threads.html#c.PyThreadState_EnsureFromView" title="PyThreadState_EnsureFromView"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyThreadState_EnsureFromView()</span></code></a>,
+and <a class="reference internal" href="../c-api/threads.html#c.PyThreadState_Release" title="PyThreadState_Release"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyThreadState_Release()</span></code></a></p></li>
+<li><p class="translated"><a class="reference internal" href="../c-api/threads.html#c.PyGILState_Ensure" title="PyGILState_Ensure"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyGILState_Ensure()</span></code></a> e <a class="reference internal" href="../c-api/threads.html#c.PyGILState_Release" title="PyGILState_Release"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyGILState_Release()</span></code></a></p></li>
+<li><p class="translated"><a class="reference internal" href="../c-api/threads.html#c.PyEval_SaveThread" title="PyEval_SaveThread"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyEval_SaveThread()</span></code></a> e <a class="reference internal" href="../c-api/threads.html#c.PyEval_RestoreThread" title="PyEval_RestoreThread"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyEval_RestoreThread()</span></code></a></p></li>
+<li><p class="translated"><a class="reference internal" href="../c-api/threads.html#c.Py_BEGIN_ALLOW_THREADS" title="Py_BEGIN_ALLOW_THREADS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_BEGIN_ALLOW_THREADS</span></code></a> e <a class="reference internal" href="../c-api/threads.html#c.Py_END_ALLOW_THREADS" title="Py_END_ALLOW_THREADS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_END_ALLOW_THREADS</span></code></a></p></li>
+</ul>
+<p class="untranslated">These functions should still be used in the free-threaded build to manage
+thread state even when the <a class="reference internal" href="../glossary.html#term-GIL"><span class="xref std std-term">GIL</span></a> is disabled.  For example, if you
+create a thread outside of Python, you must call <a class="reference internal" href="../c-api/threads.html#c.PyThreadState_Ensure" title="PyThreadState_Ensure"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyThreadState_Ensure()</span></code></a>
+before calling into the Python API to ensure that the thread has a valid
+Python thread state.</p>
+<p class="translated">Você deve continuar a chamar <a class="reference internal" href="../c-api/threads.html#c.PyEval_SaveThread" title="PyEval_SaveThread"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyEval_SaveThread()</span></code></a> ou <a class="reference internal" href="../c-api/threads.html#c.Py_BEGIN_ALLOW_THREADS" title="Py_BEGIN_ALLOW_THREADS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_BEGIN_ALLOW_THREADS</span></code></a> em torno de operações de travamento, como E/S ou aquisições de trava, para permitir que outras threads executem o <a class="reference internal" href="../glossary.html#term-garbage-collection"><span class="xref std std-term">coletor de lixo cíclico</span></a>.</p>
+</section>
+<section id="protecting-internal-extension-state">
+<h2 class="translated">Protegendo o estado interno das extensões<a class="headerlink" href="#protecting-internal-extension-state" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Sua extensão pode ter um estado interno que foi previamente protegido pela GIL. Talvez seja necessário adicionar uma trava para proteger esse estado. A abordagem dependerá da sua extensão, mas alguns padrões comuns incluem:</p>
+<ul class="simple">
+<li><p class="translated"><strong>Caches</strong>: caches globais são uma fonte comum de estado compartilhado. Considere usar uma trava para proteger o cache ou desativá-lo na construção com threads livres se o cache não for crítico para o desempenho.</p></li>
+<li><p class="translated"><strong>Estado global</strong>: o estado global pode precisar ser protegido por uma trava ou movido para o armazenamento local do thread. C11 e C++11 fornecem <code class="docutils literal notranslate"><span class="pre">thread_local</span></code> ou <code class="docutils literal notranslate"><span class="pre">_Thread_local</span></code> para <a class="reference external" href="https://en.cppreference.com/w/c/language/storage_duration">armazenamento local de thread</a>.</p></li>
+</ul>
+</section>
+<section id="critical-sections">
+<h2 class="translated">Seções críticas<a class="headerlink" href="#critical-sections" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated" id="id3">Na construção com threads livres, o CPython fornece um mecanismo chamado “critical sections” (em português, “seções críticas”) para proteger dados que, de outra forma, seriam protegidos pela GIL. Embora os autores da extensão possam não interagir diretamente com a implementação da seção crítica interna, entender seu comportamento é crucial ao usar determinadas funções da API C ou gerenciar o estado compartilhado na construção com threads livres.</p>
+<section id="what-are-critical-sections">
+<h3 class="translated">O que são seções críticas?<a class="headerlink" href="#what-are-critical-sections" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Conceitualmente, seções críticas atuam como uma camada de prevenção de impasse construída sobre mutexes simples. Cada thread mantém uma pilha de seções críticas ativas. Quando uma thread precisa adquirir uma trava associada a uma seção crítica (por exemplo, implicitamente ao chamar uma função de API C segura para thread como <a class="reference internal" href="../c-api/dict.html#c.PyDict_SetItem" title="PyDict_SetItem"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyDict_SetItem()</span></code></a>, ou explicitamente usando macros), ela tenta adquirir o mutex subjacente.</p>
+</section>
+<section id="using-critical-sections">
+<h3 class="translated">Usando seções críticas<a class="headerlink" href="#using-critical-sections" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">As principais APIs para usar seções críticas são:</p>
+<ul class="simple">
+<li><p class="translated"><a class="reference internal" href="../c-api/synchronization.html#c.Py_BEGIN_CRITICAL_SECTION" title="Py_BEGIN_CRITICAL_SECTION"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_BEGIN_CRITICAL_SECTION</span></code></a> e <a class="reference internal" href="../c-api/synchronization.html#c.Py_END_CRITICAL_SECTION" title="Py_END_CRITICAL_SECTION"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_END_CRITICAL_SECTION</span></code></a> - Para travar um único objeto</p></li>
+<li><p class="translated"><a class="reference internal" href="../c-api/synchronization.html#c.Py_BEGIN_CRITICAL_SECTION2" title="Py_BEGIN_CRITICAL_SECTION2"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_BEGIN_CRITICAL_SECTION2</span></code></a> e <a class="reference internal" href="../c-api/synchronization.html#c.Py_END_CRITICAL_SECTION2" title="Py_END_CRITICAL_SECTION2"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_END_CRITICAL_SECTION2</span></code></a> - Para travar dois objetos simultaneamente</p></li>
+</ul>
+<p class="translated">Essas macros devem ser usadas em pares correspondentes e devem aparecer no mesmo escopo C, pois estabelecem um novo escopo local. Essas macros são inoperantes em construções com threads livres, portanto, podem ser adicionadas com segurança a códigos que precisam suportar ambos os tipos de construção.</p>
+<p class="translated">Um uso comum de uma seção crítica seria travar um objeto ao acessar um atributo interno dele. Por exemplo, se um tipo de extensão tiver um campo de contagem interno, você pode usar uma seção crítica ao ler ou escrever nesse campo:</p>
+<div class="translated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// lê a contagem, retorna uma nova referência ao valor da contagem interna</span>
+<span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">result</span><span class="p">;</span>
+<span class="n">Py_BEGIN_CRITICAL_SECTION</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
+<span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Py_NewRef</span><span class="p">(</span><span class="n">obj</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">);</span>
+<span class="n">Py_END_CRITICAL_SECTION</span><span class="p">();</span>
+<span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+
+<span class="c1">// escreve a contagem, consome referência de new_count</span>
+<span class="n">Py_BEGIN_CRITICAL_SECTION</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
+<span class="n">obj</span><span class="o">-&gt;</span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_count</span><span class="p">;</span>
+<span class="n">Py_END_CRITICAL_SECTION</span><span class="p">();</span>
+</pre></div>
+</div>
+</section>
+<section id="how-critical-sections-work">
+<h3 class="translated">Como seções críticas funcionam<a class="headerlink" href="#how-critical-sections-work" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Ao contrário das travas tradicionais, as seções críticas não garantem acesso exclusivo durante toda a sua duração. Se uma thread travar enquanto mantém uma seção crítica (por exemplo, ao adquirir outro bloqueio ou executar E/S), a seção crítica é temporariamente suspensa — todas as travas são liberadas — e então retomada quando a operação de bloqueio é concluída.</p>
+<p class="translated">Esse comportamento é semelhante ao que ocorre com a GIL quando uma thread faz uma chamada de bloqueio. As principais diferenças são:</p>
+<ul class="simple">
+<li><p class="translated">As seções críticas operam por objeto e não globalmente</p></li>
+<li><p class="translated">As seções críticas seguem uma disciplina de pilha dentro de cada thread (as macros “begin” e “end” impõem isso, pois devem ser pareadas e estar dentro do mesmo escopo)</p></li>
+<li><p class="translated">As seções críticas liberam e readquirem automaticamente travas em torno de potenciais operações de bloqueio</p></li>
+</ul>
+</section>
+<section id="deadlock-avoidance">
+<h3 class="translated">Prevenção de impasses<a class="headerlink" href="#deadlock-avoidance" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Seções críticas ajudam a evitar impasses de duas maneiras:</p>
+<ol class="arabic simple">
+<li><p class="translated">Se uma thread tenta adquirir uma trava que já está sendo mantida por outra thread, ela primeiro suspende todas as suas seções críticas ativas, liberando temporariamente suas travas</p></li>
+<li><p class="translated">Quando a operação de bloqueio for concluída, apenas a seção mais crítica será readquirida primeiro</p></li>
+</ol>
+<p class="translated">Isso significa que você não pode depender de seções críticas aninhadas para travar vários objetos simultaneamente, pois a seção crítica interna pode suspender as externas. Em vez disso, use <a class="reference internal" href="../c-api/synchronization.html#c.Py_BEGIN_CRITICAL_SECTION2" title="Py_BEGIN_CRITICAL_SECTION2"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_BEGIN_CRITICAL_SECTION2</span></code></a> para travar dois objetos simultaneamente.</p>
+<p class="translated">Observe que as travas descritas acima são apenas travas baseadas em <a class="reference internal" href="../c-api/synchronization.html#c.PyMutex" title="PyMutex"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyMutex</span></code></a>. A implementação da seção crítica não conhece ou afeta outros mecanismos de trava que possam estar em uso, como mutexes POSIX. Observe também que, embora o bloqueio em qualquer <code class="xref c c-type docutils literal notranslate"><span class="pre">PyMutex</span></code> cause a suspensão das seções críticas, apenas os mutexes que fazem parte delas são liberados. Se <code class="xref c c-type docutils literal notranslate"><span class="pre">PyMutex</span></code> for usado sem uma seção crítica, ele não será liberado e, portanto, não terá a mesma capacidade de evitar impasses.</p>
+</section>
+<section id="important-considerations">
+<h3 class="translated">Considerações importantes<a class="headerlink" href="#important-considerations" title="Link para este cabeçalho">¶</a></h3>
+<ul class="simple">
+<li><p class="translated">Seções críticas podem liberar temporariamente suas travas, permitindo que outras threads modifiquem os dados protegidos. Tenha cuidado ao fazer suposições sobre o estado dos dados após operações que possam causar bloqueios.</p></li>
+<li><p class="translated">Como as travas podem ser temporariamente liberadas (suspensas), entrar em uma seção crítica não garante acesso exclusivo ao recurso protegido durante toda a duração da seção. Se o código dentro de uma seção crítica chamar outra função que bloqueie (por exemplo, adquirir outra trava, executar E/S de bloqueio), todas as travas mantidas pela thread por meio de seções críticas serão liberadas. Isso é semelhante à forma como a GIL pode ser liberada durante chamadas de bloqueio.</p></li>
+<li><p class="translated">Somente a(s) trava(s) associada(s) à seção crítica mais recentemente inserida (superior) tem garantia de ser(em) mantida(s) em um determinado momento. As travas para seções críticas externas e aninhadas podem ter sido suspensas.</p></li>
+<li><p class="translated">Você pode travar no máximo dois objetos simultaneamente com essas APIs. Se precisar travar mais objetos, será necessário reestruturar seu código.</p></li>
+<li><p class="translated">Embora seções críticas não entrem em impasse se você tentar travar o mesmo objeto duas vezes, elas são menos eficientes do que travas reentrantes desenvolvidas especificamente para esse caso de uso.</p></li>
+<li><p class="translated">Ao usar <a class="reference internal" href="../c-api/synchronization.html#c.Py_BEGIN_CRITICAL_SECTION2" title="Py_BEGIN_CRITICAL_SECTION2"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_BEGIN_CRITICAL_SECTION2</span></code></a>, a ordem dos objetos não afeta a correção (a implementação lida com a prevenção de impasse), mas é uma boa prática sempre travar os objetos em uma ordem consistente.</p></li>
+<li><p class="translated">Lembre-se de que as macros de seção crítica servem principalmente para proteger o acesso a <em>objetos Python</em> que podem estar envolvidos em operações internas do CPython suscetíveis aos cenários de impasses descritos acima. Para proteger o estado de extensão puramente interno, mutexes padrão ou outras primitivas de sincronização podem ser mais apropriados.</p></li>
+</ul>
+</section>
+<section id="per-object-locks-ob-mutex">
+<span id="per-object-locks"></span><h3 class="untranslated">Per-Object Locks (<code class="docutils literal notranslate"><span class="pre">ob_mutex</span></code>)<a class="headerlink" href="#per-object-locks-ob-mutex" title="Link para este cabeçalho">¶</a></h3>
+<p class="untranslated">In the free-threaded build, each Python object contains a <a class="reference internal" href="../c-api/structures.html#c.PyObject.ob_mutex" title="PyObject.ob_mutex"><code class="xref c c-member docutils literal notranslate"><span class="pre">ob_mutex</span></code></a>
+field of type <a class="reference internal" href="../c-api/synchronization.html#c.PyMutex" title="PyMutex"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyMutex</span></code></a>.  This mutex is <strong>reserved for use by the
+critical section API</strong> (<a class="reference internal" href="../c-api/synchronization.html#c.Py_BEGIN_CRITICAL_SECTION" title="Py_BEGIN_CRITICAL_SECTION"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_BEGIN_CRITICAL_SECTION</span></code></a> /
+<a class="reference internal" href="../c-api/synchronization.html#c.Py_END_CRITICAL_SECTION" title="Py_END_CRITICAL_SECTION"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_END_CRITICAL_SECTION</span></code></a>).</p>
+<div class="admonition warning">
+<p class="admonition-title">Aviso</p>
+<p class="untranslated">Do <strong>not</strong> lock <code class="docutils literal notranslate"><span class="pre">ob_mutex</span></code> directly with <code class="docutils literal notranslate"><span class="pre">PyMutex_Lock(&amp;obj-&gt;ob_mutex)</span></code>.
+Mixing direct <code class="docutils literal notranslate"><span class="pre">PyMutex_Lock</span></code> calls with the critical section API on the
+same mutex can cause deadlocks.</p>
+</div>
+<p class="untranslated">Even if your own code never uses critical sections on a particular object type,
+<strong>CPython internals may use the critical section API on any Python object</strong>.</p>
+<p class="untranslated">If your extension type needs its own lock, add a separate <a class="reference internal" href="../c-api/synchronization.html#c.PyMutex" title="PyMutex"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyMutex</span></code></a>
+field (or another synchronization primitive) to your object struct.
+<code class="xref c c-type docutils literal notranslate"><span class="pre">PyMutex</span></code> is very lightweight, so there is negligible cost to having
+an additional one.</p>
+</section>
+</section>
+<section id="building-extensions-for-the-free-threaded-build">
+<h2 class="translated">Construindo extensões para a construção com threads livres<a class="headerlink" href="#building-extensions-for-the-free-threaded-build" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">As extensões da API C precisam ser construídas especificamente para a construção com threads livres. As wheels, bibliotecas compartilhadas e binários são indicados por um sufixo <code class="docutils literal notranslate"><span class="pre">t</span></code>.</p>
+<ul class="simple">
+<li><p class="untranslated"><a class="reference external" href="https://github.com/pypa/manylinux">pypa/manylinux</a> supports the
+free-threaded build, with the <code class="docutils literal notranslate"><span class="pre">t</span></code> suffix, such as <code class="docutils literal notranslate"><span class="pre">python3.14t</span></code>.</p></li>
+<li><p class="untranslated"><a class="reference external" href="https://github.com/pypa/cibuildwheel">pypa/cibuildwheel</a> supports
+building wheels for the free-threaded build of Python 3.14 and newer.</p></li>
+</ul>
+<section id="limited-c-api-and-stable-abi">
+<h3 class="translated">API C limitada e ABI estável<a class="headerlink" href="#limited-c-api-and-stable-abi" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">A construção com threads livres não tem suporte atualmente à <a class="reference internal" href="../c-api/stable.html#limited-c-api"><span class="std std-ref">API C limitada</span></a> ou à ABI estável. Se você usar <a class="reference external" href="https://setuptools.pypa.io/en/latest/setuptools.html">setuptools</a> para construir sua extensão e atualmente definir <code class="docutils literal notranslate"><span class="pre">py_limited_api=True</span></code>, você pode usar <code class="docutils literal notranslate"><span class="pre">py_limited_api=not</span> <span class="pre">sysconfig.get_config_var(&quot;Py_GIL_DISABLED&quot;)</span></code> para não usar a API limitada ao construir com a construção com threads livres.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Você precisará construir wheels separadas especificamente para a construção com threads livres. Se você usa atualmente a ABI estável, poderá continuar a construir uma única wheel para várias versões do Python sem threads livres.</p>
+</div>
+</section>
+<section id="windows">
+<h3 class="translated">Windows<a class="headerlink" href="#windows" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Devido a uma limitação do instalador oficial do Windows, você precisará definir manualmente <code class="docutils literal notranslate"><span class="pre">Py_GIL_DISABLED=1</span></code> ao construir extensões a partir do código-fonte.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<p class="translated"><a class="reference external" href="https://py-free-threading.github.io/porting/">Portando módulos de extensão para oferecer suporte a threads livres</a> (em inglês): Um guia de portabilidade mantido pela comunidade para autores de extensões.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Suporte a extensões da API C para threads livres</a><ul>
+<li><a class="reference internal" href="#identifying-the-free-threaded-build-in-c">Identificando a construção com threads livres em C</a></li>
+<li><a class="reference internal" href="#module-initialization">Inicialização de módulo</a><ul>
+<li><a class="reference internal" href="#multi-phase-initialization">Inicialização multifásica</a></li>
+<li><a class="reference internal" href="#single-phase-initialization">Inicialização monofásica</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#general-api-guidelines">Diretrizes gerais de API</a><ul>
+<li><a class="reference internal" href="#container-thread-safety">Segurança de threads de contêineres</a><ul>
+<li><a class="reference internal" href="#pydict-next"><code class="docutils literal notranslate"><span class="pre">PyDict_Next</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#borrowed-references">Referências emprestadas</a></li>
+<li><a class="reference internal" href="#memory-allocation-apis">APIs de alocação de memória</a></li>
+<li><a class="reference internal" href="#thread-state-and-gil-apis">APIs da GIL e de estado de threads</a></li>
+<li><a class="reference internal" href="#protecting-internal-extension-state">Protegendo o estado interno das extensões</a></li>
+<li><a class="reference internal" href="#critical-sections">Seções críticas</a><ul>
+<li><a class="reference internal" href="#what-are-critical-sections">O que são seções críticas?</a></li>
+<li><a class="reference internal" href="#using-critical-sections">Usando seções críticas</a></li>
+<li><a class="reference internal" href="#how-critical-sections-work">Como seções críticas funcionam</a></li>
+<li><a class="reference internal" href="#deadlock-avoidance">Prevenção de impasses</a></li>
+<li><a class="reference internal" href="#important-considerations">Considerações importantes</a></li>
+<li><a class="reference internal" href="#per-object-locks-ob-mutex">Per-Object Locks (<code class="docutils literal notranslate"><span class="pre">ob_mutex</span></code>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-extensions-for-the-free-threaded-build">Construindo extensões para a construção com threads livres</a><ul>
+<li><a class="reference internal" href="#limited-c-api-and-stable-abi">API C limitada e ABI estável</a></li>
+<li><a class="reference internal" href="#windows">Windows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="free-threading-python.html"
+                          title="capítulo anterior">Suporte do Python para threads livres</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="abi3t-migration.html"
+                          title="próximo capítulo">Migrating to Stable ABI for free threading (<code class="docutils literal notranslate"><span class="pre">abi3t</span></code>)</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "howto/free-threading-extensions.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/howto/free-threading-extensions.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/howto/free-threading-extensions.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="abi3t-migration.html" title="Migrating to Stable ABI for free threading (abi3t)"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="free-threading-python.html" title="Suporte do Python para threads livres"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python HOWTOs</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Suporte a extensões da API C para threads livres</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

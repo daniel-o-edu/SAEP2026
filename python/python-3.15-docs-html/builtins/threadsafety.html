@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Garantias de segurança de thread" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/builtins/threadsafety.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Esta página documenta as garantias de segurança de thread para tipos embutido na construção com threads livres do Python. As garantias aqui descritas aplicam-se ao utilizar o Python com a GIL desat..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_builtins_threadsafety_d6673812.png" />
+<meta property="og:image:alt" content="Esta página documenta as garantias de segurança de thread para tipos embutido na construção com threads livres do Python. As garantias aqui descritas aplicam-se ao utilizar o Python com a GIL desat..." />
+<meta name="description" content="Esta página documenta as garantias de segurança de thread para tipos embutido na construção com threads livres do Python. As garantias aqui descritas aplicam-se ao utilizar o Python com a GIL desat..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Garantias de segurança de thread &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Complexidade de tempo de operações em tipos embutidos" href="time-complexity.html" />
+    <link rel="prev" title="Exceções embutidas" href="exceptions.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/builtins/threadsafety.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Garantias de segurança de thread</a><ul>
+<li><a class="reference internal" href="#thread-safety-levels">Níveis de segurança de threads</a><ul>
+<li><a class="reference internal" href="#incompatible">Incompatível</a></li>
+<li><a class="reference internal" href="#compatible">Compatível</a></li>
+<li><a class="reference internal" href="#safe-on-distinct-objects">Seguro em objetos distintos</a></li>
+<li><a class="reference internal" href="#safe-on-shared-objects">Seguro em objetos compartilhados</a></li>
+<li><a class="reference internal" href="#atomic">Atômica</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#thread-safety-for-list-objects">Segurança de threads para objetos lista</a></li>
+<li><a class="reference internal" href="#thread-safety-for-dict-objects">Segurança de threads para objetos dict</a></li>
+<li><a class="reference internal" href="#thread-safety-for-set-objects">Segurança de thread para objetos conjunto</a></li>
+<li><a class="reference internal" href="#thread-safety-for-bytearray-objects">Segurança para thread para objetos bytearray</a></li>
+<li><a class="reference internal" href="#thread-safety-for-memoryview-objects">Segurança para thread para objetos memoryview</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="exceptions.html"
+                          title="capítulo anterior">Exceções embutidas</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="time-complexity.html"
+                          title="próximo capítulo">Complexidade de tempo de operações em tipos embutidos</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "builtins/threadsafety.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/builtins/threadsafety.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/builtins/threadsafety.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="time-complexity.html" title="Complexidade de tempo de operações em tipos embutidos"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="exceptions.html" title="Exceções embutidas"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Referência da bibliotecas embutidas do Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Garantias de segurança de thread</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="thread-safety-guarantees">
+<span id="threadsafety"></span><h1 class="translated">Garantias de segurança de thread<a class="headerlink" href="#thread-safety-guarantees" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated">Esta página documenta as garantias de segurança de thread para tipos embutido na construção com threads livres do Python. As garantias aqui descritas aplicam-se ao utilizar o Python com a <a class="reference internal" href="../glossary.html#term-GIL"><span class="xref std std-term">GIL</span></a> desativada (modo threads livres). Quando a GIL está ativada, a maioria das operações é serializada implicitamente.</p>
+<p class="translated">Para orientações gerais sobre como escrever código seguro para thread no Python com threads livres, consulte <a class="reference internal" href="../howto/free-threading-python.html#freethreading-python-howto"><span class="std std-ref">Suporte do Python para threads livres</span></a>.</p>
+<section id="thread-safety-levels">
+<span id="threadsafety-levels"></span><h2 class="translated">Níveis de segurança de threads<a class="headerlink" href="#thread-safety-levels" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">A documentação da API C usa os seguintes níveis para descrever as garantias de segurança de threads de cada função. Os níveis estão listados do menos para o mais seguro.</p>
+<section id="incompatible">
+<span id="threadsafety-level-incompatible"></span><h3 class="translated">Incompatível<a class="headerlink" href="#incompatible" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Uma função ou operação que não pode se tornar segura para uso concorrente mesmo com sincronização externa. Código incompatível normalmente acessa o estado global de maneira não sincronizada e deve ser chamado apenas a partir de uma única thread durante todo o tempo de vida do programa.</p>
+<p class="translated">Exemplo: uma função que modifica o estado em todo o processo, como manipuladores de sinais ou variáveis de ambiente, onde chamadas concorrentes de quaisquer threads, mesmo com trava externo, podem conflitar com o ambiente de execução (<em>runtime</em>) ou com outras bibliotecas.</p>
+</section>
+<section id="compatible">
+<span id="threadsafety-level-compatible"></span><h3 class="translated">Compatível<a class="headerlink" href="#compatible" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Uma função ou operação que é segura para ser chamada a partir de múltiplas threads <em>desde que</em> o chamador forneça a sincronização externa apropriada, por exemplo mantendo uma <a class="reference internal" href="../glossary.html#term-lock"><span class="xref std std-term">trava</span></a> durante a duração de cada chamada. Sem tal sincronização, chamadas concorrentes podem produzir <a class="reference internal" href="../glossary.html#term-race-condition"><span class="xref std std-term">condições de corrida</span></a> ou <a class="reference internal" href="../glossary.html#term-data-race"><span class="xref std std-term">corridas de dados</span></a>.</p>
+<p class="translated">Exemplo: uma função que lê ou escreve em um objeto cujo estado interno não é protegido por uma trava. Os chamadores devem garantir que duas threads não acessem o mesmo objeto ao mesmo tempo.</p>
+</section>
+<section id="safe-on-distinct-objects">
+<span id="threadsafety-level-distinct"></span><h3 class="translated">Seguro em objetos distintos<a class="headerlink" href="#safe-on-distinct-objects" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Uma função ou operação que é segura para ser chamada a partir de múltiplas threads sem sincronização externa, desde que cada thread opere em um objeto <strong>diferente</strong>. Duas threads podem chamar a função ao mesmo tempo, mas não devem passar o mesmo objeto (ou objetos que compartilham estado subjacente) como argumentos.</p>
+<p class="translated">Exemplo: uma função que modifica campos de uma struct usando escritas não atômicas. Duas threads podem chamar a função cada uma em sua própria instância de struct com segurança, mas chamadas concorrentes na <em>mesma</em> instância exigem sincronização externa.</p>
+</section>
+<section id="safe-on-shared-objects">
+<span id="threadsafety-level-shared"></span><h3 class="translated">Seguro em objetos compartilhados<a class="headerlink" href="#safe-on-shared-objects" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Uma função ou operação que é segura para uso concorrente no <strong>mesmo</strong> objeto. A implementação usa sincronização interna (como <a class="reference internal" href="../glossary.html#term-per-object-lock"><span class="xref std std-term">travas por objeto</span></a> ou <a class="reference internal" href="../c-api/synchronization.html#python-critical-section-api"><span class="std std-ref">seções críticas</span></a>) para proteger o estado mutável compartilhado, de modo que os chamadores não precisam fornecer sua própria trava.</p>
+<p class="translated">Exemplo: <a class="reference internal" href="../c-api/list.html#c.PyList_GetItemRef" title="PyList_GetItemRef"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyList_GetItemRef()</span></code></a> pode ser chamada a partir de múltiplas threads no mesmo <a class="reference internal" href="../c-api/list.html#c.PyListObject" title="PyListObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyListObject</span></code></a> - ela usa sincronização interna para serializar o acesso.</p>
+</section>
+<section id="atomic">
+<span id="threadsafety-level-atomic"></span><h3 class="translated">Atômica<a class="headerlink" href="#atomic" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Uma função ou operação que parece <a class="reference internal" href="../glossary.html#term-atomic-operation"><span class="xref std std-term">atômica</span></a> em relação a outras threads - ela executa instantaneamente da perspectiva de outras threads. Esta é a forma mais forte de segurança de threads.</p>
+<p class="translated">Exemplo: <a class="reference internal" href="../c-api/synchronization.html#c.PyMutex_IsLocked" title="PyMutex_IsLocked"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyMutex_IsLocked()</span></code></a> realiza uma leitura atômica do estado do mutex e pode ser chamada a partir de qualquer thread a qualquer momento.</p>
+</section>
+</section>
+<section id="thread-safety-for-list-objects">
+<span id="thread-safety-list"></span><h2 class="translated">Segurança de threads para objetos lista<a class="headerlink" href="#thread-safety-for-list-objects" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Ler um único elemento de uma <a class="reference internal" href="stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> é <a class="reference internal" href="../glossary.html#term-atomic-operation"><span class="xref std std-term">atômico</span></a>:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>   <span class="c1"># list.__getitem__</span>
+</pre></div>
+</div>
+<p class="translated">Os seguintes métodos percorrem a lista e usam leituras <a class="reference internal" href="../glossary.html#term-atomic-operation"><span class="xref std std-term">atômicas</span></a> de cada item para realizar sua função. Isso significa que eles podem retornar resultados afetados por modificações concorrentes:</p>
+<div class="maybe translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">item</span> <span class="ow">in</span> <span class="n">lst</span>
+<span class="n">lst</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+<span class="n">lst</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Todas as operações acima evitam adquirir <a class="reference internal" href="../glossary.html#term-per-object-lock"><span class="xref std std-term">travas por objeto</span></a>. Elas não travam modificações concorrentes. Outras operações que mantêm uma trava não impedirão que estas observem estados intermediários.</p>
+<p class="translated">Todas as outras operações a partir daqui bloqueiam usando o <a class="reference internal" href="../glossary.html#term-per-object-lock"><span class="xref std std-term">trava por objeto</span></a>.</p>
+<p class="translated">Escrever um único item via <code class="docutils literal notranslate"><span class="pre">lst[i]</span> <span class="pre">=</span> <span class="pre">x</span></code> é seguro para chamar a partir de múltiplas threads e não corromperá a lista.</p>
+<p class="translated">As seguintes operações retornam novos objetos e parecem <a class="reference internal" href="../glossary.html#term-atomic-operation"><span class="xref std std-term">atômicas</span></a> para outras threads:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">lst1</span> <span class="o">+</span> <span class="n">lst2</span>    <span class="c1"># concatena duas listas em uma nova lista</span>
+<span class="n">x</span> <span class="o">*</span> <span class="n">lst</span>        <span class="c1"># repete lst x vezes em uma nova lista</span>
+<span class="n">lst</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>     <span class="c1"># retorna uma cópia rasa da lista</span>
+</pre></div>
+</div>
+<p class="translated">Os seguintes métodos que operam apenas em um único elemento sem necessidade de deslocamento são <a class="reference internal" href="../glossary.html#term-atomic-operation"><span class="xref std std-term">atômicos</span></a>:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># acrescenta ao final da lista; não é necessário deslocar elementos</span>
+<span class="n">lst</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>      <span class="c1"># remove o elemento do final da lista; não é necessário deslocar os demais elementos</span>
+</pre></div>
+</div>
+<p class="translated">O método <a class="reference internal" href="stdtypes.html#list.clear" title="list.clear"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clear()</span></code></a> também é <a class="reference internal" href="../glossary.html#term-atomic-operation"><span class="xref std std-term">atômico</span></a>. Outras threads não podem observar elementos sendo removidos.</p>
+<p class="translated">O método <a class="reference internal" href="stdtypes.html#list.sort" title="list.sort"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sort()</span></code></a> não é <a class="reference internal" href="../glossary.html#term-atomic-operation"><span class="xref std std-term">atômico</span></a>. Outras threads não podem observar estados intermediários durante a ordenação, mas a lista parece vazia durante a execução da ordenação.</p>
+<p class="translated">As seguintes operações podem permitir que operações <a class="reference internal" href="../glossary.html#term-lock-free"><span class="xref std std-term">livres de travas</span></a> observem estados intermediários, pois modificam múltiplos elementos no local (in-place):</p>
+<div class="maybe translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">lst</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>  <span class="c1"># desloca elementos</span>
+<span class="n">lst</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>           <span class="c1"># idx não no fim da lista, desloca elementos</span>
+<span class="n">lst</span> <span class="o">*=</span> <span class="n">x</span>               <span class="c1"># cópia elementos no local</span>
+</pre></div>
+</div>
+<p class="translated">O método <a class="reference internal" href="stdtypes.html#list.remove" title="list.remove"><code class="xref py py-meth docutils literal notranslate"><span class="pre">remove()</span></code></a> pode permitir modificações concorrentes, pois a comparação de elementos pode executar código Python arbitrário (via <a class="reference internal" href="../reference/datamodel.html#object.__eq__" title="object.__eq__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__eq__()</span></code></a>).</p>
+<p class="translated"><a class="reference internal" href="stdtypes.html#list.extend" title="list.extend"><code class="xref py py-meth docutils literal notranslate"><span class="pre">extend()</span></code></a> é seguro para chamar a partir de múltiplas threads. No entanto, suas garantias dependem do iterável passado para ele. Se for uma <a class="reference internal" href="stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, uma <a class="reference internal" href="stdtypes.html#tuple" title="tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>, um <a class="reference internal" href="stdtypes.html#set" title="set"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a>, um <a class="reference internal" href="stdtypes.html#frozenset" title="frozenset"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozenset</span></code></a>, um <a class="reference internal" href="stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> ou um <a class="reference internal" href="stdtypes.html#dict-views"><span class="std std-ref">objeto de visão de dicionário</span></a> (mas não suas subclasses), a operação <code class="docutils literal notranslate"><span class="pre">extend</span></code> estará segura de modificações concorrentes no iterável. Caso contrário, um iterador é criado, o qual pode ser modificado concorrentemente por outra thread. O mesmo se aplica à concatenação no local de uma lista com outros iteráveis ao usar <code class="docutils literal notranslate"><span class="pre">lst</span> <span class="pre">+=</span> <span class="pre">iterable</span></code>.</p>
+<p class="translated">De forma semelhante, a atribuição a uma fatia de lista com <code class="docutils literal notranslate"><span class="pre">lst[i:j]</span> <span class="pre">=</span> <span class="pre">iterable</span></code> é segura para ser chamada a partir de múltiplas threads, mas <code class="docutils literal notranslate"><span class="pre">iterable</span></code> só é travado quando também for uma <a class="reference internal" href="stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> (mas não suas subclasses).</p>
+<p class="translated">Operações que envolvem múltiplos acessos, assim como iteração, nunca são atômicas. Por exemplo:</p>
+<div class="bad translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># NÃO é atômico: lê-modifica-escreve</span>
+<span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="c1"># NÃO é atômico: verifica-e-então-age</span>
+<span class="k">if</span> <span class="n">lst</span><span class="p">:</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">lst</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+<span class="c1"># NÃO é seguro para thread: iteração enquanto modifica</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">:</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>  <span class="c1"># outra thread pode modificar lst</span>
+</pre></div>
+</div>
+<p class="translated">Considere a sincronização externa ao compartilhar instâncias de <a class="reference internal" href="stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> entre threads.</p>
+</section>
+<section id="thread-safety-for-dict-objects">
+<span id="thread-safety-dict"></span><h2 class="translated">Segurança de threads para objetos dict<a class="headerlink" href="#thread-safety-for-dict-objects" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Criar um dicionário com o construtor <a class="reference internal" href="stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> é atômico quando o argumento passado for um <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code> ou uma <a class="reference internal" href="stdtypes.html#tuple" title="tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>. Ao usar o método <a class="reference internal" href="stdtypes.html#dict.fromkeys" title="dict.fromkeys"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.fromkeys()</span></code></a>, a criação do dicionário é atômica quando o argumento for um <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>, <a class="reference internal" href="stdtypes.html#set" title="set"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a> ou <a class="reference internal" href="stdtypes.html#frozenset" title="frozenset"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozenset</span></code></a>.</p>
+<p class="translated">As seguintes operações e funções são <a class="reference internal" href="../glossary.html#term-lock-free"><span class="xref std std-term">livres de travas</span></a> e <a class="reference internal" href="../glossary.html#term-atomic-operation"><span class="xref std std-term">atômicas</span></a>.</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>       <span class="c1"># dict.__getitem__</span>
+<span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>   <span class="c1"># dict.get</span>
+<span class="n">key</span> <span class="ow">in</span> <span class="n">d</span>     <span class="c1"># dict.__contains__</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>       <span class="c1"># dict.__len__</span>
+</pre></div>
+</div>
+<p class="translated">Todas as outras operações a partir daqui mantêm a <a class="reference internal" href="../glossary.html#term-per-object-lock"><span class="xref std std-term">trava por objeto</span></a>.</p>
+<p class="translated">Escrever ou remover um único item é seguro para chamar a partir de múltiplas threads e não corromperá o dicionário:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>        <span class="c1"># escreve</span>
+<span class="k">del</span> <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>            <span class="c1"># exclui</span>
+<span class="n">d</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>            <span class="c1"># remove e retorna</span>
+<span class="n">d</span><span class="o">.</span><span class="n">popitem</span><span class="p">()</span>           <span class="c1"># remove e retorna último item</span>
+<span class="n">d</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>  <span class="c1"># insere se não existir</span>
+</pre></div>
+</div>
+<p class="translated">Essas operações podem comparar chaves usando <a class="reference internal" href="../reference/datamodel.html#object.__eq__" title="object.__eq__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__eq__()</span></code></a>, o que pode executar código Python arbitrário. Durante tais comparações, o dicionário pode ser modificado por outra thread. Para tipos embutidos como <a class="reference internal" href="stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> e <a class="reference internal" href="functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, que implementam <code class="xref py py-meth docutils literal notranslate"><span class="pre">__eq__()</span></code> em C, o trava subjacente não é liberado durante as comparações e isso não é uma preocupação.</p>
+<p class="translated">As seguintes operações retornam novos objetos e mantêm a <a class="reference internal" href="../glossary.html#term-per-object-lock"><span class="xref std std-term">trava por objeto</span></a> durante a duração da operação:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>      <span class="c1"># retorna uma cópia rasa do dicionário</span>
+<span class="n">d</span> <span class="o">|</span> <span class="n">other</span>     <span class="c1"># combina dois dicionários em um novo dicionário</span>
+<span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>      <span class="c1"># retorna um novo objeto de visão dict_keys</span>
+<span class="n">d</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>    <span class="c1"># retorna um novo objeto de visão dict_values</span>
+<span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>     <span class="c1"># retorna um novo objeto de visão dict_items</span>
+</pre></div>
+</div>
+<p class="translated">O método <a class="reference internal" href="stdtypes.html#dict.clear" title="dict.clear"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clear()</span></code></a> mantém a trava durante sua execução. Outras threads não podem observar elementos sendo removidos.</p>
+<p class="translated">As seguintes operações travariam ambos os dicionários. Para <a class="reference internal" href="stdtypes.html#dict.update" title="dict.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code></a> e <code class="docutils literal notranslate"><span class="pre">|=</span></code>, isso se aplica apenas quando o outro operando for um <a class="reference internal" href="stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> que usa o iterador de dicionário padrão (mas não subclasses que substituem a iteração). Para comparação de igualdade, isso se aplica a <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code> e suas subclasses:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">outro_dict</span><span class="p">)</span>  <span class="c1"># ambos travados quando outro_dict é um dict</span>
+<span class="n">d</span> <span class="o">|=</span> <span class="n">outro_dict</span>       <span class="c1"># ambos travados quando outro_dict é um dict</span>
+<span class="n">d</span> <span class="o">==</span> <span class="n">outro_dict</span>       <span class="c1"># ambos travados para dict e subclasses</span>
+</pre></div>
+</div>
+<p class="translated">Todas as operações de comparação também comparam valores usando <a class="reference internal" href="../reference/datamodel.html#object.__eq__" title="object.__eq__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__eq__()</span></code></a>, portanto, para tipos não embutidos, a trava pode ser liberada durante a comparação.</p>
+<p class="translated"><a class="reference internal" href="stdtypes.html#dict.fromkeys" title="dict.fromkeys"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fromkeys()</span></code></a> trava tanto o novo dicionário quanto o iterável quando o iterável for exatamente um <a class="reference internal" href="stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference internal" href="stdtypes.html#set" title="set"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a> ou <a class="reference internal" href="stdtypes.html#frozenset" title="frozenset"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozenset</span></code></a> (não subclasses):</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">a_dict</span><span class="p">)</span>      <span class="c1"># trava ambas</span>
+<span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">a_set</span><span class="p">)</span>       <span class="c1"># trava ambas</span>
+<span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">a_frozenset</span><span class="p">)</span> <span class="c1"># trava ambas</span>
+</pre></div>
+</div>
+<p class="translated">Ao atualizar a partir de um iterável que não é dicionário, apenas o dicionário de destino é travada. O iterável pode ser modificado concorrentemente por outra thread:</p>
+<div class="maybe translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">iterável</span><span class="p">)</span>        <span class="c1"># iterável não é um dict: somente d travado</span>
+<span class="n">d</span> <span class="o">|=</span> <span class="n">iterável</span>             <span class="c1"># iterável não é um dict: somente d travado</span>
+<span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">iterável</span><span class="p">)</span>   <span class="c1"># iterável não é um dict/conjunto/frozenset: somente o resultado travado</span>
+</pre></div>
+</div>
+<p class="translated">Operações que envolvem múltiplos acessos, assim como iteração, nunca são atômicas:</p>
+<div class="bad translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># NÃO é atômico: lê-modifica-escreve</span>
+<span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="c1"># NÃO é atômico: verifica-e-então-age (TOCTOU)</span>
+<span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+    <span class="k">del</span> <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+<span class="c1"># NÃO é seguro para thread: iteração enquanto modifica</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>  <span class="c1"># outa thread pode modificar d</span>
+</pre></div>
+</div>
+<p class="translated">Para evitar problemas de tempo de verificação para tempo de uso (TOCTOU, do inglês <em>time-of-check to time-of-us</em>), use operações atômicas ou trata exceções:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Usa pop() com um valor padrão em vez de verificar-e-então-excluir</span>
+<span class="n">d</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># ou trata a exceção</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">del</span> <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+<span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p class="translated">Para iterar com segurança sobre um dicionário que pode ser modificado por outra thread, itere sobre uma cópia:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Faz uma cópia para iterar com segurança</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Considere a sincronização externa ao compartilhar instâncias de <a class="reference internal" href="stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> entre threads.</p>
+</section>
+<section id="thread-safety-for-set-objects">
+<span id="thread-safety-set"></span><h2 class="translated">Segurança de thread para objetos conjunto<a class="headerlink" href="#thread-safety-for-set-objects" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">A função <a class="reference internal" href="functions.html#len" title="len"><code class="xref py py-func docutils literal notranslate"><span class="pre">len()</span></code></a> é livre de trava e <a class="reference internal" href="../glossary.html#term-atomic-operation"><span class="xref std std-term">atômica</span></a>.</p>
+<p class="translated">A seguinte operação de leitura é livre de trava. Ela não bloqueia modificações concorrentes e pode observar estados intermediários de operações que mantêm a trava por objeto:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">elem</span> <span class="ow">in</span> <span class="n">s</span>    <span class="c1"># set.__contains__</span>
+</pre></div>
+</div>
+<p class="translated">Esta operação pode comparar elementos usando <a class="reference internal" href="../reference/datamodel.html#object.__eq__" title="object.__eq__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__eq__()</span></code></a>, o que pode executar código Python arbitrário. Durante tais comparações, o conjunto pode ser modificado por outra thread. Para tipos embutidos como <a class="reference internal" href="stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> e <a class="reference internal" href="functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">__eq__()</span></code> não libera a trava subjacente durante as comparações e isso não é uma preocupação.</p>
+<p class="translated">Todas as outras operações a partir daqui mantêm a trava por objeto.</p>
+<p class="translated">Adicionar ou remover um único elemento é seguro para chamar a partir de múltiplas threads e não corromperá o conjunto:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>      <span class="c1"># adiciona elemento</span>
+<span class="n">s</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>   <span class="c1"># remove elemento, levanta se estiver faltando</span>
+<span class="n">s</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>  <span class="c1"># remove elemento se estiver presente</span>
+<span class="n">s</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>          <span class="c1"># remove e retorna elemento arbitrário</span>
+</pre></div>
+</div>
+<p class="translated">Essas operações também comparam elementos; portanto, aplicam-se as mesmas considerações sobre <a class="reference internal" href="../reference/datamodel.html#object.__eq__" title="object.__eq__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__eq__()</span></code></a> mencionadas acima.</p>
+<p class="translated">O método <a class="reference internal" href="stdtypes.html#set.copy" title="set.copy"><code class="xref py py-meth docutils literal notranslate"><span class="pre">copy()</span></code></a> retorna um novo objeto e mantém a trava por objeto durante toda a execução para que seja sempre atômico.</p>
+<p class="translated">O método <a class="reference internal" href="stdtypes.html#set.clear" title="set.clear"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clear()</span></code></a> mantém a trava durante sua execução. Outras threads não podem observar elementos sendo removidos.</p>
+<p class="translated">As seguintes operações aceitam apenas <a class="reference internal" href="stdtypes.html#set" title="set"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a> ou <a class="reference internal" href="stdtypes.html#frozenset" title="frozenset"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozenset</span></code></a> como operandos e sempre travam ambos os objetos:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">|=</span> <span class="n">outro</span>                   <span class="c1"># outro deve ser conjunto/frozenset</span>
+<span class="n">s</span> <span class="o">&amp;=</span> <span class="n">outro</span>                   <span class="c1"># outro deve ser conjunto/frozenset</span>
+<span class="n">s</span> <span class="o">-=</span> <span class="n">outro</span>                   <span class="c1"># outro deve ser conjunto/frozenset</span>
+<span class="n">s</span> <span class="o">^=</span> <span class="n">outro</span>                   <span class="c1"># outro deve ser conjunto/frozenset</span>
+<span class="n">s</span> <span class="o">&amp;</span> <span class="n">outro</span>                    <span class="c1"># outro deve ser conjunto/frozenset</span>
+<span class="n">s</span> <span class="o">|</span> <span class="n">outro</span>                    <span class="c1"># outro deve ser conjunto/frozenset</span>
+<span class="n">s</span> <span class="o">-</span> <span class="n">outro</span>                    <span class="c1"># outro deve ser conjunto/frozenset</span>
+<span class="n">s</span> <span class="o">^</span> <span class="n">outro</span>                    <span class="c1"># outro deve ser conjunto/frozenset</span>
+</pre></div>
+</div>
+<p class="translated"><a class="reference internal" href="stdtypes.html#set.update" title="set.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set.update()</span></code></a>, <a class="reference internal" href="stdtypes.html#set.union" title="set.union"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set.union()</span></code></a>, <a class="reference internal" href="stdtypes.html#set.intersection" title="set.intersection"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set.intersection()</span></code></a> e <a class="reference internal" href="stdtypes.html#set.difference" title="set.difference"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set.difference()</span></code></a> podem receber múltiplos iteráveis como argumentos. Todos eles iteram sobre todos os iteráveis fornecidos e realizam o seguinte:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="translated"><a class="reference internal" href="stdtypes.html#set.update" title="set.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set.update()</span></code></a> e <a class="reference internal" href="stdtypes.html#set.union" title="set.union"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set.union()</span></code></a> travam objetos apenas quando o outro operando é um <a class="reference internal" href="stdtypes.html#set" title="set"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a>, <a class="reference internal" href="stdtypes.html#frozenset" title="frozenset"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozenset</span></code></a>, ou <a class="reference internal" href="stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>.</p></li>
+<li><p class="translated"><a class="reference internal" href="stdtypes.html#set.intersection" title="set.intersection"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set.intersection()</span></code></a> e <a class="reference internal" href="stdtypes.html#set.difference" title="set.difference"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set.difference()</span></code></a> sempre tentam travar todos os objetos.</p></li>
+</ul>
+</div></blockquote>
+<p class="translated"><a class="reference internal" href="stdtypes.html#set.symmetric_difference" title="set.symmetric_difference"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set.symmetric_difference()</span></code></a> tenta travar ambos objetos.</p>
+<p class="translated">As variantes de atualização dos métodos acima também apresentam algumas diferenças entre si:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="translated"><a class="reference internal" href="stdtypes.html#set.difference_update" title="set.difference_update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set.difference_update()</span></code></a> e <a class="reference internal" href="stdtypes.html#set.intersection_update" title="set.intersection_update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set.intersection_update()</span></code></a> tentam travar todos os objetos um por um.</p></li>
+<li><p class="translated"><a class="reference internal" href="stdtypes.html#set.symmetric_difference_update" title="set.symmetric_difference_update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set.symmetric_difference_update()</span></code></a> só trava os argumentos se forem do tipo <a class="reference internal" href="stdtypes.html#set" title="set"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a>, <a class="reference internal" href="stdtypes.html#frozenset" title="frozenset"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozenset</span></code></a> ou <a class="reference internal" href="stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>.</p></li>
+</ul>
+</div></blockquote>
+<p class="translated">Os métodos a seguir sempre tentam travar ambos objetos:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">outro</span><span class="p">)</span>          <span class="c1"># ambos travados</span>
+<span class="n">s</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">outro</span><span class="p">)</span>            <span class="c1"># ambos travados</span>
+<span class="n">s</span><span class="o">.</span><span class="n">issuperset</span><span class="p">(</span><span class="n">outro</span><span class="p">)</span>          <span class="c1"># ambos travados</span>
+</pre></div>
+</div>
+<p class="translated">Operações que envolvem múltiplos acessos, assim como iteração, nunca são atômicas:</p>
+<div class="bad translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># NÃO é atômico: verifica-e-então-age</span>
+<span class="k">if</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+      <span class="n">s</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+
+<span class="c1"># NÃO é seguro para thread: iteração enquanto modifica</span>
+<span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+      <span class="n">process</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>  <span class="c1"># outra thread pode modificar s</span>
+</pre></div>
+</div>
+<p class="translated">Considere a sincronização externa ao compartilhar instâncias de <a class="reference internal" href="stdtypes.html#set" title="set"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a> entre threads. Consulte <a class="reference internal" href="../howto/free-threading-python.html#freethreading-python-howto"><span class="std std-ref">Suporte do Python para threads livres</span></a> para mais informações.</p>
+</section>
+<section id="thread-safety-for-bytearray-objects">
+<span id="thread-safety-bytearray"></span><h2 class="translated">Segurança para thread para objetos bytearray<a class="headerlink" href="#thread-safety-for-bytearray-objects" title="Link para este cabeçalho">¶</a></h2>
+<blockquote>
+<div><p class="translated">A função <a class="reference internal" href="functions.html#len" title="len"><code class="xref py py-func docutils literal notranslate"><span class="pre">len()</span></code></a> é livre de trava e <a class="reference internal" href="../glossary.html#term-atomic-operation"><span class="xref std std-term">atômica</span></a>.</p>
+<p class="translated">A concatenação e as comparações utilizam o protocolo de buffer, o qual impede o redimensionamento, mas não mantém a trava por objeto. Essas operações podem observar estados intermediários resultantes de modificações concorrentes:</p>
+<div class="maybe translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">ba</span> <span class="o">+</span> <span class="n">outro</span>    <span class="c1"># pode observar escritas simultâneas</span>
+<span class="n">ba</span> <span class="o">==</span> <span class="n">outro</span>   <span class="c1"># pode observar escritas simultâneas</span>
+<span class="n">ba</span> <span class="o">&lt;</span> <span class="n">outro</span>    <span class="c1"># pode observar escritas simultâneas</span>
+</pre></div>
+</div>
+<p class="translated">Todas as outras operações a partir daqui mantêm a trava por objeto.</p>
+<p class="translated">A leitura de um único elemento ou de uma fatia é segura para ser realizada a partir de múltiplas threads:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">ba</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>        <span class="c1"># bytearray.__getitem__</span>
+<span class="n">ba</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">j</span><span class="p">]</span>      <span class="c1"># fatia</span>
+</pre></div>
+</div>
+<p class="translated">As seguintes operações são seguras para serem chamadas a partir de múltiplas threads e não corromperão o bytearray:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">ba</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>         <span class="c1"># escreve um único byte</span>
+<span class="n">ba</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">valores</span> <span class="c1"># escreve uma fatia</span>
+<span class="n">ba</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>      <span class="c1"># junta um único byte ao final</span>
+<span class="n">ba</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">outro</span><span class="p">)</span>  <span class="c1"># estende com iterável</span>
+<span class="n">ba</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>   <span class="c1"># insere um único byte</span>
+<span class="n">ba</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>          <span class="c1"># remove e retorna o último byte</span>
+<span class="n">ba</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>         <span class="c1"># remove e retorna o byte no índice</span>
+<span class="n">ba</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>      <span class="c1"># remove a primeira ocorrência</span>
+<span class="n">ba</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>      <span class="c1"># inverte no local</span>
+<span class="n">ba</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>        <span class="c1"># remove todos os bytes</span>
+</pre></div>
+</div>
+<p class="translated">A atribuição de fatia TRAVA ambos objetos quando <em>valores</em> é um <a class="reference internal" href="stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a>:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">ba</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">other_bytearray</span>  <span class="c1"># ambos travados</span>
+</pre></div>
+</div>
+<p class="translated">As operações a seguir retornam novos objetos e mantêm a trava por objeto durante a execução:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">ba</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>     <span class="c1"># retorna uma cópia rasa</span>
+<span class="n">ba</span> <span class="o">*</span> <span class="n">n</span>        <span class="c1"># repete em um novo bytearray</span>
+</pre></div>
+</div>
+<p class="translated">O teste de pertinência mantém a trava durante a sua execução:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="ow">in</span> <span class="n">ba</span>       <span class="c1"># bytearray.__contains__</span>
+</pre></div>
+</div>
+<p class="translated">Todos os outros métodos de bytearray (como <a class="reference internal" href="stdtypes.html#bytearray.find" title="bytearray.find"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find()</span></code></a>, <a class="reference internal" href="stdtypes.html#bytearray.replace" title="bytearray.replace"><code class="xref py py-meth docutils literal notranslate"><span class="pre">replace()</span></code></a>, <a class="reference internal" href="stdtypes.html#bytearray.split" title="bytearray.split"><code class="xref py py-meth docutils literal notranslate"><span class="pre">split()</span></code></a>, <a class="reference internal" href="stdtypes.html#bytearray.decode" title="bytearray.decode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">decode()</span></code></a>, etc.) mantêm a trava específica do objeto durante sua execução.</p>
+<p class="translated">Operações que envolvem múltiplos acessos, assim como iteração, nunca são atômicas:</p>
+<div class="bad translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># NÃO é atômico: verifica-e-então-age</span>
+<span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ba</span><span class="p">:</span>
+    <span class="n">ba</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># NÃO é seguro para thread: iteração enquanto modifica</span>
+<span class="k">for</span> <span class="n">byte</span> <span class="ow">in</span> <span class="n">ba</span><span class="p">:</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">byte</span><span class="p">)</span>  <span class="c1"># outra thread por modificar ba</span>
+</pre></div>
+</div>
+<p class="translated">Para iterar com segurança sobre um bytearray que possa ser modificado por outra thread, itere sobre uma cópia:</p>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Faz uma cópia para iterar com segurança</span>
+<span class="k">for</span> <span class="n">byte</span> <span class="ow">in</span> <span class="n">ba</span><span class="o">.</span><span class="n">copy</span><span class="p">():</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">byte</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Considere a sincronização externa ao compartilhar instâncias de <a class="reference internal" href="stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a> entre threads. Consulte <a class="reference internal" href="../howto/free-threading-python.html#freethreading-python-howto"><span class="std std-ref">Suporte do Python para threads livres</span></a> para obter mais informações.</p>
+</div></blockquote>
+</section>
+<section id="thread-safety-for-memoryview-objects">
+<span id="thread-safety-memoryview"></span><h2 class="translated">Segurança para thread para objetos memoryview<a class="headerlink" href="#thread-safety-for-memoryview-objects" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Objetos <a class="reference internal" href="stdtypes.html#memoryview" title="memoryview"><code class="xref py py-class docutils literal notranslate"><span class="pre">memoryview</span></code></a> fornecem acesso aos dados internos de um objeto subjacente sem realizar cópias. A segurança para thread depende tanto do próprio memoryview quanto do exportador de buffer subjacente.</p>
+<p class="translated">A implementação do memoryview utiliza operações atômicas para rastrear suas próprias exportações na <a class="reference internal" href="../glossary.html#term-free-threaded-build"><span class="xref std std-term">construção com threads livres</span></a> (<em>free-threaded build</em>). A criação e a liberação de um memoryview são seguras para thread. O acesso a atributos (por exemplo, <a class="reference internal" href="stdtypes.html#memoryview.shape" title="memoryview.shape"><code class="xref py py-attr docutils literal notranslate"><span class="pre">shape</span></code></a>, <a class="reference internal" href="stdtypes.html#memoryview.format" title="memoryview.format"><code class="xref py py-attr docutils literal notranslate"><span class="pre">format</span></code></a>) lê campos que são imutáveis durante todo o ciclo de vida do memoryview; portanto, leituras concorrentes são seguras, desde que o memoryview não tenha sido liberado.</p>
+<p class="translated">No entanto, os dados reais acessados por meio do memoryview pertencem ao objeto subjacente. O acesso concorrente a esses dados só é seguro se o objeto subjacente o oferecer suporte a isso:</p>
+<ul class="simple">
+<li><p class="translated">Para objetos imutáveis como <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>, leituras concorrentes por meio de múltiplos memoryviews são seguras.</p></li>
+<li><p class="translated">Para objetos mutáveis como <a class="reference internal" href="stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a>, a leitura e a escrita na mesma região de memória a partir de múltiplas threads, sem sincronização externa, não são seguras e podem resultar em corrupção de dados. Observe que mesmo <em>memoryviews</em> somente leitura de objetos mutáveis não impedem condições de corrida se o objeto subjacente for modificado por outra thread.</p></li>
+</ul>
+<div class="bad translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># NÃO é seguro: escritas concorrentes ao mesmo buffer</span>
+<span class="n">data</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">view</span> <span class="o">=</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="c1"># Thread 1: view[0:500] = b'x' * 500</span>
+<span class="c1"># Thread 2: view[0:500] = b'y' * 500</span>
+</pre></div>
+</div>
+<div class="good translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Seguro: usa uma trava para acesso concorrente</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+<span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">view</span> <span class="o">=</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">lock</span><span class="p">:</span>
+    <span class="n">view</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">500</span><span class="p">]</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">'x'</span> <span class="o">*</span> <span class="mi">500</span>
+</pre></div>
+</div>
+<p class="translated">Redimensionar ou realocar o objeto subjacente (como ao chamar <a class="reference internal" href="stdtypes.html#bytearray.resize" title="bytearray.resize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">bytearray.resize()</span></code></a>) enquanto um memoryview está exportado levanta uma exceção <a class="reference internal" href="exceptions.html#BufferError" title="BufferError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">BufferError</span></code></a>. Essa regra é aplicada independentemente do uso de threads.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Garantias de segurança de thread</a><ul>
+<li><a class="reference internal" href="#thread-safety-levels">Níveis de segurança de threads</a><ul>
+<li><a class="reference internal" href="#incompatible">Incompatível</a></li>
+<li><a class="reference internal" href="#compatible">Compatível</a></li>
+<li><a class="reference internal" href="#safe-on-distinct-objects">Seguro em objetos distintos</a></li>
+<li><a class="reference internal" href="#safe-on-shared-objects">Seguro em objetos compartilhados</a></li>
+<li><a class="reference internal" href="#atomic">Atômica</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#thread-safety-for-list-objects">Segurança de threads para objetos lista</a></li>
+<li><a class="reference internal" href="#thread-safety-for-dict-objects">Segurança de threads para objetos dict</a></li>
+<li><a class="reference internal" href="#thread-safety-for-set-objects">Segurança de thread para objetos conjunto</a></li>
+<li><a class="reference internal" href="#thread-safety-for-bytearray-objects">Segurança para thread para objetos bytearray</a></li>
+<li><a class="reference internal" href="#thread-safety-for-memoryview-objects">Segurança para thread para objetos memoryview</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="exceptions.html"
+                          title="capítulo anterior">Exceções embutidas</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="time-complexity.html"
+                          title="próximo capítulo">Complexidade de tempo de operações em tipos embutidos</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "builtins/threadsafety.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/builtins/threadsafety.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/builtins/threadsafety.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="time-complexity.html" title="Complexidade de tempo de operações em tipos embutidos"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="exceptions.html" title="Exceções embutidas"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Referência da bibliotecas embutidas do Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Garantias de segurança de thread</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Importando módulos" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/modules.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Os módulos descritos neste capítulo fornecem novas maneiras de importar outros módulos Python e hooks para personalizar o processo de importação. A lista completa de módulos descritos neste capítul..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_modules_61ab2cfb.png" />
+<meta property="og:image:alt" content="Os módulos descritos neste capítulo fornecem novas maneiras de importar outros módulos Python e hooks para personalizar o processo de importação. A lista completa de módulos descritos neste capítul..." />
+<meta name="description" content="Os módulos descritos neste capítulo fornecem novas maneiras de importar outros módulos Python e hooks para personalizar o processo de importação. A lista completa de módulos descritos neste capítul..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Importando módulos &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="zipimport - Importa módulos de arquivos Zip" href="zipimport.html" />
+    <link rel="prev" title="codeop — Compila código Python" href="codeop.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/modules.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="codeop.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">codeop</span></code> — Compila código Python</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="zipimport.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipimport</span></code> - Importa módulos de arquivos Zip</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/modules.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/modules.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/modules.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="zipimport.html" title="zipimport - Importa módulos de arquivos Zip"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="codeop.html" title="codeop — Compila código Python"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">A biblioteca padrão do Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Importando módulos</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="importing-modules">
+<span id="modules"></span><h1 class="translated">Importando módulos<a class="headerlink" href="#importing-modules" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated">Os módulos descritos neste capítulo fornecem novas maneiras de importar outros módulos Python e hooks para personalizar o processo de importação.</p>
+<p class="translated">A lista completa de módulos descritos neste capítulo é:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="zipimport.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipimport</span></code> - Importa módulos de arquivos Zip</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="zipimport.html#zipimporter-objects">Objetos zipimporter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zipimport.html#examples">Exemplos</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pkgutil.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pkgutil</span></code> — Utilitário de extensão de pacote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modulefinder.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">modulefinder</span></code> — Procura módulos usados por um script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modulefinder.html#example-usage-of-modulefinder">Exemplo de uso de <code class="xref py py-class docutils literal notranslate"><span class="pre">ModuleFinder</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="runpy.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">runpy</span></code> — Localizando e executando módulos Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="importlib.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib</span></code> — A implementação de <code class="xref std std-keyword docutils literal notranslate"><span class="pre">import</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="importlib.html#introduction">Introdução</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importlib.html#functions">Funções</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importlib.html#module-importlib.abc"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.abc</span></code> – Abstract base classes related to import</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importlib.html#module-importlib.machinery"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.machinery</span></code> – Importers and path hooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importlib.html#module-importlib.util"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.util</span></code> – Utility code for importers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importlib.html#examples">Exemplos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="importlib.html#importing-programmatically">Importing programmatically</a></li>
+<li class="toctree-l3"><a class="reference internal" href="importlib.html#checking-if-a-module-can-be-imported">Checando se o módulo pode ser importado</a></li>
+<li class="toctree-l3"><a class="reference internal" href="importlib.html#importing-a-source-file-directly">Importa o arquivo de origem diretamente</a></li>
+<li class="toctree-l3"><a class="reference internal" href="importlib.html#implementing-lazy-imports">Implementing lazy imports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="importlib.html#setting-up-an-importer">Setting up an importer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="importlib.html#approximating-importlib-import-module">Approximating <code class="xref py py-func docutils literal notranslate"><span class="pre">importlib.import_module()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="importlib.resources.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.resources</span></code> – Leitura, abertura e acesso a recursos de pacotes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="importlib.resources.html#functional-api">API funcional</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="importlib.resources.abc.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.resources.abc</span></code> – Classes base abstratas para recursos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="importlib.metadata.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.metadata</span></code> – Acessando metadados do pacote</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="importlib.metadata.html#overview">Visão Geral</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importlib.metadata.html#functional-api">API funcional</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="importlib.metadata.html#entry-points">Pontos de entrada</a></li>
+<li class="toctree-l3"><a class="reference internal" href="importlib.metadata.html#distribution-metadata">Metadados de distribuição</a></li>
+<li class="toctree-l3"><a class="reference internal" href="importlib.metadata.html#distribution-versions">Versões de distribuição</a></li>
+<li class="toctree-l3"><a class="reference internal" href="importlib.metadata.html#distribution-files">Arquivos de distribuição</a></li>
+<li class="toctree-l3"><a class="reference internal" href="importlib.metadata.html#distribution-requirements">Requisitos de distribuição</a></li>
+<li class="toctree-l3"><a class="reference internal" href="importlib.metadata.html#mapping-import-to-distribution-packages">Mapeando importação pra pacotes de distribuição</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="importlib.metadata.html#distributions">Distribuições</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importlib.metadata.html#distribution-discovery">Descoberta de distribuição</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importlib.metadata.html#implementing-custom-providers">Implementando provedores personalizados</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="importlib.metadata.html#example">Exemplo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sys_path_init.html">A inicialização do caminho de pesquisa de módulos <code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sys_path_init.html#virtual-environments">Ambientes virtuais</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sys_path_init.html#pth-files">Arquivos _pth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sys_path_init.html#embedded-python">Python embarcado</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="codeop.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">codeop</span></code> — Compila código Python</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="zipimport.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipimport</span></code> - Importa módulos de arquivos Zip</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/modules.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/modules.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/modules.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="zipimport.html" title="zipimport - Importa módulos de arquivos Zip"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="codeop.html" title="codeop — Compila código Python"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Importando módulos</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="zlib — Compactação compatível com gzip" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/zlib.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Para aplicações que requerem compactação de dados, as funções neste módulo permitem compactação e descompactação, utilizando a biblioteca zlib. Este é um módulo opcional. Se ele estiver faltando na..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_zlib_e601e4fa.png" />
+<meta property="og:image:alt" content="Para aplicações que requerem compactação de dados, as funções neste módulo permitem compactação e descompactação, utilizando a biblioteca zlib. Este é um módulo opcional. Se ele estiver faltando na..." />
+<meta name="description" content="Para aplicações que requerem compactação de dados, as funções neste módulo permitem compactação e descompactação, utilizando a biblioteca zlib. Este é um módulo opcional. Se ele estiver faltando na..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>zlib — Compactação compatível com gzip &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="gzip — Suporte para arquivos gzip" href="gzip.html" />
+    <link rel="prev" title="compression.zstd — Compactação compatível com o formato Zstandard" href="compression.zstd.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/zlib.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="compression.zstd.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">compression.zstd</span></code> — Compactação compatível com o formato Zstandard</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="gzip.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">gzip</span></code> — Suporte para arquivos <strong class="program">gzip</strong></a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/zlib.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/zlib.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/zlib.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="gzip.html" title="gzip — Suporte para arquivos gzip"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="compression.zstd.html" title="compression.zstd — Compactação compatível com o formato Zstandard"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="archiving.html" accesskey="U">Compressão de Dados e Arquivamento</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">zlib</span></code> — Compactação compatível com <strong class="program">gzip</strong></a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-zlib">
+<span id="zlib-compression-compatible-with-gzip"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zlib</span></code> — Compactação compatível com <strong class="program">gzip</strong><a class="headerlink" href="#module-zlib" title="Link para este cabeçalho">¶</a></h1>
+<hr class="docutils" />
+<p class="translated">Para aplicações que requerem compactação de dados, as funções neste módulo permitem compactação e descompactação, utilizando a biblioteca <a class="reference external" href="https://www.zlib.net">zlib</a>.</p>
+<p class="translated">Este é um <a class="reference internal" href="../glossary.html#term-optional-module"><span class="xref std std-term">módulo opcional</span></a>. Se ele estiver faltando na sua cópia do CPython, procure a documentação do seu distribuidor (ou seja, quem lhe forneceu o Python). Se você for o distribuidor, consulte <a class="reference internal" href="../using/configure.html#optional-module-requirements"><span class="std std-ref">Requisitos para módulos opcionais</span></a>.</p>
+<p class="translated">As funções do zlib têm muitas opções e geralmente precisam ser usadas em uma ordem específica. Esta documentação não tenta cobrir todas as permutações; consulte o <a class="reference external" href="https://www.zlib.net/manual.html">manual do zlib</a> para obter informações oficiais.</p>
+<p class="translated">Para leitura e escrita de arquivos <code class="docutils literal notranslate"><span class="pre">.gz</span></code>, consulte o módulo <a class="reference internal" href="gzip.html#module-gzip" title="gzip: Interfaces for gzip compression and decompression using file objects."><code class="xref py py-mod docutils literal notranslate"><span class="pre">gzip</span></code></a>.</p>
+<p class="translated">A exceção e as funções disponíveis neste módulo são:</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="zlib.error">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#zlib.error" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exceção levantada em erros de compactação e descompactação.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="zlib.adler32">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">adler32</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zlib.adler32" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Calcula uma soma de verificação Adler-32 de <em>data</em>. (Uma soma de verificação Adler-32 é quase tão confiável quanto uma CRC32, mas pode ser calculada muito mais rapidamente.) O resultado é um número inteiro sem sinal de 32 bits. Se <em>value</em> estiver presente, ele será usado como o valor inicial da soma de verificação; caso contrário, um valor padrão de 1 é usado. A passagem de <em>value</em> permite calcular uma soma de verificação em execução através da concatenação de várias entradas. O algoritmo não é criptograficamente forte e não deve ser usado para autenticação ou assinaturas digitais. Como o algoritmo foi projetado para uso como um algoritmo de soma de verificação, não é adequado para uso como um algoritmo de hash geral.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.0: </span>O resultado é sempre sem sinal.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="zlib.adler32_combine">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">adler32_combine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adler1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adler2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len2</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zlib.adler32_combine" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Combine two Adler-32 checksums into one.</p>
+<p class="untranslated">Given the Adler-32 checksum <em>adler1</em> of a sequence <code class="docutils literal notranslate"><span class="pre">A</span></code> and the
+Adler-32 checksum <em>adler2</em> of a sequence <code class="docutils literal notranslate"><span class="pre">B</span></code> of length <em>len2</em>,
+return the Adler-32 checksum of <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> concatenated.</p>
+<p class="untranslated">This function is typically useful to combine Adler-32 checksums
+that were concurrently computed. To compute checksums sequentially, use
+<a class="reference internal" href="#zlib.adler32" title="zlib.adler32"><code class="xref py py-func docutils literal notranslate"><span class="pre">adler32()</span></code></a> with the running checksum as the <code class="docutils literal notranslate"><span class="pre">value</span></code> argument.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.15.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="zlib.compress">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">compress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Z_DEFAULT_COMPRESSION</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">MAX_WBITS</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zlib.compress" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Compacta os bytes em <em>data</em>, retornando um objeto bytes contendo dados compactados. <em>level</em> é um inteiro de <code class="docutils literal notranslate"><span class="pre">0</span></code> a <code class="docutils literal notranslate"><span class="pre">9</span></code> ou <code class="docutils literal notranslate"><span class="pre">-1</span></code> que controla o nível de compactação; Consulte <a class="reference internal" href="#zlib.Z_BEST_SPEED" title="zlib.Z_BEST_SPEED"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_BEST_SPEED</span></code></a> (<code class="docutils literal notranslate"><span class="pre">1</span></code>), <a class="reference internal" href="#zlib.Z_BEST_COMPRESSION" title="zlib.Z_BEST_COMPRESSION"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_BEST_COMPRESSION</span></code></a> (<code class="docutils literal notranslate"><span class="pre">9</span></code>), <a class="reference internal" href="#zlib.Z_NO_COMPRESSION" title="zlib.Z_NO_COMPRESSION"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_NO_COMPRESSION</span></code></a> (<code class="docutils literal notranslate"><span class="pre">0</span></code>) e o padrão, <a class="reference internal" href="#zlib.Z_DEFAULT_COMPRESSION" title="zlib.Z_DEFAULT_COMPRESSION"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_DEFAULT_COMPRESSION</span></code></a> (<code class="docutils literal notranslate"><span class="pre">-1</span></code>) para obter mais informações sobre esses valores.</p>
+<p class="translated" id="compress-wbits">O argumento <em>wbits</em> controla o tamanho do buffer do histórico (ou o “tamanho da janela”) usado ao compactar dados e se um cabeçalho e um trailer estão incluídos na saída. Pode levar vários intervalos de valores, padronizando para <code class="docutils literal notranslate"><span class="pre">15</span></code> (<a class="reference internal" href="#zlib.MAX_WBITS" title="zlib.MAX_WBITS"><code class="xref py py-const docutils literal notranslate"><span class="pre">MAX_WBITS</span></code></a>):</p>
+<ul class="simple">
+<li><p class="translated">+9 a +15: o logaritmo de base dois do tamanho da janela, que varia entre 512 e 32768. Valores maiores produzem melhor compactação às custas de maior uso de memória. A saída resultante incluirá um cabeçalho e uma sequência específicos para zlib.</p></li>
+<li><p class="translated">-9 a -15: Usa o valor absoluto de <em>wbits</em> como o logaritmo do tamanho da janela, enquanto produz um fluxo de saída bruto sem cabeçalho ou soma de verificação à direita.</p></li>
+<li><p class="translated">+25 a +31 = 16 + (9 a 15): Usa os 4 bits baixos do valor como logaritmo do tamanho da janela, incluindo um cabeçalho básico <strong class="program">gzip</strong> e a soma de verificação à direita na saída.</p></li>
+</ul>
+<p class="translated">Levanta uma exceção do tipo <a class="reference internal" href="#zlib.error" title="zlib.error"><code class="xref py py-exc docutils literal notranslate"><span class="pre">error</span></code></a>, se ocorrer algum erro.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span><em>level</em> pode agora ser usado como um palavra reservada nomeada.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.11: </span>O parâmetro <em>wbits</em> agora está disponível para definir janelas de bits e tipo de compactação.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="zlib.compressobj">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">compressobj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level=Z_DEFAULT_COMPRESSION</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method=DEFLATED</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wbits=MAX_WBITS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memLevel=DEF_MEM_LEVEL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy=Z_DEFAULT_STRATEGY</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">zdict</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#zlib.compressobj" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um objeto de compactação, a ser usado para compactar fluxos de dados que não cabem na memória de uma só vez.</p>
+<p class="translated"><em>level</em> é um nível de compactação – um inteiro de <code class="docutils literal notranslate"><span class="pre">0</span></code> a <code class="docutils literal notranslate"><span class="pre">9</span></code> ou <code class="docutils literal notranslate"><span class="pre">-1</span></code>. Consulte <a class="reference internal" href="#zlib.Z_BEST_SPEED" title="zlib.Z_BEST_SPEED"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_BEST_SPEED</span></code></a> (<code class="docutils literal notranslate"><span class="pre">1</span></code>), <a class="reference internal" href="#zlib.Z_BEST_COMPRESSION" title="zlib.Z_BEST_COMPRESSION"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_BEST_COMPRESSION</span></code></a> (<code class="docutils literal notranslate"><span class="pre">9</span></code>), <a class="reference internal" href="#zlib.Z_NO_COMPRESSION" title="zlib.Z_NO_COMPRESSION"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_NO_COMPRESSION</span></code></a> (<code class="docutils literal notranslate"><span class="pre">0</span></code>) e o padrão, <a class="reference internal" href="#zlib.Z_DEFAULT_COMPRESSION" title="zlib.Z_DEFAULT_COMPRESSION"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_DEFAULT_COMPRESSION</span></code></a> (<code class="docutils literal notranslate"><span class="pre">-1</span></code>) para obter mais informações sobre esses valores.</p>
+<p class="translated"><em>method</em> é o algoritmo de compactação. Atualmente, o único valor suportado é <a class="reference internal" href="#zlib.DEFLATED" title="zlib.DEFLATED"><code class="xref py py-const docutils literal notranslate"><span class="pre">DEFLATED</span></code></a>.</p>
+<p class="translated">O parâmetro <em>wbits</em> controla o tamanho do histórico buffer (ou o “tamanho da janela do buffer”) e qual o formato do cabeçalho e do trailer serão usados. Ele tem o mesmo significado que o <a class="reference external" href="#compress-wbits">descrito para compress()</a>.</p>
+<p class="translated">O argumento <em>memLevel</em> controla a quantidade de memória usada para o estado de compactação interno. Os valores válidos variam de <code class="docutils literal notranslate"><span class="pre">1</span></code> a <code class="docutils literal notranslate"><span class="pre">9</span></code>. Valores mais altos usam mais memória, mas são mais rápidos e produzem uma saída menor.</p>
+<p class="translated"><em>strategy</em> é usado para ajustar o algoritmo de compactação. Os valores possíveis são <a class="reference internal" href="#zlib.Z_DEFAULT_STRATEGY" title="zlib.Z_DEFAULT_STRATEGY"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_DEFAULT_STRATEGY</span></code></a>, <a class="reference internal" href="#zlib.Z_FILTERED" title="zlib.Z_FILTERED"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_FILTERED</span></code></a>, <a class="reference internal" href="#zlib.Z_HUFFMAN_ONLY" title="zlib.Z_HUFFMAN_ONLY"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_HUFFMAN_ONLY</span></code></a>, <a class="reference internal" href="#zlib.Z_RLE" title="zlib.Z_RLE"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_RLE</span></code></a> e <a class="reference internal" href="#zlib.Z_FIXED" title="zlib.Z_FIXED"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_FIXED</span></code></a>.</p>
+<p class="translated"><em>zdict</em> é um dicionário de compactação predefinido. Esta é uma sequência de bytes (como um objeto <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>) que contém subsequências que se espera que ocorram com frequência nos dados a serem compactados. As subsequências que se espera serem mais comuns devem aparecer no final do dicionário.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>Adicionado o suporte ao parâmetro e argumento nomeado <em>zdict</em>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="zlib.crc32">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">crc32</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zlib.crc32" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated" id="index-0">Calcula uma soma de verificação CRC (Cyclic Redundancy Check) de <em>data</em>. O resultado é um número inteiro sem sinal de 32 bits. Se <em>value</em> estiver presente, ele será usado como o valor inicial da soma de verificação; caso contrário, um valor padrão de 1 é usado. A passagem de <em>value</em> permite calcular uma soma de verificação em execução através da concatenação de várias entradas. O algoritmo não é criptograficamente forte e não deve ser usado para autenticação ou assinaturas digitais. Como o algoritmo foi projetado para uso como um algoritmo de soma de verificação, não é adequado para uso como um algoritmo de hash geral.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.0: </span>O resultado é sempre sem sinal.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="zlib.crc32_combine">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">crc32_combine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crc1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crc2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len2</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zlib.crc32_combine" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Combine two CRC-32 checksums into one.</p>
+<p class="untranslated">Given the CRC-32 checksum <em>crc1</em> of a sequence <code class="docutils literal notranslate"><span class="pre">A</span></code> and the
+CRC-32 checksum <em>crc2</em> of a sequence <code class="docutils literal notranslate"><span class="pre">B</span></code> of length <em>len2</em>,
+return the CRC-32 checksum of <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> concatenated.</p>
+<p class="untranslated">This function is typically useful to combine CRC-32 checksums
+that were concurrently computed. To compute checksums sequentially, use
+<a class="reference internal" href="#zlib.crc32" title="zlib.crc32"><code class="xref py py-func docutils literal notranslate"><span class="pre">crc32()</span></code></a> with the running checksum as the <code class="docutils literal notranslate"><span class="pre">value</span></code> argument.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.15.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="zlib.decompress">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">decompress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">wbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">MAX_WBITS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bufsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEF_BUF_SIZE</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zlib.decompress" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Descompacta os bytes em <em>data</em>, retornando um objeto de bytes que contém os dados não compactados. O parâmetro <em>wbits</em> depende do formato de <em>data</em> e é discutido mais abaixo. Se <em>bufsize</em> for fornecido, ele será usado como o tamanho inicial do buffer de saída. Levanta a exceção <a class="reference internal" href="#zlib.error" title="zlib.error"><code class="xref py py-exc docutils literal notranslate"><span class="pre">error</span></code></a> se ocorrer algum erro.</p>
+<p class="translated" id="decompress-wbits">O parâmetro <em>wbits</em> controla o tamanho do buffer do histórico (ou “tamanho da janela”) e qual formato de cabeçalho e sequência é esperado. É semelhante ao parâmetro para <a class="reference internal" href="#zlib.compressobj" title="zlib.compressobj"><code class="xref py py-func docutils literal notranslate"><span class="pre">compressobj()</span></code></a>, mas aceita mais intervalos de valores:</p>
+<ul class="simple">
+<li><p class="translated">+8 a +15: O logaritmo de base dois do tamanho da janela. A entrada deve incluir um cabeçalho e uma sequência de zlib.</p></li>
+<li><p class="translated">0: Determina automaticamente o tamanho da janela no cabeçalho zlib. Suportado apenas desde o zlib 1.2.3.5.</p></li>
+<li><p class="translated">−8 a −15: Usa o valor absoluto de <em>wbits</em> como o logaritmo do tamanho da janela. A entrada deve ser um fluxo bruto sem cabeçalho ou sequência.</p></li>
+<li><p class="translated">+24 a +31 = 16 + (8 a 15): Usa os 4 bits baixos do valor como logaritmo do tamanho da janela. A entrada deve incluir um cabeçalho e sequência de gzip.</p></li>
+<li><p class="translated">+40 a +47 = 32 + (8 a 15): Usa os 4 bits baixos do valor como logaritmo do tamanho da janela e aceita automaticamente o formato zlib ou gzip.</p></li>
+</ul>
+<p class="translated">Ao descompactar um fluxo, o tamanho da janela não deve ser menor que o tamanho originalmente usado para compactar o fluxo; o uso de um valor muito pequeno pode resultar em uma exceção <a class="reference internal" href="#zlib.error" title="zlib.error"><code class="xref py py-exc docutils literal notranslate"><span class="pre">error</span></code></a>. O valor padrão <em>wbits</em> corresponde ao maior tamanho da janela e requer que um cabeçalho e uma sequência de zlib sejam incluídos.</p>
+<p class="translated"><em>bufsize</em> é o tamanho inicial do buffer usado para armazenar dados descompactados. Se for necessário mais espaço, o tamanho do buffer será aumentado conforme necessário, para que você não precise obter esse valor exatamente correto; sintonizando, apenas algumas chamadas serão salvas em <code class="xref c c-func docutils literal notranslate"><span class="pre">malloc()</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span><em>wbits</em> e <em>bufsize</em> podem ser usados como argumentos nomeados.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="zlib.decompressobj">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">decompressobj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">MAX_WBITS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zdict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zlib.decompressobj" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um objeto descompactado, a ser usado para descompactar fluxos de dados que não cabem na memória de uma só vez.</p>
+<p class="translated">O parâmetro <em>wbits</em> controla o tamanho do histórico do buffer (ou o “tamanho da janela do buffer”) e qual formato do cabeçalho e trailer são esperados. Ele tem o mesmo significado que o <a class="reference external" href="#decompress-wbits">descrito para decompress()</a>.</p>
+<p class="translated">O parâmetro <em>zdict</em> especifica uma dicionário predefinido de compactação. Se fornecido, deve ser o mesmo dicionário usado pelo compactador que produziu os dados a serem descompactados.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Se <em>zdict</em> for um objeto mutável (como um <a class="reference internal" href="../builtins/stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a>), você não deve modificar seu conteúdo entre a chamada de <a class="reference internal" href="#zlib.decompressobj" title="zlib.decompressobj"><code class="xref py py-func docutils literal notranslate"><span class="pre">decompressobj()</span></code></a> e a primeira chamada para o método de descompatação <code class="docutils literal notranslate"><span class="pre">decompress()</span></code>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>Adicionado o parâmetro <em>zdict</em>.</p>
+</div>
+</dd></dl>
+
+<p class="translated">Um objeto do tipo Compress oferece suporte aos seguintes métodos:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="zlib.Compress.compress">
+<span class="sig-prename descclassname"><span class="pre">Compress.</span></span><span class="sig-name descname"><span class="pre">compress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zlib.Compress.compress" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Comprime <em>data</em>, retornando um objeto de bytes que contém dados compactados para pelo menos parte dos dados em <em>data</em>.  Esses dados devem ser concatenados à saída produzida por quaisquer chamadas anteriores ao método <a class="reference internal" href="#zlib.compress" title="zlib.compress"><code class="xref py py-meth docutils literal notranslate"><span class="pre">compress()</span></code></a>. Algumas entradas podem ser mantidas em buffers internos para processamento posterior.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zlib.Compress.flush">
+<span class="sig-prename descclassname"><span class="pre">Compress.</span></span><span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Z_FINISH</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zlib.Compress.flush" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Toda a entrada pendente é processada e um objeto de bytes contendo a saída compactada restante é retornado.  O <em>mode</em> pode ser selecionado entre constantes <a class="reference internal" href="#zlib.Z_NO_FLUSH" title="zlib.Z_NO_FLUSH"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_NO_FLUSH</span></code></a> , <a class="reference internal" href="#zlib.Z_PARTIAL_FLUSH" title="zlib.Z_PARTIAL_FLUSH"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_PARTIAL_FLUSH</span></code></a>, <a class="reference internal" href="#zlib.Z_SYNC_FLUSH" title="zlib.Z_SYNC_FLUSH"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_SYNC_FLUSH</span></code></a>, <a class="reference internal" href="#zlib.Z_FULL_FLUSH" title="zlib.Z_FULL_FLUSH"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_FULL_FLUSH</span></code></a>, <a class="reference internal" href="#zlib.Z_BLOCK" title="zlib.Z_BLOCK"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_BLOCK</span></code></a> ou <a class="reference internal" href="#zlib.Z_FINISH" title="zlib.Z_FINISH"><code class="xref py py-const docutils literal notranslate"><span class="pre">Z_FINISH</span></code></a>, com o padrão sendo <code class="xref py py-const docutils literal notranslate"><span class="pre">Z_FINISH</span></code>. Exceto <code class="xref py py-const docutils literal notranslate"><span class="pre">Z_FINISH</span></code>, todas as demais constantes permitem a compactação de mais bytestrings de dados, enquanto <code class="xref py py-const docutils literal notranslate"><span class="pre">Z_FINISH</span></code> finaliza o fluxo compactado e impede a compactação de mais dados.  Depois de chamar <a class="reference internal" href="#zlib.Compress.flush" title="zlib.Compress.flush"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code></a> com <em>mode</em> definido como <code class="xref py py-const docutils literal notranslate"><span class="pre">Z_FINISH</span></code>, o método <a class="reference internal" href="#zlib.compress" title="zlib.compress"><code class="xref py py-meth docutils literal notranslate"><span class="pre">compress()</span></code></a> não pode ser chamado novamente; a única ação restante possível é excluir o objeto.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zlib.Compress.copy">
+<span class="sig-prename descclassname"><span class="pre">Compress.</span></span><span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zlib.Compress.copy" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma cópia do objeto de compactação.  Isso pode ser usado para compactar com eficiência um conjunto de dados que compartilham um prefixo inicial comum.</p>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.8: </span>As funções <a class="reference internal" href="copy.html#copy.copy" title="copy.copy"><code class="xref py py-func docutils literal notranslate"><span class="pre">copy.copy()</span></code></a> e <a class="reference internal" href="copy.html#copy.deepcopy" title="copy.deepcopy"><code class="xref py py-func docutils literal notranslate"><span class="pre">copy.deepcopy()</span></code></a> foram adicionadas como suporte para a compactação de objetos.</p>
+</div>
+<p class="translated">Um objeto de descompactação oferece suporte aos seguintes métodos:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zlib.Decompress.unused_data">
+<span class="sig-prename descclassname"><span class="pre">Decompress.</span></span><span class="sig-name descname"><span class="pre">unused_data</span></span><a class="headerlink" href="#zlib.Decompress.unused_data" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um objeto de bytes que contém todos os bytes após o final dos dados compactados. Ou seja, ele permanece <code class="docutils literal notranslate"><span class="pre">b&quot;&quot;</span></code> até que o último byte que contém dados compactados esteja disponível.  Se todo o bytestring contiver dados compactados, este será <code class="docutils literal notranslate"><span class="pre">b&quot;&quot;</span></code>, um objeto de bytes vazio.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zlib.Decompress.unconsumed_tail">
+<span class="sig-prename descclassname"><span class="pre">Decompress.</span></span><span class="sig-name descname"><span class="pre">unconsumed_tail</span></span><a class="headerlink" href="#zlib.Decompress.unconsumed_tail" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um objeto de bytes que contém todos os dados que não foram consumidos pela última chamada <a class="reference internal" href="#zlib.decompress" title="zlib.decompress"><code class="xref py py-meth docutils literal notranslate"><span class="pre">decompress()</span></code></a> porque excederam o limite dos dados não compactados no buffer.  Esses dados ainda não foram vistos pela zlib, portanto, você deve alimentá-los (possivelmente com outros dados concatenados a eles) em uma chamada  subsequente para o método <code class="xref py py-meth docutils literal notranslate"><span class="pre">decompress()</span></code> e, com isso, obter a saída correta.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zlib.Decompress.eof">
+<span class="sig-prename descclassname"><span class="pre">Decompress.</span></span><span class="sig-name descname"><span class="pre">eof</span></span><a class="headerlink" href="#zlib.Decompress.eof" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um booleano indicando se o fim do fluxo de dados compactados foi alcançado.</p>
+<p class="translated">Isso permite distinguir entre um fluxo compactado formado corretamente e um fluxo incompleto ou truncado.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zlib.Decompress.decompress">
+<span class="sig-prename descclassname"><span class="pre">Decompress.</span></span><span class="sig-name descname"><span class="pre">decompress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zlib.Decompress.decompress" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Descompacta <em>data</em>, retornando um objeto de bytes que contém os dados não compactados correspondentes a pelo menos uma parte dos dados em <em>string</em>. Esses dados devem ser concatenados com a saída produzida por quaisquer chamadas anteriores ao método <a class="reference internal" href="#zlib.decompress" title="zlib.decompress"><code class="xref py py-meth docutils literal notranslate"><span class="pre">decompress()</span></code></a> . Alguns dos dados de entrada podem ser preservados em buffers internos para processamento posterior.</p>
+<p class="untranslated">If the optional parameter <em>max_length</em> is non-zero then the return value will be
+no longer than <em>max_length</em>. This may mean that not all of the compressed input
+can be processed; and unconsumed data will be stored in the attribute
+<a class="reference internal" href="#zlib.Decompress.unconsumed_tail" title="zlib.Decompress.unconsumed_tail"><code class="xref py py-attr docutils literal notranslate"><span class="pre">unconsumed_tail</span></code></a>. This bytestring must be passed to a subsequent call to
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">decompress()</span></code> if decompression is to continue.  If <em>max_length</em> is zero
+then the whole input is decompressed, and <code class="xref py py-attr docutils literal notranslate"><span class="pre">unconsumed_tail</span></code> is empty.
+For example, the full content could be read like:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">process_output</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">max_length</span><span class="p">))</span>
+<span class="k">while</span> <span class="n">chunk</span> <span class="o">:=</span> <span class="n">d</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">unconsumed_tail</span><span class="p">,</span> <span class="n">max_length</span><span class="p">):</span>
+    <span class="n">process_output</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span><em>max_length</em> pode ser usado como argumento nomeado.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zlib.Decompress.flush">
+<span class="sig-prename descclassname"><span class="pre">Decompress.</span></span><span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEF_BUF_SIZE</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zlib.Decompress.flush" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Toda a entrada que estiver pendente é processada e um objeto de bytes contendo a saída descompactada restante é retornado.  Depois de chamar <a class="reference internal" href="#zlib.Decompress.flush" title="zlib.Decompress.flush"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flush()</span></code></a>, o método <a class="reference internal" href="#zlib.decompress" title="zlib.decompress"><code class="xref py py-meth docutils literal notranslate"><span class="pre">decompress()</span></code></a> não pode ser chamado novamente; a única ação possível é excluir o objeto.</p>
+<p class="translated">O parâmetro opcional <em>comprimento</em> define o tamanho inicial da saída do buffer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zlib.Decompress.copy">
+<span class="sig-prename descclassname"><span class="pre">Decompress.</span></span><span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zlib.Decompress.copy" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna uma cópia do objeto de descompactação. Isso pode ser usado para salvar o estado do descompactador no meio do fluxo de dados, a fim de acelerar as buscas aleatórias no fluxo em um ponto futuro.</p>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.8: </span>As funções <a class="reference internal" href="copy.html#copy.copy" title="copy.copy"><code class="xref py py-func docutils literal notranslate"><span class="pre">copy.copy()</span></code></a> e <a class="reference internal" href="copy.html#copy.deepcopy" title="copy.deepcopy"><code class="xref py py-func docutils literal notranslate"><span class="pre">copy.deepcopy()</span></code></a> foram adicionadas como suporte para a objetos de descompactação.</p>
+</div>
+<p class="translated">As constantes a seguir estão disponíveis para configurar o comportamento de compactação e descompactação:</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.DEFLATED">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">DEFLATED</span></span><a class="headerlink" href="#zlib.DEFLATED" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O método de compactação de deflação.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.MAX_WBITS">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">MAX_WBITS</span></span><a class="headerlink" href="#zlib.MAX_WBITS" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O tamanho máximo da janela, expresso como uma potência de 2. Por exemplo, se <code class="xref py py-const docutils literal notranslate"><span class="pre">MAX_WBITS</span></code> for <code class="docutils literal notranslate"><span class="pre">15</span></code>, isso resultará em um tamanho de janela de <code class="docutils literal notranslate"><span class="pre">32</span> <span class="pre">KiB</span></code>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.DEF_MEM_LEVEL">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">DEF_MEM_LEVEL</span></span><a class="headerlink" href="#zlib.DEF_MEM_LEVEL" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O nível de memória padrão para objetos de compactação.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.DEF_BUF_SIZE">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">DEF_BUF_SIZE</span></span><a class="headerlink" href="#zlib.DEF_BUF_SIZE" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O tamanho padrão do buffer para operações de descompactação.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.Z_NO_COMPRESSION">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">Z_NO_COMPRESSION</span></span><a class="headerlink" href="#zlib.Z_NO_COMPRESSION" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Nível de compactação <code class="docutils literal notranslate"><span class="pre">0</span></code>; sem compactação.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.Z_BEST_SPEED">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">Z_BEST_SPEED</span></span><a class="headerlink" href="#zlib.Z_BEST_SPEED" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Nível de compactação <code class="docutils literal notranslate"><span class="pre">1</span></code>; mais rápido e produz a menor compactação.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.Z_BEST_COMPRESSION">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">Z_BEST_COMPRESSION</span></span><a class="headerlink" href="#zlib.Z_BEST_COMPRESSION" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Nível de compactação <code class="docutils literal notranslate"><span class="pre">9</span></code>; mais lento e produz a maior compactação.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.Z_DEFAULT_COMPRESSION">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">Z_DEFAULT_COMPRESSION</span></span><a class="headerlink" href="#zlib.Z_DEFAULT_COMPRESSION" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Nível de compactação padrão (<code class="docutils literal notranslate"><span class="pre">-1</span></code>); um meio-termo entre velocidade e compactação. Atualmente equivalente ao nível de compactação <code class="docutils literal notranslate"><span class="pre">6</span></code>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.Z_DEFAULT_STRATEGY">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">Z_DEFAULT_STRATEGY</span></span><a class="headerlink" href="#zlib.Z_DEFAULT_STRATEGY" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Estratégia de compactação padrão, para dados normais.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.Z_FILTERED">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">Z_FILTERED</span></span><a class="headerlink" href="#zlib.Z_FILTERED" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Estratégia de compactação para dados produzidos por um filtro (ou preditor).</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.Z_HUFFMAN_ONLY">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">Z_HUFFMAN_ONLY</span></span><a class="headerlink" href="#zlib.Z_HUFFMAN_ONLY" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Estratégia de compactação que força codificação Huffman apenas.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.Z_RLE">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">Z_RLE</span></span><a class="headerlink" href="#zlib.Z_RLE" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Estratégia de compactação que limita distâncias de correspondência a um (codificação run-length).</p>
+<p class="translated">Esta constante só estará disponível se o Python foi construído com zlib 1.2.0.1 ou superior.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.Z_FIXED">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">Z_FIXED</span></span><a class="headerlink" href="#zlib.Z_FIXED" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Estratégia de compactação que impede o uso de códigos dinâmicos de Huffman.</p>
+<p class="translated">Esta constante só estará disponível se o Python foi construído com zlib 1.2.2.2 ou superior.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.Z_NO_FLUSH">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">Z_NO_FLUSH</span></span><a class="headerlink" href="#zlib.Z_NO_FLUSH" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Modo de saída <code class="docutils literal notranslate"><span class="pre">0</span></code>. Nenhum comportamento especial de saída.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.Z_PARTIAL_FLUSH">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">Z_PARTIAL_FLUSH</span></span><a class="headerlink" href="#zlib.Z_PARTIAL_FLUSH" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Modo de saída <code class="docutils literal notranslate"><span class="pre">1</span></code>. Emite o máximo de saída possível.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.Z_SYNC_FLUSH">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">Z_SYNC_FLUSH</span></span><a class="headerlink" href="#zlib.Z_SYNC_FLUSH" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Modo de saída <code class="docutils literal notranslate"><span class="pre">2</span></code>. Toda saída é emitida e é alinhada a um limite de bytes.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.Z_FULL_FLUSH">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">Z_FULL_FLUSH</span></span><a class="headerlink" href="#zlib.Z_FULL_FLUSH" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Modo de saída <code class="docutils literal notranslate"><span class="pre">3</span></code>. Toda a saída é emitida e o estado de compactação é redefinido.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.Z_FINISH">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">Z_FINISH</span></span><a class="headerlink" href="#zlib.Z_FINISH" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Modo de saída <code class="docutils literal notranslate"><span class="pre">4</span></code>. Toda entrada pendente é processada, nenhuma outra entrada é esperada.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.Z_BLOCK">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">Z_BLOCK</span></span><a class="headerlink" href="#zlib.Z_BLOCK" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Modo de saída <code class="docutils literal notranslate"><span class="pre">5</span></code>. Um bloco de deflação é concluído e emitido.</p>
+<p class="translated">Esta constante só estará disponível se o Python foi construído com zlib 1.2.2.2 ou superior.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.Z_TREES">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">Z_TREES</span></span><a class="headerlink" href="#zlib.Z_TREES" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Modo de saída <code class="docutils literal notranslate"><span class="pre">6</span></code>, para operações de inflação. Instrui a inflação a retornar ao atingir o próximo limite do bloco de desinflação.</p>
+<p class="translated">Esta constante está disponível apenas se o Python foi compilado com zlib 1.2.3.4 ou superior.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.6.</span></p>
+</div>
+</dd></dl>
+
+<p class="translated">As informações sobre o versão da biblioteca zlib em uso estão disponíveis no seguinte constantes:</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.ZLIB_VERSION">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">ZLIB_VERSION</span></span><a class="headerlink" href="#zlib.ZLIB_VERSION" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma string com a versão da biblioteca zlib que foi usada para construir o módulo. Isso pode ser diferente da biblioteca zlib realmente usada no tempo de execução, que está disponível como <a class="reference internal" href="#zlib.ZLIB_RUNTIME_VERSION" title="zlib.ZLIB_RUNTIME_VERSION"><code class="xref py py-const docutils literal notranslate"><span class="pre">ZLIB_RUNTIME_VERSION</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.ZLIB_RUNTIME_VERSION">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">ZLIB_RUNTIME_VERSION</span></span><a class="headerlink" href="#zlib.ZLIB_RUNTIME_VERSION" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma string com a versão da biblioteca zlib atualmente utilizada pelo interpretador.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="zlib.ZLIBNG_VERSION">
+<span class="sig-prename descclassname"><span class="pre">zlib.</span></span><span class="sig-name descname"><span class="pre">ZLIBNG_VERSION</span></span><a class="headerlink" href="#zlib.ZLIBNG_VERSION" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">A string de versão da biblioteca zlib-ng que foi usada para construir o módulo, caso o zlib-ng tenha sido usado. Quando presentes, as constantes <a class="reference internal" href="#zlib.ZLIB_VERSION" title="zlib.ZLIB_VERSION"><code class="xref py py-data docutils literal notranslate"><span class="pre">ZLIB_VERSION</span></code></a> e <a class="reference internal" href="#zlib.ZLIB_RUNTIME_VERSION" title="zlib.ZLIB_RUNTIME_VERSION"><code class="xref py py-data docutils literal notranslate"><span class="pre">ZLIB_RUNTIME_VERSION</span></code></a> refletem a versão da API zlib fornecida pelo zlib-ng.</p>
+<p class="translated">Se zlib-ng não foi usado para construir o módulo, esta constante estará ausente.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<dl class="simple">
+<dt class="translated">módulo <a class="reference internal" href="gzip.html#module-gzip" title="gzip: Interfaces for gzip compression and decompression using file objects."><code class="xref py py-mod docutils literal notranslate"><span class="pre">gzip</span></code></a></dt><dd><p class="translated">Leia e escreva arquivos no formato <strong class="program">gzip</strong></p>
+</dd>
+<dt class="translated"><a class="reference external" href="https://www.zlib.net">https://www.zlib.net</a></dt><dd><p class="translated">A página inicial da biblioteca zlib.</p>
+</dd>
+<dt class="translated"><a class="reference external" href="https://www.zlib.net/manual.html">https://www.zlib.net/manual.html</a></dt><dd><p class="translated">O manual da zlib explica a semântica e uso de diversas funções desta biblioteca.</p>
+</dd>
+</dl>
+<p class="translated">Caso a (des)compactação do gzip seja um gargalo, o pacote <a class="reference external" href="https://github.com/pycompression/python-isal">python-isal</a> acelera a (des)compactação com uma API quase sempre compatível.</p>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="compression.zstd.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">compression.zstd</span></code> — Compactação compatível com o formato Zstandard</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="gzip.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">gzip</span></code> — Suporte para arquivos <strong class="program">gzip</strong></a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/zlib.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/zlib.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/zlib.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="gzip.html" title="gzip — Suporte para arquivos gzip"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="compression.zstd.html" title="compression.zstd — Compactação compatível com o formato Zstandard"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="archiving.html" >Compressão de Dados e Arquivamento</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">zlib</span></code> — Compactação compatível com <strong class="program">gzip</strong></a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

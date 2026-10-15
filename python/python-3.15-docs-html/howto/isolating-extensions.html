@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Isolando módulos de extensão" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/howto/isolating-extensions.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Resumo: Tradicionalmente, o estado que pertence a módulos de extensão do Python era mantido em variáveis static em C, que têm escopo em todo o processo. Este documento descreve problemas de tal est..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_howto_isolating-extensions_2192dfd9.png" />
+<meta property="og:image:alt" content="Resumo: Tradicionalmente, o estado que pertence a módulos de extensão do Python era mantido em variáveis static em C, que têm escopo em todo o processo. Este documento descreve problemas de tal est..." />
+<meta name="description" content="Resumo: Tradicionalmente, o estado que pertence a módulos de extensão do Python era mantido em variáveis static em C, que têm escopo em todo o processo. Este documento descreve problemas de tal est..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Isolando módulos de extensão &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Descritor de arquivo de temporizador" href="timerfd.html" />
+    <link rel="prev" title="Boas práticas para anotações" href="annotations.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/howto/isolating-extensions.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Isolando módulos de extensão</a><ul>
+<li><a class="reference internal" href="#who-should-read-this">Quem deveria ler isto</a></li>
+<li><a class="reference internal" href="#background">Informações preliminares</a><ul>
+<li><a class="reference internal" href="#enter-per-module-state">Entra o estado por módulo</a></li>
+<li><a class="reference internal" href="#isolated-module-objects">Objetos de módulo isolados</a></li>
+<li><a class="reference internal" href="#surprising-edge-cases">Casos particulares surpreendentes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#making-modules-safe-with-multiple-interpreters">Fazendo módulos seguros com múltiplos interpretadores</a><ul>
+<li><a class="reference internal" href="#managing-global-state">Gerenciando estado global</a></li>
+<li><a class="reference internal" href="#managing-per-module-state">Gerenciando estado por módulo</a></li>
+<li><a class="reference internal" href="#opt-out-limiting-to-one-module-object-per-process">Exclusão voluntária: limitando a um objeto de módulo por processo</a></li>
+<li><a class="reference internal" href="#module-state-access-from-functions">Acesso ao estado de módulo a partir de funções</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#heap-types">Tipos no heap</a><ul>
+<li><a class="reference internal" href="#changing-static-types-to-heap-types">Mudando tipos estáticos para tipos no heap</a></li>
+<li><a class="reference internal" href="#defining-heap-types">Definindo tipos no heap</a></li>
+<li><a class="reference internal" href="#garbage-collection-protocol">Protocolo de recolhimento de lixo</a><ul>
+<li><a class="reference internal" href="#tp-traverse-in-python-3-8-and-lower"><code class="docutils literal notranslate"><span class="pre">tp_traverse</span></code> no Python 3.8 e anteriores</a></li>
+<li><a class="reference internal" href="#delegating-tp-traverse">Delegando a função <code class="docutils literal notranslate"><span class="pre">tp_traverse</span></code></a></li>
+<li><a class="reference internal" href="#defining-tp-dealloc">Definindo <code class="docutils literal notranslate"><span class="pre">tp_dealloc</span></code></a></li>
+<li><a class="reference internal" href="#not-overriding-tp-free">Evitar substituir <code class="docutils literal notranslate"><span class="pre">tp_free</span></code></a></li>
+<li><a class="reference internal" href="#avoiding-pyobject-new">Evitar <code class="docutils literal notranslate"><span class="pre">PyObject_New</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-state-access-from-classes">Acessando o estado do módulo a partir de classes</a></li>
+<li><a class="reference internal" href="#module-state-access-from-regular-methods">Acesso ao estado do módulo a partir de métodos regulares</a></li>
+<li><a class="reference internal" href="#module-state-access-from-slot-methods-getters-and-setters">Acesso ao estado do módulo a partir de métodos slot, getters e setters</a></li>
+<li><a class="reference internal" href="#lifetime-of-the-module-state">Tempo de vida do estado do módulo</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#open-issues">Problemas em aberto</a><ul>
+<li><a class="reference internal" href="#per-class-scope">Escopo por classe</a></li>
+<li><a class="reference internal" href="#lossless-conversion-to-heap-types">Conversão sem perdas para tipos no heap</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="annotations.html"
+                          title="capítulo anterior">Boas práticas para anotações</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="timerfd.html"
+                          title="próximo capítulo">Descritor de arquivo de temporizador</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "howto/isolating-extensions.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/howto/isolating-extensions.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/howto/isolating-extensions.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="timerfd.html" title="Descritor de arquivo de temporizador"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="annotations.html" title="Boas práticas para anotações"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python HOWTOs</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Isolando módulos de extensão</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="isolating-extension-modules">
+<span id="isolating-extensions-howto"></span><h1 class="translated">Isolando módulos de extensão<a class="headerlink" href="#isolating-extension-modules" title="Link para este cabeçalho">¶</a></h1>
+<aside class="topic">
+<p class="translated topic-title">Resumo</p>
+<p class="translated">Tradicionalmente, o estado que pertence a módulos de extensão do Python era mantido em variáveis <code class="docutils literal notranslate"><span class="pre">static</span></code> em C, que têm escopo em todo o processo. Este documento descreve problemas de tal estado por processo e apresenta um modo mais seguro: o estado por módulo.</p>
+<p class="translated">O documento também descreve como migrar para o uso do estado por módulo onde for possível. Essa transição envolve alocar espaço para este estado, potencialmente trocar tipos estáticos por tipos no heap, e—talvez o mais importante—acessar o estado por módulo a partir do código.</p>
+</aside>
+<section id="who-should-read-this">
+<h2 class="translated">Quem deveria ler isto<a class="headerlink" href="#who-should-read-this" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Este guia é escrito para mantenedores de extensões que usam a <a class="reference internal" href="../c-api/index.html#c-api-index"><span class="std std-ref">API C</span></a> que desejam torná-las mais seguras para o uso em aplicações onde o Python em si é usado como uma biblioteca.</p>
+</section>
+<section id="background">
+<h2 class="translated">Informações preliminares<a class="headerlink" href="#background" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Um <em>interpretador</em> é o contexto no qual o código Python é executado. Ele contém estado de configuração (por exemplo o caminho de importação) e de tempo de execução (por exemplo o conjunto de módulos importados).</p>
+<p class="translated">O Python provê suporte para executar múltiplos interpretadores em um processo. Dois casos devem ser considerados—usuários podem executar interpretadores:</p>
+<ul class="simple">
+<li><p class="translated">em sequência, com vários ciclos de <a class="reference internal" href="../c-api/interp-lifecycle.html#c.Py_InitializeEx" title="Py_InitializeEx"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_InitializeEx()</span></code></a>/<a class="reference internal" href="../c-api/interp-lifecycle.html#c.Py_FinalizeEx" title="Py_FinalizeEx"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_FinalizeEx()</span></code></a>, e</p></li>
+<li><p class="translated">em paralelo, gerenciando “sub-interpretadores” usando <a class="reference internal" href="../c-api/subinterpreters.html#c.Py_NewInterpreter" title="Py_NewInterpreter"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_NewInterpreter()</span></code></a>/<a class="reference internal" href="../c-api/subinterpreters.html#c.Py_EndInterpreter" title="Py_EndInterpreter"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_EndInterpreter()</span></code></a>.</p></li>
+</ul>
+<p class="translated">Ambos os casos (e combinações deles) são muito úteis ao embutir o Python em uma biblioteca. Bibliotecas geralmente não devem fazer suposições sobre a aplicação que as usa, o que inclui supor um “interpretador Python principal” para o processo inteiro.</p>
+<p class="translated">Historicamente, módulos de extensão do Python não lidam bem com este caso de uso. Muitos módulos de extensão (e até alguns módulos da biblioteca padrão) usam estado global <em>por processo</em>, uma vez que variáveis <code class="docutils literal notranslate"><span class="pre">static</span></code> do C são extremamente fáceis de se usar. Assim, dados que deveriam ser específicos para um interpretador acabam sendo compartilhados entre interpretadores. A menos que o desenvolvedor da extensão tenha cuidado, é muito fácil criar casos particulares que acabam quebrando o processo quando um módulo é carregado em mais de um interpretador no mesmo processo.</p>
+<p class="translated">Infelizmente, não é fácil fazer o estado por interpretador. Autores de extensões tendem a não ter múltiplos interpretadores em mente ao desenvolver, e no momento é complicado testar este comportamento.</p>
+<section id="enter-per-module-state">
+<h3 class="translated">Entra o estado por módulo<a class="headerlink" href="#enter-per-module-state" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Ao invés de focar no estado por interpretador, a API C do Python está evoluindo para melhor suportar o estado <em>por módulo</em>, que é mais granular. Isso significa que dados a nível do C devem estar atrelados a um <em>objeto de módulo</em>. Cada interpretador cria o seu próprio objeto de módulo, garantindo assim a separação dos dados. Para testar o isolamento, múltiplos objetos de módulo correspondentes a uma única extensão podem até ser carregados em um único interpretador.</p>
+<p class="translated">O estado por módulo fornece um modo fácil de pensar sobre tempos de vida e posse de recursos: o módulo de extensão será inicializado quando um objeto de módulo for criado, e limpado quando ele for liberado. Nesse sentido, um módulo funciona como qualquer outro <span class="c-expr sig sig-inline c"><a class="reference internal" href="../c-api/structures.html#c.PyObject" title="PyObject"><span class="n">PyObject</span></a><span class="p">*</span></span>; não há ganchos “de desligamento do interpretador” a serem considerados—ou esquecidos.</p>
+<p class="translated">Note que há casos de uso para diferentes tipos de “objetos globais”: estado por processo, por interpretador, por thread, ou por tarefa. Com o estado por módulo como padrão, as outras formas ainda são possíveis, mas devem ser tratadas como casos excepcionais: se você precisar delas, você deve tomar cuidados adicionais e escrever mais testes. (Note que este guia não cobre tais medidas.)</p>
+</section>
+<section id="isolated-module-objects">
+<h3 class="translated">Objetos de módulo isolados<a class="headerlink" href="#isolated-module-objects" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">O ponto chave de se manter em mente ao desenvolver um módulo de extensão é que vários objetos de módulo podem ser criados a partir de uma única biblioteca compartilhada. Por exemplo:</p>
+<div class="translated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">binascii</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">old_binascii</span> <span class="o">=</span> <span class="n">binascii</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">'binascii'</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">binascii</span>  <span class="c1"># cria um novo objeto do módulo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">old_binascii</span> <span class="o">==</span> <span class="n">binascii</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p class="translated">Como regra geral, os dois módulos devem ser completamente independentes. Todos os objetos e o estado específicos do módulo devem ser encapsulados no objeto de módulo, não devem ser compartilhados com outros objetos de módulo, e devem ser limpados quando o objeto de módulo for desalocado. Uma vez que esta é somente uma regra geral, exceções são possíveis (veja <a class="reference internal" href="#managing-global-state">Gerenciando estado global</a>), mas elas necessitam mais cuidado e atenção a casos especiais.</p>
+<p class="translated">Enquanto alguns módulos funcionariam bem com restrições menos rigorosas, isolar os módulos torna mais fácil definir expectativas claras e diretrizes que dão certo em uma variedade de casos de uso.</p>
+</section>
+<section id="surprising-edge-cases">
+<h3 class="translated">Casos particulares surpreendentes<a class="headerlink" href="#surprising-edge-cases" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Note que módulos isolados criam alguns casos particulares que podem acabar surpreendendo. O mais notável é que, tipicamente, cada objeto de módulo não vai compartilhar as suas classes e exceções com outros módulos similares. Continuando o <a class="reference internal" href="#isolated-module-objects">exemplo acima</a>, note <code class="docutils literal notranslate"><span class="pre">old_binascii.Error</span></code> e <code class="docutils literal notranslate"><span class="pre">binascii.Error</span></code> são objetos separados. No código a seguir, a exceção <em>não</em> é capturada:</p>
+<div class="translated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">old_binascii</span><span class="o">.</span><span class="n">Error</span> <span class="o">==</span> <span class="n">binascii</span><span class="o">.</span><span class="n">Error</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">old_binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="sa">b</span><span class="s1">'qwertyuiop'</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">except</span> <span class="n">binascii</span><span class="o">.</span><span class="n">Error</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">'boo'</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">"&lt;stdin&gt;"</span>, line <span class="m">2</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">binascii.Error</span>: <span class="n">Non-hexadecimal digit found</span>
+</pre></div>
+</div>
+<p class="translated">Isso é esperado. Repare que módulos Python-puro se comportam do mesmo jeito: isso é parte de como o Python funciona.</p>
+<p class="translated">O objetivo é fazer módulos de extensão seguros no nível do C, e não fazer gambiarras se comportarem de forma intuitiva. Modificar o <code class="docutils literal notranslate"><span class="pre">sys.modules</span></code> “manualmente” conta como uma gambiarra.</p>
+</section>
+</section>
+<section id="making-modules-safe-with-multiple-interpreters">
+<h2 class="translated">Fazendo módulos seguros com múltiplos interpretadores<a class="headerlink" href="#making-modules-safe-with-multiple-interpreters" title="Link para este cabeçalho">¶</a></h2>
+<section id="managing-global-state">
+<h3 class="translated">Gerenciando estado global<a class="headerlink" href="#managing-global-state" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Às vezes, o estado associado a um módulo Python não é específico àquele módulo, mas ao processo inteiro (ou a alguma outra coisa “mais global” que um módulo). Por exemplo:</p>
+<ul class="simple">
+<li><p class="translated">O módulo <code class="docutils literal notranslate"><span class="pre">readline</span></code> gerencia <em>o</em> terminal.</p></li>
+<li><p class="translated">Um módulo executando em uma placa de circuito quer controlar <em>o</em> componente LED.</p></li>
+</ul>
+<p class="translated">Nestes casos, o módulo Python deve prover <em>acesso</em> ao estado global, ao invés de <em>possuí-lo</em>. Se possível, escreva o módulo de forma que múltiplas cópias dele possam acessar o estado independentemente (junto com outras bibliotecas, sejam elas do Python ou de outras linguagens). Se isso não for possível, considere usar travas explícitas.</p>
+<p class="translated">Se for necessário usar estado global para o processo, o jeito mais simples de evitar problemas com múltiplos interpretadores é prevenir explicitamente que o módulo seja carregado mais de uma vez por processo — veja <a class="reference internal" href="#isolating-extensions-optout"><span class="std std-ref">Exclusão voluntária: limitando a um objeto de módulo por processo</span></a>.</p>
+</section>
+<section id="managing-per-module-state">
+<h3 class="translated">Gerenciando estado por módulo<a class="headerlink" href="#managing-per-module-state" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Para usar estado por módulo, use <a class="reference internal" href="../c-api/extension-modules.html#multi-phase-initialization"><span class="std std-ref">inicialização multifásica de módulos de extensão</span></a>. Assim, você sinaliza que o seu módulo suporta múltiplos interpretadores corretamente.</p>
+<p class="translated">Defina <code class="docutils literal notranslate"><span class="pre">PyModuleDef.m_size</span></code> como um número positivo <em>N</em> para requerer <em>N</em> bytes de armazenamento local para o módulo. Geralmente, <em>N</em> será o tamanho de alguma <code class="docutils literal notranslate"><span class="pre">struct</span></code> específica para o módulo, a qual pode guardar todo o estado a nível de C do módulo. Em particular, é nela que você deve colocar ponteiros para classes (incluindo exceções, mas excluindo tipos estáticos) e configurações (por exemplo, <a class="reference internal" href="../library/csv.html#csv.field_size_limit" title="csv.field_size_limit"><code class="xref py py-data docutils literal notranslate"><span class="pre">field_size_limit</span></code></a> no módulo <code class="docutils literal notranslate"><span class="pre">csv</span></code>) que o código C precisa para funcionar.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Outra opção é guardar estado no <code class="docutils literal notranslate"><span class="pre">__dict__</span></code> do módulo, mas você deve evitar quebrar quando usuários modificarem o <code class="docutils literal notranslate"><span class="pre">__dict__</span></code> a partir do código Python. Isso geralmente significa verificar tipos e erros no nível do C, o que é fácil de ser feito incorretamente e difícil de se testar suficientemente.</p>
+<p class="translated">Entretanto, se o estado do módulo não for necessário para o código C, guardá-lo somente no <code class="docutils literal notranslate"><span class="pre">__dict__</span></code> é uma boa ideia.</p>
+</div>
+<p class="translated">Se o estado do módulo inclui ponteiros para <code class="docutils literal notranslate"><span class="pre">PyObject</span></code>, o objeto de módulo deve conter referências a tais objetos e implementar os ganchos a nível de módulo <code class="docutils literal notranslate"><span class="pre">m_traverse</span></code>, <code class="docutils literal notranslate"><span class="pre">m_clear</span></code> e <code class="docutils literal notranslate"><span class="pre">m_free</span></code>. Eles funcionam como os <code class="docutils literal notranslate"><span class="pre">tp_traverse</span></code>, <code class="docutils literal notranslate"><span class="pre">tp_clear</span></code> e <code class="docutils literal notranslate"><span class="pre">tp_free</span></code> de uma classe. Adicioná-los requer algum trabalho e torna o código mais longo; é o preço de módulos que podem ser descarregados de forma limpa.</p>
+<p class="translated">Um exemplo de módulo com estado por módulo está disponível atualmente como <a class="reference external" href="https://github.com/python/cpython/blob/master/Modules/xxlimited.c">xxlimited</a>; há um exemplo de inicialização do módulo no final do arquivo.</p>
+</section>
+<section id="opt-out-limiting-to-one-module-object-per-process">
+<span id="isolating-extensions-optout"></span><h3 class="translated">Exclusão voluntária: limitando a um objeto de módulo por processo<a class="headerlink" href="#opt-out-limiting-to-one-module-object-per-process" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Um <code class="docutils literal notranslate"><span class="pre">PyModuleDef.m_size</span></code> não-negativo sinaliza que um módulo admite múltiplos interpretadores corretamente. Se este ainda não é o caso para o seu módulo, you pode explicitamente torná-lo carregável somente uma vez por processo. Por exemplo:</p>
+<div class="translated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// Um sinalizador para todo o processo</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">loaded</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="c1">// Mutex para fornecer segurança para a thread (só necessário para Python de threads livres)</span>
+<span class="k">static</span><span class="w"> </span><span class="n">PyMutex</span><span class="w"> </span><span class="n">modinit_mutex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span>
+<span class="nf">exec_module</span><span class="p">(</span><span class="n">PyObject</span><span class="o">*</span><span class="w"> </span><span class="n">module</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">PyMutex_Lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">modinit_mutex</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">loaded</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">PyMutex_Unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">modinit_mutex</span><span class="p">);</span>
+<span class="w">        </span><span class="n">PyErr_SetString</span><span class="p">(</span><span class="n">PyExc_ImportError</span><span class="p">,</span>
+<span class="w">                        </span><span class="s">"cannot load module more than once per process"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">loaded</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">PyMutex_Unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">modinit_mutex</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// ... rest of initialization</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p class="translated">Se a função <a class="reference internal" href="../c-api/module.html#c.PyModuleDef.m_clear" title="PyModuleDef.m_clear"><code class="xref c c-member docutils literal notranslate"><span class="pre">PyModuleDef.m_clear</span></code></a> do seu módulo for capaz de se preparar para reinicializações futuras, ela deverá limpar o sinalizador <code class="docutils literal notranslate"><span class="pre">loaded</span></code>. Nesse caso, seu módulo não suportará múltiplas instâncias existentes <em>simultaneamente</em>, mas suportará, por exemplo, o carregamento após o desligamento do tempo de execução do Python (<a class="reference internal" href="../c-api/interp-lifecycle.html#c.Py_FinalizeEx" title="Py_FinalizeEx"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_FinalizeEx()</span></code></a>) e a reinicialização (<a class="reference internal" href="../c-api/interp-lifecycle.html#c.Py_Initialize" title="Py_Initialize"><code class="xref c c-func docutils literal notranslate"><span class="pre">Py_Initialize()</span></code></a>).</p>
+</section>
+<section id="module-state-access-from-functions">
+<h3 class="translated">Acesso ao estado de módulo a partir de funções<a class="headerlink" href="#module-state-access-from-functions" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">É trivial acessar o estado a partir de funções a nível do módulo. Funções recebem o objeto de módulo como o primeiro argumento; para extrair o estado, você pode usar <code class="docutils literal notranslate"><span class="pre">PyModule_GetState</span></code>:</p>
+<div class="translated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
+<span class="nf">func</span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">module</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">my_struct</span><span class="w"> </span><span class="o">*</span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">my_struct</span><span class="o">*</span><span class="p">)</span><span class="n">PyModule_GetState</span><span class="p">(</span><span class="n">module</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// ... o resto da lógica</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">PyModule_GetState</span></code> pode retornar <code class="docutils literal notranslate"><span class="pre">NULL</span></code> sem definir uma exceção se não houver estado de módulo, ou seja se <code class="docutils literal notranslate"><span class="pre">PyModuleDef.m_size</span></code> for zero. No seu próprio módulo, você controla o <code class="docutils literal notranslate"><span class="pre">m_size</span></code>, de forma que isso é fácil de prevenir.</p>
+</div>
+</section>
+</section>
+<section id="heap-types">
+<h2 class="translated">Tipos no heap<a class="headerlink" href="#heap-types" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Tradicionalmente, tipos definidos em C são <em>estáticos</em>; isto é, estruturas <code class="docutils literal notranslate"><span class="pre">static</span> <span class="pre">PyTypeObject</span></code> definidas diretamente em código e inicializadas usando <code class="docutils literal notranslate"><span class="pre">PyType_Ready()</span></code>.</p>
+<p class="translated">Tais tipos são necessariamente compartilhados pelo processo inteiro. Compartilhá-los entre objetos de módulo requer atenção a qualquer estado que eles possuam ou acessem. Para limitar potenciais problemas, tipos estáticos são imutáveis a nível do Python: por exemplo, você não pode atribuir <code class="docutils literal notranslate"><span class="pre">str.meuatributo</span> <span class="pre">=</span> <span class="pre">123</span></code>.</p>
+<div class="impl-detail compound">
+<p class="translated">Não há problema em compartilhar objetos verdadeiramente imutáveis entre interpretadores, desde que através deles não seja possível acessar outros objetos mutáveis. De toda forma, no CPython, todo objeto Python tem um detalhe de implementação mutável: o contador de referências. Mudanças no refcount são protegidas pelo GIL. Logo, todo código que compartilha um objeto Python entre interpretadores depende implicitamente do atual GIL do CPython (que é global a nível de processo).</p>
+</div>
+<p class="translated">Por ser imutável e global no processo, um tipo estático não pode acessar o estado do “seu” módulo. Se um método de tal tipo precisar de acesso ao estado do módulo, o tipo precisa ser convertido para um <em>tipo alocado no heap</em>, ou, abreviando, <em>tipo no heap</em>. Tipos no heap correspondem mais fielmente a classes criadas pela instrução <code class="docutils literal notranslate"><span class="pre">class</span></code> do Python.</p>
+<p class="translated">Para módulos novos, usar tipos no heap por padrão é uma boa regra geral.</p>
+<section id="changing-static-types-to-heap-types">
+<h3 class="translated">Mudando tipos estáticos para tipos no heap<a class="headerlink" href="#changing-static-types-to-heap-types" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Tipos estáticos podem ser convertidos para tipos no heap, mas note que a API de tipos no heap não foi projetada para conversão “sem perda” de tipos estáticos—isto é, para criar um tipo que funciona exatamente como um dado tipo estático. Então, ao reescrever a definição de classe em uma nova API, é provável que você altere alguns detalhes sem querer (por exemplo, se o tipo é serializável em pickle ou não, ou slots herdados). Sempre teste os detalhes que são importantes para você.</p>
+<p class="translated">Fique atento em particular aos dois pontos a seguir (mas note the esta não é uma lista completa):</p>
+<ul class="simple">
+<li><p class="translated">Ao contrário de tipos estáticos, tipos no heap são mutáveis por padrão. Use o sinalizador <a class="reference internal" href="../c-api/typeobj.html#c.Py_TPFLAGS_IMMUTABLETYPE" title="Py_TPFLAGS_IMMUTABLETYPE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_TPFLAGS_IMMUTABLETYPE</span></code></a> para impedir a mutabilidade.</p></li>
+<li><p class="translated">Tipos no heap herdam <a class="reference internal" href="../c-api/typeobj.html#c.PyTypeObject.tp_new" title="PyTypeObject.tp_new"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_new</span></code></a> por padrão, e portanto eles podem passar a ser instanciáveis a partir de código Python. Você pode impedir isso com o sinalizador <a class="reference internal" href="../c-api/typeobj.html#c.Py_TPFLAGS_DISALLOW_INSTANTIATION" title="Py_TPFLAGS_DISALLOW_INSTANTIATION"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_TPFLAGS_DISALLOW_INSTANTIATION</span></code></a>.</p></li>
+</ul>
+</section>
+<section id="defining-heap-types">
+<h3 class="translated">Definindo tipos no heap<a class="headerlink" href="#defining-heap-types" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Tipos no heap podem ser criados preenchendo uma estrutura <a class="reference internal" href="../c-api/type.html#c.PyType_Spec" title="PyType_Spec"><code class="xref c c-struct docutils literal notranslate"><span class="pre">PyType_Spec</span></code></a>, uma descrição ou “diagrama” de uma classe, e chamando <a class="reference internal" href="../c-api/type.html#c.PyType_FromModuleAndSpec" title="PyType_FromModuleAndSpec"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_FromModuleAndSpec()</span></code></a> para construir um novo objeto classe.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Outras funções, como <a class="reference internal" href="../c-api/type.html#c.PyType_FromSpec" title="PyType_FromSpec"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_FromSpec()</span></code></a>, também podem criar tipos no heap, mas <a class="reference internal" href="../c-api/type.html#c.PyType_FromModuleAndSpec" title="PyType_FromModuleAndSpec"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_FromModuleAndSpec()</span></code></a> associa a classe ao módulo, permitindo acesso ao estado do módulo a partir dos métodos.</p>
+</div>
+<p class="translated">A classe deve em geral ser guardada <em>tanto</em> no estado do módulo (para acesso seguro a partir do C) <em>quanto</em> no <code class="docutils literal notranslate"><span class="pre">__dict__</span></code> do módulo (para acesso a partir de código Python).</p>
+</section>
+<section id="garbage-collection-protocol">
+<h3 class="translated">Protocolo de recolhimento de lixo<a class="headerlink" href="#garbage-collection-protocol" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Instâncias de tipos no heap contêm referências aos seus tipos. Isso garante que o tipo não é destruído antes que todas as suas instâncias sejam, mas pode resultar em ciclos de referência que precisam ser quebrados pelo coletor de lixo.</p>
+<p class="translated">Para evitar vazamentos de memória, instâncias de tipos no heap precisam implementar o protocolo de recolhimento de lixo. Isto é, tipos no heap devem:</p>
+<ul class="simple">
+<li><p class="translated">Ter o sinalizador <a class="reference internal" href="../c-api/typeobj.html#c.Py_TPFLAGS_HAVE_GC" title="Py_TPFLAGS_HAVE_GC"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_TPFLAGS_HAVE_GC</span></code></a>.</p></li>
+<li><p class="translated">Define uma função de travessia usando <a class="reference internal" href="../c-api/typeobj.html#c.Py_tp_traverse" title="Py_tp_traverse"><code class="xref c c-data docutils literal notranslate"><span class="pre">Py_tp_traverse</span></code></a>, que visita o tipo (por exemplo, usando <code class="docutils literal notranslate"><span class="pre">Py_VISIT(Py_TYPE(self))</span></code>).</p></li>
+</ul>
+<p class="translated">Por favor, veja a documentação de <a class="reference internal" href="../c-api/typeobj.html#c.Py_TPFLAGS_HAVE_GC" title="Py_TPFLAGS_HAVE_GC"><code class="xref c c-macro docutils literal notranslate"><span class="pre">Py_TPFLAGS_HAVE_GC</span></code></a> e de <a class="reference internal" href="../c-api/typeobj.html#c.PyTypeObject.tp_traverse" title="PyTypeObject.tp_traverse"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_traverse</span></code></a> para considerações adicionais.</p>
+<p class="translated">A API para definir tipos no heap cresceu organicamente, o que resultou em um status quo no qual usá-la pode ser um pouco confuso. As seções a seguir vão lhe guiar pelos problemas mais comuns.</p>
+<section id="tp-traverse-in-python-3-8-and-lower">
+<h4 class="translated"><code class="docutils literal notranslate"><span class="pre">tp_traverse</span></code> no Python 3.8 e anteriores<a class="headerlink" href="#tp-traverse-in-python-3-8-and-lower" title="Link para este cabeçalho">¶</a></h4>
+<p class="translated">O requerimento de o <code class="docutils literal notranslate"><span class="pre">tp_traverse</span></code> visitar o tipo foi adicionado no Python 3.9. Se você suporta Python 3.8 e anteriores, a função de travessia <em>não</em> deve visitar o tipo, de forma que ela precisa ser mais complicada:</p>
+<div class="translated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">my_traverse</span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">visitproc</span><span class="w"> </span><span class="n">visit</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">arg</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Py_Version</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mh">0x03090000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Py_VISIT</span><span class="p">(</span><span class="n">Py_TYPE</span><span class="p">(</span><span class="n">self</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p class="translated">Infelizmente, o símbolo <a class="reference internal" href="../c-api/apiabiversion.html#c.Py_Version" title="Py_Version"><code class="xref c c-data docutils literal notranslate"><span class="pre">Py_Version</span></code></a> foi adicionado somente no Python 3.11. Para substituí-lo, use:</p>
+<ul class="simple">
+<li><p class="translated"><a class="reference internal" href="../c-api/apiabiversion.html#c.PY_VERSION_HEX" title="PY_VERSION_HEX"><code class="xref c c-macro docutils literal notranslate"><span class="pre">PY_VERSION_HEX</span></code></a>, caso não esteja usando a ABI estável, ou</p></li>
+<li><p class="translated"><a class="reference internal" href="../library/sys.html#sys.version_info" title="sys.version_info"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.version_info</span></code></a> (via <a class="reference internal" href="../c-api/sys.html#c.PySys_GetObject" title="PySys_GetObject"><code class="xref c c-func docutils literal notranslate"><span class="pre">PySys_GetObject()</span></code></a> e <a class="reference internal" href="../c-api/arg.html#c.PyArg_ParseTuple" title="PyArg_ParseTuple"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyArg_ParseTuple()</span></code></a>).</p></li>
+</ul>
+</section>
+<section id="delegating-tp-traverse">
+<h4 class="translated">Delegando a função <code class="docutils literal notranslate"><span class="pre">tp_traverse</span></code><a class="headerlink" href="#delegating-tp-traverse" title="Link para este cabeçalho">¶</a></h4>
+<p class="translated">Se a sua função de travessia delega para a <a class="reference internal" href="../c-api/typeobj.html#c.PyTypeObject.tp_traverse" title="PyTypeObject.tp_traverse"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_traverse</span></code></a> da sua classe base (ou de outro tipo), certifique-se de que <code class="docutils literal notranslate"><span class="pre">Py_TYPE(self)</span></code> seja visitado apenas uma vez. Observe que somente tipos no heap devem visitar o tipo em <code class="docutils literal notranslate"><span class="pre">tp_traverse</span></code>.</p>
+<p class="translated">Por exemplo, se a sua função de travessia incluir:</p>
+<div class="translated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">base</span><span class="o">-&gt;</span><span class="n">tp_traverse</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">visit</span><span class="p">,</span><span class="w"> </span><span class="n">arg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">…e <code class="docutils literal notranslate"><span class="pre">base</span></code> puder ser um tipo estático, então ela também precisa incluir:</p>
+<div class="translated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">base</span><span class="o">-&gt;</span><span class="n">tp_flags</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Py_TPFLAGS_HEAPTYPE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// uma tp_traverse do tipo heap já visitou Py_TYPE(self)</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Py_Version</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mh">0x03090000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Py_VISIT</span><span class="p">(</span><span class="n">Py_TYPE</span><span class="p">(</span><span class="n">self</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p class="translated">Não é necessário mexer na contagem de referências do tipo em <a class="reference internal" href="../c-api/typeobj.html#c.PyTypeObject.tp_new" title="PyTypeObject.tp_new"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_new</span></code></a> e <a class="reference internal" href="../c-api/typeobj.html#c.PyTypeObject.tp_clear" title="PyTypeObject.tp_clear"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_clear</span></code></a>.</p>
+</section>
+<section id="defining-tp-dealloc">
+<h4 class="translated">Definindo <code class="docutils literal notranslate"><span class="pre">tp_dealloc</span></code><a class="headerlink" href="#defining-tp-dealloc" title="Link para este cabeçalho">¶</a></h4>
+<p class="translated">Se o seu tipo tem uma função <a class="reference internal" href="../c-api/typeobj.html#c.PyTypeObject.tp_dealloc" title="PyTypeObject.tp_dealloc"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_dealloc</span></code></a> customizada, ele precisa:</p>
+<ul class="simple">
+<li><p class="translated">chamar <a class="reference internal" href="../c-api/gcsupport.html#c.PyObject_GC_UnTrack" title="PyObject_GC_UnTrack"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_GC_UnTrack()</span></code></a> antes que quaisquer campos sejam invalidados, e</p></li>
+<li><p class="translated">decrementar o contador de referências do tipo.</p></li>
+</ul>
+<p class="translated">Para que o tipo permaneça válido durante o <code class="docutils literal notranslate"><span class="pre">tp_free</span></code>, o refcount do tipo precisa ser decrementado <em>depois</em> de a instância ser liberada. Por exemplo:</p>
+<div class="translated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">my_dealloc</span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">PyObject_GC_UnTrack</span><span class="p">(</span><span class="n">self</span><span class="p">);</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="n">PyTypeObject</span><span class="w"> </span><span class="o">*</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Py_TYPE</span><span class="p">(</span><span class="n">self</span><span class="p">);</span>
+<span class="w">    </span><span class="n">type</span><span class="o">-&gt;</span><span class="n">tp_free</span><span class="p">(</span><span class="n">self</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Py_DECREF</span><span class="p">(</span><span class="n">type</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p class="translated">A função <code class="docutils literal notranslate"><span class="pre">tp_dealloc</span></code> padrão faz isso, de forma que se o seu tipo <em>não</em> a substitui você não precisa se preocupar.</p>
+</section>
+<section id="not-overriding-tp-free">
+<h4 class="translated">Evitar substituir <code class="docutils literal notranslate"><span class="pre">tp_free</span></code><a class="headerlink" href="#not-overriding-tp-free" title="Link para este cabeçalho">¶</a></h4>
+<p class="translated">O slot <a class="reference internal" href="../c-api/typeobj.html#c.PyTypeObject.tp_free" title="PyTypeObject.tp_free"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_free</span></code></a> de um tipo no heap deve ser <a class="reference internal" href="../c-api/gcsupport.html#c.PyObject_GC_Del" title="PyObject_GC_Del"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_GC_Del()</span></code></a>. Este é o padráo; não o substitua.</p>
+</section>
+<section id="avoiding-pyobject-new">
+<h4 class="translated">Evitar <code class="docutils literal notranslate"><span class="pre">PyObject_New</span></code><a class="headerlink" href="#avoiding-pyobject-new" title="Link para este cabeçalho">¶</a></h4>
+<p class="translated">Objetos rastreados pelo GC precisam ser alocados usando funções que reconheçam o GC.</p>
+<p class="translated">Se você usa <a class="reference internal" href="../c-api/allocation.html#c.PyObject_New" title="PyObject_New"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_New()</span></code></a> ou <a class="reference internal" href="../c-api/allocation.html#c.PyObject_NewVar" title="PyObject_NewVar"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_NewVar()</span></code></a>:</p>
+<ul>
+<li><p class="translated">Se possível, chame o slot <a class="reference internal" href="../c-api/typeobj.html#c.PyTypeObject.tp_alloc" title="PyTypeObject.tp_alloc"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_alloc</span></code></a> do tipo. Isto é, troque <code class="docutils literal notranslate"><span class="pre">TYPE</span> <span class="pre">*o</span> <span class="pre">=</span> <span class="pre">PyObject_New(TYPE,</span> <span class="pre">typeobj)</span></code> por:</p>
+<div class="translated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">TYPE</span><span class="w"> </span><span class="o">*</span><span class="n">o</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">typeobj</span><span class="o">-&gt;</span><span class="n">tp_alloc</span><span class="p">(</span><span class="n">typeobj</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
+<p class="translated">No lugar de <code class="docutils literal notranslate"><span class="pre">o</span> <span class="pre">=</span> <span class="pre">PyObject_NewVar(TYPE,</span> <span class="pre">typeobj,</span> <span class="pre">size)</span></code>, use também a forma acima, mas com <code class="docutils literal notranslate"><span class="pre">size</span></code> ao invés do <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</li>
+<li><p class="translated">Se isso não for possível (por exemplo, dentro de um <code class="docutils literal notranslate"><span class="pre">tp_alloc</span></code> customizado), chame <a class="reference internal" href="../c-api/gcsupport.html#c.PyObject_GC_New" title="PyObject_GC_New"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_GC_New()</span></code></a> or <a class="reference internal" href="../c-api/gcsupport.html#c.PyObject_GC_NewVar" title="PyObject_GC_NewVar"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_GC_NewVar()</span></code></a>:</p>
+<div class="translated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">TYPE</span><span class="w"> </span><span class="o">*</span><span class="n">o</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyObject_GC_New</span><span class="p">(</span><span class="n">TYPE</span><span class="p">,</span><span class="w"> </span><span class="n">typeobj</span><span class="p">);</span>
+
+<span class="n">TYPE</span><span class="w"> </span><span class="o">*</span><span class="n">o</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyObject_GC_NewVar</span><span class="p">(</span><span class="n">TYPE</span><span class="p">,</span><span class="w"> </span><span class="n">typeobj</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+<section id="module-state-access-from-classes">
+<h3 class="translated">Acessando o estado do módulo a partir de classes<a class="headerlink" href="#module-state-access-from-classes" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Dado um objeto de tipo definido com <a class="reference internal" href="../c-api/type.html#c.PyType_FromModuleAndSpec" title="PyType_FromModuleAndSpec"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_FromModuleAndSpec()</span></code></a>, você pode chamar <a class="reference internal" href="../c-api/type.html#c.PyType_GetModule" title="PyType_GetModule"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_GetModule()</span></code></a> para acessar o módulo associado, e então <a class="reference internal" href="../c-api/module.html#c.PyModule_GetState" title="PyModule_GetState"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyModule_GetState()</span></code></a> para acessar o estado do módulo.</p>
+<p class="translated">Para evitar o tedioso código de tratamento de erros de sempre, você pode combinar essas duas etapas com o <a class="reference internal" href="../c-api/type.html#c.PyType_GetModuleState" title="PyType_GetModuleState"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_GetModuleState()</span></code></a> assim:</p>
+<div class="translated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">my_struct</span><span class="w"> </span><span class="o">*</span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">my_struct</span><span class="o">*</span><span class="p">)</span><span class="n">PyType_GetModuleState</span><span class="p">(</span><span class="n">type</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="module-state-access-from-regular-methods">
+<h3 class="translated">Acesso ao estado do módulo a partir de métodos regulares<a class="headerlink" href="#module-state-access-from-regular-methods" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Acessar o estado do módulo a partir de métodos de uma classe já é um pouco mais complicado, mas passou a ser possível graças à API introduzida no Python 3.9. Para conseguir o estado, é necessário primeiro acessar a <em>classe definidora</em>, e então obter o estado do módulo a partir dela.</p>
+<p class="translated">O maior obstáculo é encontrar <em>a classe na qual um método foi definido</em>, ou, abreviando, a <em>classe definidora</em> desse método. A classe definidora pode guardar uma referência para o módulo do qual ela é parte.</p>
+<p class="translated">Não confunda a classe definidora com <code class="docutils literal notranslate"><span class="pre">Py_TYPE(self)</span></code>. Se o método for chamado em uma <em>subclasse</em> do seu tipo, <code class="docutils literal notranslate"><span class="pre">Py_TYPE(self)</span></code> será uma referência àquela subclasse, a qual pode ter sido definida em um módulo diferente do seu.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">O código Python a seguir ilustra esse conceito. <code class="docutils literal notranslate"><span class="pre">Base.get_defining_class</span></code> retorna <code class="docutils literal notranslate"><span class="pre">Base</span></code> mesmo quando <code class="docutils literal notranslate"><span class="pre">type(self)</span> <span class="pre">==</span> <span class="pre">Sub</span></code>:</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Base</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_type_of_self</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_defining_class</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="vm">__class__</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Sub</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<p class="translated">Para um método acessar a sua “classe definidora”, ele precisa usar a <a class="reference internal" href="../c-api/structures.html#c.PyMethodDef" title="PyMethodDef"><code class="xref c c-type docutils literal notranslate"><span class="pre">convenção</span> <span class="pre">de</span> <span class="pre">chamada</span></code></a> <a class="reference internal" href="../c-api/structures.html#meth-method-meth-fastcall-meth-keywords"><span class="std std-ref">METH_METHOD | METH_FASTCALL | METH_KEYWORDS</span></a> e a assinatura <a class="reference internal" href="../c-api/structures.html#c.PyCMethod" title="PyCMethod"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyCMethod</span></code></a> correspondente:</p>
+<div class="translated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">PyCMethod</span><span class="p">(</span>
+<span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w">               </span><span class="c1">// objeto onde o módulo foi chamado</span>
+<span class="w">    </span><span class="n">PyTypeObject</span><span class="w"> </span><span class="o">*</span><span class="n">defining_class</span><span class="p">,</span><span class="w"> </span><span class="c1">// classe definidora</span>
+<span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="w">        </span><span class="c1">// vetor C de argumentos</span>
+<span class="w">    </span><span class="n">Py_ssize_t</span><span class="w"> </span><span class="n">nargs</span><span class="p">,</span><span class="w">             </span><span class="c1">// comprimento de "args"</span>
+<span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">kwnames</span><span class="p">)</span><span class="w">            </span><span class="c1">// NULL, ou dicionário de argumentos nomeados</span>
+</pre></div>
+</div>
+<p class="translated">Uma vez que vc tem a classe definidora, chame <a class="reference internal" href="../c-api/type.html#c.PyType_GetModuleState" title="PyType_GetModuleState"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_GetModuleState()</span></code></a> para obter o estado do módulo associado a ela.</p>
+<p class="translated">Por exemplo:</p>
+<div class="translated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
+<span class="nf">example_method</span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="p">,</span>
+<span class="w">        </span><span class="n">PyTypeObject</span><span class="w"> </span><span class="o">*</span><span class="n">defining_class</span><span class="p">,</span>
+<span class="w">        </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="o">*</span><span class="n">args</span><span class="p">,</span>
+<span class="w">        </span><span class="n">Py_ssize_t</span><span class="w"> </span><span class="n">nargs</span><span class="p">,</span>
+<span class="w">        </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">kwnames</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">my_struct</span><span class="w"> </span><span class="o">*</span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">my_struct</span><span class="o">*</span><span class="p">)</span><span class="n">PyType_GetModuleState</span><span class="p">(</span><span class="n">defining_class</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">...</span><span class="w"> </span><span class="c1">// rest of logic</span>
+<span class="p">}</span>
+
+<span class="n">PyDoc_STRVAR</span><span class="p">(</span><span class="n">example_method_doc</span><span class="p">,</span><span class="w"> </span><span class="s">"..."</span><span class="p">);</span>
+
+<span class="k">static</span><span class="w"> </span><span class="n">PyMethodDef</span><span class="w"> </span><span class="n">my_methods</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">{</span><span class="s">"example_method"</span><span class="p">,</span>
+<span class="w">      </span><span class="p">(</span><span class="n">PyCFunction</span><span class="p">)(</span><span class="kt">void</span><span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span><span class="p">))</span><span class="n">example_method</span><span class="p">,</span>
+<span class="w">      </span><span class="n">METH_METHOD</span><span class="o">|</span><span class="n">METH_FASTCALL</span><span class="o">|</span><span class="n">METH_KEYWORDS</span><span class="p">,</span>
+<span class="w">      </span><span class="n">example_method_doc</span><span class="p">}</span>
+<span class="w">    </span><span class="p">{</span><span class="nb">NULL</span><span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="module-state-access-from-slot-methods-getters-and-setters">
+<h3 class="translated">Acesso ao estado do módulo a partir de métodos slot, getters e setters<a class="headerlink" href="#module-state-access-from-slot-methods-getters-and-setters" title="Link para este cabeçalho">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Adicionado na versão 3.11</p>
+</div>
+<p class="translated">Métodos slot—os métodos rápidos em C equivalentes aos métodos especiais, como <a class="reference internal" href="../c-api/typeobj.html#c.PyNumberMethods.nb_add" title="PyNumberMethods.nb_add"><code class="xref c c-member docutils literal notranslate"><span class="pre">nb_add</span></code></a> para <a class="reference internal" href="../reference/datamodel.html#object.__add__" title="object.__add__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__add__</span></code></a> ou <a class="reference internal" href="../c-api/typeobj.html#c.PyTypeObject.tp_new" title="PyTypeObject.tp_new"><code class="xref c c-member docutils literal notranslate"><span class="pre">tp_new</span></code></a> para inicialização—têm uma API muito simples que não permite passar a classe definidora, ao contrário do <a class="reference internal" href="../c-api/structures.html#c.PyCMethod" title="PyCMethod"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyCMethod</span></code></a>. O mesmo vale para getters e setters definidos com <a class="reference internal" href="../c-api/structures.html#c.PyGetSetDef" title="PyGetSetDef"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyGetSetDef</span></code></a>.</p>
+<p class="translated">Para acessar o estado do módulo nesses casos, use a função <a class="reference internal" href="../c-api/type.html#c.PyType_GetModuleByDef" title="PyType_GetModuleByDef"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_GetModuleByDef()</span></code></a>, e passe a definição do módulo. Uma vez encontrado o módulo, chame <a class="reference internal" href="../c-api/module.html#c.PyModule_GetState" title="PyModule_GetState"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyModule_GetState()</span></code></a> para obter o estado:</p>
+<div class="translated highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">module</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyType_GetModuleByDef</span><span class="p">(</span><span class="n">Py_TYPE</span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">module_def</span><span class="p">);</span>
+<span class="n">my_struct</span><span class="w"> </span><span class="o">*</span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">my_struct</span><span class="o">*</span><span class="p">)</span><span class="n">PyModule_GetState</span><span class="p">(</span><span class="n">module</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p class="translated">Essa função <code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_GetModuleByDef()</span></code> funciona procurando na <a class="reference internal" href="../glossary.html#term-method-resolution-order"><span class="xref std std-term">ordem de resolução de métodos</span></a> (isto é, todas as superclasses) a primeira superclasse que tem um módulo correspondente.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Em casos muito exóticos (cadeias hereditárias espalhadas através de múltiplos módulos criados a partir da mesma definição), a <code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_GetModuleByDef()</span></code> pode não retornar o módulo da classe definidora correta. De todo modo, essa função sempre vai retornar um módulo com a mesma definição, garantindo um layout de memória C compatível.</p>
+</div>
+</section>
+<section id="lifetime-of-the-module-state">
+<h3 class="translated">Tempo de vida do estado do módulo<a class="headerlink" href="#lifetime-of-the-module-state" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Quando um objeto de módulo é coletado como lixo, o seu estado de módulo é liberado. Para cada ponteiro para o estado do módulo (ou uma parte dele), é necessário possuir uma referência ao objeto de módulo.</p>
+<p class="translated">Isso não costuma ser um problema, dado que tipos criados com <a class="reference internal" href="../c-api/type.html#c.PyType_FromModuleAndSpec" title="PyType_FromModuleAndSpec"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyType_FromModuleAndSpec()</span></code></a>, bem como suas instâncias, guardam referências ao módulo. Mesmo assim, é necessário tomar cuidado com a contagem de referências ao referenciar o estado do módulo a partir de outros lugares, como funções de retorno para bibliotecas externas.</p>
+</section>
+</section>
+<section id="open-issues">
+<h2 class="translated">Problemas em aberto<a class="headerlink" href="#open-issues" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Vários problemas relacionados aos estados por módulo e aos tipos no heap ainda estão em aberto.</p>
+<p class="translated">Discussões sobre como melhorar a situação são melhor realizadas no <a class="reference external" href="https://discuss.python.org/c/core-dev/c-api/30">fórum de discussão na tag c-api</a>.</p>
+<section id="per-class-scope">
+<h3 class="translated">Escopo por classe<a class="headerlink" href="#per-class-scope" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Atualmente (desde o Python 3.11) não é possível anexar estado a <em>tipos</em> individuais sem depender de detalhes de implementação do CPython (os quais podem mudar no futuro—talvez, ironicamente, para possibilitar uma solução adequada para o escopo por classe).</p>
+</section>
+<section id="lossless-conversion-to-heap-types">
+<h3 class="translated">Conversão sem perdas para tipos no heap<a class="headerlink" href="#lossless-conversion-to-heap-types" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">A API de tipos no heap não foi projetada para conversão “sem perdas” de tipos estáticos. isto é, para criar um tipo que funciona exatamente como um dado tipo estático.</p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Isolando módulos de extensão</a><ul>
+<li><a class="reference internal" href="#who-should-read-this">Quem deveria ler isto</a></li>
+<li><a class="reference internal" href="#background">Informações preliminares</a><ul>
+<li><a class="reference internal" href="#enter-per-module-state">Entra o estado por módulo</a></li>
+<li><a class="reference internal" href="#isolated-module-objects">Objetos de módulo isolados</a></li>
+<li><a class="reference internal" href="#surprising-edge-cases">Casos particulares surpreendentes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#making-modules-safe-with-multiple-interpreters">Fazendo módulos seguros com múltiplos interpretadores</a><ul>
+<li><a class="reference internal" href="#managing-global-state">Gerenciando estado global</a></li>
+<li><a class="reference internal" href="#managing-per-module-state">Gerenciando estado por módulo</a></li>
+<li><a class="reference internal" href="#opt-out-limiting-to-one-module-object-per-process">Exclusão voluntária: limitando a um objeto de módulo por processo</a></li>
+<li><a class="reference internal" href="#module-state-access-from-functions">Acesso ao estado de módulo a partir de funções</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#heap-types">Tipos no heap</a><ul>
+<li><a class="reference internal" href="#changing-static-types-to-heap-types">Mudando tipos estáticos para tipos no heap</a></li>
+<li><a class="reference internal" href="#defining-heap-types">Definindo tipos no heap</a></li>
+<li><a class="reference internal" href="#garbage-collection-protocol">Protocolo de recolhimento de lixo</a><ul>
+<li><a class="reference internal" href="#tp-traverse-in-python-3-8-and-lower"><code class="docutils literal notranslate"><span class="pre">tp_traverse</span></code> no Python 3.8 e anteriores</a></li>
+<li><a class="reference internal" href="#delegating-tp-traverse">Delegando a função <code class="docutils literal notranslate"><span class="pre">tp_traverse</span></code></a></li>
+<li><a class="reference internal" href="#defining-tp-dealloc">Definindo <code class="docutils literal notranslate"><span class="pre">tp_dealloc</span></code></a></li>
+<li><a class="reference internal" href="#not-overriding-tp-free">Evitar substituir <code class="docutils literal notranslate"><span class="pre">tp_free</span></code></a></li>
+<li><a class="reference internal" href="#avoiding-pyobject-new">Evitar <code class="docutils literal notranslate"><span class="pre">PyObject_New</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-state-access-from-classes">Acessando o estado do módulo a partir de classes</a></li>
+<li><a class="reference internal" href="#module-state-access-from-regular-methods">Acesso ao estado do módulo a partir de métodos regulares</a></li>
+<li><a class="reference internal" href="#module-state-access-from-slot-methods-getters-and-setters">Acesso ao estado do módulo a partir de métodos slot, getters e setters</a></li>
+<li><a class="reference internal" href="#lifetime-of-the-module-state">Tempo de vida do estado do módulo</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#open-issues">Problemas em aberto</a><ul>
+<li><a class="reference internal" href="#per-class-scope">Escopo por classe</a></li>
+<li><a class="reference internal" href="#lossless-conversion-to-heap-types">Conversão sem perdas para tipos no heap</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="annotations.html"
+                          title="capítulo anterior">Boas práticas para anotações</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="timerfd.html"
+                          title="próximo capítulo">Descritor de arquivo de temporizador</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "howto/isolating-extensions.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/howto/isolating-extensions.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/howto/isolating-extensions.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="timerfd.html" title="Descritor de arquivo de temporizador"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="annotations.html" title="Boas práticas para anotações"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python HOWTOs</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Isolando módulos de extensão</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

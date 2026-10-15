@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="zipapp — Gerencia arquivos zip executáveis do Python" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/zipapp.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/zipapp.py Este módulo fornece ferramentas para gerenciar a criação de arquivos zip contendo código Python, que pode ser executado diretamente pelo interpretador Python. O módulo f..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_zipapp_d9872b8f.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/zipapp.py Este módulo fornece ferramentas para gerenciar a criação de arquivos zip contendo código Python, que pode ser executado diretamente pelo interpretador Python. O módulo f..." />
+<meta name="description" content="Código-fonte: Lib/zipapp.py Este módulo fornece ferramentas para gerenciar a criação de arquivos zip contendo código Python, que pode ser executado diretamente pelo interpretador Python. O módulo f..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>zipapp — Gerencia arquivos zip executáveis do Python &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Serviços de Tempo de Execução Python" href="python.html" />
+    <link rel="prev" title="venv — Criação de ambientes virtuais" href="venv.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/zipapp.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipapp</span></code> — Gerencia arquivos zip executáveis do Python</a><ul>
+<li><a class="reference internal" href="#basic-example">Exemplo básico</a></li>
+<li><a class="reference internal" href="#command-line-interface">Interface de linha de comando</a></li>
+<li><a class="reference internal" href="#python-api">API do Python</a></li>
+<li><a class="reference internal" href="#examples">Exemplos</a></li>
+<li><a class="reference internal" href="#specifying-the-interpreter">Especificando o interpretador</a></li>
+<li><a class="reference internal" href="#creating-standalone-applications-with-zipapp">Criando aplicações autônomas com zipapp</a><ul>
+<li><a class="reference internal" href="#caveats">Advertência</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-python-zip-application-archive-format">O formato de arquivo da aplicação zip Python</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="venv.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code> — Criação de ambientes virtuais</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="python.html"
+                          title="próximo capítulo">Serviços de Tempo de Execução Python</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/zipapp.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/zipapp.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/zipapp.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="python.html" title="Serviços de Tempo de Execução Python"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="venv.html" title="venv — Criação de ambientes virtuais"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="distribution.html" accesskey="U">Empacotamento e Distribuição de Software</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipapp</span></code> — Gerencia arquivos zip executáveis do Python</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-zipapp">
+<span id="zipapp-manage-executable-python-zip-archives"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipapp</span></code> — Gerencia arquivos zip executáveis do Python<a class="headerlink" href="#module-zipapp" title="Link para este cabeçalho">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.5.</span></p>
+</div>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/zipapp.py">Lib/zipapp.py</a></p>
+<hr class="docutils" id="index-0" />
+<p class="translated">Este módulo fornece ferramentas para gerenciar a criação de arquivos zip contendo código Python, que pode ser <a class="reference internal" href="../using/cmdline.html#using-on-interface-options"><span class="std std-ref">executado diretamente pelo interpretador Python</span></a>. O módulo fornece uma <a class="reference internal" href="#zipapp-command-line-interface"><span class="std std-ref">Interface de linha de comando</span></a> e uma <a class="reference internal" href="#zipapp-python-api"><span class="std std-ref">API do Python</span></a>.</p>
+<section id="basic-example">
+<h2 class="translated">Exemplo básico<a class="headerlink" href="#basic-example" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O exemplo a seguir mostra como a <a class="reference internal" href="#zipapp-command-line-interface"><span class="std std-ref">Interface de linha de comando</span></a> pode ser usada para criar um arquivo executável a partir de um diretório contendo código Python. Quando executado, o arquivo executará a função <code class="docutils literal notranslate"><span class="pre">main</span></code> do módulo <code class="docutils literal notranslate"><span class="pre">myapp</span></code> no arquivo.</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>zipapp<span class="w"> </span>myapp<span class="w"> </span>-m<span class="w"> </span><span class="s2">"myapp:main"</span>
+<span class="gp">$ </span>python<span class="w"> </span>myapp.pyz
+<span class="go">&lt;output from myapp&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="command-line-interface">
+<span id="zipapp-command-line-interface"></span><h2 class="translated">Interface de linha de comando<a class="headerlink" href="#command-line-interface" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Quando chamado como um programa a partir da linha de comando, as seguintes opções estão disponíveis:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>zipapp<span class="w"> </span><span class="nb">source</span><span class="w"> </span><span class="o">[</span>options<span class="o">]</span>
+</pre></div>
+</div>
+<p class="translated">Se <em>source</em> for um diretório, isso criará um arquivo a partir do conteúdo de <em>source</em>. Se <em>source</em> for um arquivo, ele deve ser um arquivo, e será copiado para o arquivo de destino (ou o conteúdo de sua linha shebang será exibido se a opção –info for especificada).</p>
+<p class="translated">As seguintes opções são compreendidas:</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-zipapp-o">
+<span id="cmdoption-zipapp-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"><span class="pre">=&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-zipapp-o" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Escreve a saída em um arquivo chamado <em>output</em>. Se essa opção não for especificada, o nome do arquivo de saída será o mesmo que o <em>source</em> de entrada, com a extensão <code class="docutils literal notranslate"><span class="pre">.pyz</span></code> adicionada. Se um nome de arquivo explícito for fornecido, ele será usado como está (então uma extensão <code class="docutils literal notranslate"><span class="pre">.pyz</span></code> deve ser incluída se necessário).</p>
+<p class="translated">Um nome de arquivo de saída deve ser especificado se <em>source</em> for um arquivo (e nesse caso, <em>output</em> não deve ser o mesmo que <em>source</em>).</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-zipapp-p">
+<span id="cmdoption-zipapp-python"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;interpreter&gt;</span></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--python</span></span><span class="sig-prename descclassname"><span class="pre">=&lt;interpreter&gt;</span></span><a class="headerlink" href="#cmdoption-zipapp-p" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Adiciona uma linha <code class="docutils literal notranslate"><span class="pre">#!</span></code> ao arquivo especificando <em>interpreter</em> como o comando a ser executado. Além disso, no POSIX, torne o arquivo executável. O padrão é não escrever nenhuma linha <code class="docutils literal notranslate"><span class="pre">#!</span></code> e não tornar o arquivo executável.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-zipapp-m">
+<span id="cmdoption-zipapp-main"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;mainfn&gt;</span></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--main</span></span><span class="sig-prename descclassname"><span class="pre">=&lt;mainfn&gt;</span></span><a class="headerlink" href="#cmdoption-zipapp-m" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Escreve um arquivo <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code> no arquivo que executa <em>mainfn</em>. O argumento <em>mainfn</em> deve ter o formato “pkg.mod:fn”, onde “pkg.mod” é um pacote/módulo no arquivo, e “fn” é um chamável no módulo fornecido. O arquivo <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code> executará esse chamável.</p>
+<p class="translated"><a class="reference internal" href="#cmdoption-zipapp-m"><code class="xref std std-option docutils literal notranslate"><span class="pre">--main</span></code></a> não pode ser especificado ao copiar um arquivo.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-zipapp-c">
+<span id="cmdoption-zipapp-compress"></span><span class="sig-name descname"><span class="pre">-c</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--compress</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-zipapp-c" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Compacta arquivos com o método deflate, reduzindo o tamanho do arquivo de saída. Por padrão, os arquivos são armazenados descompactados no arquivo.</p>
+<p class="translated"><a class="reference internal" href="#cmdoption-zipapp-c"><code class="xref std std-option docutils literal notranslate"><span class="pre">--compress</span></code></a> não tem efeito ao copiar um arquivo.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-zipapp-info">
+<span class="sig-name descname"><span class="pre">--info</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-zipapp-info" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exibe o interpretador incorporado no arquivo, para fins de diagnóstico. Neste caso, quaisquer outras opções são ignoradas e SOURCE deve ser um arquivo, não um diretório.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-zipapp-h">
+<span id="cmdoption-zipapp-help"></span><span class="sig-name descname"><span class="pre">-h</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-zipapp-h" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exibe uma mensagem curta de uso e sai</p>
+</dd></dl>
+
+</section>
+<section id="python-api">
+<span id="zipapp-python-api"></span><h2 class="translated">API do Python<a class="headerlink" href="#python-api" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O módulo define duas funções de conveniência:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="zipapp.create_archive">
+<span class="sig-prename descclassname"><span class="pre">zipapp.</span></span><span class="sig-name descname"><span class="pre">create_archive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpreter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">main</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compressed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipapp.create_archive" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Cria um arquivo de aplicação a partir de <em>source</em>. A fonte pode ser qualquer um dos seguintes:</p>
+<ul class="simple">
+<li><p class="translated">O nome de um diretório, ou um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a> referente a um diretório, caso em que um novo arquivo de aplicação será criado a partir do conteúdo desse diretório.</p></li>
+<li><p class="translated">O nome de um arquivo de aplicação existente, ou um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a> referindo-se a tal arquivo, em cujo caso o arquivo é copiado para o alvo (modificando-o para refletir o valor dado para o argumento <em>interpreter</em>). O nome do arquivo deve incluir a extensão <code class="docutils literal notranslate"><span class="pre">.pyz</span></code>, se necessário.</p></li>
+<li><p class="translated">Um objeto arquivo aberto para leitura no modo bytes. O conteúdo do arquivo deve ser um arquivo de aplicação, e o objeto arquivo é presumido como estando posicionado no início do arquivo.</p></li>
+</ul>
+<p class="translated">O argumento <em>target</em> determina onde o arquivo resultante será escrito:</p>
+<ul class="simple">
+<li><p class="translated">Se for o nome de um arquivo ou um <a class="reference internal" href="../glossary.html#term-path-like-object"><span class="xref std std-term">objeto caminho ou similar</span></a>, o arquivo será escrito nesse arquivo.</p></li>
+<li><p class="translated">Se for um objeto arquivo aberto, o arquivo será escrito naquele objeto arquivo, que deve estar aberto para escrita no modo bytes.</p></li>
+<li><p class="translated">Se o destino for omitido (ou <code class="docutils literal notranslate"><span class="pre">Nenhum</span></code>), a fonte deverá ser um diretório e o destino será um arquivo com o mesmo nome da fonte, com uma extensão <code class="docutils literal notranslate"><span class="pre">.pyz</span></code> adicionada.</p></li>
+</ul>
+<p class="translated">O argumento <em>interpreter</em> especifica o nome do interpretador Python com o qual o arquivo será executado. Ele é escrito como uma linha “shebang” no início do arquivo. No POSIX, isso será interpretado pelo sistema operacional, e no Windows será manipulado pelo inicializador Python. Omitir o <em>interpreter</em> resulta em nenhuma linha shebang sendo escrita. Se um interpretador for especificado, e o alvo for um nome de arquivo, o bit executável do arquivo alvo será definido.</p>
+<p class="translated">O argumento <em>main</em> especifica o nome de um chamável que será usado como o programa principal para o arquivo. Ele só pode ser especificado se a fonte for um diretório, e a fonte ainda não contiver um arquivo <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code>. O argumento <em>main</em> deve ter o formato “pkg.módulo:chamável” e o arquivo será executado importando “pkg.módulo” e executando o chamável fornecido sem argumentos. É um erro omitir <em>main</em> se a fonte for um diretório e não contiver um arquivo <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code>, pois, caso contrário, o arquivo resultante não seria executável.</p>
+<p class="translated">O argumento opcional <em>filter</em> especifica uma função de retorno de chamada que recebe um objeto Path representando o caminho para o arquivo que está sendo adicionado (relativo ao diretório da fonte). Ele deve retornar <code class="docutils literal notranslate"><span class="pre">True</span></code> se o arquivo for adicionado.</p>
+<p class="translated">O argumento opcional <em>compressed</em> determina se os arquivos são compactados. Se definido como <code class="docutils literal notranslate"><span class="pre">True</span></code>, os arquivos no arquivo são compactados com o método deflate; caso contrário, os arquivos são armazenados descompactados. Este argumento não tem efeito ao copiar um arquivo existente.</p>
+<p class="translated">Se um objeto arquivo for especificado para <em>source</em> ou <em>target</em>, é responsabilidade do chamador fechá-lo após chamar create_archive.</p>
+<p class="translated">Ao copiar um arquivo existente, os objetos arquivo fornecidos precisam apenas dos métodos <code class="docutils literal notranslate"><span class="pre">read</span></code> e <code class="docutils literal notranslate"><span class="pre">readline</span></code> ou <code class="docutils literal notranslate"><span class="pre">write</span></code>. Ao criar um arquivo de um diretório, se o alvo for um objeto arquivo, ele será passado para a classe <code class="docutils literal notranslate"><span class="pre">zipfile.ZipFile</span></code> e deve fornecer os métodos necessários para essa classe.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.7: </span>Adicionados os parâmetros <em>filter</em> e <em>compressed</em>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="zipapp.get_interpreter">
+<span class="sig-prename descclassname"><span class="pre">zipapp.</span></span><span class="sig-name descname"><span class="pre">get_interpreter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">archive</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zipapp.get_interpreter" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o interpretador especificado na linha <code class="docutils literal notranslate"><span class="pre">#!</span></code> no início do arquivo. Se não houver nenhuma linha <code class="docutils literal notranslate"><span class="pre">#!</span></code>, retorna <a class="reference internal" href="../builtins/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a>. O argumento <em>archive</em> pode ser um nome de arquivo ou um objeto arquivo ou similar aberto para leitura no modo bytes. É presumido esteja no início do arquivo.</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<span id="zipapp-examples"></span><h2 class="translated">Exemplos<a class="headerlink" href="#examples" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Compacte um diretório em um arquivo e execute-o.</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>zipapp<span class="w"> </span>myapp
+<span class="gp">$ </span>python<span class="w"> </span>myapp.pyz
+<span class="go">&lt;output from myapp&gt;</span>
+</pre></div>
+</div>
+<p class="translated">O mesmo pode ser feito usando a função <a class="reference internal" href="#zipapp.create_archive" title="zipapp.create_archive"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_archive()</span></code></a>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">zipapp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zipapp</span><span class="o">.</span><span class="n">create_archive</span><span class="p">(</span><span class="s1">'myapp'</span><span class="p">,</span> <span class="s1">'myapp.pyz'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Para tornar o aplicativo diretamente executável no POSIX, especifique um interpretador a ser usado.</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>zipapp<span class="w"> </span>myapp<span class="w"> </span>-p<span class="w"> </span><span class="s2">"/usr/bin/env python"</span>
+<span class="gp">$ </span>./myapp.pyz
+<span class="go">&lt;saída de myapp&gt;</span>
+</pre></div>
+</div>
+<p class="translated">Para substituir a linha shebang em um arquivo existente, crie um arquivo modificado usando a função <a class="reference internal" href="#zipapp.create_archive" title="zipapp.create_archive"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_archive()</span></code></a>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">zipapp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zipapp</span><span class="o">.</span><span class="n">create_archive</span><span class="p">(</span><span class="s1">'old_archive.pyz'</span><span class="p">,</span> <span class="s1">'new_archive.pyz'</span><span class="p">,</span> <span class="s1">'/usr/bin/python3'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Para atualizar o arquivo no local, faça a substituição na memória usando um objeto <a class="reference internal" href="io.html#io.BytesIO" title="io.BytesIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesIO</span></code></a> e, em seguida, sobrescreva a fonte depois. Observe que há um risco ao sobrescrever um arquivo no local de que um erro resultará na perda do arquivo original. Este código não protege contra tais erros, mas o código de produção deve fazê-lo. Além disso, este método só funcionará se o arquivo couber na memória:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">zipapp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">temp</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zipapp</span><span class="o">.</span><span class="n">create_archive</span><span class="p">(</span><span class="s1">'myapp.pyz'</span><span class="p">,</span> <span class="n">temp</span><span class="p">,</span> <span class="s1">'/usr/bin/python2'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'myapp.pyz'</span><span class="p">,</span> <span class="s1">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="specifying-the-interpreter">
+<span id="zipapp-specifying-the-interpreter"></span><h2 class="translated">Especificando o interpretador<a class="headerlink" href="#specifying-the-interpreter" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Observe que se você especificar um interpretador e então distribuir seu arquivo de aplicação, você precisa garantir que o interpretador usado seja portátil. O inicializador Python para Windows oferece suporte às formas mais comuns da linha POSIX <code class="docutils literal notranslate"><span class="pre">#!</span></code>, mas há outras questões a serem consideradas:</p>
+<ul class="simple">
+<li><p class="translated">Se você usar “/usr/bin/env python” (ou outras formas do comando “python”, como “/usr/bin/python”), você precisa considerar que seus usuários podem ter Python 2 ou Python 3 como padrão, e escrever seu código para funcionar em ambas as versões.</p></li>
+<li><p class="translated">Se você usar uma versão explícita, por exemplo “/usr/bin/env python3”, sua aplicação não funcionará para usuários que não tenham essa versão. (Isso pode ser o que você quer se não tiver tornado seu código compatível com Python 2).</p></li>
+<li><p class="translated">Não há como dizer “python X.Y ou posterior”, então tome cuidado ao usar uma versão exata como “/usr/bin/env python3.4”, pois você precisará alterar sua linha shebang para usuários do Python 3.5, por exemplo.</p></li>
+</ul>
+<p class="translated">Normalmente, você deve usar “/usr/bin/env python2” ou “/usr/bin/env python3”, dependendo se seu código foi escrito para Python 2 ou 3.</p>
+</section>
+<section id="creating-standalone-applications-with-zipapp">
+<h2 class="translated">Criando aplicações autônomas com zipapp<a class="headerlink" href="#creating-standalone-applications-with-zipapp" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Usando o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">zipapp</span></code>, é possível criar programas Python autocontidos, que podem ser distribuídos para usuários finais que precisam apenas ter uma versão adequada do Python instalada em seu sistema. A chave para fazer isso é agrupar todas as dependências da aplicação no arquivo, junto com o código da aplicação.</p>
+<p class="translated">As etapas para criar um arquivo autônomo são as seguintes:</p>
+<ol class="arabic">
+<li><p class="translated">Crie sua aplicação em um diretório normalmente, para que você tenha um diretório <code class="docutils literal notranslate"><span class="pre">myapp</span></code> contendo um arquivo <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code> e qualquer código de aplicação de suporte.</p></li>
+<li><p class="translated">Instale todas as dependências da sua aplicação no diretório <code class="docutils literal notranslate"><span class="pre">myapp</span></code>, usando pip:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt<span class="w"> </span>--target<span class="w"> </span>myapp
+</pre></div>
+</div>
+<p class="translated">(isso presume que você tenha os requisitos do seu projeto em um arquivo <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> - caso contrário, você pode simplesmente listar as dependências manualmente na linha de comando do pip).</p>
+</li>
+<li><p class="translated">Empacote a aplicação usando:</p>
+<div class="translated highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>zipapp<span class="w"> </span>-p<span class="w"> </span><span class="s2">"interpreter"</span><span class="w"> </span>myapp
+</pre></div>
+</div>
+</li>
+</ol>
+<p class="translated">Isso produzirá um executável autônomo, que pode ser executado em qualquer máquina com o interpretador apropriado disponível. Veja <a class="reference internal" href="#zipapp-specifying-the-interpreter"><span class="std std-ref">Especificando o interpretador</span></a> para detalhes. Ele pode ser enviado aos usuários como um único arquivo.</p>
+<p class="translated">No Unix, o arquivo <code class="docutils literal notranslate"><span class="pre">myapp.pyz</span></code> é executável como está. Você pode renomear o arquivo para remover a extensão <code class="docutils literal notranslate"><span class="pre">.pyz</span></code> se preferir um nome de comando “simples”. No Windows, o arquivo <code class="docutils literal notranslate"><span class="pre">myapp.pyz[w]</span></code> é executável em virtude do fato de que o interpretador Python registra as extensões de arquivo <code class="docutils literal notranslate"><span class="pre">.pyz</span></code> e <code class="docutils literal notranslate"><span class="pre">.pyzw</span></code> quando instalado.</p>
+<section id="caveats">
+<h3 class="translated">Advertência<a class="headerlink" href="#caveats" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Se sua aplicação depende de um pacote que inclui uma extensão C, esse pacote não pode ser executado a partir de um arquivo zip (essa é uma limitação do sistema operacional, pois o código executável deve estar presente no sistema de arquivos para que o carregador do sistema operacional o carregue). Nesse caso, você pode excluir essa dependência do arquivo zip e exigir que seus usuários o tenham instalado ou enviá-lo junto com seu arquivo zip e adicionar código ao seu <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code> para incluir o diretório que contém o módulo descompactado em <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>. Nesse caso, você precisará certificar-se de enviar binários apropriados para sua(s) arquitetura(s) de destino (e potencialmente escolher a versão correta para adicionar ao <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> no tempo de execução, com base na máquina do usuário).</p>
+</section>
+</section>
+<section id="the-python-zip-application-archive-format">
+<h2 class="translated">O formato de arquivo da aplicação zip Python<a class="headerlink" href="#the-python-zip-application-archive-format" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O Python tem sido capaz de executar arquivos zip que contêm um arquivo <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code> desde a versão 2.6. Para ser executado pelo Python, um arquivo de aplicação simplesmente tem que ser um arquivo zip padrão contendo um arquivo <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code> que será executado como o ponto de entrada para o aplicativo. Como de costume para qualquer script Python, o pai do script (neste caso, o arquivo zip) será colocado em <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a> e, portanto, outros módulos podem ser importados do arquivo zip.</p>
+<p class="translated">O formato de arquivo zip permite que dados arbitrários sejam prefixados a um arquivo zip. O formato de aplicação zip usa essa habilidade para prefixar uma linha “shebang” padrão POSIX ao arquivo (<code class="docutils literal notranslate"><span class="pre">#!/caminho/para/interpretador</span></code>).</p>
+<p class="translated">Formalmente, o formato de aplicação zip Python é:</p>
+<ol class="arabic simple">
+<li><p class="translated">Uma linha shebang opcional, contendo os caracteres <code class="docutils literal notranslate"><span class="pre">b'#!'</span></code> seguidos por um nome de interpretador e, em seguida, um caractere de nova linha (<code class="docutils literal notranslate"><span class="pre">b'\n'</span></code>). O nome do interpretador pode ser qualquer coisa aceitável para o processamento “shebang” do sistema operacional ou o inicializador Python no Windows. O interpretador deve ser codificado em UTF-8 no Windows e em <a class="reference internal" href="sys.html#sys.getfilesystemencoding" title="sys.getfilesystemencoding"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.getfilesystemencoding()</span></code></a> no POSIX.</p></li>
+<li><p class="translated">Dados padrão do zipfile, conforme gerados pelo módulo <a class="reference internal" href="zipfile.html#module-zipfile" title="zipfile: Read and write ZIP-format archive files."><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code></a>. O conteúdo do zipfile <em>deve</em> incluir um arquivo chamado <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code> (que deve estar na “raiz” do zipfile - ou seja, não pode estar em um subdiretório). Os dados do zipfile podem ser compactados ou descompactados.</p></li>
+</ol>
+<p class="translated">Se um arquivo de aplicação tiver uma linha shebang, ele poderá ter o bit executável definido em sistemas POSIX, para permitir que seja executado diretamente.</p>
+<p class="translated">Não há exigência de que as ferramentas neste módulo sejam usadas para criar arquivos de aplicações - o módulo é uma conveniência, mas arquivos no formato acima criados por qualquer meio são aceitáveis para Python.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipapp</span></code> — Gerencia arquivos zip executáveis do Python</a><ul>
+<li><a class="reference internal" href="#basic-example">Exemplo básico</a></li>
+<li><a class="reference internal" href="#command-line-interface">Interface de linha de comando</a></li>
+<li><a class="reference internal" href="#python-api">API do Python</a></li>
+<li><a class="reference internal" href="#examples">Exemplos</a></li>
+<li><a class="reference internal" href="#specifying-the-interpreter">Especificando o interpretador</a></li>
+<li><a class="reference internal" href="#creating-standalone-applications-with-zipapp">Criando aplicações autônomas com zipapp</a><ul>
+<li><a class="reference internal" href="#caveats">Advertência</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-python-zip-application-archive-format">O formato de arquivo da aplicação zip Python</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="venv.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code> — Criação de ambientes virtuais</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="python.html"
+                          title="próximo capítulo">Serviços de Tempo de Execução Python</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/zipapp.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/zipapp.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/zipapp.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="python.html" title="Serviços de Tempo de Execução Python"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="venv.html" title="venv — Criação de ambientes virtuais"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="distribution.html" >Empacotamento e Distribuição de Software</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">zipapp</span></code> — Gerencia arquivos zip executáveis do Python</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

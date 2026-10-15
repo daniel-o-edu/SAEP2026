@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="12. Ambientes virtuais e pacotes" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/tutorial/venv.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Introdução: Aplicações em Python normalmente usam pacotes e módulos que não vêm como parte da instalação padrão. Aplicações às vezes necessitam uma versão específica de uma biblioteca, porque ela r..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_tutorial_venv_6810eeff.png" />
+<meta property="og:image:alt" content="Introdução: Aplicações em Python normalmente usam pacotes e módulos que não vêm como parte da instalação padrão. Aplicações às vezes necessitam uma versão específica de uma biblioteca, porque ela r..." />
+<meta name="description" content="Introdução: Aplicações em Python normalmente usam pacotes e módulos que não vêm como parte da instalação padrão. Aplicações às vezes necessitam uma versão específica de uma biblioteca, porque ela r..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>12. Ambientes virtuais e pacotes &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="13. E agora?" href="whatnow.html" />
+    <link rel="prev" title="11. Um breve passeio pela biblioteca padrão — parte II" href="stdlib2.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/tutorial/venv.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">12. Ambientes virtuais e pacotes</a><ul>
+<li><a class="reference internal" href="#introduction">12.1. Introdução</a></li>
+<li><a class="reference internal" href="#creating-virtual-environments">12.2. Criando ambientes virtuais</a></li>
+<li><a class="reference internal" href="#managing-packages-with-pip">12.3. Gerenciando pacotes com o pip</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="stdlib2.html"
+                          title="capítulo anterior"><span class="section-number">11. </span>Um breve passeio pela biblioteca padrão — parte II</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="whatnow.html"
+                          title="próximo capítulo"><span class="section-number">13. </span>E agora?</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "tutorial/venv.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/tutorial/venv.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/tutorial/venv.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="whatnow.html" title="13. E agora?"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="stdlib2.html" title="11. Um breve passeio pela biblioteca padrão — parte II"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">O tutorial do Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">12. </span>Ambientes virtuais e pacotes</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="virtual-environments-and-packages">
+<span id="tut-venv"></span><h1 class="translated"><span class="section-number">12. </span>Ambientes virtuais e pacotes<a class="headerlink" href="#virtual-environments-and-packages" title="Link para este cabeçalho">¶</a></h1>
+<section id="introduction">
+<h2 class="translated"><span class="section-number">12.1. </span>Introdução<a class="headerlink" href="#introduction" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Aplicações em Python normalmente usam pacotes e módulos que não vêm como parte da instalação padrão. Aplicações às vezes necessitam uma versão específica de uma biblioteca, porque ela requer que algum problema em particular tenha sido consertado ou foi escrita utilizando-se de uma versão obsoleta da interface da biblioteca.</p>
+<p class="translated">Isso significa que talvez não seja possível que uma instalação Python preencha os requisitos de qualquer aplicação. Se uma aplicação A necessita a versão 1.0 de um módulo particular mas a aplicação B necessita a versão 2.0, os requisitos entrarão em conflito e instalar qualquer uma das duas versões 1.0 ou 2.0 fará com que uma das aplicações não consiga executar.</p>
+<p class="translated">A solução para este problema é criar um <a class="reference internal" href="../glossary.html#term-virtual-environment"><span class="xref std std-term">ambiente virtual</span></a>, uma árvore de diretórios que contém uma instalação Python para uma versão particular do Python, além de uma série de pacotes adicionais.</p>
+<p class="translated">Diferentes aplicações podem então usar diferentes ambientes virtuais. Para resolver o exemplo anterior de requisitos conflitantes, a aplicação A deve ter seu próprio ambiente virtual com a versão 1.0 instalada enquanto a aplicação B vai possuir outro ambiente virtual com a versão 2.0. Se a aplicação B precisar fazer uma atualização para a versão 3.0, isso não afetará o ambiente da aplicação A.</p>
+</section>
+<section id="creating-virtual-environments">
+<h2 class="translated"><span class="section-number">12.2. </span>Criando ambientes virtuais<a class="headerlink" href="#creating-virtual-environments" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">O módulo usado para criar e gerenciar ambientes virtuais é chamado <a class="reference internal" href="../library/venv.html#module-venv" title="venv: Creation of virtual environments."><code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code></a>. <code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code> instalará a versão do Python a partir da qual o comando foi executado (conforme relatado pela opção <a class="reference internal" href="../using/cmdline.html#cmdoption-version"><code class="xref std std-option docutils literal notranslate"><span class="pre">--version</span></code></a>). Por exemplo, executar o comando com <code class="docutils literal notranslate"><span class="pre">python3.12</span></code> instalará a versão 3.12.</p>
+<p class="translated">Para criar um ambiente virtual, escolha um diretório onde deseja colocá-lo e execute o módulo <a class="reference internal" href="../library/venv.html#module-venv" title="venv: Creation of virtual environments."><code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code></a> como um script com o caminho do diretório:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">venv</span> <span class="n">tutorial</span><span class="o">-</span><span class="n">env</span>
+</pre></div>
+</div>
+<p class="translated">Isso irá criar o diretório <code class="docutils literal notranslate"><span class="pre">tutorial-env</span></code> se ele não existir, e também criará diretórios dentro dele contendo uma cópia do interpretador Python, a biblioteca padrão e diversos arquivos de suporte.</p>
+<p class="translated">Um diretório de localização comum para um ambiente virtual é <code class="docutils literal notranslate"><span class="pre">.venv</span></code>. Esse nome tipicamente mantém o diretório oculto em seu ambiente, portanto é transparente, ao menos tempo que explica o motivo desse diretório existir. Também previne conflitos com <code class="docutils literal notranslate"><span class="pre">.env</span></code>, arquivos de definição de variáveis de ambiente que algumas ferramentas utilizam.</p>
+<p class="translated">Uma vez criado seu ambiente virtual, você deve ativá-lo.</p>
+<p class="translated">No Windows, execute:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">tutorial</span><span class="o">-</span><span class="n">env</span>\<span class="n">Scripts</span>\<span class="n">activate</span>
+</pre></div>
+</div>
+<p class="translated">No Unix ou no MacOS, executa:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="n">tutorial</span><span class="o">-</span><span class="n">env</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span>
+</pre></div>
+</div>
+<p class="translated">(Este script é escrito para o shell bash. Se você usa shells <strong class="program">csh</strong> ou <strong class="program">fish</strong>, existem scripts alternativos <code class="docutils literal notranslate"><span class="pre">activate.csh</span></code> e <code class="docutils literal notranslate"><span class="pre">activate.fish</span></code> para utilização.)</p>
+<p class="translated">Ao ativar seu ambiente virtual haverá uma mudança no prompt do shell para mostrar qual ambiente virtual você está usando e modificará o ambiente para que quando você executar <code class="docutils literal notranslate"><span class="pre">python</span></code> ativar a versão e instalação do Python particular àquele ambiente. Por exemplo:</p>
+<div class="translated highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>~/envs/tutorial-env/bin/activate
+<span class="gp gp-VirtualEnv">(tutorial-env)</span> <span class="gp">$ </span>python
+<span class="go">Python 3.5.1 (default, May  6 2016, 10:59:36)</span>
+<span class="go">  ...</span>
+<span class="go">&gt;&gt;&gt; import sys</span>
+<span class="go">&gt;&gt;&gt; sys.path</span>
+<span class="go">['', '/usr/local/lib/python35.zip', ...,</span>
+<span class="go">'~/envs/tutorial-env/lib/python3.5/site-packages']</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p class="translated">Note que o ambiente virtual ativado não altera <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> variáveis de forma alguma. Isso pode levar a resultados inesperados se o path incluir referencia  a código incompatível com a versão Python do ambiente virtual em uso. A melhor prática é usar <code class="docutils literal notranslate"><span class="pre">unset</span> <span class="pre">PYTHONPATH</span></code> no bash ou no shell que você está usando.</p>
+<p class="translated">Para desativar um ambiente virtual, digite:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">deactivate</span>
+</pre></div>
+</div>
+<p class="translated">no terminal.</p>
+</section>
+<section id="managing-packages-with-pip">
+<h2 class="translated"><span class="section-number">12.3. </span>Gerenciando pacotes com o pip<a class="headerlink" href="#managing-packages-with-pip" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Você pode instalar, atualizar e remover pacotes usando um programa chamado <strong class="program">pip</strong>. Por padrão <code class="docutils literal notranslate"><span class="pre">pip</span></code> irá instalar pacotes do <a class="reference external" href="https://pypi.org">Python Package Index</a>. Você pode navegar pelo Python Package Index através do seu navegador web.</p>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">pip</span></code> tem uma série de subcomandos: “install”, “uninstall”, “freeze”, etc. (Consulte o guia <a class="reference internal" href="../installing/index.html#installing-index"><span class="std std-ref">Instalando módulos Python</span></a> para a documentação completa do <code class="docutils literal notranslate"><span class="pre">pip</span></code>.)</p>
+<p class="translated">Você pode instalar a última versão de um pacote apenas especificando nome do pacote:</p>
+<div class="translated highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(tutorial-env)</span> <span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>novas
+<span class="go">Collecting novas</span>
+<span class="go">  Downloading novas-3.1.1.3.tar.gz (136kB)</span>
+<span class="go">Installing collected packages: novas</span>
+<span class="go">  Running setup.py install for novas</span>
+<span class="go">Successfully installed novas-3.1.1.3</span>
+</pre></div>
+</div>
+<p class="translated">Você também pode instalar uma versão específica de um pacote dando o nome do pacote seguido por <code class="docutils literal notranslate"><span class="pre">==</span></code> e o número da versão:</p>
+<div class="translated highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(tutorial-env)</span> <span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">requests</span><span class="o">==</span><span class="m">2</span>.6.0
+<span class="go">Collecting requests==2.6.0</span>
+<span class="go">  Using cached requests-2.6.0-py2.py3-none-any.whl</span>
+<span class="go">Installing collected packages: requests</span>
+<span class="go">Successfully installed requests-2.6.0</span>
+</pre></div>
+</div>
+<p class="translated">Se você executar novamente o comando, <code class="docutils literal notranslate"><span class="pre">pip</span></code> será notificado de que a versão já está instalada, e não fará nada. Você pode fornecer um número de versão diferente para obter essa versão ou pode executar <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--upgrade</span></code> para atualizar o pacote para a versão mais recente:</p>
+<div class="translated highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(tutorial-env)</span> <span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>requests
+<span class="go">Collecting requests</span>
+<span class="go">Installing collected packages: requests</span>
+<span class="go">  Found existing installation: requests 2.6.0</span>
+<span class="go">    Uninstalling requests-2.6.0:</span>
+<span class="go">      Successfully uninstalled requests-2.6.0</span>
+<span class="go">Successfully installed requests-2.7.0</span>
+</pre></div>
+</div>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">uninstall</span></code> seguido por um ou mais nomes de pacote removerá os pacotes do ambiente virtual.</p>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">show</span></code> exibirá informações sobre um pacote específico:</p>
+<div class="translated highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(tutorial-env)</span> <span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>show<span class="w"> </span>requests
+<span class="go">---</span>
+<span class="go">Metadata-Version: 2.0</span>
+<span class="go">Name: requests</span>
+<span class="go">Version: 2.7.0</span>
+<span class="go">Summary: Python HTTP for Humans.</span>
+<span class="go">Home-page: http://python-requests.org</span>
+<span class="go">Author: Kenneth Reitz</span>
+<span class="go">Author-email: me@kennethreitz.com</span>
+<span class="go">License: Apache 2.0</span>
+<span class="go">Location: /Users/akuchling/envs/tutorial-env/lib/python3.4/site-packages</span>
+<span class="go">Requires:</span>
+</pre></div>
+</div>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">list</span></code> exibirá todos os pacotes instalados no ambiente virtual:</p>
+<div class="translated highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(tutorial-env)</span> <span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>list
+<span class="go">novas (3.1.1.3)</span>
+<span class="go">numpy (1.9.2)</span>
+<span class="go">pip (7.0.3)</span>
+<span class="go">requests (2.7.0)</span>
+<span class="go">setuptools (16.0)</span>
+</pre></div>
+</div>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">freeze</span></code> produzirá uma lista semelhante dos pacotes instalados, mas a saída usa o formato que <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span></code> espera. Uma convenção comum é colocar esta lista em um arquivo <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>:</p>
+<div class="translated highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(tutorial-env)</span> <span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>freeze<span class="w"> </span>&gt;<span class="w"> </span>requirements.txt
+<span class="gp gp-VirtualEnv">(tutorial-env)</span> <span class="gp">$ </span>cat<span class="w"> </span>requirements.txt
+<span class="go">novas==3.1.1.3</span>
+<span class="go">numpy==1.9.2</span>
+<span class="go">requests==2.7.0</span>
+</pre></div>
+</div>
+<p class="translated">O arquivo <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> pode ser submetido no controle de versão e adicionado como parte da aplicação. Usuários poderão então instalar todos os pacotes necessários com um <code class="docutils literal notranslate"><span class="pre">install</span> <span class="pre">-r</span></code>:</p>
+<div class="translated highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(tutorial-env)</span> <span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<span class="go">Collecting novas==3.1.1.3 (from -r requirements.txt (line 1))</span>
+<span class="go">  ...</span>
+<span class="go">Collecting numpy==1.9.2 (from -r requirements.txt (line 2))</span>
+<span class="go">  ...</span>
+<span class="go">Collecting requests==2.7.0 (from -r requirements.txt (line 3))</span>
+<span class="go">  ...</span>
+<span class="go">Installing collected packages: novas, numpy, requests</span>
+<span class="go">  Running setup.py install for novas</span>
+<span class="go">Successfully installed novas-3.1.1.3 numpy-1.9.2 requests-2.7.0</span>
+</pre></div>
+</div>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">pip</span></code> tem inúmeras outras opções. Consulte o guia <a class="reference internal" href="../installing/index.html#installing-index"><span class="std std-ref">Instalando módulos Python</span></a> para a documentação completa do <code class="docutils literal notranslate"><span class="pre">pip</span></code>. Quando você escrever um pacote e desejar deixá-lo disponível no Python Package Index, consulte o <a class="reference external" href="https://packaging.python.org/en/latest/tutorials/packaging-projects/">guia de usuário para empacotamento de Python</a>.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">12. Ambientes virtuais e pacotes</a><ul>
+<li><a class="reference internal" href="#introduction">12.1. Introdução</a></li>
+<li><a class="reference internal" href="#creating-virtual-environments">12.2. Criando ambientes virtuais</a></li>
+<li><a class="reference internal" href="#managing-packages-with-pip">12.3. Gerenciando pacotes com o pip</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="stdlib2.html"
+                          title="capítulo anterior"><span class="section-number">11. </span>Um breve passeio pela biblioteca padrão — parte II</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="whatnow.html"
+                          title="próximo capítulo"><span class="section-number">13. </span>E agora?</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "tutorial/venv.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/tutorial/venv.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/tutorial/venv.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="whatnow.html" title="13. E agora?"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="stdlib2.html" title="11. Um breve passeio pela biblioteca padrão — parte II"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >O tutorial do Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">12. </span>Ambientes virtuais e pacotes</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

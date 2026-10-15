@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="filecmp — Comparações de arquivos e diretórios" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/filecmp.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/filecmp.py O módulo filecmp define funções para comparar arquivos e diretórios, com várias compensações opcionais de tempo/correção. Para comparar arquivos, veja também o módulo d..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_filecmp_578de333.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/filecmp.py O módulo filecmp define funções para comparar arquivos e diretórios, com várias compensações opcionais de tempo/correção. Para comparar arquivos, veja também o módulo d..." />
+<meta name="description" content="Código-fonte: Lib/filecmp.py O módulo filecmp define funções para comparar arquivos e diretórios, com várias compensações opcionais de tempo/correção. Para comparar arquivos, veja também o módulo d..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>filecmp — Comparações de arquivos e diretórios &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="tempfile — Gera arquivos temporários e diretórios" href="tempfile.html" />
+    <link rel="prev" title="stat — Interpretando resultados de stat()" href="stat.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/filecmp.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">filecmp</span></code> — Comparações de arquivos e diretórios</a><ul>
+<li><a class="reference internal" href="#the-dircmp-class">A classe <code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="stat.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stat</span></code> — Interpretando resultados de <code class="xref py py-func docutils literal notranslate"><span class="pre">stat()</span></code></a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="tempfile.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tempfile</span></code> — Gera arquivos temporários e diretórios</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/filecmp.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/filecmp.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/filecmp.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="tempfile.html" title="tempfile — Gera arquivos temporários e diretórios"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="stat.html" title="stat — Interpretando resultados de stat()"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="filesys.html" accesskey="U">Acesso a arquivos e diretórios</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">filecmp</span></code> — Comparações de arquivos e diretórios</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-filecmp">
+<span id="filecmp-file-and-directory-comparisons"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">filecmp</span></code> — Comparações de arquivos e diretórios<a class="headerlink" href="#module-filecmp" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/filecmp.py">Lib/filecmp.py</a></p>
+<hr class="docutils" />
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">filecmp</span></code> define funções para comparar arquivos e diretórios, com várias compensações opcionais de tempo/correção. Para comparar arquivos, veja também o módulo <a class="reference internal" href="difflib.html#module-difflib" title="difflib: Helpers for computing differences between objects."><code class="xref py py-mod docutils literal notranslate"><span class="pre">difflib</span></code></a>.</p>
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">filecmp</span></code> define as seguintes funções:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="filecmp.cmp">
+<span class="sig-prename descclassname"><span class="pre">filecmp.</span></span><span class="sig-name descname"><span class="pre">cmp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shallow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#filecmp.cmp" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Compara os arquivos chamados <em>f1</em> e <em>f2</em>, retornando <code class="docutils literal notranslate"><span class="pre">True</span></code> se eles parecerem iguais, <code class="docutils literal notranslate"><span class="pre">False</span></code> caso contrário.</p>
+<p class="translated">Se <em>shallow</em> for verdadeiro e as assinaturas de <a class="reference internal" href="os.html#os.stat" title="os.stat"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.stat()</span></code></a> (tipo de arquivo, tamanho e hora de modificação) de ambos os arquivos forem idênticas, os arquivos serão considerados iguais.</p>
+<p class="translated">Caso contrário, os arquivos serão tratados como diferentes se seus tamanhos ou conteúdos forem diferentes.</p>
+<p class="translated">Observe que nenhum programa externo é chamado a partir desta função, o que lhe confere portabilidade e eficiência.</p>
+<p class="translated">Esta função usa um cache para comparações passadas e os resultados, com entradas de cache invalidadas se as informações de <a class="reference internal" href="os.html#os.stat" title="os.stat"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.stat()</span></code></a> para o arquivo mudarem. O cache inteiro pode ser limpo usando <a class="reference internal" href="#filecmp.clear_cache" title="filecmp.clear_cache"><code class="xref py py-func docutils literal notranslate"><span class="pre">clear_cache()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="filecmp.cmpfiles">
+<span class="sig-prename descclassname"><span class="pre">filecmp.</span></span><span class="sig-name descname"><span class="pre">cmpfiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">common</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shallow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#filecmp.cmpfiles" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Compara os arquivos nos dois diretórios <em>a</em> e <em>b</em> cujos nomes são dados por <em>common</em>.</p>
+<p class="translated">Retorna três listas de nomes de arquivos: <em>match</em>, <em>mismatch</em>, <em>errors</em>. <em>match</em> contém a lista de arquivos que correspondem, <em>mismatch</em> contém os nomes daqueles que não correspondem e <em>errors</em> lista os nomes dos arquivos que não puderam ser comparados. Os arquivos são listados em <em>errors</em> se não existirem em um dos diretórios, o usuário não tiver permissão para lê-los ou se a comparação não puder ser feita por algum outro motivo.</p>
+<p class="translated">O parâmetro <em>shallow</em> tem o mesmo significado e valor padrão que <a class="reference internal" href="#filecmp.cmp" title="filecmp.cmp"><code class="xref py py-func docutils literal notranslate"><span class="pre">filecmp.cmp()</span></code></a>.</p>
+<p class="translated">Por exemplo, <code class="docutils literal notranslate"><span class="pre">cmpfiles('a',</span> <span class="pre">'b',</span> <span class="pre">['c',</span> <span class="pre">'d/e'])</span></code> comparará <code class="docutils literal notranslate"><span class="pre">a/c</span></code> com <code class="docutils literal notranslate"><span class="pre">b/c</span></code> e <code class="docutils literal notranslate"><span class="pre">a/d/e</span></code> com <code class="docutils literal notranslate"><span class="pre">b/d/e</span></code>. <code class="docutils literal notranslate"><span class="pre">'c'</span></code> e <code class="docutils literal notranslate"><span class="pre">'d/e'</span></code> estarão cada um em uma das três listas retornadas.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="filecmp.clear_cache">
+<span class="sig-prename descclassname"><span class="pre">filecmp.</span></span><span class="sig-name descname"><span class="pre">clear_cache</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#filecmp.clear_cache" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Limpa o cache do filecmp. Isso pode ser útil se um arquivo for comparado tão rapidamente após ser modificado que ele esteja dentro da resolução de mtime do sistema de arquivos subjacente.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.4.</span></p>
+</div>
+</dd></dl>
+
+<section id="the-dircmp-class">
+<span id="dircmp-objects"></span><h2 class="translated">A classe <a class="reference internal" href="#filecmp.dircmp" title="filecmp.dircmp"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a><a class="headerlink" href="#the-dircmp-class" title="Link para este cabeçalho">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="filecmp.dircmp">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">filecmp.</span></span><span class="sig-name descname"><span class="pre">dircmp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hide</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">shallow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#filecmp.dircmp" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Constrói um novo objeto de comparação de diretórios para comparar os diretórios <em>a</em> e <em>b</em>. <em>ignore</em> é uma lista de nomes a serem ignorados e o padrão é <a class="reference internal" href="#filecmp.DEFAULT_IGNORES" title="filecmp.DEFAULT_IGNORES"><code class="xref py py-const docutils literal notranslate"><span class="pre">filecmp.DEFAULT_IGNORES</span></code></a>. <em>hide</em> é uma lista de nomes a serem ocultados e o padrão é <code class="docutils literal notranslate"><span class="pre">[os.curdir,</span> <span class="pre">os.pardir]</span></code>.</p>
+<p class="translated">A classe <a class="reference internal" href="#filecmp.dircmp" title="filecmp.dircmp"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a> compara arquivos fazendo comparações rasas, isto é, <em>shallow</em> conforme descrito para <a class="reference internal" href="#filecmp.cmp" title="filecmp.cmp"><code class="xref py py-func docutils literal notranslate"><span class="pre">filecmp.cmp()</span></code></a> por padrão usando o parâmetro <em>shallow</em>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>Adicionado o parâmetro <em>shallow</em>.</p>
+</div>
+<p class="translated">A classe <a class="reference internal" href="#filecmp.dircmp" title="filecmp.dircmp"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a> fornece os seguintes métodos:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="filecmp.dircmp.report">
+<span class="sig-name descname"><span class="pre">report</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#filecmp.dircmp.report" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exibe (para <a class="reference internal" href="sys.html#sys.stdout" title="sys.stdout"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stdout</span></code></a>) uma comparação entre <em>a</em> e <em>b</em>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="filecmp.dircmp.report_partial_closure">
+<span class="sig-name descname"><span class="pre">report_partial_closure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#filecmp.dircmp.report_partial_closure" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exibe uma comparação entre <em>a</em> e <em>b</em> e subdiretórios imediatos comuns.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="filecmp.dircmp.report_full_closure">
+<span class="sig-name descname"><span class="pre">report_full_closure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#filecmp.dircmp.report_full_closure" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exibe uma comparação entre <em>a</em> e <em>b</em> e subdiretórios comuns (recursivamente).</p>
+</dd></dl>
+
+<p class="translated">A classe <a class="reference internal" href="#filecmp.dircmp" title="filecmp.dircmp"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a> oferece uma série de atributos interessantes que podem ser usados para obter várias informações sobre as árvores de diretórios que estão sendo comparadas.</p>
+<p class="translated">Observe que, por meio dos ganchos <a class="reference internal" href="../reference/datamodel.html#object.__getattr__" title="object.__getattr__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__getattr__()</span></code></a>, todos os atributos são computados preguiçosamente, portanto, não há perda de velocidade se apenas os atributos que são leves para computar forem usados.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.left">
+<span class="sig-name descname"><span class="pre">left</span></span><a class="headerlink" href="#filecmp.dircmp.left" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O diretório <em>a</em>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.right">
+<span class="sig-name descname"><span class="pre">right</span></span><a class="headerlink" href="#filecmp.dircmp.right" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O diretório <em>b</em>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.left_list">
+<span class="sig-name descname"><span class="pre">left_list</span></span><a class="headerlink" href="#filecmp.dircmp.left_list" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Arquivos e subdiretórios em <em>a</em>, filtrados por <em>hide</em> e <em>ignore</em>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.right_list">
+<span class="sig-name descname"><span class="pre">right_list</span></span><a class="headerlink" href="#filecmp.dircmp.right_list" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Arquivos e subdiretórios em <em>b</em>, filtrados por <em>hide</em> e <em>ignore</em>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.common">
+<span class="sig-name descname"><span class="pre">common</span></span><a class="headerlink" href="#filecmp.dircmp.common" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Arquivos e subdiretórios em <em>a</em> e <em>b</em>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.left_only">
+<span class="sig-name descname"><span class="pre">left_only</span></span><a class="headerlink" href="#filecmp.dircmp.left_only" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Arquivos e subdiretórios em apenas <em>a</em>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.right_only">
+<span class="sig-name descname"><span class="pre">right_only</span></span><a class="headerlink" href="#filecmp.dircmp.right_only" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Arquivos e subdiretórios em apenas <em>b</em>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.common_dirs">
+<span class="sig-name descname"><span class="pre">common_dirs</span></span><a class="headerlink" href="#filecmp.dircmp.common_dirs" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Subdiretórios em <em>a</em> e <em>b</em>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.common_files">
+<span class="sig-name descname"><span class="pre">common_files</span></span><a class="headerlink" href="#filecmp.dircmp.common_files" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Arquivos em <em>a</em> e <em>b</em>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.common_funny">
+<span class="sig-name descname"><span class="pre">common_funny</span></span><a class="headerlink" href="#filecmp.dircmp.common_funny" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Nomes em <em>a</em> e <em>b</em>, de modo que o tipo difere entre os diretórios, ou nomes para os quais <a class="reference internal" href="os.html#os.stat" title="os.stat"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.stat()</span></code></a> relata um erro.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.same_files">
+<span class="sig-name descname"><span class="pre">same_files</span></span><a class="headerlink" href="#filecmp.dircmp.same_files" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Arquivos que são idênticos em <em>a</em> e <em>b</em>, usando o operador de comparação de arquivos da classe.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.diff_files">
+<span class="sig-name descname"><span class="pre">diff_files</span></span><a class="headerlink" href="#filecmp.dircmp.diff_files" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Arquivos que estão em <em>a</em> e <em>b</em>, cujos conteúdos diferem de acordo com o operador de comparação de arquivos da classe.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.funny_files">
+<span class="sig-name descname"><span class="pre">funny_files</span></span><a class="headerlink" href="#filecmp.dircmp.funny_files" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Arquivos que estão em <em>a</em> e <em>b</em>, mas não puderam ser comparados.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="filecmp.dircmp.subdirs">
+<span class="sig-name descname"><span class="pre">subdirs</span></span><a class="headerlink" href="#filecmp.dircmp.subdirs" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Um dicionário que mapeia nomes em <a class="reference internal" href="#filecmp.dircmp.common_dirs" title="filecmp.dircmp.common_dirs"><code class="xref py py-attr docutils literal notranslate"><span class="pre">common_dirs</span></code></a> para instâncias <a class="reference internal" href="#filecmp.dircmp" title="filecmp.dircmp"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a> (ou instâncias MyDirCmp se esta instância for do tipo MyDirCmp, uma subclasse de <code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code>).</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.10: </span>Anteriormente, as entradas eram sempre instâncias de <a class="reference internal" href="#filecmp.dircmp" title="filecmp.dircmp"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a>. Agora, as entradas são do mesmo tipo que <em>self</em>, se <em>self</em> for uma subclasse de <code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code>.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filecmp.DEFAULT_IGNORES">
+<span class="sig-prename descclassname"><span class="pre">filecmp.</span></span><span class="sig-name descname"><span class="pre">DEFAULT_IGNORES</span></span><a class="headerlink" href="#filecmp.DEFAULT_IGNORES" title="Link para esta definição">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.4.</span></p>
+</div>
+<p class="translated">Lista de diretórios ignorados por <a class="reference internal" href="#filecmp.dircmp" title="filecmp.dircmp"><code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a> por padrão.</p>
+</dd></dl>
+
+<p class="translated">Aqui está um exemplo simplificado do uso do atributo <code class="docutils literal notranslate"><span class="pre">subdirs</span></code> para pesquisar recursivamente em dois diretórios para mostrar arquivos diferentes em comum:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">filecmp</span><span class="w"> </span><span class="kn">import</span> <span class="n">dircmp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">print_diff_files</span><span class="p">(</span><span class="n">dcmp</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">dcmp</span><span class="o">.</span><span class="n">diff_files</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">"diff_file </span><span class="si">%s</span><span class="s2"> found in </span><span class="si">%s</span><span class="s2"> and </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">dcmp</span><span class="o">.</span><span class="n">left</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">dcmp</span><span class="o">.</span><span class="n">right</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">sub_dcmp</span> <span class="ow">in</span> <span class="n">dcmp</span><span class="o">.</span><span class="n">subdirs</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+<span class="gp">... </span>        <span class="n">print_diff_files</span><span class="p">(</span><span class="n">sub_dcmp</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dcmp</span> <span class="o">=</span> <span class="n">dircmp</span><span class="p">(</span><span class="s1">'dir1'</span><span class="p">,</span> <span class="s1">'dir2'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_diff_files</span><span class="p">(</span><span class="n">dcmp</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">filecmp</span></code> — Comparações de arquivos e diretórios</a><ul>
+<li><a class="reference internal" href="#the-dircmp-class">A classe <code class="xref py py-class docutils literal notranslate"><span class="pre">dircmp</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="stat.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stat</span></code> — Interpretando resultados de <code class="xref py py-func docutils literal notranslate"><span class="pre">stat()</span></code></a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="tempfile.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tempfile</span></code> — Gera arquivos temporários e diretórios</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/filecmp.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/filecmp.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/filecmp.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="tempfile.html" title="tempfile — Gera arquivos temporários e diretórios"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="stat.html" title="stat — Interpretando resultados de stat()"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="filesys.html" >Acesso a arquivos e diretórios</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">filecmp</span></code> — Comparações de arquivos e diretórios</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

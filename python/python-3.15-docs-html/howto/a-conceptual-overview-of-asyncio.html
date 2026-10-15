@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Uma visão geral conceitual de asyncio" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/howto/a-conceptual-overview-of-asyncio.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Este artigo COMOFAZER tem como objetivo ajudá-lo a construir um modelo mental sólido de como asyncio funciona fundamentalmente, ajudando-lhe a compreender o como e o porquê por trás dos padrões rec..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_howto_a-conceptual-overview-of-asyncio_081d78d0.png" />
+<meta property="og:image:alt" content="Este artigo COMOFAZER tem como objetivo ajudá-lo a construir um modelo mental sólido de como asyncio funciona fundamentalmente, ajudando-lhe a compreender o como e o porquê por trás dos padrões rec..." />
+<meta name="description" content="Este artigo COMOFAZER tem como objetivo ajudá-lo a construir um modelo mental sólido de como asyncio funciona fundamentalmente, ajudando-lhe a compreender o como e o porquê por trás dos padrões rec..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>Uma visão geral conceitual de asyncio &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="Portando módulos de extensão para o Python 3" href="cporting.html" />
+    <link rel="prev" title="Python HOWTOs" href="index.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/howto/a-conceptual-overview-of-asyncio.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Uma visão geral conceitual de <code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code></a><ul>
+<li><a class="reference internal" href="#a-conceptual-overview-part-1-the-high-level">Uma visão geral conceitual parte 1: o alto nível</a><ul>
+<li><a class="reference internal" href="#event-loop">Laço de eventos</a></li>
+<li><a class="reference internal" href="#asynchronous-functions-and-coroutines">Funções assíncronas e corrotinas</a></li>
+<li><a class="reference internal" href="#tasks">Tarefas</a></li>
+<li><a class="reference internal" href="#await">await</a><ul>
+<li><a class="reference internal" href="#awaiting-tasks">Aguardando por tarefas</a></li>
+<li><a class="reference internal" href="#awaiting-coroutines">Aguardando por corrotinas</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#a-conceptual-overview-part-2-the-nuts-and-bolts">Uma visão geral conceitual, parte 2: os detalhes</a><ul>
+<li><a class="reference internal" href="#the-inner-workings-of-coroutines">O funcionamento interno das corrotinas</a></li>
+<li><a class="reference internal" href="#futures">Futuros</a></li>
+<li><a class="reference internal" href="#a-homemade-asyncio-sleep">Um asyncio.sleep caseiro</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="index.html"
+                          title="capítulo anterior">Python HOWTOs</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="cporting.html"
+                          title="próximo capítulo">Portando módulos de extensão para o Python 3</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "howto/a-conceptual-overview-of-asyncio.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/howto/a-conceptual-overview-of-asyncio.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/howto/a-conceptual-overview-of-asyncio.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="cporting.html" title="Portando módulos de extensão para o Python 3"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Python HOWTOs"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python HOWTOs</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Uma visão geral conceitual de <code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code></a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="a-conceptual-overview-of-asyncio">
+<span id="id1"></span><h1 class="translated">Uma visão geral conceitual de <code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code><a class="headerlink" href="#a-conceptual-overview-of-asyncio" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated">Este artigo <a class="reference internal" href="index.html#how-tos"><span class="std std-ref">COMOFAZER</span></a> tem como objetivo ajudá-lo a construir um modelo mental sólido de como <a class="reference internal" href="../library/asyncio.html#module-asyncio" title="asyncio: Asynchronous I/O."><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code></a> funciona fundamentalmente, ajudando-lhe a compreender o como e o porquê por trás dos padrões recomendados.</p>
+<p class="translated">Você pode estar curioso sobre alguns conceitos-chave de <code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code>. Ao final deste artigo, você será capaz de responder confortavelmente a estas perguntas:</p>
+<ul class="simple">
+<li><p class="translated">O que acontece nos bastidores quando um objeto é aguardado?</p></li>
+<li><p class="translated">Como o <code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> diferencia uma tarefa que não precisa de tempo de CPU (como uma solicitação de rede ou leitura de arquivo) de uma tarefa que precisa (como calcular n-fatorial)?</p></li>
+<li><p class="translated">Como escrever uma variante assíncrona de uma operação, como uma suspensão assíncrona ou uma solicitação de banco de dados.</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<ul class="simple">
+<li><p class="translated">O <a class="reference external" href="https://github.com/anordin95/a-conceptual-overview-of-asyncio/tree/main">guia</a> que inspirou este artigo COMOFAZER, por Alexander Nordin.</p></li>
+<li><p class="translated">Esta <a class="reference external" href="https://www.youtube.com/watch?v=Xbl7XjFYsN4&amp;list=PLhNSoGM2ik6SIkVGXWBwerucXjgP1rHmB">série de tutoriais detalhados do YouTube</a> sobre <code class="docutils literal notranslate"><span class="pre">asyncio</span></code> foi criada pelo membro da equipe principal do Python, Łukasz Langa.</p></li>
+<li><p class="translated"><a class="reference external" href="https://aosabook.org/en/500L/a-web-crawler-with-asyncio-coroutines.html">500 linhas ou menos: um rastreador da Web com corrotinas asyncio</a> (em inglês) por A. Jesse Jiryu Davis e Guido van Rossum.</p></li>
+</ul>
+</div>
+<section id="a-conceptual-overview-part-1-the-high-level">
+<h2 class="translated">Uma visão geral conceitual parte 1: o alto nível<a class="headerlink" href="#a-conceptual-overview-part-1-the-high-level" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Na parte 1, abordaremos os principais blocos de construção de alto nível de <code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code>: o laço de eventos, funções de corrotina, objetos de corrotina, tarefas e <code class="docutils literal notranslate"><span class="pre">await</span></code>.</p>
+<section id="event-loop">
+<h3 class="translated">Laço de eventos<a class="headerlink" href="#event-loop" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Tudo no <code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> acontece em relação ao laço de eventos (<em>event loop</em>). Ele é a estrela do espetáculo, mas prefere atuar nos bastidores, gerenciando e coordenando recursos. É como um maestro de orquestra: alguns poderes lhe são explicitamente conferidos, mas grande parte de sua capacidade de realizar tarefas advém do respeito e da cooperação dos integrantes da orquestra.</p>
+<p class="translated">Em termos mais técnicos, o laço de eventos contém uma coleção de tarefas a serem executadas. Algumas tarefas são adicionadas diretamente por você e outras indiretamente por <code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code>. O laço de eventos pega uma tarefa do seu backlog de tarefas e a invoca (ou “dá a ela o controle”), semelhante a chamar uma função, e então essa tarefa é executada. Uma vez pausada ou concluída, ela retorna o controle para o laço de eventos. O laço de eventos então seleciona outra tarefa do seu pool e a invoca. Você pode <em>aproximadamente</em> pensar na coleção de tarefas como uma fila: as tarefas são adicionadas e processadas uma de cada vez, geralmente (mas nem sempre) em ordem. Esse processo se repete indefinidamente, com o laço de eventos em ciclos infinitos. Se não houver mais tarefas pendentes de execução, o laço de eventos é inteligente o suficiente para descansar e evitar o desperdício desnecessário de ciclos de CPU, e retornará quando houver mais trabalho a ser feito, tal como quando operações E/S são concluídas ou seu tempo expira.</p>
+<p class="translated">A execução eficaz depende do bom compartilhamento e da cooperação entre as tarefas; uma tarefa gananciosa pode monopolizar o controle e deixar as outras tarefas na miséria, tornando a abordagem geral do laço de eventos inútil.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+
+<span class="c1"># Isso cria um laço de eventos e percorre indefinidamente</span>
+<span class="c1"># sua coleção de trabalhos</span>
+<span class="n">event_loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">new_event_loop</span><span class="p">()</span>
+<span class="n">event_loop</span><span class="o">.</span><span class="n">run_forever</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="asynchronous-functions-and-coroutines">
+<h3 class="translated">Funções assíncronas e corrotinas<a class="headerlink" href="#asynchronous-functions-and-coroutines" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Esta é uma função básica e chata do Python:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">hello_printer</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">"Olá, sou uma impressora humilde e simples, embora tenha tudo "</span>
+        <span class="s2">"que preciso na vida: -- </span><span class="se">\n</span><span class="s2">papel novo e meu querido e amado "</span>
+        <span class="s2">"parceiro no crime, o polvo."</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Chamar uma função regular invoca sua lógica ou corpo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hello_printer</span><span class="p">()</span>
+<span class="go">Olá, sou uma impressora humilde e simples, embora tenha tudo o que preciso na vida:</span>
+<span class="go">papel novo e meu querido e amado parceiro no crime, o polvo.</span>
+</pre></div>
+</div>
+<p class="translated">O <a class="reference internal" href="../reference/compound_stmts.html#async-def"><span class="std std-ref">async def</span></a>, em oposição a um simples <code class="docutils literal notranslate"><span class="pre">def</span></code>, torna esta uma função assíncrona (ou “função de corrotina”). Chamá-la cria e retorna um objeto <a class="reference internal" href="../library/asyncio-task.html#coroutine"><span class="std std-ref">corrotina</span></a>.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">loudmouth_penguin</span><span class="p">(</span><span class="n">magic_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span>
+     <span class="s2">"Eu sou um pinguim falante superespecial. Muito mais legal que aquela impressora. "</span>
+     <span class="sa">f</span><span class="s2">"Aliás, meu número da sorte é: </span><span class="si">{</span><span class="n">magic_number</span><span class="si">}</span><span class="s2">."</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Chamar a função assíncrona, <code class="docutils literal notranslate"><span class="pre">loudmouth_penguin</span></code>, não executa a instrução de impressão; em vez disso, cria um objeto corrotina:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loudmouth_penguin</span><span class="p">(</span><span class="n">magic_number</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">&lt;coroutine object loudmouth_penguin at 0x104ed2740&gt;</span>
+</pre></div>
+</div>
+<p class="translated">Os termos “função de corrotina” e “objeto corrotina” são frequentemente confundidos com corrotina. Isso pode ser confuso! Neste artigo, corrotina se refere especificamente a um objeto corrotina, ou mais precisamente, a uma instância de <a class="reference internal" href="../library/types.html#types.CoroutineType" title="types.CoroutineType"><code class="xref py py-class docutils literal notranslate"><span class="pre">types.CoroutineType</span></code></a> (corrotina nativa). Observe que corrotinas também podem existir como instâncias de <a class="reference internal" href="../library/collections.abc.html#collections.abc.Coroutine" title="collections.abc.Coroutine"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Coroutine</span></code></a> — uma distinção importante para a verificação de tipos.</p>
+<p class="translated">Uma corrotina representa o corpo ou a lógica da função. Uma corrotina precisa ser iniciada explicitamente; novamente, a mera criação da corrotina não a inicia. Notavelmente, a corrotina pode ser pausada e retomada em vários pontos do corpo da função. Essa capacidade de pausar e retomar é o que permite o comportamento assíncrono!</p>
+<p class="translated">Corrotinas e funções de corrotina foram criadas aproveitando a funcionalidade de <a class="reference internal" href="../glossary.html#term-generator-iterator"><span class="xref std std-term">geradores</span></a> e <a class="reference internal" href="../glossary.html#term-generator"><span class="xref std std-term">funções geradoras</span></a>. Lembre-se: uma função geradora é uma função que executa <a class="reference internal" href="../reference/simple_stmts.html#yield"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">yield</span></code></a>, como esta:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_random_number</span><span class="p">():</span>
+    <span class="c1"># Este seria um gerador de número aleatório ruim!</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Oi"</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Olá"</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="mi">7</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"E aí"</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="mi">4</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p class="translated">Semelhante a uma função de corrotina, chamar uma função geradora não a executa. Em vez disso, ela cria um objeto gerador:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_random_number</span><span class="p">()</span>
+<span class="go">&lt;generator object get_random_number at 0x1048671c0&gt;</span>
+</pre></div>
+</div>
+<p class="translated">Você pode prosseguir para o próximo <code class="docutils literal notranslate"><span class="pre">yield</span></code> de um gerador usando a função embutida <a class="reference internal" href="../builtins/functions.html#next" title="next"><code class="xref py py-func docutils literal notranslate"><span class="pre">next()</span></code></a>. Em outras palavras, o gerador é executado e, em seguida, pausado. Por exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">generator</span> <span class="o">=</span> <span class="n">get_random_number</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
+<span class="go">Oi</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
+<span class="go">Olá</span>
+<span class="go">7</span>
+</pre></div>
+</div>
+</section>
+<section id="tasks">
+<h3 class="translated">Tarefas<a class="headerlink" href="#tasks" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Em termos gerais, <a class="reference internal" href="../library/asyncio-task.html#asyncio-task-obj"><span class="std std-ref">tarefas</span></a> são corrotinas (não funções de corrotina) vinculadas a um laço de eventos. Uma tarefa também mantém uma lista de funções de retorno de chamada cuja importância ficará clara em breve, quando discutirmos <a class="reference internal" href="../reference/expressions.html#await"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">await</span></code></a>.</p>
+<p class="translated">A criação de uma tarefa a agenda automaticamente para execução (adicionando um retorno de chamada para executá-la na lista de tarefas do laço de eventos, ou seja, coleção de tarefas). A forma recomendada é criar tarefas por meio de <a class="reference internal" href="../library/asyncio-task.html#asyncio.create_task" title="asyncio.create_task"><code class="xref py py-func docutils literal notranslate"><span class="pre">asyncio.create_task()</span></code></a>.</p>
+<p class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> associa automaticamente as tarefas ao laço de eventos. Essa associação automática foi propositalmente incorporada ao <code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> para simplificar o processo. Sem ela, você teria que controlar o objeto laço de eventos e passá-lo para qualquer função de corrotina que queira criar tarefas, adicionando código redundante ao seu projeto.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">coroutine</span> <span class="o">=</span> <span class="n">loudmouth_penguin</span><span class="p">(</span><span class="n">magic_number</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="c1"># Isso cria um objeto Task e agenda sua execução por meio do laço de eventos.</span>
+<span class="n">task</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">coroutine</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Anteriormente, criamos manualmente o laço de eventos e o configuramos para ser executado indefinidamente. Na prática, é recomendado (e comum) usar <a class="reference internal" href="../library/asyncio-runner.html#asyncio.run" title="asyncio.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">asyncio.run()</span></code></a>, que gerencia o laço de eventos e garante que a corrotina fornecida termine antes de avançar. Por exemplo, muitos programas assíncronos seguem esta configuração:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Faz todo tipo de coisas malucas, selvagens e assíncronas...</span>
+    <span class="o">...</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+    <span class="c1"># O programa não alcançará a seguinte instrução de exibição</span>
+    <span class="c1"># até que o main() da corrotina seja finalizado.</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"main() da corrotina concluiu!"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">É importante estar ciente de que a tarefa em si não é adicionada ao laço de eventos, apenas um retorno de chamada para a tarefa. Isso é importante se o objeto de tarefa que você criou for coletado como lixo antes de ser chamado pelo laço de eventos. Por exemplo, considere este programa:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">hello</span><span class="p">():</span>
+<span class="linenos"> 2</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"hello!"</span><span class="p">)</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<span class="linenos"> 5</span>    <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">hello</span><span class="p">())</span>
+<span class="linenos"> 6</span>    <span class="c1"># Outras instruções assíncronas que são executadas por</span>
+<span class="linenos"> 7</span>    <span class="c1"># um tempo e cedem o controle ao laço de eventos...</span>
+<span class="linenos"> 8</span>    <span class="o">...</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</pre></div>
+</div>
+<p class="translated">Como não há referência ao objeto tarefa criado na linha 5, ele <em>pode</em> ser coletado como lixo antes que o laço de eventos o invoque. Instruções posteriores na corrotina <code class="docutils literal notranslate"><span class="pre">main()</span></code> transferem o controle de volta para o laço de eventos para que ele possa invocar outras tarefas. Quando o laço de eventos eventualmente tenta executar a tarefa, pode falhar e descobrir que o objeto task não existe! Isso também pode acontecer mesmo que uma corrotina mantenha uma referência a uma tarefa, mas seja concluída antes que ela termine. Quando a corrotina termina, as variáveis locais saem do escopo e podem estar sujeitas à coleta de lixo. Na prática, <code class="docutils literal notranslate"><span class="pre">asyncio</span></code> e o coletor de lixo do Python trabalham arduamente para garantir que esse tipo de coisa não aconteça. Mas isso não é motivo para ser imprudente!</p>
+</section>
+<section id="await">
+<h3 class="translated">await<a class="headerlink" href="#await" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated"><a class="reference internal" href="../reference/expressions.html#await"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">await</span></code></a> é uma palavra reservada do Python comumente usada de duas maneiras diferentes:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">task</span>
+<span class="k">await</span> <span class="n">coroutine</span>
+</pre></div>
+</div>
+<p class="translated">De maneira crucial, o comportamento de <code class="docutils literal notranslate"><span class="pre">await</span></code> depende do tipo de objeto que está sendo aguardado.</p>
+<section id="awaiting-tasks">
+<h4 class="translated">Aguardando por tarefas<a class="headerlink" href="#awaiting-tasks" title="Link para este cabeçalho">¶</a></h4>
+<p class="translated">Aguardar uma tarefa cederá o controle da tarefa ou corrotina atual para o laço de eventos. No processo de cessão de controle, algumas coisas importantes acontecem. Usaremos o seguinte exemplo de código para ilustrar:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">plant_a_tree</span><span class="p">():</span>
+    <span class="n">dig_the_hole_task</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">dig_the_hole</span><span class="p">())</span>
+    <span class="k">await</span> <span class="n">dig_the_hole_task</span>
+
+    <span class="c1"># Outras instruções associadas com plantar uma árvore.</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p class="translated">Neste exemplo, imagine que o laço de eventos passou o controle para o início da corrotina <code class="docutils literal notranslate"><span class="pre">plant_a_tree()</span></code>. Como visto acima, a corrotina cria uma tarefa e a aguarda. A instrução <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">dig_the_hole_task</span></code> adiciona um retorno de chamada (que retomará <code class="docutils literal notranslate"><span class="pre">plant_a_tree()</span></code>) à lista de retornos de chamada do objeto <code class="docutils literal notranslate"><span class="pre">dig_the_hole_task</span></code>. E então, a instrução cede o controle para o laço de eventos. Algum tempo depois, o laço de eventos passará o controle para <code class="docutils literal notranslate"><span class="pre">dig_the_hole_task</span></code> e a tarefa concluirá o que for necessário. Assim que a tarefa for concluída, ela adicionará seus vários retornos de chamada ao laço de eventos, neste caso, uma chamada para retomar <code class="docutils literal notranslate"><span class="pre">plant_a_tree()</span></code>.</p>
+<p class="translated">De modo geral, quando a tarefa aguardada termina (<code class="docutils literal notranslate"><span class="pre">dig_the_hole_task</span></code>), a tarefa original ou corrotina (<code class="docutils literal notranslate"><span class="pre">plant_a_tree()</span></code>) é adicionada novamente à lista de tarefas do laço de eventos para ser retomada.</p>
+<p class="translated">Este é um modelo mental básico, porém confiável. Na prática, as transferências de controle são um pouco mais complexas, mas não muito. Na parte 2, abordaremos os detalhes que tornam isso possível.</p>
+</section>
+<section id="awaiting-coroutines">
+<h4 class="translated">Aguardando por corrotinas<a class="headerlink" href="#awaiting-coroutines" title="Link para este cabeçalho">¶</a></h4>
+<p class="translated"><strong>Ao contrário de tarefas, aguardar uma corrotina não devolve o controle ao laço de eventos!</strong> Envolver uma corrotina em uma tarefa primeiro e depois aguardar isso cederia o controle. O comportamento de <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">coroutine</span></code> é efetivamente o mesmo que invocar uma função Python síncrona comum. Considere este programa:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">coro_a</span><span class="p">():</span>
+   <span class="nb">print</span><span class="p">(</span><span class="s2">"Sou coro_a(). Oi!"</span><span class="p">)</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">coro_b</span><span class="p">():</span>
+   <span class="nb">print</span><span class="p">(</span><span class="s2">"Sou coro_b(). Espero que ninguém monopolize o laço de eventos..."</span><span class="p">)</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+   <span class="n">task_b</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">coro_b</span><span class="p">())</span>
+   <span class="n">num_repeats</span> <span class="o">=</span> <span class="mi">3</span>
+   <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_repeats</span><span class="p">):</span>
+      <span class="k">await</span> <span class="n">coro_a</span><span class="p">()</span>
+   <span class="k">await</span> <span class="n">task_b</span>
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</pre></div>
+</div>
+<p class="translated">A primeira instrução na corrotina <code class="docutils literal notranslate"><span class="pre">main()</span></code> cria <code class="docutils literal notranslate"><span class="pre">task_b</span></code> e a agenda para execução via laço de eventos. Em seguida, <code class="docutils literal notranslate"><span class="pre">coro_a()</span></code> é aguardado repetidamente. O controle nunca cede ao laço de eventos, e é por isso que vemos a saída de todas as três invocações de <code class="docutils literal notranslate"><span class="pre">coro_a()</span></code> antes da saída de <code class="docutils literal notranslate"><span class="pre">coro_b()</span></code>:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>Sou coro_a(). Oi!
+Sou coro_a(). Oi!
+Sou coro_a(). Oi!
+Sou coro_b(). Espero que ninguém monopolize o laço de eventos...
+</pre></div>
+</div>
+<p class="translated">Se alterarmos <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">coro_a()</span></code> para <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">asyncio.create_task(coro_a())</span></code>, o comportamento muda. A corrotina <code class="docutils literal notranslate"><span class="pre">main()</span></code> cede o controle ao laço de eventos com essa instrução. O laço de eventos então prossegue com seu backlog de trabalho, chamando <code class="docutils literal notranslate"><span class="pre">task_b</span></code> e, em seguida, a tarefa que encerra <code class="docutils literal notranslate"><span class="pre">coro_a()</span></code> antes de retomar a corrotina <code class="docutils literal notranslate"><span class="pre">main()</span></code>.</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>Sou coro_b(). Espero que ninguém monopolize o laço de eventos...
+Sou coro_a(). Oi!
+Sou coro_a(). Oi!
+Sou coro_a(). Oi!
+</pre></div>
+</div>
+<p class="translated">Esse comportamento de <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">coroutine</span></code> pode confundir muita gente! Este exemplo destaca como usar apenas <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">coroutine</span></code> pode, involuntariamente, monopolizar o controle de outras tarefas e efetivamente paralisar o laço de eventos. <a class="reference internal" href="../library/asyncio-runner.html#asyncio.run" title="asyncio.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">asyncio.run()</span></code></a> pode ajudar a detectar tais ocorrências por meio do sinalizador <code class="docutils literal notranslate"><span class="pre">debug=True</span></code>, que habilita o <a class="reference internal" href="../library/asyncio-dev.html#asyncio-debug-mode"><span class="std std-ref">modo de depuração</span></a>. Entre outras coisas, ele registrará quaisquer corrotinas que monopolizem a execução por 100 ms ou mais.</p>
+<p class="translated">O design intencionalmente troca alguma clareza conceitual em torno do uso de <code class="docutils literal notranslate"><span class="pre">await</span></code> por melhor desempenho. Cada vez que uma tarefa é aguardada, o controle precisa ser passado por toda a pilha de chamadas até o laço de eventos. O laço de eventos precisa gerenciar seu estado interno e resolver seu processamento lógico para continuar a próxima tarefas. Isso pode parecer insignificante, mas em um programa grande com muitas instruções <code class="docutils literal notranslate"><span class="pre">await</span></code>s essa sobrecarga pode representar um significativo prejuízo ao desempenho.</p>
+</section>
+</section>
+</section>
+<section id="a-conceptual-overview-part-2-the-nuts-and-bolts">
+<h2 class="translated">Uma visão geral conceitual, parte 2: os detalhes<a class="headerlink" href="#a-conceptual-overview-part-2-the-nuts-and-bolts" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">A parte 2 detalha os mecanismos que <code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> usa para gerenciar o fluxo de controle. É aqui que a mágica acontece. Você sairá desta seção sabendo o que <code class="docutils literal notranslate"><span class="pre">await</span></code> faz nos bastidores e como criar seus próprios operadores assíncronos.</p>
+<section id="the-inner-workings-of-coroutines">
+<h3 class="translated">O funcionamento interno das corrotinas<a class="headerlink" href="#the-inner-workings-of-coroutines" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> utiliza quatro componentes do Python para passar o controle.</p>
+<p class="translated"><a class="reference internal" href="../builtins/stdtypes.html#generator.send" title="generator.send"><code class="xref py py-meth docutils literal notranslate"><span class="pre">coroutine.send(arg)</span></code></a> é o método usado para iniciar ou retomar uma corrotina. Se a corrotina foi pausada e agora está sendo retomada, o argumento <code class="docutils literal notranslate"><span class="pre">arg</span></code> será enviado como valor de retorno da instrução <code class="docutils literal notranslate"><span class="pre">yield</span></code> que a pausou originalmente. Se a corrotina estiver sendo usada pela primeira vez (em vez de ser retomada), <code class="docutils literal notranslate"><span class="pre">arg</span></code> deve ser <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">class</span><span class="w"> </span><span class="nc">Rock</span><span class="p">:</span>
+<span class="linenos"> 2</span>    <span class="k">def</span><span class="w"> </span><span class="fm">__await__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos"> 3</span>        <span class="n">value_sent_in</span> <span class="o">=</span> <span class="k">yield</span> <span class="mi">7</span>
+<span class="linenos"> 4</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Rock.__await__ resumindo com o valor: </span><span class="si">{</span><span class="n">value_sent_in</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+<span class="linenos"> 5</span>        <span class="k">return</span> <span class="n">value_sent_in</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<span class="linenos"> 8</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Iniciando main() da corrotina."</span><span class="p">)</span>
+<span class="linenos"> 9</span>    <span class="n">rock</span> <span class="o">=</span> <span class="n">Rock</span><span class="p">()</span>
+<span class="linenos">10</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Aguardando rock..."</span><span class="p">)</span>
+<span class="linenos">11</span>    <span class="n">value_from_rock</span> <span class="o">=</span> <span class="k">await</span> <span class="n">rock</span>
+<span class="linenos">12</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Corrotina recebeu valor: </span><span class="si">{</span><span class="n">value_from_rock</span><span class="si">}</span><span class="s2"> de rock."</span><span class="p">)</span>
+<span class="linenos">13</span>    <span class="k">return</span> <span class="mi">23</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="n">coroutine</span> <span class="o">=</span> <span class="n">main</span><span class="p">()</span>
+<span class="linenos">16</span><span class="n">intermediate_result</span> <span class="o">=</span> <span class="n">coroutine</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="linenos">17</span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Corrotina pausou e retornou o valor intermediário: </span><span class="si">{</span><span class="n">intermediate_result</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Resumindo corrotina e enviando o valor: 42."</span><span class="p">)</span>
+<span class="linenos">20</span><span class="k">try</span><span class="p">:</span>
+<span class="linenos">21</span>    <span class="n">coroutine</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="linenos">22</span><span class="k">except</span> <span class="ne">StopIteration</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="linenos">23</span>    <span class="n">returned_value</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">value</span>
+<span class="linenos">24</span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"O main() da corrotina finalizou e forneceu o valor: </span><span class="si">{</span><span class="n">returned_value</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated"><a class="reference internal" href="../reference/expressions.html#yieldexpr"><span class="std std-ref">yield</span></a>, como de costume, pausa a execução e retorna o controle ao chamador. No exemplo acima, <code class="docutils literal notranslate"><span class="pre">yield</span></code>, na linha 3, é chamado por <code class="docutils literal notranslate"><span class="pre">...</span> <span class="pre">=</span> <span class="pre">await</span> <span class="pre">rock</span></code> na linha 11. Em termos mais gerais, <code class="docutils literal notranslate"><span class="pre">await</span></code> chama o método <a class="reference internal" href="../reference/datamodel.html#object.__await__" title="object.__await__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__await__()</span></code></a> do objeto fornecido. <code class="docutils literal notranslate"><span class="pre">await</span></code> também faz algo muito especial: ele propaga (ou “repassa”) quaisquer <code class="docutils literal notranslate"><span class="pre">yield</span></code>s que recebe na cadeia de chamadas. Neste caso, voltamos a <code class="docutils literal notranslate"><span class="pre">...</span> <span class="pre">=</span> <span class="pre">coroutine.send(None)</span></code> na linha 16.</p>
+<p class="translated">A corrotina é retomada por meio da chamada <code class="docutils literal notranslate"><span class="pre">coroutine.send(42)</span></code> na linha 21. A corrotina continua de onde foi executada (ou pausada) com <code class="docutils literal notranslate"><span class="pre">yield</span></code> na linha 3 e executa as instruções restantes em seu corpo. Quando uma corrotina termina, ela levanta uma exceção <a class="reference internal" href="../builtins/exceptions.html#StopIteration" title="StopIteration"><code class="xref py py-exc docutils literal notranslate"><span class="pre">StopIteration</span></code></a> com o valor de retorno anexado ao atributo <a class="reference internal" href="../builtins/exceptions.html#StopIteration.value" title="StopIteration.value"><code class="xref py py-attr docutils literal notranslate"><span class="pre">value</span></code></a>.</p>
+<p class="translated">Esse trecho de código produz esta saída:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>Iniciando main() da corrotina.
+Aguardando rock...
+Corrotina pausou e retornou o valor intermediário: 7.
+Resumindo coroutine e enviando o valor: 42.
+Rock.__await__ resumindo com o valor: 42.
+Corrotina recebeu valor: 42 de rock.
+O main() da corrotina finalizou e forneceu o valor: 23.
+</pre></div>
+</div>
+<p class="translated">Vale a pena parar um momento aqui e certificar-se de que você seguiu as diversas maneiras pelas quais o fluxo de controle e os valores foram passados. Muitas ideias importantes foram abordadas e vale a pena garantir que seu entendimento esteja firme.</p>
+<p class="translated">A única maneira de ceder (ou efetivamente ceder o controle) de uma corrotina é <code class="docutils literal notranslate"><span class="pre">await</span></code> um objeto que <code class="docutils literal notranslate"><span class="pre">yield</span></code> está em seu método <code class="docutils literal notranslate"><span class="pre">__await__</span></code>. Isso pode parecer estranho para você. Você pode estar pensando:</p>
+<blockquote>
+<div><p class="untranslated">1. What about a <code class="docutils literal notranslate"><span class="pre">yield</span></code> directly within the coroutine function? The
+coroutine function becomes an
+<a class="reference internal" href="../reference/expressions.html#asynchronous-generator-functions"><span class="std std-ref">async generator function</span></a>, a
+different beast entirely.</p>
+<p class="untranslated">2. What about a <a class="reference internal" href="../reference/expressions.html#yieldexpr"><span class="std std-ref">yield from</span></a> within the coroutine function to a (plain)
+generator?
+That causes the error: <code class="docutils literal notranslate"><span class="pre">SyntaxError:</span> <span class="pre">yield</span> <span class="pre">from</span> <span class="pre">not</span> <span class="pre">allowed</span> <span class="pre">in</span> <span class="pre">a</span> <span class="pre">coroutine.</span></code>
+This was intentionally designed for the sake of simplicity – mandating only
+one way of using coroutines.
+Despite that, <code class="docutils literal notranslate"><span class="pre">yield</span> <span class="pre">from</span></code> and <code class="docutils literal notranslate"><span class="pre">await</span></code> effectively do the same thing.
+Initially <code class="docutils literal notranslate"><span class="pre">yield</span></code> was barred as well, but was re-accepted to allow for
+async generators.</p>
+</div></blockquote>
+</section>
+<section id="futures">
+<h3 class="translated">Futuros<a class="headerlink" href="#futures" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Um <a class="reference internal" href="../library/asyncio-future.html#asyncio-future-obj"><span class="std std-ref">future</span></a> é um objeto que representa o status e o resultado de uma computação. O termo é uma referência à ideia de algo que ainda está por vir ou que ainda não aconteceu, e o objeto é uma forma de ficar de olho nesse algo.</p>
+<p class="translated">Um future possui alguns atributos importantes. Um deles é o seu estado, que pode ser “pending”, “cancelled”, or “done” (“pendente”, “cancelado” ou “concluído”, respectivamente). Outro é o seu resultado, que é definido quando o estado transita para concluído. Ao contrário de uma corrotina, um future não representa a computação real a ser realizada; em vez disso, representa o status e o resultado dessa computação, como uma espécie de luz de status (vermelha, amarela ou verde) ou indicador.</p>
+<p class="translated"><a class="reference internal" href="../library/asyncio-task.html#asyncio.Task" title="asyncio.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">asyncio.Task</span></code></a> estende <a class="reference internal" href="../library/asyncio-future.html#asyncio.Future" title="asyncio.Future"><code class="xref py py-class docutils literal notranslate"><span class="pre">asyncio.Future</span></code></a> para obter esses vários recursos. A seção anterior dizia que as tarefas armazenam uma lista de retornos de chamada, o que não era totalmente preciso. Na verdade, é a classe <code class="docutils literal notranslate"><span class="pre">Future</span></code> que implementa essa lógica, que <code class="docutils literal notranslate"><span class="pre">Task</span></code> herda.</p>
+<p class="translated">Instruções future também podem ser usados diretamente (não por meio de tarefas). As tarefas se marcam como concluídas quando sua corrotina é concluída. Instruções future são muito mais versáteis e serão marcados como concluídos quando você informar. Dessa forma, eles são a interface flexível para você definir suas próprias condições de espera e retomada.</p>
+</section>
+<section id="a-homemade-asyncio-sleep">
+<h3 class="translated">Um asyncio.sleep caseiro<a class="headerlink" href="#a-homemade-asyncio-sleep" title="Link para este cabeçalho">¶</a></h3>
+<p class="translated">Veremos um exemplo de como você pode aproveitar um future para criar sua própria variante de suspensão assíncrona (<code class="docutils literal notranslate"><span class="pre">async_sleep</span></code>) que imita <a class="reference internal" href="../library/asyncio-task.html#asyncio.sleep" title="asyncio.sleep"><code class="xref py py-func docutils literal notranslate"><span class="pre">asyncio.sleep()</span></code></a>.</p>
+<p class="translated">Este trecho de código registra algumas tarefas no laço de eventos e, em seguida, aguarda a tarefa criada por <code class="docutils literal notranslate"><span class="pre">asyncio.create_task</span></code>, que envolve a corrotina <code class="docutils literal notranslate"><span class="pre">async_sleep(3)</span></code>. Queremos que essa tarefa termine somente após três segundos, mas sem impedir a execução de outras tarefas.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">other_work</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Eu gosto de trabalhar. Trabalhar, trabalhar."</span><span class="p">)</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Adiciona algumas tarefas ao laço de eventos, de forma que</span>
+    <span class="c1"># haja algo para fazer durante a suspensão assíncrona.</span>
+    <span class="n">work_tasks</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">other_work</span><span class="p">()),</span>
+        <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">other_work</span><span class="p">()),</span>
+        <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">other_work</span><span class="p">())</span>
+    <span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">"Começando a suspensão assíncrona no horário: "</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%H:%M:%S"</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span>
+    <span class="p">)</span>
+    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">async_sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">"Concluí a suspensão assíncrona no horário: "</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%H:%M:%S"</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span>
+    <span class="p">)</span>
+    <span class="c1"># asyncio.gather efetivamente espera cada tarefa na coleção.</span>
+    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">work_tasks</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">A seguir, usamos um future para permitir o controle personalizado sobre quando essa tarefa será marcada como concluída. Se <a class="reference internal" href="../library/asyncio-future.html#asyncio.Future.set_result" title="asyncio.Future.set_result"><code class="xref py py-meth docutils literal notranslate"><span class="pre">future.set_result()</span></code></a> (o método responsável por marcar o future como concluído) nunca for chamado, essa tarefa nunca terminará. Também contamos com a ajuda de outra tarefa, que veremos em breve, que monitorará o tempo decorrido e, consequentemente, chamará <code class="docutils literal notranslate"><span class="pre">future.set_result()</span></code>.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">async_sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="n">future</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">()</span>
+    <span class="n">time_to_wake</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">seconds</span>
+    <span class="c1"># Adiciona uma tarefa de monitoramento ao laço de eventos.</span>
+    <span class="n">watcher_task</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">_sleep_watcher</span><span class="p">(</span><span class="n">future</span><span class="p">,</span> <span class="n">time_to_wake</span><span class="p">))</span>
+    <span class="c1"># Bloqueia até future ser marcado como concluído.</span>
+    <span class="k">await</span> <span class="n">future</span>
+</pre></div>
+</div>
+<p class="translated">A seguir, usamos um objeto <code class="docutils literal notranslate"><span class="pre">YieldToEventLoop()</span></code> bastante simples para <code class="docutils literal notranslate"><span class="pre">yield</span></code> do seu método <code class="docutils literal notranslate"><span class="pre">__await__</span></code>, cedendo o controle ao laço de eventos. Isso é efetivamente o mesmo que chamar <code class="docutils literal notranslate"><span class="pre">asyncio.sleep(0)</span></code>, mas essa abordagem oferece mais clareza, sem mencionar que é um tanto quanto trapaça usar <code class="docutils literal notranslate"><span class="pre">asyncio.sleep</span></code> ao demonstrar como implementá-lo!</p>
+<p class="translated">Como de costume, o laço de eventos percorre suas tarefas, concedendo-lhes o controle e recebendo-o de volta quando elas pausam ou terminam. A tarefa <code class="docutils literal notranslate"><span class="pre">watcher_task</span></code>, que executa a corrotina <code class="docutils literal notranslate"><span class="pre">_sleep_watcher(...)</span></code>, será invocada uma vez por ciclo completo do laço de eventos. A cada retomada, ela verificará o tempo e, se não tiver decorrido tempo suficiente, pausará novamente e devolverá o controle ao laço de eventos. Assim que o tempo suficiente tiver decorrido, <code class="docutils literal notranslate"><span class="pre">_sleep_watcher(...)</span></code> marcará o futuro como concluído e finalizará, saindo de seu laço <code class="docutils literal notranslate"><span class="pre">while</span></code> infinito. Dado que essa tarefa auxiliar é invocada apenas uma vez por ciclo do laço de eventos, você está correto ao observar que essa suspensão assíncrona durará <em>pelo menos</em> três segundos, em vez de exatamente três segundos. Observe que isso também se aplica a <code class="docutils literal notranslate"><span class="pre">asyncio.sleep</span></code>.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">YieldToEventLoop</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__await__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">yield</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_sleep_watcher</span><span class="p">(</span><span class="n">future</span><span class="p">,</span> <span class="n">time_to_wake</span><span class="p">):</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">time_to_wake</span><span class="p">:</span>
+            <span class="c1"># Isso marca future como concluído.</span>
+            <span class="n">future</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">await</span> <span class="n">YieldToEventLoop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="translated">Aqui está a saída completa do programa:</p>
+<div class="translated highlight-none notranslate"><div class="highlight"><pre><span></span>$ python custom-async-sleep.py
+Começando a suspensão assíncrona no horário: 14:52:22.
+Eu gosto de trabalhar. Trabalhar, trabalhar.
+Eu gosto de trabalhar. Trabalhar, trabalhar.
+Eu gosto de trabalhar. Trabalhar, trabalhar.
+Concluí a suspensão assíncrona no horário: 14:52:25.
+</pre></div>
+</div>
+<p class="translated">Você pode achar que esta implementação de suspensão assíncrona foi desnecessariamente complexa. E, bem, foi mesmo. O exemplo tinha como objetivo demonstrar a versatilidade dos futures com um exemplo simples que poderia ser replicado para necessidades mais complexas. Para referência, você poderia implementá-lo sem futures, assim:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">simpler_async_sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
+    <span class="n">time_to_wake</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">seconds</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">time_to_wake</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">await</span> <span class="n">YieldToEventLoop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="translated">Mas por agora é tudo. Espero que agora esteja pronto para mergulhar com mais confiança na programação assíncrona ou consultar tópicos avançados no <a class="reference internal" href="../library/asyncio.html#module-asyncio" title="asyncio: Asynchronous I/O."><code class="xref py py-mod docutils literal notranslate"><span class="pre">restante</span> <span class="pre">da</span> <span class="pre">documentação</span></code></a>.</p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Uma visão geral conceitual de <code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code></a><ul>
+<li><a class="reference internal" href="#a-conceptual-overview-part-1-the-high-level">Uma visão geral conceitual parte 1: o alto nível</a><ul>
+<li><a class="reference internal" href="#event-loop">Laço de eventos</a></li>
+<li><a class="reference internal" href="#asynchronous-functions-and-coroutines">Funções assíncronas e corrotinas</a></li>
+<li><a class="reference internal" href="#tasks">Tarefas</a></li>
+<li><a class="reference internal" href="#await">await</a><ul>
+<li><a class="reference internal" href="#awaiting-tasks">Aguardando por tarefas</a></li>
+<li><a class="reference internal" href="#awaiting-coroutines">Aguardando por corrotinas</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#a-conceptual-overview-part-2-the-nuts-and-bolts">Uma visão geral conceitual, parte 2: os detalhes</a><ul>
+<li><a class="reference internal" href="#the-inner-workings-of-coroutines">O funcionamento interno das corrotinas</a></li>
+<li><a class="reference internal" href="#futures">Futuros</a></li>
+<li><a class="reference internal" href="#a-homemade-asyncio-sleep">Um asyncio.sleep caseiro</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="index.html"
+                          title="capítulo anterior">Python HOWTOs</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="cporting.html"
+                          title="próximo capítulo">Portando módulos de extensão para o Python 3</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "howto/a-conceptual-overview-of-asyncio.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/howto/a-conceptual-overview-of-asyncio.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/howto/a-conceptual-overview-of-asyncio.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="cporting.html" title="Portando módulos de extensão para o Python 3"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Python HOWTOs"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python HOWTOs</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Uma visão geral conceitual de <code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code></a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

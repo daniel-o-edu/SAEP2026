@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="fnmatch — Correspondência de padrões de nome de arquivo Unix" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/fnmatch.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/fnmatch.py Este módulo fornece suporte para curingas no estilo shell do Unix, que não são iguais às expressões regulares (documentadas no módulo re). Os caracteres especiais usado..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_fnmatch_9d001811.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/fnmatch.py Este módulo fornece suporte para curingas no estilo shell do Unix, que não são iguais às expressões regulares (documentadas no módulo re). Os caracteres especiais usado..." />
+<meta name="description" content="Código-fonte: Lib/fnmatch.py Este módulo fornece suporte para curingas no estilo shell do Unix, que não são iguais às expressões regulares (documentadas no módulo re). Os caracteres especiais usado..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>fnmatch — Correspondência de padrões de nome de arquivo Unix &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="linecache — Acesso aleatório a linhas de texto" href="linecache.html" />
+    <link rel="prev" title="glob — Expansão de padrão de nome de arquivo no estilo Unix" href="glob.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/fnmatch.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="glob.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">glob</span></code> — Expansão de padrão de nome de arquivo no estilo Unix</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="linecache.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">linecache</span></code> — Acesso aleatório a linhas de texto</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/fnmatch.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/fnmatch.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/fnmatch.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="linecache.html" title="linecache — Acesso aleatório a linhas de texto"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="glob.html" title="glob — Expansão de padrão de nome de arquivo no estilo Unix"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="filesys.html" accesskey="U">Acesso a arquivos e diretórios</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">fnmatch</span></code> — Correspondência de padrões de nome de arquivo Unix</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-fnmatch">
+<span id="fnmatch-unix-filename-pattern-matching"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fnmatch</span></code> — Correspondência de padrões de nome de arquivo Unix<a class="headerlink" href="#module-fnmatch" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/fnmatch.py">Lib/fnmatch.py</a></p>
+<span id="index-0"></span><hr class="docutils" id="index-1" />
+<p class="translated">Este módulo fornece suporte para curingas no estilo shell do Unix, que <em>não</em> são iguais às expressões regulares (documentadas no módulo <a class="reference internal" href="re.html#module-re" title="re: Regular expression operations."><code class="xref py py-mod docutils literal notranslate"><span class="pre">re</span></code></a>). Os caracteres especiais usados nos curingas no estilo de shell são:</p>
+<table class="docutils align-default" id="index-2">
+<thead>
+<tr class="row-odd"><th class="head"><p class="translated">Padrão</p></th>
+<th class="head"><p class="translated">Significado</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">*</span></code></p></td>
+<td><p class="translated">corresponde a tudo</p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">?</span></code></p></td>
+<td><p class="translated">Corresponde a qualquer caractere único</p></td>
+</tr>
+<tr class="row-even"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">[seq]</span></code></p></td>
+<td><p class="translated">corresponde a qualquer caractere em <em>seq</em></p></td>
+</tr>
+<tr class="row-odd"><td><p class="translated"><code class="docutils literal notranslate"><span class="pre">[!seq]</span></code></p></td>
+<td><p class="translated">corresponde a qualquer caractere ausente em <em>seq</em></p></td>
+</tr>
+</tbody>
+</table>
+<p class="translated">Para uma correspondência literal, coloque os metacaracteres entre colchetes. Por exemplo, <code class="docutils literal notranslate"><span class="pre">'[?]'</span></code> corresponde ao caractere <code class="docutils literal notranslate"><span class="pre">'?'</span></code>.</p>
+<p class="translated" id="index-3">Note que o separador de nome de arquivo (<code class="docutils literal notranslate"><span class="pre">'/'</span></code> no Unix) <em>não</em> é especial para este módulo. Veja o módulo <a class="reference internal" href="glob.html#module-glob" title="glob: Unix shell style pathname pattern expansion."><code class="xref py py-mod docutils literal notranslate"><span class="pre">glob</span></code></a> para expansão do nome do caminho (<code class="xref py py-mod docutils literal notranslate"><span class="pre">glob</span></code> usa <a class="reference internal" href="#fnmatch.filter" title="fnmatch.filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">filter()</span></code></a> para corresponder aos segmentos do nome do caminho). Da mesma forma, os nomes de arquivos que começam com um ponto final não são especiais para este módulo e são correspondidos pelos padrões <code class="docutils literal notranslate"><span class="pre">*</span></code> e <code class="docutils literal notranslate"><span class="pre">?</span></code>.</p>
+<p class="translated">A menos que indicado de outra forma, “string de nome de arquivo” e “string de padrão” referem-se a objetos <a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> ou <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> codificados em <code class="docutils literal notranslate"><span class="pre">ISO-8859-1</span></code>. Observe que as funções documentadas abaixo não permitem misturar um padrão <code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code> com um nome de arquivo <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> e vice-versa.</p>
+<p class="translated">Por fim, observe que <a class="reference internal" href="functools.html#functools.lru_cache" title="functools.lru_cache"><code class="xref py py-deco docutils literal notranslate"><span class="pre">&#64;functools.lru_cache</span></code></a> com um <em>maxsize</em> de 32768 é usado para armazenar em cache os padrões regex compilados (tipados) nas seguintes funções: <a class="reference internal" href="#module-fnmatch" title="fnmatch: Unix shell style filename pattern matching."><code class="xref py py-func docutils literal notranslate"><span class="pre">fnmatch()</span></code></a>, <a class="reference internal" href="#fnmatch.fnmatchcase" title="fnmatch.fnmatchcase"><code class="xref py py-func docutils literal notranslate"><span class="pre">fnmatchcase()</span></code></a>, <a class="reference internal" href="#fnmatch.filter" title="fnmatch.filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">filter()</span></code></a>, <a class="reference internal" href="#fnmatch.filterfalse" title="fnmatch.filterfalse"><code class="xref py py-func docutils literal notranslate"><span class="pre">filterfalse()</span></code></a>.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="fnmatch.fnmatch">
+<span class="sig-prename descclassname"><span class="pre">fnmatch.</span></span><span class="sig-name descname"><span class="pre">fnmatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pat</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fnmatch.fnmatch" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Testa se a string do nome de arquivo <em>name</em> corresponde à string de padrão <em>pat</em>, retornando <code class="docutils literal notranslate"><span class="pre">True</span></code> ou <code class="docutils literal notranslate"><span class="pre">False</span></code>. Ambos os parâmetros são normalizados em maiúsculas e minúsculas usando <a class="reference internal" href="os.path.html#os.path.normcase" title="os.path.normcase"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.path.normcase()</span></code></a>. <a class="reference internal" href="#fnmatch.fnmatchcase" title="fnmatch.fnmatchcase"><code class="xref py py-func docutils literal notranslate"><span class="pre">fnmatchcase()</span></code></a> pode ser usado para realizar uma comparação com distinção entre maiúsculas e minúsculas, independentemente de ser padrão para o sistema operacional.</p>
+<p class="translated">Este exemplo vai exibir todos os nomes de arquivos no diretório atual com a extensão <code class="docutils literal notranslate"><span class="pre">.txt</span></code>:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">fnmatch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="k">for</span> <span class="n">arquivo</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">'.'</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">fnmatch</span><span class="o">.</span><span class="n">fnmatch</span><span class="p">(</span><span class="n">arquivo</span><span class="p">,</span> <span class="s1">'*.txt'</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">arquivo</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fnmatch.fnmatchcase">
+<span class="sig-prename descclassname"><span class="pre">fnmatch.</span></span><span class="sig-name descname"><span class="pre">fnmatchcase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pat</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fnmatch.fnmatchcase" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Testa se a string do nome de arquivo <em>name</em> corresponde à string de padrão <em>pat</em>, retornando <code class="docutils literal notranslate"><span class="pre">True</span></code> ou <code class="docutils literal notranslate"><span class="pre">False</span></code>; a comparação diferencia maiúsculas de minúsculas e não se aplica a <a class="reference internal" href="os.path.html#os.path.normcase" title="os.path.normcase"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.path.normcase()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fnmatch.filter">
+<span class="sig-prename descclassname"><span class="pre">fnmatch.</span></span><span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pat</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fnmatch.filter" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Constrói uma lista a partir daqueles elementos do <a class="reference internal" href="../glossary.html#term-iterable"><span class="xref std std-term">iterável</span></a> de strings de nome de arquivo <em>names</em> que correspondem à string de padrão <em>pat</em>. É o mesmo que <code class="docutils literal notranslate"><span class="pre">[n</span> <span class="pre">for</span> <span class="pre">n</span> <span class="pre">in</span> <span class="pre">names</span> <span class="pre">if</span> <span class="pre">fnmatch(n,</span> <span class="pre">pat)]</span></code>, mas implementado com mais eficiência.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fnmatch.filterfalse">
+<span class="sig-prename descclassname"><span class="pre">fnmatch.</span></span><span class="sig-name descname"><span class="pre">filterfalse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pat</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fnmatch.filterfalse" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Constrói uma lista a partir daqueles elementos do <a class="reference internal" href="../glossary.html#term-iterable"><span class="xref std std-term">iterável</span></a> de strings de nome de arquivo <em>names</em> que não correspondem à string de padrão <em>pat</em>. É o mesmo que <code class="docutils literal notranslate"><span class="pre">[n</span> <span class="pre">for</span> <span class="pre">n</span> <span class="pre">in</span> <span class="pre">names</span> <span class="pre">if</span> <span class="pre">not</span> <span class="pre">fnmatch(n,</span> <span class="pre">pat)]</span></code>, mas implementado com mais eficiência.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fnmatch.translate">
+<span class="sig-prename descclassname"><span class="pre">fnmatch.</span></span><span class="sig-name descname"><span class="pre">translate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pat</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fnmatch.translate" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna o padrão <em>pat</em> no estilo shell convertido em uma expressão regular para usar com <a class="reference internal" href="re.html#re.prefixmatch" title="re.prefixmatch"><code class="xref py py-func docutils literal notranslate"><span class="pre">re.prefixmatch()</span></code></a>. O padrão é esperado ser um <a class="reference internal" href="../builtins/stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</p>
+<p class="translated">Exemplo:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">fnmatch</span><span class="o">,</span><span class="w"> </span><span class="nn">re</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regex</span> <span class="o">=</span> <span class="n">fnmatch</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s1">'*.txt'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regex</span>
+<span class="go">'(?s:.*\\.txt)\\z'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reobj</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">regex</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reobj</span><span class="o">.</span><span class="n">prefixmatch</span><span class="p">(</span><span class="s1">'foobar.txt'</span><span class="p">)</span>
+<span class="go">&lt;re.Match object; span=(0, 10), match='foobar.txt'&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<dl class="simple">
+<dt class="translated">Módulo <a class="reference internal" href="glob.html#module-glob" title="glob: Unix shell style pathname pattern expansion."><code class="xref py py-mod docutils literal notranslate"><span class="pre">glob</span></code></a></dt><dd><p class="translated">Expansão de caminho no estilo shell do Unix.</p>
+</dd>
+</dl>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="glob.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">glob</span></code> — Expansão de padrão de nome de arquivo no estilo Unix</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="linecache.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">linecache</span></code> — Acesso aleatório a linhas de texto</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/fnmatch.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/fnmatch.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/fnmatch.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="linecache.html" title="linecache — Acesso aleatório a linhas de texto"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="glob.html" title="glob — Expansão de padrão de nome de arquivo no estilo Unix"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="filesys.html" >Acesso a arquivos e diretórios</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">fnmatch</span></code> — Correspondência de padrões de nome de arquivo Unix</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

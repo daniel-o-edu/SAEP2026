@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="email.generator: Geração de documentos MIME" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/email.generator.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/email/generator.py Uma das tarefas mais comuns é gerar a versão plana (serializada) da mensagem de e-mail representada por uma estrutura de objeto de mensagem. Você precisará faze..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_email.generator_c0fccb98.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/email/generator.py Uma das tarefas mais comuns é gerar a versão plana (serializada) da mensagem de e-mail representada por uma estrutura de objeto de mensagem. Você precisará faze..." />
+<meta name="description" content="Código-fonte: Lib/email/generator.py Uma das tarefas mais comuns é gerar a versão plana (serializada) da mensagem de e-mail representada por uma estrutura de objeto de mensagem. Você precisará faze..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>email.generator: Geração de documentos MIME &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="email.policy: Policy Objects" href="email.policy.html" />
+    <link rel="prev" title="email.parser: Parsing email messages" href="email.parser.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/email.generator.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="email.parser.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.parser</span></code>: Parsing email messages</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="email.policy.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.policy</span></code>: Policy Objects</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/email.generator.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/email.generator.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/email.generator.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="email.policy.html" title="email.policy: Policy Objects"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="email.parser.html" title="email.parser: Parsing email messages"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="netdata.html" >Manuseio de Dados na Internet</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="email.html" accesskey="U"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code> — Um e-mail e um pacote MIME manipulável</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.generator</span></code>: Geração de documentos MIME</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-email.generator">
+<span id="email-generator-generating-mime-documents"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.generator</span></code>: Geração de documentos MIME<a class="headerlink" href="#module-email.generator" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/email/generator.py">Lib/email/generator.py</a></p>
+<hr class="docutils" />
+<p class="translated">Uma das tarefas mais comuns é gerar a versão plana (serializada) da mensagem de e-mail representada por uma estrutura de objeto de mensagem. Você precisará fazer isso se quiser enviar sua mensagem via <a class="reference internal" href="smtplib.html#smtplib.SMTP.sendmail" title="smtplib.SMTP.sendmail"><code class="xref py py-meth docutils literal notranslate"><span class="pre">smtplib.SMTP.sendmail()</span></code></a> ou exibir a mensagem no console. A tarefa das classes geradoras é pegar uma estrutura de objeto de mensagem e produzir uma representação serializada.</p>
+<p class="translated">Assim como no módulo <a class="reference internal" href="email.parser.html#module-email.parser" title="email.parser: Parse flat text email messages to produce a message object structure."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.parser</span></code></a>, você não está limitado à funcionalidade do gerador integrado; você mesmo pode criar um do zero. No entanto, o gerador integrado sabe como gerar a maioria dos e-mails em conformidade com os padrões, deve lidar perfeitamente com mensagens de e-mail MIME e não MIME e foi projetado para que as operações de análise e geração orientadas a bytes sejam inversas, presumindo que a mesma <a class="reference internal" href="email.policy.html#module-email.policy" title="email.policy: Controlling the parsing and generating of messages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">policy</span></code></a> não transformadora seja usada para ambas. Ou seja, analisar o fluxo de bytes serializado por meio da classe <a class="reference internal" href="email.parser.html#email.parser.BytesParser" title="email.parser.BytesParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesParser</span></code></a> e, em seguida, regenerar o fluxo de bytes serializado usando <a class="reference internal" href="#email.generator.BytesGenerator" title="email.generator.BytesGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesGenerator</span></code></a> deve produzir uma saída idêntica à entrada <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. (Por outro lado, usar o gerador em um <a class="reference internal" href="email.message.html#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> construído pelo programa pode resultar em alterações no objeto <code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code> à medida que os padrões são preenchidos.)</p>
+<p class="translated">A classe <a class="reference internal" href="#email.generator.Generator" title="email.generator.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a> pode ser usada para simplificar uma mensagem em uma representação serializada de texto (em oposição a binária), mas como o Unicode não pode representar dados binários diretamente, a mensagem é necessariamente transformada em algo que contém apenas caracteres ASCII, usando as técnicas de codificação de transferência de conteúdo RFC de e-mail padrão para codificar mensagens de e-mail para transporte em canais que não são “limpos de 8 bits”.</p>
+<p class="translated">Para acomodar o processamento reproduzível de mensagens assinadas por SMIME, <a class="reference internal" href="#email.generator.Generator" title="email.generator.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a> desabilita a dobragem de cabeçalho para partes de mensagens do tipo <code class="docutils literal notranslate"><span class="pre">multipart/signed</span></code> e todas as subpartes.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="email.generator.BytesGenerator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">email.generator.</span></span><span class="sig-name descname"><span class="pre">BytesGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outfp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mangle_from_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxheaderlen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.generator.BytesGenerator" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um objeto <a class="reference internal" href="#email.generator.BytesGenerator" title="email.generator.BytesGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesGenerator</span></code></a> que gravará qualquer mensagem fornecida ao método <a class="reference internal" href="#email.generator.BytesGenerator.flatten" title="email.generator.BytesGenerator.flatten"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flatten()</span></code></a>, ou qualquer texto codificado surrogateescape fornecido ao método <a class="reference internal" href="#email.generator.BytesGenerator.write" title="email.generator.BytesGenerator.write"><code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code></a>, no <a class="reference internal" href="../glossary.html#term-file-like-object"><span class="xref std std-term">objeto arquivo ou similar</span></a> <em>outfp</em>. <em>outfp</em> deve oferecer suporte a um método <code class="docutils literal notranslate"><span class="pre">write</span></code> que aceite dados binários.</p>
+<p class="translated">Se o <em>mangle_from_</em> opcional for <code class="docutils literal notranslate"><span class="pre">True</span></code>, coloca um caractere <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> na frente de qualquer linha no corpo que comece com a string exata <code class="docutils literal notranslate"><span class="pre">&quot;From</span> <span class="pre">&quot;</span></code>, ou seja, <code class="docutils literal notranslate"><span class="pre">From</span></code> seguido por um espaço no início de uma linha. <em>mangle_from_</em> assume por padrão o valor da configuração <a class="reference internal" href="email.policy.html#email.policy.Policy.mangle_from_" title="email.policy.Policy.mangle_from_"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mangle_from_</span></code></a> da <em>policy</em> (que é <code class="docutils literal notranslate"><span class="pre">True</span></code> para a política <a class="reference internal" href="email.policy.html#email.policy.compat32" title="email.policy.compat32"><code class="xref py py-data docutils literal notranslate"><span class="pre">compat32</span></code></a> e <code class="docutils literal notranslate"><span class="pre">False</span></code> para todas as outras). <em>mangle_from_</em> deve ser usado quando as mensagens são armazenadas no formato mbox do Unix (consulte <a class="reference internal" href="mailbox.html#module-mailbox" title="mailbox: Manipulate mailboxes in various formats"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mailbox</span></code></a> e <a class="reference external" href="https://www.jwz.org/doc/content-length.html">WHY THE CONTENT-LENGTH FORMAT IS BAD</a>).</p>
+<p class="translated">Se <em>maxheaderlen</em> não for <code class="docutils literal notranslate"><span class="pre">None</span></code>, redobra quaisquer linhas de cabeçalho maiores que <em>maxheaderlen</em> ou, se for <code class="docutils literal notranslate"><span class="pre">0</span></code>, não redobra nenhum cabeçalho. Se <em>manheaderlen</em> for <code class="docutils literal notranslate"><span class="pre">None</span></code> (o padrão), redobra os cabeçalhos e outras linhas de mensagem de acordo com as configurações da <em>policy</em>.</p>
+<p class="translated">Se <em>policy</em> for especificado, usa essa política para controlar a geração de mensagens. Se <em>policy</em> for <code class="docutils literal notranslate"><span class="pre">None</span></code> (o padrão), usa a política associada ao objeto <a class="reference internal" href="email.compat32-message.html#email.message.Message" title="email.message.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> ou <a class="reference internal" href="email.message.html#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> passado para <code class="docutils literal notranslate"><span class="pre">flatten</span></code> para controlar a geração de mensagens. Consulte <a class="reference internal" href="email.policy.html#module-email.policy" title="email.policy: Controlling the parsing and generating of messages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.policy</span></code></a> para obter detalhes sobre o que <em>policy</em> controla.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.2.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>Adicionada o argumento nomeado <em>policy</em>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>O comportamento padrão dos parâmetros <em>mangle_from_</em> e <em>maxheaderlen</em> é seguir a política.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="email.generator.BytesGenerator.flatten">
+<span class="sig-name descname"><span class="pre">flatten</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unixfrom</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linesep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.generator.BytesGenerator.flatten" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exibe a representação textual da estrutura do objeto de mensagem com raiz em <em>msg</em> no arquivo de saída especificado quando a instância <a class="reference internal" href="#email.generator.BytesGenerator" title="email.generator.BytesGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesGenerator</span></code></a> foi criada.</p>
+<p class="translated">Se a opção <a class="reference internal" href="email.policy.html#module-email.policy" title="email.policy: Controlling the parsing and generating of messages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">policy</span></code></a> <a class="reference internal" href="email.policy.html#email.policy.Policy.cte_type" title="email.policy.Policy.cte_type"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cte_type</span></code></a> for <code class="docutils literal notranslate"><span class="pre">8bit</span></code> (o padrão), copia todos os cabeçalhos da mensagem original analisada que não tenham sido modificados para a saída, com todos os bytes com o bit mais alto definido reproduzidos como no original, e preserva a <em class="mailheader">Content-Transfer-Encoding</em> não ASCII de quaisquer partes do corpo que os contenham. Se <code class="docutils literal notranslate"><span class="pre">cte_type</span></code> for <code class="docutils literal notranslate"><span class="pre">7bit</span></code>, converte os bytes com o bit mais alto definido, conforme necessário, usando uma <em class="mailheader">Content-Transfer-Encoding</em> compatível com ASCII. Ou seja, transforma partes com <em class="mailheader">Content-Transfer-Encoding</em> não ASCII (<em class="mailheader">Content-Transfer-Encoding: 8bit</em>) em um <em class="mailheader">Content-Transfer-Encoding</em> compatível com ASCII e codifica bytes não ASCII inválidos para RFC em cabeçalhos usando o conjunto de caracteres MIME <code class="docutils literal notranslate"><span class="pre">unknown-8bit</span></code>, tornando-os compatíveis com RFC.</p>
+<p class="translated">Se <em>unixfrom</em> for <code class="docutils literal notranslate"><span class="pre">True</span></code>, exibe o delimitador de cabeçalho de envelope usado pelo formato de caixa de correio Unix (consulte <a class="reference internal" href="mailbox.html#module-mailbox" title="mailbox: Manipulate mailboxes in various formats"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mailbox</span></code></a>) antes do primeiro dos cabeçalhos <span class="target" id="index-4"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5322.html"><strong>RFC 5322</strong></a> do objeto de mensagem raiz. Se o objeto raiz não tiver cabeçalho de envelope, crie um padrão. O padrão é <code class="docutils literal notranslate"><span class="pre">False</span></code>. Observe que, para subpartes, nenhum cabeçalho de envelope é exibido.</p>
+<p class="translated">Se <em>linesep</em> não for <code class="docutils literal notranslate"><span class="pre">None</span></code>, usa-o como caractere separador entre todas as linhas da mensagem simplificada. Se <em>linesep</em> for <code class="docutils literal notranslate"><span class="pre">None</span></code> (o padrão), usa o valor especificado na <em>policy</em>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="email.generator.BytesGenerator.clone">
+<span class="sig-name descname"><span class="pre">clone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.generator.BytesGenerator.clone" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um clone independente desta instância <a class="reference internal" href="#email.generator.BytesGenerator" title="email.generator.BytesGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesGenerator</span></code></a> com exatamente as mesmas configurações de opção e <em>fp</em> como o novo <em>outfp</em>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="email.generator.BytesGenerator.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.generator.BytesGenerator.write" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Codifica <em>s</em> usando o codec <code class="docutils literal notranslate"><span class="pre">ASCII</span></code> e o tratador de erros <code class="docutils literal notranslate"><span class="pre">surrogateescape</span></code> e passa-o para o método <em>write</em> do <em>outfp</em> passado ao construtor <a class="reference internal" href="#email.generator.BytesGenerator" title="email.generator.BytesGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesGenerator</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p class="translated">Para facilitar, <a class="reference internal" href="email.message.html#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> fornece os métodos <a class="reference internal" href="email.message.html#email.message.EmailMessage.as_bytes" title="email.message.EmailMessage.as_bytes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">as_bytes()</span></code></a> e <code class="docutils literal notranslate"><span class="pre">bytes(aMessage)</span></code> (também conhecidos como <a class="reference internal" href="email.message.html#email.message.EmailMessage.__bytes__" title="email.message.EmailMessage.__bytes__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__bytes__()</span></code></a>), que simplificam a geração de uma representação binária serializada de um objeto de mensagem. Para mais detalhes, consulte <a class="reference internal" href="email.message.html#module-email.message" title="email.message: The base class representing email messages."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.message</span></code></a>.</p>
+<p class="translated">Como strings não podem representar dados binários, a classe <a class="reference internal" href="#email.generator.Generator" title="email.generator.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a> deve converter quaisquer dados binários em qualquer mensagem que ela nivele para um formato compatível com ASCII, convertendo-os para um <em class="mailheader">Content-Transfer_Encoding</em> compatível com ASCII. Usando a terminologia dos RFCs de e-mail, você pode pensar nisso como <code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code> serializando para um fluxo de E/S que não é “limpo em 8 bits”. Em outras palavras, a maioria das aplicações usará <a class="reference internal" href="#email.generator.BytesGenerator" title="email.generator.BytesGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesGenerator</span></code></a>, e não <code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="email.generator.Generator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">email.generator.</span></span><span class="sig-name descname"><span class="pre">Generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outfp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mangle_from_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxheaderlen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.generator.Generator" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um objeto <a class="reference internal" href="#email.generator.Generator" title="email.generator.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a> que gravará qualquer mensagem fornecida ao método <a class="reference internal" href="#email.generator.Generator.flatten" title="email.generator.Generator.flatten"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flatten()</span></code></a>, ou qualquer texto fornecido ao método <a class="reference internal" href="#email.generator.Generator.write" title="email.generator.Generator.write"><code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code></a>, no <a class="reference internal" href="../glossary.html#term-file-like-object"><span class="xref std std-term">objeto arquivo ou similar</span></a> <em>outfp</em>. <em>outfp</em> deve oferecer suporte a um método <code class="docutils literal notranslate"><span class="pre">write</span></code> que aceite dados string.</p>
+<p class="translated">Se o <em>mangle_from_</em> opcional for <code class="docutils literal notranslate"><span class="pre">True</span></code>, coloca um caractere <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> na frente de qualquer linha no corpo que comece com a string exata <code class="docutils literal notranslate"><span class="pre">&quot;From</span> <span class="pre">&quot;</span></code>, ou seja, <code class="docutils literal notranslate"><span class="pre">From</span></code> seguido por um espaço no início de uma linha. <em>mangle_from_</em> assume por padrão o valor da configuração <a class="reference internal" href="email.policy.html#email.policy.Policy.mangle_from_" title="email.policy.Policy.mangle_from_"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mangle_from_</span></code></a> da <em>policy</em> (que é <code class="docutils literal notranslate"><span class="pre">True</span></code> para a política <a class="reference internal" href="email.policy.html#email.policy.compat32" title="email.policy.compat32"><code class="xref py py-data docutils literal notranslate"><span class="pre">compat32</span></code></a> e <code class="docutils literal notranslate"><span class="pre">False</span></code> para todas as outras). <em>mangle_from_</em> deve ser usado quando as mensagens são armazenadas no formato mbox do Unix (consulte <a class="reference internal" href="mailbox.html#module-mailbox" title="mailbox: Manipulate mailboxes in various formats"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mailbox</span></code></a> e <a class="reference external" href="https://www.jwz.org/doc/content-length.html">WHY THE CONTENT-LENGTH FORMAT IS BAD</a>).</p>
+<p class="translated">Se <em>maxheaderlen</em> não for <code class="docutils literal notranslate"><span class="pre">None</span></code>, redobra quaisquer linhas de cabeçalho maiores que <em>maxheaderlen</em> ou, se for <code class="docutils literal notranslate"><span class="pre">0</span></code>, não redobra nenhum cabeçalho. Se <em>manheaderlen</em> for <code class="docutils literal notranslate"><span class="pre">None</span></code> (o padrão), redobra os cabeçalhos e outras linhas de mensagem de acordo com as configurações da <em>policy</em>.</p>
+<p class="translated">Se <em>policy</em> for especificado, usa essa política para controlar a geração de mensagens. Se <em>policy</em> for <code class="docutils literal notranslate"><span class="pre">None</span></code> (o padrão), usa a política associada ao objeto <a class="reference internal" href="email.compat32-message.html#email.message.Message" title="email.message.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> ou <a class="reference internal" href="email.message.html#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> passado para <code class="docutils literal notranslate"><span class="pre">flatten</span></code> para controlar a geração de mensagens. Consulte <a class="reference internal" href="email.policy.html#module-email.policy" title="email.policy: Controlling the parsing and generating of messages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.policy</span></code></a> para obter detalhes sobre o que <em>policy</em> controla.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>Adicionada o argumento nomeado <em>policy</em>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.6: </span>O comportamento padrão dos parâmetros <em>mangle_from_</em> e <em>maxheaderlen</em> é seguir a política.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="email.generator.Generator.flatten">
+<span class="sig-name descname"><span class="pre">flatten</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unixfrom</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linesep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.generator.Generator.flatten" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exibe a representação textual da estrutura do objeto de mensagem com raiz em <em>msg</em> no arquivo de saída especificado quando a instância <a class="reference internal" href="#email.generator.Generator" title="email.generator.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a> foi criada.</p>
+<p class="translated">Se a opção <a class="reference internal" href="email.policy.html#module-email.policy" title="email.policy: Controlling the parsing and generating of messages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">policy</span></code></a> <a class="reference internal" href="email.policy.html#email.policy.Policy.cte_type" title="email.policy.Policy.cte_type"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cte_type</span></code></a> for <code class="docutils literal notranslate"><span class="pre">8bit</span></code>, gera a mensagem como se a opção estivesse definida como <code class="docutils literal notranslate"><span class="pre">7bit</span></code>. (Isso é necessário porque strings não podem representar bytes não ASCII.) Converte quaisquer bytes com o bit mais alto definido, conforme necessário, usando uma <em class="mailheader">Content-Transfer-Encoding</em> compatível com ASCII. Ou seja, transforma partes com <em class="mailheader">Content-Transfer-Encoding</em> não ASCII (<em class="mailheader">Content-Transfer-Encoding: 8bit</em>) em um <em class="mailheader">Content-Transfer-Encoding</em> compatível com ASCII e codifica bytes não ASCII inválidos para RFC em cabeçalhos usando o conjunto de caracteres MIME <code class="docutils literal notranslate"><span class="pre">unknown-8bit</span></code>, tornando-os compatíveis com RFC.</p>
+<p class="translated">Se <em>unixfrom</em> for <code class="docutils literal notranslate"><span class="pre">True</span></code>, exibe o delimitador de cabeçalho de envelope usado pelo formato de caixa de correio Unix (consulte <a class="reference internal" href="mailbox.html#module-mailbox" title="mailbox: Manipulate mailboxes in various formats"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mailbox</span></code></a>) antes do primeiro dos cabeçalhos <span class="target" id="index-5"></span><a class="rfc reference external" href="https://datatracker.ietf.org/doc/html/rfc5322.html"><strong>RFC 5322</strong></a> do objeto de mensagem raiz. Se o objeto raiz não tiver cabeçalho de envelope, crie um padrão. O padrão é <code class="docutils literal notranslate"><span class="pre">False</span></code>. Observe que, para subpartes, nenhum cabeçalho de envelope é exibido.</p>
+<p class="translated">Se <em>linesep</em> não for <code class="docutils literal notranslate"><span class="pre">None</span></code>, usa-o como caractere separador entre todas as linhas da mensagem simplificada. Se <em>linesep</em> for <code class="docutils literal notranslate"><span class="pre">None</span></code> (o padrão), usa o valor especificado na <em>policy</em>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.2: </span>Adicionado suporte para recodificação de corpos de mensagens <code class="docutils literal notranslate"><span class="pre">8bit</span></code> e o argumento <em>linesep</em>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="email.generator.Generator.clone">
+<span class="sig-name descname"><span class="pre">clone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.generator.Generator.clone" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Retorna um clone independente desta instância <a class="reference internal" href="#email.generator.Generator" title="email.generator.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a> com exatamente as mesmas opções e <em>fp</em> como o novo <em>outfp</em>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="email.generator.Generator.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.generator.Generator.write" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Escreve <em>s</em> no método <em>write</em> do <em>outfp</em> passado ao construtor de <a class="reference internal" href="#email.generator.Generator" title="email.generator.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a>. Isso fornece API arquivo ou similar suficiente para que instâncias de <code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code> sejam usadas na função <a class="reference internal" href="../builtins/functions.html#print" title="print"><code class="xref py py-func docutils literal notranslate"><span class="pre">print()</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p class="translated">Para facilitar, <a class="reference internal" href="email.message.html#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> fornece os métodos <a class="reference internal" href="email.message.html#email.message.EmailMessage.as_string" title="email.message.EmailMessage.as_string"><code class="xref py py-meth docutils literal notranslate"><span class="pre">as_string()</span></code></a> e <code class="docutils literal notranslate"><span class="pre">str(aMessage)</span></code> (também conhecidos como <a class="reference internal" href="email.message.html#email.message.EmailMessage.__str__" title="email.message.EmailMessage.__str__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__str__()</span></code></a>), que simplificam a geração de uma representação de string formatada de um objeto de mensagem. Para mais detalhes, consulte <a class="reference internal" href="email.message.html#module-email.message" title="email.message: The base class representing email messages."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.message</span></code></a>.</p>
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">email.generator</span></code> também fornece uma classe derivada, <a class="reference internal" href="#email.generator.DecodedGenerator" title="email.generator.DecodedGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecodedGenerator</span></code></a>, que é como a classe base <a class="reference internal" href="#email.generator.Generator" title="email.generator.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a>, exceto que as partes não-<em class="mimetype">text</em> não são serializadas, mas são representadas no fluxo de saída por uma string derivada de um modelo preenchido com informações sobre a parte.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="email.generator.DecodedGenerator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">email.generator.</span></span><span class="sig-name descname"><span class="pre">DecodedGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outfp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mangle_from_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxheaderlen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Separador de parâmetros somente-nomeados (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#email.generator.DecodedGenerator" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Age como <a class="reference internal" href="#email.generator.Generator" title="email.generator.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a>, exceto que para qualquer subparte da mensagem passada para <a class="reference internal" href="#email.generator.Generator.flatten" title="email.generator.Generator.flatten"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Generator.flatten()</span></code></a>, se a subparte for do tipo principal <em class="mimetype">text</em>, exibe a carga decodificada da subparte e, se o tipo principal não for <em class="mimetype">text</em>, em vez de exibi-la, preenche a string <em>fmt</em> usando informações da parte e exibe a string preenchida resultante.</p>
+<p class="translated">Para preencher <em>fmt</em>, executa <code class="docutils literal notranslate"><span class="pre">fmt</span> <span class="pre">%</span> <span class="pre">part_info</span></code>, onde <code class="docutils literal notranslate"><span class="pre">part_info</span></code> é um dicionário composto pelas seguintes chaves e valores:</p>
+<ul class="simple">
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">type</span></code> – Tipo MIME completo da parte não-<em class="mimetype">text</em></p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">maintype</span></code> – Tipo MIME principal da parte não-<em class="mimetype">text</em></p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">subtype</span></code> – Tipo sub-MIME da parte não-<em class="mimetype">text</em></p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">filename</span></code> – Nome de arquivo da parte não-<em class="mimetype">text</em></p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">description</span></code> – Descrição associada à parte não-<em class="mimetype">text</em></p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">encoding</span></code> – Codificação de transferência de conteúdo da parte não-<em class="mimetype">text</em></p></li>
+</ul>
+<p class="translated">Se <em>fmt</em> for <code class="docutils literal notranslate"><span class="pre">None</span></code>, usa o seguinte <em>fmt</em> padrão:</p>
+<blockquote>
+<div><p class="translated">“[Non-text (%(type)s) part of message omitted, filename %(filename)s]”</p>
+</div></blockquote>
+<p class="translated">Os opcionais <em>_mangle_from_</em> e <em>maxheaderlen</em> são como os da classe base <a class="reference internal" href="#email.generator.Generator" title="email.generator.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a>.</p>
+</dd></dl>
+
+<p class="translated rubric">Notas de rodapé</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p class="translated">Esta instrução presume que você usa a configuração apropriada para <code class="docutils literal notranslate"><span class="pre">unixfrom</span></code> e que não haja configurações <a class="reference internal" href="email.policy.html#module-email.policy" title="email.policy: Controlling the parsing and generating of messages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.policy</span></code></a> que exijam ajustes automáticos (por exemplo, <a class="reference internal" href="email.policy.html#email.policy.EmailPolicy.refold_source" title="email.policy.EmailPolicy.refold_source"><code class="xref py py-attr docutils literal notranslate"><span class="pre">refold_source</span></code></a> deve ser <code class="docutils literal notranslate"><span class="pre">none</span></code>, que <em>não</em> é o padrão). Também não é 100% verdadeiro, pois, se a mensagem não estiver em conformidade com os padrões RFC, ocasionalmente informações sobre o texto original exato são perdidas durante a recuperação de erros de análise. O objetivo é corrigir esses últimos casos extremos sempre que possível.</p>
+</aside>
+</aside>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="email.parser.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.parser</span></code>: Parsing email messages</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="email.policy.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.policy</span></code>: Policy Objects</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/email.generator.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/email.generator.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/email.generator.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="email.policy.html" title="email.policy: Policy Objects"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="email.parser.html" title="email.parser: Parsing email messages"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="netdata.html" >Manuseio de Dados na Internet</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="email.html" ><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code> — Um e-mail e um pacote MIME manipulável</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.generator</span></code>: Geração de documentos MIME</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

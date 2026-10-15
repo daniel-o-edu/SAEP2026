@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="fcntl — as chamadas de sistema fcntl e ioctl" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/fcntl.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Este módulo executa o controle de arquivos e de E/S em descritores de arquivos. É uma interface para as rotinas fcntl() e ioctl() do Unix. Veja as páginas de manual do Unix fcntl(2) e ioctl(2) para..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_fcntl_7d58cb0b.png" />
+<meta property="og:image:alt" content="Este módulo executa o controle de arquivos e de E/S em descritores de arquivos. É uma interface para as rotinas fcntl() e ioctl() do Unix. Veja as páginas de manual do Unix fcntl(2) e ioctl(2) para..." />
+<meta name="description" content="Este módulo executa o controle de arquivos e de E/S em descritores de arquivos. É uma interface para as rotinas fcntl() e ioctl() do Unix. Veja as páginas de manual do Unix fcntl(2) e ioctl(2) para..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>fcntl — as chamadas de sistema fcntl e ioctl &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="resource — Informação de uso de recursos" href="resource.html" />
+    <link rel="prev" title="pty — Utilitários de pseudoterminal" href="pty.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/fcntl.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="pty.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pty</span></code> — Utilitários de pseudoterminal</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="resource.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource</span></code> — Informação de uso de recursos</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/fcntl.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/fcntl.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/fcntl.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="resource.html" title="resource — Informação de uso de recursos"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="pty.html" title="pty — Utilitários de pseudoterminal"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="unix.html" accesskey="U">Serviços específicos do Unix</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> — as chamadas de sistema <code class="docutils literal notranslate"><span class="pre">fcntl</span></code> e <code class="docutils literal notranslate"><span class="pre">ioctl</span></code></a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-fcntl">
+<span id="fcntl-the-fcntl-and-ioctl-system-calls"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> — as chamadas de sistema <code class="docutils literal notranslate"><span class="pre">fcntl</span></code> e <code class="docutils literal notranslate"><span class="pre">ioctl</span></code><a class="headerlink" href="#module-fcntl" title="Link para este cabeçalho">¶</a></h1>
+<hr class="docutils" id="index-0" />
+<p class="translated">Este módulo executa o controle de arquivos e de E/S em descritores de arquivos. É uma interface para as rotinas <code class="xref c c-func docutils literal notranslate"><span class="pre">fcntl()</span></code> e <code class="xref c c-func docutils literal notranslate"><span class="pre">ioctl()</span></code> do Unix. Veja as páginas de manual do Unix  <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/fcntl(2)">fcntl(2)</a></em> e <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/ioctl(2)">ioctl(2)</a></em> para mais detalhes.</p>
+<div class="availability docutils container">
+<p class="untranslated"><a class="reference internal" href="intro.html#availability"><span class="std std-ref">Disponibilidade</span></a>: Unix, not WASI.</p>
+</div>
+<p class="translated">Todas as funções neste módulo recebem um descritor de arquivo <em>fd</em> como seu primeiro argumento. Este pode ser um descritor de arquivo inteiro, como retornado por <code class="docutils literal notranslate"><span class="pre">sys.stdin.fileno()</span></code>, ou um objeto <a class="reference internal" href="io.html#io.IOBase" title="io.IOBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.IOBase</span></code></a>, como o próprio <code class="docutils literal notranslate"><span class="pre">sys.stdin</span></code>, que fornece um <a class="reference internal" href="io.html#io.IOBase.fileno" title="io.IOBase.fileno"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fileno()</span></code></a> que retorna um descritor de arquivo genuíno.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.3: </span>As operações neste módulo costumavam levantar um <a class="reference internal" href="../builtins/exceptions.html#IOError" title="IOError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">IOError</span></code></a>, mas agora levantam um <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.8: </span>O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> agora contém constantes <code class="docutils literal notranslate"><span class="pre">F_ADD_SEALS</span></code>, <code class="docutils literal notranslate"><span class="pre">F_GET_SEALS</span></code> e <code class="docutils literal notranslate"><span class="pre">F_SEAL_*</span></code> para selar descritores de arquivo <a class="reference internal" href="os.html#os.memfd_create" title="os.memfd_create"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.memfd_create()</span></code></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.9: </span>No macOS, o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> expõe a constante <code class="docutils literal notranslate"><span class="pre">F_GETPATH</span></code>, que obtém o caminho de um arquivo de um descritor de arquivo. No Linux(&gt;=3.15), o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> expõe as constantes <code class="docutils literal notranslate"><span class="pre">F_OFD_GETLK</span></code>, <code class="docutils literal notranslate"><span class="pre">F_OFD_SETLK</span></code> e <code class="docutils literal notranslate"><span class="pre">F_OFD_SETLKW</span></code>, que são usadas ao trabalhar com travas de descrição de arquivo aberto.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.10: </span>No Linux &gt;= 2.6.11, o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> expõe as constantes <code class="docutils literal notranslate"><span class="pre">F_GETPIPE_SZ</span></code> e <code class="docutils literal notranslate"><span class="pre">F_SETPIPE_SZ</span></code>, que permitem verificar e modificar o tamanho de um encadeamento, respectivamente.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.11: </span>No FreeBSD, o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> expõe as constantes <code class="docutils literal notranslate"><span class="pre">F_DUP2FD</span></code> e <code class="docutils literal notranslate"><span class="pre">F_DUP2FD_CLOEXEC</span></code>, que permitem duplicar um descritor de arquivo, sendo que esta última define também o sinalizador <code class="docutils literal notranslate"><span class="pre">FD_CLOEXEC</span></code>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.12: </span>On Linux &gt;= 4.5, the <code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> module exposes the <code class="docutils literal notranslate"><span class="pre">FICLONE</span></code> and
+<code class="docutils literal notranslate"><span class="pre">FICLONERANGE</span></code> constants, which allow to share some data of one file with
+another file by reflinking on some filesystems (e.g., btrfs, OCFS2, and
+XFS). This behavior is commonly referred to as “copy-on-write”.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.13: </span>No Linux &gt;= 2.6.32, o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> expõe as constantes <code class="docutils literal notranslate"><span class="pre">F_GETOWN_EX</span></code>, <code class="docutils literal notranslate"><span class="pre">F_SETOWN_EX</span></code>, <code class="docutils literal notranslate"><span class="pre">F_OWNER_TID</span></code>, <code class="docutils literal notranslate"><span class="pre">F_OWNER_PID</span></code>, <code class="docutils literal notranslate"><span class="pre">F_OWNER_PGRP</span></code>, que permitem direcionar sinais de disponibilidade de E/S para uma thread, processo ou grupo de processos específico. No Linux &gt;= 4.13, o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> expõe as constantes <code class="docutils literal notranslate"><span class="pre">F_GET_RW_HINT</span></code>, <code class="docutils literal notranslate"><span class="pre">F_SET_RW_HINT</span></code>, <code class="docutils literal notranslate"><span class="pre">F_GET_FILE_RW_HINT</span></code>, <code class="docutils literal notranslate"><span class="pre">F_SET_FILE_RW_HINT</span></code> e <code class="docutils literal notranslate"><span class="pre">RWH_WRITE_LIFE_*</span></code>, que permitem informar o kernel sobre o tempo de vida relativo esperado de gravações em um determinado nó-i ou por meio de uma descrição de arquivo aberto específica. No Linux &gt;= 5.1 e NetBSD, o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> expõe a constante <code class="docutils literal notranslate"><span class="pre">F_SEAL_FUTURE_WRITE</span></code> para uso com as operações <code class="docutils literal notranslate"><span class="pre">F_ADD_SEALS</span></code> e <code class="docutils literal notranslate"><span class="pre">F_GET_SEALS</span></code>. No FreeBSD, o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> expõe as constantes <code class="docutils literal notranslate"><span class="pre">F_READAHEAD</span></code>, <code class="docutils literal notranslate"><span class="pre">F_ISUNIONSTACK</span></code> e <code class="docutils literal notranslate"><span class="pre">F_KINFO</span></code>. No macOS e FreeBSD, o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> expõe a constante <code class="docutils literal notranslate"><span class="pre">F_RDAHEAD</span></code>. No NetBSD e AIX, o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> expõe a constante <code class="docutils literal notranslate"><span class="pre">F_CLOSEM</span></code>. No NetBSD, o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> expõe a constante <code class="docutils literal notranslate"><span class="pre">F_MAXFD</span></code>. No macOS e no NetBSD, o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> expõe as constantes <code class="docutils literal notranslate"><span class="pre">F_GETNOSIGPIPE</span></code> e <code class="docutils literal notranslate"><span class="pre">F_SETNOSIGPIPE</span></code>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.14: </span>No Linux &gt;= 6.1, o módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> expõe o <code class="docutils literal notranslate"><span class="pre">F_DUPFD_QUERY</span></code> para consultar um descritor de arquivo apontando para o mesmo arquivo.</p>
+</div>
+<p class="translated">O módulo define as seguintes funções:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="fcntl.fcntl">
+<span class="sig-prename descclassname"><span class="pre">fcntl.</span></span><span class="sig-name descname"><span class="pre">fcntl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fcntl.fcntl" title="Link para esta definição">¶</a></dt>
+<dd><p class="untranslated">Perform the operation <em>cmd</em> on file descriptor <em>fd</em> (file objects providing
+a <a class="reference internal" href="io.html#io.IOBase.fileno" title="io.IOBase.fileno"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fileno()</span></code></a> method are accepted as well).  The values used
+for <em>cmd</em> are operating system dependent, and are available as constants
+in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> module, using the same names as used in the relevant C
+header files. The argument <em>arg</em> can either be an integer value, a
+<a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">bytes-like object</span></a>, or a string.
+The type and size of <em>arg</em> must match the type and size of
+the argument of the operation as specified in the relevant C documentation.</p>
+<p class="translated">Quando <em>arg</em> é um inteiro, a função retorna o valor de retorno inteiro da chamada C <code class="xref c c-func docutils literal notranslate"><span class="pre">fcntl()</span></code>.</p>
+<p class="untranslated">When the argument is bytes-like object, it represents a binary structure,
+for example, created by <a class="reference internal" href="struct.html#struct.pack" title="struct.pack"><code class="xref py py-func docutils literal notranslate"><span class="pre">struct.pack()</span></code></a>.
+A string value is encoded to binary using the UTF-8 encoding.
+The binary data is copied to a buffer whose address is
+passed to the C <code class="xref c c-func docutils literal notranslate"><span class="pre">fcntl()</span></code> call.  The return value after a successful
+call is the contents of the buffer, converted to a <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> object.
+The length of the returned object will be the same as the length of the
+<em>arg</em> argument.</p>
+<p class="translated">Se a chamada a <code class="xref c c-func docutils literal notranslate"><span class="pre">fcntl()</span></code> falhar, um exceção <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> é levantada.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="untranslated">If the type or size of <em>arg</em> does not match the type or size
+of the operation’s argument (for example, if an integer is
+passed when a pointer is expected, or the information returned in
+the buffer by the operating system is larger than the size of <em>arg</em>),
+this is most likely to result in a segmentation violation or
+a more subtle data corruption.</p>
+</div>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">fcntl.fcntl</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">fd</span></code>, <code class="docutils literal notranslate"><span class="pre">cmd</span></code>, <code class="docutils literal notranslate"><span class="pre">arg</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.14: </span>Adicione suporte a <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">objetos bytes ou similares</span></a> arbitrários, não apenas <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.15: </span>The size of bytes-like objects is no longer limited to 1024 bytes.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fcntl.ioctl">
+<span class="sig-prename descclassname"><span class="pre">fcntl.</span></span><span class="sig-name descname"><span class="pre">ioctl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutate_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fcntl.ioctl" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Esta função é idêntica à função <a class="reference internal" href="#fcntl.fcntl" title="fcntl.fcntl"><code class="xref py py-func docutils literal notranslate"><span class="pre">fcntl()</span></code></a>, exceto que o tratamento de argumentos é ainda mais complicado.</p>
+<p class="translated">O parâmetro <em>request</em> é limitado a valores que cabem em 32 ou 64 bits, dependendo da plataforma. Constantes adicionais de interesse para uso como argumento <em>request</em> podem ser encontradas no módulo <a class="reference internal" href="termios.html#module-termios" title="termios: POSIX style tty control."><code class="xref py py-mod docutils literal notranslate"><span class="pre">termios</span></code></a>, com os mesmos nomes usados nos arquivos de cabeçalho C relevantes.</p>
+<p class="translated">O parâmetro <em>arg</em> pode ser um inteiro, um <a class="reference internal" href="../glossary.html#term-bytes-like-object"><span class="xref std std-term">objeto bytes ou similar</span></a> ou uma string. O tipo e o tamanho de <em>arg</em> devem corresponder ao tipo e ao tamanho do argumento da operação, conforme especificado na documentação C relevante.</p>
+<p class="translated">Se <em>arg</em> não oferecer suporte à interface de buffer de leitura e escrita ou o <em>mutate_flag</em> for falso, o comportamento será o mesmo da função <a class="reference internal" href="#fcntl.fcntl" title="fcntl.fcntl"><code class="xref py py-func docutils literal notranslate"><span class="pre">fcntl()</span></code></a>.</p>
+<p class="translated">Se <em>arg</em> oferece suporte à interface de buffer de leitura e escrita (como <a class="reference internal" href="../builtins/stdtypes.html#bytearray" title="bytearray"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytearray</span></code></a>) e <em>mutate_flag</em> for true (o padrão), o buffer será (na prática) passado para a chamada de sistema subjacente <code class="xref c c-func docutils literal notranslate"><span class="pre">ioctl()</span></code>, o código de retorno desta última será passado de volta para o Python que fez a chamada, e o novo conteúdo do buffer refletirá a ação de <code class="xref c c-func docutils literal notranslate"><span class="pre">ioctl()</span></code>. Esta é uma pequena simplificação, pois se o buffer fornecido tiver menos de 1024 bytes, ele será primeiro copiado para um buffer estático de 1024 bytes, que será então passado para <code class="xref py py-func docutils literal notranslate"><span class="pre">ioctl()</span></code> e copiado de volta para o buffer fornecido.</p>
+<p class="translated">Se a chamada a <code class="xref c c-func docutils literal notranslate"><span class="pre">ioctl()</span></code> falhar, uma exceção <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> é levantada.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="untranslated">If the type or size of <em>arg</em> does not match the type or size
+of the operation’s argument (for example, if an integer is
+passed when a pointer is expected, or the information returned in
+the buffer by the operating system is larger than the size of <em>arg</em>),
+this is most likely to result in a segmentation violation or
+a more subtle data corruption.</p>
+</div>
+<p class="translated">Um exemplo:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">array</span><span class="o">,</span><span class="w"> </span><span class="nn">fcntl</span><span class="o">,</span><span class="w"> </span><span class="nn">struct</span><span class="o">,</span><span class="w"> </span><span class="nn">termios</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">getpgrp</span><span class="p">()</span>
+<span class="go">13341</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">'h'</span><span class="p">,</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">ioctl</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">termios</span><span class="o">.</span><span class="n">TIOCGPGRP</span><span class="p">,</span> <span class="s2">"  "</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">13341</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">buf</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">'h'</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fcntl</span><span class="o">.</span><span class="n">ioctl</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">termios</span><span class="o">.</span><span class="n">TIOCGPGRP</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">buf</span>
+<span class="go">array('h', [13341])</span>
+</pre></div>
+</div>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">fcntl.ioctl</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">fd</span></code>, <code class="docutils literal notranslate"><span class="pre">request</span></code>, <code class="docutils literal notranslate"><span class="pre">arg</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.14: </span>A GIL é sempre liberada durante uma chamada de sistema. Chamadas de sistema que falham com EINTR são repetidas automaticamente.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.15: </span>The size of not mutated bytes-like objects is no longer
+limited to 1024 bytes.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fcntl.flock">
+<span class="sig-prename descclassname"><span class="pre">fcntl.</span></span><span class="sig-name descname"><span class="pre">flock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operation</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fcntl.flock" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Executa a operação de trava <em>operation</em> no descritor de arquivo <em>fd</em> (objetos arquivo que fornecem um método <a class="reference internal" href="io.html#io.IOBase.fileno" title="io.IOBase.fileno"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fileno()</span></code></a> também são aceitos). Consulte o manual do Unix <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/flock(2)">flock(2)</a></em> para obter detalhes. (Em alguns sistemas, esta função é emulada usando <code class="xref c c-func docutils literal notranslate"><span class="pre">fcntl()</span></code>.)</p>
+<p class="translated">Se a chamada <code class="xref c c-func docutils literal notranslate"><span class="pre">flock()</span></code> falhar, uma exceção <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> será levantada.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">fcntl.flock</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">fd</span></code> e <code class="docutils literal notranslate"><span class="pre">operation</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fcntl.lockf">
+<span class="sig-prename descclassname"><span class="pre">fcntl.</span></span><span class="sig-name descname"><span class="pre">lockf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Separador de parâmetros somente-posicionais (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fcntl.lockf" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Este é essencialmente um invólucro em torno das chamadas de trava <a class="reference internal" href="#fcntl.fcntl" title="fcntl.fcntl"><code class="xref py py-func docutils literal notranslate"><span class="pre">fcntl()</span></code></a>. <em>fd</em> é o descritor de arquivo (objetos arquivo que fornecem um método <a class="reference internal" href="io.html#io.IOBase.fileno" title="io.IOBase.fileno"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fileno()</span></code></a> também são aceitos) do arquivo para travar ou destravar, e <em>cmd</em> é um dos seguintes valores:</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="fcntl.LOCK_UN">
+<span class="sig-prename descclassname"><span class="pre">fcntl.</span></span><span class="sig-name descname"><span class="pre">LOCK_UN</span></span><a class="headerlink" href="#fcntl.LOCK_UN" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Libera uma trava existente.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="fcntl.LOCK_SH">
+<span class="sig-prename descclassname"><span class="pre">fcntl.</span></span><span class="sig-name descname"><span class="pre">LOCK_SH</span></span><a class="headerlink" href="#fcntl.LOCK_SH" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Adquire uma trava compartilhada.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="fcntl.LOCK_EX">
+<span class="sig-prename descclassname"><span class="pre">fcntl.</span></span><span class="sig-name descname"><span class="pre">LOCK_EX</span></span><a class="headerlink" href="#fcntl.LOCK_EX" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Adquire uma trava exclusiva.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="fcntl.LOCK_NB">
+<span class="sig-prename descclassname"><span class="pre">fcntl.</span></span><span class="sig-name descname"><span class="pre">LOCK_NB</span></span><a class="headerlink" href="#fcntl.LOCK_NB" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Aplica OU (OR) bit a bit com qualquer uma das outras três constantes <code class="docutils literal notranslate"><span class="pre">LOCK_*</span></code> para tornar a solicitação não bloqueante.</p>
+</dd></dl>
+
+<p class="translated">Se <code class="xref py py-const docutils literal notranslate"><span class="pre">LOCK_NB</span></code> for usado e a trava não puder ser obtido, uma exceção <a class="reference internal" href="../builtins/exceptions.html#OSError" title="OSError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OSError</span></code></a> será levantada e terá um atributo <em>errno</em> definido como <a class="reference internal" href="errno.html#errno.EACCES" title="errno.EACCES"><code class="xref py py-const docutils literal notranslate"><span class="pre">EACCES</span></code></a> ou <a class="reference internal" href="errno.html#errno.EAGAIN" title="errno.EAGAIN"><code class="xref py py-const docutils literal notranslate"><span class="pre">EAGAIN</span></code></a> (dependendo do sistema operacional; para portabilidade, verifique ambos os valores). Em pelo menos alguns sistemas, <code class="xref py py-const docutils literal notranslate"><span class="pre">LOCK_EX</span></code> só pode ser usado se o descritor de arquivo se referir a um arquivo aberto para escrita.</p>
+<p class="translated"><em>len</em> é o número de bytes para travar, <em>start</em> é o deslocamento de bytes em que a trava começa, em relação a <em>whence</em>, e <em>whence</em> é como em <a class="reference internal" href="io.html#io.IOBase.seek" title="io.IOBase.seek"><code class="xref py py-func docutils literal notranslate"><span class="pre">io.IOBase.seek()</span></code></a>, especificamente:</p>
+<ul class="simple">
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">0</span></code> – relativo ao início do arquivo (<a class="reference internal" href="os.html#os.SEEK_SET" title="os.SEEK_SET"><code class="xref py py-const docutils literal notranslate"><span class="pre">os.SEEK_SET</span></code></a>)</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">1</span></code> – relativo à posição atual do buffer (<a class="reference internal" href="os.html#os.SEEK_CUR" title="os.SEEK_CUR"><code class="xref py py-const docutils literal notranslate"><span class="pre">os.SEEK_CUR</span></code></a>)</p></li>
+<li><p class="translated"><code class="docutils literal notranslate"><span class="pre">2</span></code> – relativo ao fim do arquivo (<a class="reference internal" href="os.html#os.SEEK_END" title="os.SEEK_END"><code class="xref py py-const docutils literal notranslate"><span class="pre">os.SEEK_END</span></code></a>)</p></li>
+</ul>
+<p class="translated">O padrão para <em>start</em> é 0, o que significa iniciar no início do arquivo. O padrão para <em>len</em> é 0, o que significa travar no final do arquivo. O padrão para <em>whence</em> também é 0.</p>
+<p class="audit-hook translated">Levanta um <a class="reference internal" href="sys.html#auditing"><span class="std std-ref">evento de auditoria</span></a> <code class="docutils literal notranslate"><span class="pre">fcntl.lockf</span></code> com os argumentos <code class="docutils literal notranslate"><span class="pre">fd</span></code>, <code class="docutils literal notranslate"><span class="pre">cmd</span></code>, <code class="docutils literal notranslate"><span class="pre">len</span></code>, <code class="docutils literal notranslate"><span class="pre">start</span></code>, <code class="docutils literal notranslate"><span class="pre">whence</span></code>.</p>
+</dd></dl>
+
+<p class="translated">Exemplos (todos em um sistema compatível com SVR4):</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">struct</span><span class="o">,</span><span class="w"> </span><span class="nn">fcntl</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">rv</span> <span class="o">=</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">fcntl</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">F_SETFL</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_NDELAY</span><span class="p">)</span>
+
+<span class="n">lockdata</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">'hhllhh'</span><span class="p">,</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">F_WRLCK</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">rv</span> <span class="o">=</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">fcntl</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">F_SETLKW</span><span class="p">,</span> <span class="n">lockdata</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Observe que, no primeiro exemplo, a variável de valor de retorno <em>rv</em> conterá um valor inteiro; no segundo exemplo, ela conterá um objeto <a class="reference internal" href="../builtins/stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>. O layout da estrutura da variável <em>lockdata</em> depende do sistema — portanto, usar a chamada <a class="reference internal" href="#fcntl.flock" title="fcntl.flock"><code class="xref py py-func docutils literal notranslate"><span class="pre">flock()</span></code></a> pode ser melhor.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<dl class="simple">
+<dt class="translated">Módulo <a class="reference internal" href="os.html#module-os" title="os: Miscellaneous operating system interfaces."><code class="xref py py-mod docutils literal notranslate"><span class="pre">os</span></code></a></dt><dd><p class="translated">Se os sinalizadores de trava <a class="reference internal" href="os.html#os.O_SHLOCK" title="os.O_SHLOCK"><code class="xref py py-const docutils literal notranslate"><span class="pre">O_SHLOCK</span></code></a> e <a class="reference internal" href="os.html#os.O_EXLOCK" title="os.O_EXLOCK"><code class="xref py py-const docutils literal notranslate"><span class="pre">O_EXLOCK</span></code></a> estiverem presentes no módulo <a class="reference internal" href="os.html#module-os" title="os: Miscellaneous operating system interfaces."><code class="xref py py-mod docutils literal notranslate"><span class="pre">os</span></code></a> (somente no BSD), a função <a class="reference internal" href="os.html#os.open" title="os.open"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.open()</span></code></a> fornece uma alternativa às funções <a class="reference internal" href="#fcntl.lockf" title="fcntl.lockf"><code class="xref py py-func docutils literal notranslate"><span class="pre">lockf()</span></code></a> e <a class="reference internal" href="#fcntl.flock" title="fcntl.flock"><code class="xref py py-func docutils literal notranslate"><span class="pre">flock()</span></code></a>.</p>
+</dd>
+</dl>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="pty.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pty</span></code> — Utilitários de pseudoterminal</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="resource.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resource</span></code> — Informação de uso de recursos</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/fcntl.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/fcntl.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/fcntl.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="resource.html" title="resource — Informação de uso de recursos"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="pty.html" title="pty — Utilitários de pseudoterminal"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="unix.html" >Serviços específicos do Unix</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code> — as chamadas de sistema <code class="docutils literal notranslate"><span class="pre">fcntl</span></code> e <code class="docutils literal notranslate"><span class="pre">ioctl</span></code></a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

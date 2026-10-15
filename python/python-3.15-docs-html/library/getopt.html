@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="getopt — Analisador sintático no estilo C para opções de linha de comando" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/getopt.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/getopt.py Este módulo ajuda os scripts a analisar os argumentos da linha de comando em sys.argv. Ele suporta as mesmas convenções da função Unix getopt()(incluindo os significados..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_getopt_ee31e0c1.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/getopt.py Este módulo ajuda os scripts a analisar os argumentos da linha de comando em sys.argv. Ele suporta as mesmas convenções da função Unix getopt()(incluindo os significados..." />
+<meta name="description" content="Código-fonte: Lib/getopt.py Este módulo ajuda os scripts a analisar os argumentos da linha de comando em sys.argv. Ele suporta as mesmas convenções da função Unix getopt()(incluindo os significados..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>getopt — Analisador sintático no estilo C para opções de linha de comando &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="profile — Pure Python profiler" href="profile.html" />
+    <link rel="prev" title="Módulos substituídos" href="superseded.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/getopt.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="superseded.html"
+                          title="capítulo anterior">Módulos substituídos</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="profile.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">profile</span></code> — Pure Python profiler</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/getopt.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/getopt.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/getopt.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="profile.html" title="profile — Pure Python profiler"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="superseded.html" title="Módulos substituídos"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" accesskey="U">Módulos substituídos</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">getopt</span></code> — Analisador sintático no estilo C para opções de linha de comando</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-getopt">
+<span id="getopt-c-style-parser-for-command-line-options"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">getopt</span></code> — Analisador sintático no estilo C para opções de linha de comando<a class="headerlink" href="#module-getopt" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/getopt.py">Lib/getopt.py</a></p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Este módulo é considerado completo em recursos. Uma alternativa mais declarativa e extensível para esta API é fornecida no módulo <a class="reference internal" href="optparse.html#module-optparse" title="optparse: Command-line option parsing library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">optparse</span></code></a>. Outros aprimoramentos funcionais para processamento de parâmetros de linha de comando são fornecidos como módulos de terceiros no PyPI ou como recursos no módulo <a class="reference internal" href="argparse.html#module-argparse" title="argparse: Command-line option and argument parsing library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">argparse</span></code></a>.</p>
+</div>
+<hr class="docutils" />
+<p class="translated">Este módulo ajuda os scripts a analisar os argumentos da linha de comando em <code class="docutils literal notranslate"><span class="pre">sys.argv</span></code>. Ele suporta as mesmas convenções da função Unix <code class="xref c c-func docutils literal notranslate"><span class="pre">getopt()</span></code> (incluindo os significados especiais de argumentos da forma ‘<code class="docutils literal notranslate"><span class="pre">-</span></code>’ e ‘<code class="docutils literal notranslate"><span class="pre">--</span></code>‘). Longas opções semelhantes às suportadas pelo software GNU também podem ser usadas por meio de um terceiro argumento opcional.</p>
+<p class="translated">Usuários que não estão familiarizados com a função Unix <code class="xref c c-func docutils literal notranslate"><span class="pre">getopt()</span></code> devem considerar usar o módulo <a class="reference internal" href="argparse.html#module-argparse" title="argparse: Command-line option and argument parsing library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">argparse</span></code></a> em vez disso. Usuários que estão familiarizados com a função Unix <code class="xref c c-func docutils literal notranslate"><span class="pre">getopt()</span></code>, mas gostariam de obter um comportamento equivalente enquanto escrevem menos código e obtêm melhor ajuda e mensagens de erro devem considerar usar o módulo <a class="reference internal" href="optparse.html#module-optparse" title="optparse: Command-line option parsing library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">optparse</span></code></a>. Veja <a class="reference internal" href="optparse.html#choosing-an-argument-parser"><span class="std std-ref">Escolhendo uma biblioteca de análise de linha de comando</span></a> para detalhes adicionais.</p>
+<p class="translated">Este módulo fornece duas funções e uma exceção:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="getopt.getopt">
+<span class="sig-prename descclassname"><span class="pre">getopt.</span></span><span class="sig-name descname"><span class="pre">getopt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shortopts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longopts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#getopt.getopt" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Analisa opções de linha de comando e lista de parâmetros. <em>args</em> é a lista de argumentos a ser analisada, sem a referência inicial para o programa em execução. Normalmente, isso significa <code class="docutils literal notranslate"><span class="pre">sys.argv[1:]</span></code>. <em>shortopts</em> é a string de letras de opção que o script deseja reconhecer, com opções que requerem um argumento seguido por dois pontos (<code class="docutils literal notranslate"><span class="pre">':'</span></code>) e opções que aceitam o argumento opcional seguido por dois caracteres de dois pontos (<code class="docutils literal notranslate"><span class="pre">'::'</span></code>); ou seja, o mesmo formato que Unix <code class="xref c c-func docutils literal notranslate"><span class="pre">getopt()</span></code> usa.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p class="translated">Ao contrário do GNU <code class="xref c c-func docutils literal notranslate"><span class="pre">getopt()</span></code>, após um argumento sem opção, todos os argumentos adicionais são considerados também sem opção. Isso é semelhante à maneira como os sistemas Unix não GNU funcionam.</p>
+</div>
+<p class="translated"><em>longopts</em>, se especificado, deve ser uma lista de strings com os nomes das opções longas que devem ser suportadas. Os caracteres <code class="docutils literal notranslate"><span class="pre">'--'</span></code> no início não devem ser incluídos no nome da opção. Opções longas que requerem um argumento devem ser seguidas por um sinal de igual (<code class="docutils literal notranslate"><span class="pre">'='</span></code>). Opções longas que aceitam um argumento opcional devem ser seguidas por um sinal de igualdade e ponto de interrogação (<code class="docutils literal notranslate"><span class="pre">'=?'</span></code>). Para aceitar apenas opções longas, <em>shortopts</em> deve ser uma string vazia. Opções longas na linha de comando podem ser reconhecidas, desde que forneçam um prefixo do nome da opção que corresponda exatamente a uma das opções aceitas. Por exemplo, se <em>longopts</em> for <code class="docutils literal notranslate"><span class="pre">['foo',</span> <span class="pre">'frob']</span></code>, a opção <code class="docutils literal notranslate"><span class="pre">--fo</span></code> irá corresponder a <code class="docutils literal notranslate"><span class="pre">--foo</span></code>, mas <code class="docutils literal notranslate"><span class="pre">--f</span></code> não corresponderá exclusivamente, então <a class="reference internal" href="#getopt.GetoptError" title="getopt.GetoptError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">GetoptError</span></code></a> será levantada.</p>
+<p class="translated">Se <em>longopts</em> for uma string, ela é tratada como uma lista de um único elemento.</p>
+<p class="translated">O valor de retorno consiste em dois elementos: o primeiro é uma lista de pares <code class="docutils literal notranslate"><span class="pre">(option,</span> <span class="pre">value)</span></code>; a segunda é a lista de argumentos de programa restantes depois que a lista de opções foi removida (esta é uma fatia ao final de <em>args</em>). Cada par de opção e valor retornado tem a opção como seu primeiro elemento, prefixado com um hífen para opções curtas (por exemplo, <code class="docutils literal notranslate"><span class="pre">'-x'</span></code>) ou dois hifenes para opções longas (por exemplo, <code class="docutils literal notranslate"><span class="pre">'--long-option'</span></code>), e o argumento da opção como seu segundo elemento, ou uma string vazia se a opção não tiver argumento. As opções ocorrem na lista na mesma ordem em que foram encontradas, permitindo assim múltiplas ocorrências. Opções longas e curtas podem ser misturadas.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.14: </span>Argumentos opcionais são suportados.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="getopt.gnu_getopt">
+<span class="sig-prename descclassname"><span class="pre">getopt.</span></span><span class="sig-name descname"><span class="pre">gnu_getopt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shortopts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longopts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#getopt.gnu_getopt" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Esta função funciona como <a class="reference internal" href="#module-getopt" title="getopt: Portable parser for command line options; support both short and long option names."><code class="xref py py-func docutils literal notranslate"><span class="pre">getopt()</span></code></a>, exceto que o modo de digitalização do estilo GNU é usado por padrão. Isso significa que os argumentos de opção e não opção podem ser misturados. A função <code class="xref py py-func docutils literal notranslate"><span class="pre">getopt()</span></code> interrompe o processamento das opções assim que um argumento não opcional é encontrado.</p>
+<p class="translated">Se o primeiro caractere da string de opção for <code class="docutils literal notranslate"><span class="pre">'+'</span></code>, ou se a variável de ambiente <code class="xref std std-envvar docutils literal notranslate"><span class="pre">POSIXLY_CORRECT</span></code> estiver definida, então o processamento da opção para assim que um argumento não opcional for encontrado.</p>
+<p class="translated">Se o primeiro caractere da string de opção for <code class="docutils literal notranslate"><span class="pre">'-'</span></code>, argumentos não opcionais seguidos por opções serão adicionados à lista de pares opção-valor como um par que tem <code class="docutils literal notranslate"><span class="pre">None</span></code> como primeiro elemento e a lista de argumentos não opcionais como segundo elemento. O segundo elemento do resultado <code class="xref py py-func docutils literal notranslate"><span class="pre">gnu_getopt()</span></code> é uma lista de argumentos do programa após a última opção.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.14: </span>Suporte para retornar opções misturadas e argumentos não opcionais em ordem.</p>
+</div>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="getopt.GetoptError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">getopt.</span></span><span class="sig-name descname"><span class="pre">GetoptError</span></span><a class="headerlink" href="#getopt.GetoptError" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Isso é levantado quando uma opção não reconhecida é encontrada na lista de argumentos ou quando uma opção que requer um argumento não é fornecida. O argumento para a exceção é uma string que indica a causa do erro. Para opções longas, um argumento dado a uma opção que não requer uma também fará com que essa exceção seja levantada. Os atributos <code class="xref py py-attr docutils literal notranslate"><span class="pre">msg</span></code> e <code class="xref py py-attr docutils literal notranslate"><span class="pre">opt</span></code> fornecem a mensagem de erro e a opção relacionada; se não houver uma opção específica à qual a exceção se relaciona, <code class="xref py py-attr docutils literal notranslate"><span class="pre">opt</span></code> é uma string vazia.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="getopt.error">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">getopt.</span></span><span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#getopt.error" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Apelido para <a class="reference internal" href="#getopt.GetoptError" title="getopt.GetoptError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">GetoptError</span></code></a>; para compatibilidade reversa.</p>
+</dd></dl>
+
+<p class="translated">Um exemplo usando apenas opções de estilo Unix:</p>
+<div class="translated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">getopt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span> <span class="o">=</span> <span class="s1">'-a -b -cfoo -d bar a1 a2'</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span>
+<span class="go">['-a', '-b', '-cfoo', '-d', 'bar', 'a1', 'a2']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optlist</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'abc:d:'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optlist</span>
+<span class="go">[('-a', ''), ('-b', ''), ('-c', 'foo'), ('-d', 'bar')]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span>
+<span class="go">['a1', 'a2']</span>
+</pre></div>
+</div>
+<p class="translated">Usar nomes de opções longos é igualmente fácil:</p>
+<div class="translated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s1">'--condition=foo --testing --output-file abc.def -x a1 a2'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span>
+<span class="go">['--condition=foo', '--testing', '--output-file', 'abc.def', '-x', 'a1', 'a2']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optlist</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'x'</span><span class="p">,</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="s1">'condition='</span><span class="p">,</span> <span class="s1">'output-file='</span><span class="p">,</span> <span class="s1">'testing'</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optlist</span>
+<span class="go">[('--condition', 'foo'), ('--testing', ''), ('--output-file', 'abc.def'), ('-x', '')]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span>
+<span class="go">['a1', 'a2']</span>
+</pre></div>
+</div>
+<p class="translated">Argumentos opcionais devem ser especificados explicitamente:</p>
+<div class="translated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s1">'-Con -C --color=off --color a1 a2'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span>
+<span class="go">['-Con', '-C', '--color=off', '--color', 'a1', 'a2']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optlist</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'C::'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'color=?'</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optlist</span>
+<span class="go">[('-C', 'on'), ('-C', ''), ('--color', 'off'), ('--color', '')]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span>
+<span class="go">['a1', 'a2']</span>
+</pre></div>
+</div>
+<p class="translated">A ordem dos argumentos opcionais e não opcionais pode ser preservada:</p>
+<div class="translated highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s1">'a1 -x a2 a3 a4 --long a5 a6'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span>
+<span class="go">['a1', '-x', 'a2', 'a3', 'a4', '--long', 'a5', 'a6']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optlist</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">gnu_getopt</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'-x:'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'long='</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optlist</span>
+<span class="go">[(None, ['a1']), ('-x', 'a2'), (None, ['a3', 'a4']), ('--long', 'a5')]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span>
+<span class="go">['a6']</span>
+</pre></div>
+</div>
+<p class="translated">Em um script, o uso típico é algo assim:</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getopt</span><span class="o">,</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">opts</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">"ho:v"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"help"</span><span class="p">,</span> <span class="s2">"output="</span><span class="p">])</span>
+    <span class="k">except</span> <span class="n">getopt</span><span class="o">.</span><span class="n">GetoptError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="c1"># print help information and exit:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>  <span class="c1"># will print something like "option -a not recognized"</span>
+        <span class="n">usage</span><span class="p">()</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">o</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">o</span> <span class="o">==</span> <span class="s2">"-v"</span><span class="p">:</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"-h"</span><span class="p">,</span> <span class="s2">"--help"</span><span class="p">):</span>
+            <span class="n">usage</span><span class="p">()</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"-o"</span><span class="p">,</span> <span class="s2">"--output"</span><span class="p">):</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"unhandled option"</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="translated">Observe que uma interface de linha de comando equivalente pode ser produzida com menos código e mais mensagens de erro de ajuda e erro informativas usando o módulo <a class="reference internal" href="optparse.html#module-optparse" title="optparse: Command-line option parsing library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">optparse</span></code></a>:</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">optparse</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">optparse</span><span class="o">.</span><span class="n">OptionParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s1">'-o'</span><span class="p">,</span> <span class="s1">'--output'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s1">'-v'</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">'verbose'</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">'store_true'</span><span class="p">)</span>
+    <span class="n">opts</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">verbose</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Uma interface de linha de comando aproximadamente equivalente para este caso também pode ser produzida usando o módulo <a class="reference internal" href="argparse.html#module-argparse" title="argparse: Command-line option and argument parsing library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">argparse</span></code></a>:</p>
+<div class="translated highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'-o'</span><span class="p">,</span> <span class="s1">'--output'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'-v'</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">'verbose'</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">'store_true'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'rest'</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">'*'</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">rest</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">verbose</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">Veja <a class="reference internal" href="optparse.html#choosing-an-argument-parser"><span class="std std-ref">Escolhendo uma biblioteca de análise de linha de comando</span></a> para detalhes sobre como a versão <code class="docutils literal notranslate"><span class="pre">argparse</span></code> deste código difere em comportamento da versão <code class="docutils literal notranslate"><span class="pre">optparse</span></code> (e <code class="docutils literal notranslate"><span class="pre">getopt</span></code>).</p>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<dl class="simple">
+<dt class="translated">Módulo <a class="reference internal" href="optparse.html#module-optparse" title="optparse: Command-line option parsing library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">optparse</span></code></a></dt><dd><p class="translated">Análise de opções de linha de comando declarativa.</p>
+</dd>
+<dt class="translated">Módulo <a class="reference internal" href="argparse.html#module-argparse" title="argparse: Command-line option and argument parsing library."><code class="xref py py-mod docutils literal notranslate"><span class="pre">argparse</span></code></a></dt><dd><p class="translated">Opção de linha de comando e biblioteca de análise de argumentos mais opinativa.</p>
+</dd>
+</dl>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="superseded.html"
+                          title="capítulo anterior">Módulos substituídos</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="profile.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">profile</span></code> — Pure Python profiler</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/getopt.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/getopt.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/getopt.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="profile.html" title="profile — Pure Python profiler"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="superseded.html" title="Módulos substituídos"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="superseded.html" >Módulos substituídos</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">getopt</span></code> — Analisador sintático no estilo C para opções de linha de comando</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>

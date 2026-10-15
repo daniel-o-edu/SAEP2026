@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="py_compile — Compila arquivos fonte do Python" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/py_compile.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="Código-fonte: Lib/py_compile.py O módulo py_compile fornece uma função para gerar um arquivo de bytecode a partir de um arquivo fonte, e outra função usada quando o arquivo fonte do módulo é invoca..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.15/pt-br/_images/social_previews/summary_library_py_compile_f6edda2c.png" />
+<meta property="og:image:alt" content="Código-fonte: Lib/py_compile.py O módulo py_compile fornece uma função para gerar um arquivo de bytecode a partir de um arquivo fonte, e outra função usada quando o arquivo fonte do módulo é invoca..." />
+<meta name="description" content="Código-fonte: Lib/py_compile.py O módulo py_compile fornece uma função para gerar um arquivo de bytecode a partir de um arquivo fonte, e outra função usada quando o arquivo fonte do módulo é invoca..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>py_compile — Compila arquivos fonte do Python &#8212; Documentação Python 3.15.0</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=2c6579eb"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=71a39b36"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Pesquisar dentro de Documentação Python 3.15.0"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="Sobre esses documentos" href="../about.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Buscar" href="../search.html" />
+    <link rel="copyright" title="Direitos autorais" href="../copyright.html" />
+    <link rel="next" title="compileall — Compilar bibliotecas do Python para bytecode" href="compileall.html" />
+    <link rel="prev" title="pyclbr — Suporte a navegador de módulos do Python" href="pyclbr.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/library/py_compile.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q">
+                <input type="submit" value="Ir">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">py_compile</span></code> — Compila arquivos fonte do Python</a><ul>
+<li><a class="reference internal" href="#command-line-interface">Interface de Linha de Comando</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="pyclbr.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyclbr</span></code> — Suporte a navegador de módulos do Python</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="compileall.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">compileall</span></code> — Compilar bibliotecas do Python para bytecode</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/py_compile.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/py_compile.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/py_compile.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="compileall.html" title="compileall — Compilar bibliotecas do Python para bytecode"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="pyclbr.html" title="pyclbr — Suporte a navegador de módulos do Python"
+             accesskey="P">anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="language.html" accesskey="U">Serviços da Linguagem Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">py_compile</span></code> — Compila arquivos fonte do Python</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-py_compile">
+<span id="py-compile-compile-python-source-files"></span><h1 class="translated"><code class="xref py py-mod docutils literal notranslate"><span class="pre">py_compile</span></code> — Compila arquivos fonte do Python<a class="headerlink" href="#module-py_compile" title="Link para este cabeçalho">¶</a></h1>
+<p class="translated"><strong>Código-fonte:</strong> <a class="extlink-source reference external" href="https://github.com/python/cpython/tree/3.15/Lib/py_compile.py">Lib/py_compile.py</a></p>
+<hr class="docutils" id="index-0" />
+<p class="translated">O módulo <code class="xref py py-mod docutils literal notranslate"><span class="pre">py_compile</span></code> fornece uma função para gerar um arquivo de bytecode a partir de um arquivo fonte, e outra função usada quando o arquivo fonte do módulo é invocado como um script.</p>
+<p class="translated">Embora nem sempre seja necessária, essa função pode ser útil ao instalar módulos para uso compartilhado, especialmente se alguns usuários não tiverem permissão para gravar os arquivos de cache de bytecodes no diretório que contém o código-fonte.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="py_compile.PyCompileError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_compile.</span></span><span class="sig-name descname"><span class="pre">PyCompileError</span></span><a class="headerlink" href="#py_compile.PyCompileError" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Exceção levantada quando ocorre um erro ao tentar compilar o arquivo.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="py_compile.compile">
+<span class="sig-prename descclassname"><span class="pre">py_compile.</span></span><span class="sig-name descname"><span class="pre">compile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doraise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invalidation_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PycInvalidationMode.TIMESTAMP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_compile.compile" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Compila um arquivo fonte para bytecode e grava o arquivo de cache de bytecode. O código-fonte é carregado a partir do arquivo chamado <em>file</em>. O bytecode é gravado em <em>cfile</em>, cujo padrão é o caminho <span class="target" id="index-15"></span><a class="pep reference external" href="https://peps.python.org/pep-3147/"><strong>PEP 3147</strong></a>/<span class="target" id="index-16"></span><a class="pep reference external" href="https://peps.python.org/pep-0488/"><strong>PEP 488</strong></a>, terminando em <code class="docutils literal notranslate"><span class="pre">.pyc</span></code>. Por exemplo, se <em>file</em> for <code class="docutils literal notranslate"><span class="pre">/foo/bar/baz.py</span></code>, o <em>cfile</em> será padronizado como <code class="docutils literal notranslate"><span class="pre">/foo/bar/__pycache__/baz.cpython-32.pyc</span></code> para o Python 3.2. Se <em>dfile</em> for especificado, ele será usado em vez de <em>file</em> como o nome do arquivo fonte do qual as linhas de origem são obtidas para exibição em tracebacks de exceção. Se <em>doraise</em> for verdadeiro, a <a class="reference internal" href="#py_compile.PyCompileError" title="py_compile.PyCompileError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">PyCompileError</span></code></a> será levantada quando um erro for encontrado durante a compilação de <em>file</em>. Se <em>doraise</em> for false (o padrão), uma string de erros será gravada em <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code>, mas nenhuma exceção será levantada. Essa função retorna o caminho para o arquivo compilado em bytes, ou seja, qualquer valor <em>cfile</em> foi usado.</p>
+<p class="translated">Os argumentos <em>doraise</em> e <em>quiet</em> determinam como os erros são tratados durante a compilação do arquivo. Se <em>quiet</em> for 0 ou 1 e <em>doraise</em> for false, o comportamento padrão será ativado: uma string de erros será gravada em <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code> e a função retornará <code class="docutils literal notranslate"><span class="pre">None</span></code> em vez de um caminho. Se <em>doraise</em> for verdadeiro, uma <a class="reference internal" href="#py_compile.PyCompileError" title="py_compile.PyCompileError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">PyCompileError</span></code></a> será levantada. No entanto, se <em>quiet</em> for 2, nenhuma mensagem será escrita e <em>doraise</em> não terá efeito.</p>
+<p class="translated">Se o caminho que <em>cfile</em> se tornar (especificado ou computado explicitamente) for um link simbólico ou um arquivo não regular, <a class="reference internal" href="../builtins/exceptions.html#FileExistsError" title="FileExistsError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">FileExistsError</span></code></a> será levantada. Isso serve como um aviso de que a importação transformará esses caminhos em arquivos regulares se for permitido gravar arquivos compilados em bytes nesses caminhos. Esse é um efeito colateral da importação usando a renomeação de arquivo para colocar o arquivo final compilado em bytecode para evitar problemas de gravação simultânea de arquivos.</p>
+<p class="translated"><em>optimize</em> controla o nível de otimização e é passado para a função embutida <a class="reference internal" href="../builtins/functions.html#compile" title="compile"><code class="xref py py-func docutils literal notranslate"><span class="pre">compile()</span></code></a>. O padrão de <code class="docutils literal notranslate"><span class="pre">-1</span></code> seleciona o nível de otimização do interpretador atual.</p>
+<p class="translated"><em>invalidation_mode</em> deve ser um membro da enum <a class="reference internal" href="#py_compile.PycInvalidationMode" title="py_compile.PycInvalidationMode"><code class="xref py py-class docutils literal notranslate"><span class="pre">PycInvalidationMode</span></code></a> e controla como o cache do bytecode gerado é invalidado em tempo de execução. O padrão é <a class="reference internal" href="#py_compile.PycInvalidationMode.CHECKED_HASH" title="py_compile.PycInvalidationMode.CHECKED_HASH"><code class="xref py py-attr docutils literal notranslate"><span class="pre">PycInvalidationMode.CHECKED_HASH</span></code></a> se a variável de ambiente <span class="target" id="index-17"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">SOURCE_DATE_EPOCH</span></code> estiver configurada, caso contrário, o padrão é <a class="reference internal" href="#py_compile.PycInvalidationMode.TIMESTAMP" title="py_compile.PycInvalidationMode.TIMESTAMP"><code class="xref py py-attr docutils literal notranslate"><span class="pre">PycInvalidationMode.TIMESTAMP</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.2: </span>Alterado o valor padrão de <em>cfile</em> para ficar em conformidade com a <span class="target" id="index-18"></span><a class="pep reference external" href="https://peps.python.org/pep-3147/"><strong>PEP 3147</strong></a>. O padrão anterior era <em>file</em> + <code class="docutils literal notranslate"><span class="pre">'c'</span></code> (<code class="docutils literal notranslate"><span class="pre">'o'</span></code> se a otimização estivesse ativada). Também foi adicionado o parâmetro <em>optimize</em>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.4: </span>Alterado o código para usar <a class="reference internal" href="importlib.html#module-importlib" title="importlib: The implementation of the import machinery."><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib</span></code></a> para a gravação do arquivo de cache do bytecode. Isso significa que a semântica de criação/gravação de arquivo agora corresponde ao que <code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib</span></code> faz, por exemplo, permissões, semântica de gravação e movimentação, etc. Também foi adicionada a ressalva de que <a class="reference internal" href="../builtins/exceptions.html#FileExistsError" title="FileExistsError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">FileExistsError</span></code></a> é levantada se <em>cfile</em> for um link simbólico ou um arquivo não regular.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.7: </span>O parâmetro <em>invalidation_mode</em> foi adicionado conforme especificado em <span class="target" id="index-19"></span><a class="pep reference external" href="https://peps.python.org/pep-0552/"><strong>PEP 552</strong></a>. Se a variável de ambiente <span class="target" id="index-20"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">SOURCE_DATE_EPOCH</span></code> estiver configurada, <em>invalidation_mode</em> será forçado a <a class="reference internal" href="#py_compile.PycInvalidationMode.CHECKED_HASH" title="py_compile.PycInvalidationMode.CHECKED_HASH"><code class="xref py py-attr docutils literal notranslate"><span class="pre">PycInvalidationMode.CHECKED_HASH</span></code></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.7.2: </span>A variável de ambiente <span class="target" id="index-21"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">SOURCE_DATE_EPOCH</span></code> não substitui mais o valor do argumento <em>invalidation_mode</em> e, em vez disso, determina seu valor padrão.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.8: </span>O parâmetro <em>quiet</em> foi adicionado.</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="py_compile.PycInvalidationMode">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_compile.</span></span><span class="sig-name descname"><span class="pre">PycInvalidationMode</span></span><a class="headerlink" href="#py_compile.PycInvalidationMode" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Uma enumeração de métodos possíveis que o interpretador pode usar para determinar se um arquivo de bytecode está atualizado com um arquivo fonte. O arquivo <code class="docutils literal notranslate"><span class="pre">.pyc</span></code> indica o modo de invalidação desejado em seu cabeçalho. Veja <a class="reference internal" href="../reference/import.html#pyc-invalidation"><span class="std std-ref">Invalidação de bytecode em cache</span></a> para obter mais informações sobre como o Python invalida arquivos <code class="docutils literal notranslate"><span class="pre">.pyc</span></code> em tempo de execução.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Adicionado na versão 3.7.</span></p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_compile.PycInvalidationMode.TIMESTAMP">
+<span class="sig-name descname"><span class="pre">TIMESTAMP</span></span><a class="headerlink" href="#py_compile.PycInvalidationMode.TIMESTAMP" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O arquivo <code class="docutils literal notranslate"><span class="pre">.pyc</span></code> inclui o carimbo de data e hora e o tamanho do arquivo fonte, que o Python comparará com os metadados do arquivo fonte no tempo de execução para determinar se o arquivo <code class="docutils literal notranslate"><span class="pre">.pyc</span></code> precisa ser gerado novamente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_compile.PycInvalidationMode.CHECKED_HASH">
+<span class="sig-name descname"><span class="pre">CHECKED_HASH</span></span><a class="headerlink" href="#py_compile.PycInvalidationMode.CHECKED_HASH" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">O arquivo <code class="docutils literal notranslate"><span class="pre">.pyc</span></code> inclui um hash do conteúdo do arquivo fonte, com o qual o Python comparará o fonte em tempo de execução para determinar se o arquivo <code class="docutils literal notranslate"><span class="pre">.pyc</span></code> precisa ser gerado novamente.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_compile.PycInvalidationMode.UNCHECKED_HASH">
+<span class="sig-name descname"><span class="pre">UNCHECKED_HASH</span></span><a class="headerlink" href="#py_compile.PycInvalidationMode.UNCHECKED_HASH" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Como <a class="reference internal" href="#py_compile.PycInvalidationMode.CHECKED_HASH" title="py_compile.PycInvalidationMode.CHECKED_HASH"><code class="xref py py-attr docutils literal notranslate"><span class="pre">CHECKED_HASH</span></code></a>, o arquivo <code class="docutils literal notranslate"><span class="pre">.pyc</span></code> inclui um hash do conteúdo do arquivo fonte. No entanto, em tempo de execução, o Python presumirá que o arquivo <code class="docutils literal notranslate"><span class="pre">.pyc</span></code> está atualizado e não validará o <code class="docutils literal notranslate"><span class="pre">.pyc</span></code> contra o arquivo fonte.</p>
+<p class="translated">Essa opção é útil quando os <code class="docutils literal notranslate"><span class="pre">.pycs</span></code> são atualizados por algum sistema externo ao Python, como um sistema de compilação.</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="command-line-interface">
+<span id="py-compile-cli"></span><h2 class="translated">Interface de Linha de Comando<a class="headerlink" href="#command-line-interface" title="Link para este cabeçalho">¶</a></h2>
+<p class="translated">Este módulo pode ser invocado como um script para compilar vários arquivos fonte. Os arquivos nomeados em <em>filenames</em> são compilados e o bytecode resultante é armazenado em cache da maneira normal. Este programa não pesquisa uma estrutura de diretórios para localizar arquivos de origem; ele apenas compila arquivos nomeados explicitamente. O status de saída será diferente de zero se um dos arquivos não puder ser compilado.</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-python-m-py_compile-arg-file">
+<span class="sig-name descname"><span class="pre">&lt;file&gt;</span></span><span class="sig-prename descclassname"> <span class="pre">...</span> <span class="pre">&lt;fileN&gt;</span></span><a class="headerlink" href="#cmdoption-python-m-py_compile-arg-file" title="Link para esta definição">¶</a></dt>
+<dt class="sig sig-object std" id="cmdoption-python-m-py_compile">
+<span class="sig-name descname"><span class="pre">-</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-python-m-py_compile" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Argumentos posicionais são arquivos para compilar. Se <code class="docutils literal notranslate"><span class="pre">-</span></code> for o único parâmetro, a lista de arquivos será obtida da entrada padrão.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-python-m-py_compile-q">
+<span id="cmdoption-python-m-py_compile-quiet"></span><span class="sig-name descname"><span class="pre">-q</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--quiet</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-python-m-py_compile-q" title="Link para esta definição">¶</a></dt>
+<dd><p class="translated">Suprime a saída de erros.</p>
+</dd></dl>
+
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.2: </span>Adicionado suporte a <code class="docutils literal notranslate"><span class="pre">-</span></code>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Alterado na versão 3.10: </span>Adicionado suporte a <a class="reference internal" href="#cmdoption-python-m-py_compile-q"><code class="xref std std-option docutils literal notranslate"><span class="pre">-q</span></code></a>.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">Ver também</p>
+<dl class="simple">
+<dt class="translated">Módulo <a class="reference internal" href="compileall.html#module-compileall" title="compileall: Tools for byte-compiling all Python source files in a directory tree."><code class="xref py py-mod docutils literal notranslate"><span class="pre">compileall</span></code></a></dt><dd><p class="translated">Utilitários para compilar todos os arquivos fontes Python em uma árvore de diretórios.</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">Tabela de Conteúdo</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">py_compile</span></code> — Compila arquivos fonte do Python</a><ul>
+<li><a class="reference internal" href="#command-line-interface">Interface de Linha de Comando</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tópico anterior</h4>
+    <p class="topless"><a href="pyclbr.html"
+                          title="capítulo anterior"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyclbr</span></code> — Suporte a navegador de módulos do Python</a></p>
+  </div>
+  <div>
+    <h4>Próximo tópico</h4>
+    <p class="topless"><a href="compileall.html"
+                          title="próximo capítulo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">compileall</span></code> — Compilar bibliotecas do Python para bytecode</a></p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('meta[property="og:title"]').content;
+        const elements = document.querySelectorAll('.improvepage');
+        const pageurl = window.location.href.split('?')[0];
+        elements.forEach(element => {
+            const url = new URL(element.href.split('?')[0].replace("-nojs", ""));
+            url.searchParams.set('pagetitle', title);
+            url.searchParams.set('pageurl', pageurl);
+            url.searchParams.set('pagesource', "library/py_compile.rst");
+            element.href = url.toString();
+        });
+    });
+  </script>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Relatar um bug</a></li>
+      <li><a class="improvepage" href="../improve-page-nojs.html">Melhorar esta página</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.15/Doc/library/py_compile.rst?plain=1"
+            rel="nofollow">Mostrar o código-fonte
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-pt-br/blob/3.15/library/py_compile.po?plain=1"
+           rel="nofollow">Mostrar fonte da tradução</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="Recolher painel lateral">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Índice de Módulos Python"
+             >módulos</a> |</li>
+        <li class="right" >
+          <a href="compileall.html" title="compileall — Compilar bibliotecas do Python para bytecode"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="pyclbr.html" title="pyclbr — Suporte a navegador de módulos do Python"
+             >anterior</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.15.0 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >A biblioteca padrão do Python</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="language.html" >Serviços da Linguagem Python</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">py_compile</span></code> — Compila arquivos fonte do Python</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="Pesquisa rápida" aria-label="Pesquisa rápida" type="search" name="q" id="search-box">
+          <input type="submit" value="Ir">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Tema
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Automático</option>
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">Direitos autorais</a> 2001 Python Software Foundation.
+    <br>
+    Esta página está licenciada sob a Licença da Python Software Foundation Versão 2.
+    <br>
+    Exemplos, receitas e outros códigos na documentação são licenciados adicionalmente sob a licença BSD Zero Clause.
+    <br>
+    
+      Consulte <a href="/license.html">Histórico e licença</a> para obter mais informações.<br>
+    
+    
+    <br>
+
+    A Python Software Foundation é uma corporação sem fins lucrativos.
+<a href="https://www.python.org/psf/donations/">Por favor, faça sua doação.</a>
+<br>
+    <br>
+      Última atualização em out. 14, 2026 (08:22 UTC).
+    
+      <a href="/bugs.html">Encontrou um erro</a>?
+    
+    <br>
+
+    Criado usando o <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+
+  </body>
+</html>
